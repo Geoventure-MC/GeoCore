@@ -1,10 +1,10 @@
-# Builds every node (chiseledBuild) and publishes the release jars as a GitHub pre-release.
+# Builds Forge 1.20.1 and publishes the release jars as a GitHub pre-release.
 # Runs on pushes to main that change a build input (see paths below) and on demand.
 name: Pre-release
 
 on:
   push:
-    branches: [main, ntm-integration]
+    branches: [main]
     # Only changes that can alter a jar: sources, build scripts and per-node versions, and the license
     # files packed into every jar. Docs, CHANGELOG.md, harness scenarios and .github/ do not start a build.
     paths:
@@ -40,8 +40,6 @@ jobs:
           distribution: temurin
           java-version: |
             17
-            21
-            25
 
       - uses: gradle/actions/setup-gradle@v4
 
@@ -51,7 +49,7 @@ jobs:
         # 1.20.1 Forge tests) and loses parameter names, so build with the local recompile pipeline.
         env:
           CI: "false"
-        run: bash ./gradlew chiseledBuild --no-daemon --stacktrace
+        run: bash ./gradlew :1.20.1-forge:build --no-daemon --stacktrace
 
       # Builds count from 1 for each mod.version: the next number follows the newest pre-release of the same version
       # (the last step keeps only the newest), so a version bump starts again at build 1.
