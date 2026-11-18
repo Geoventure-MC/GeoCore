@@ -1,3 +1,15 @@
+# GeoCore
+
+GeoCore est la bibliothèque commune des mods [Geoventure](https://geoventure.fr). C'est un fork de [Golem Core](https://github.com/Warfactory-Official/Golem-Core), publié sous LGPL-3.0, avec la compatibilité Mohist 1.20.1 décrite dans [MOHIST.md](MOHIST.md).
+
+- `main` : notre version.
+- `upstream` : le code d'origine, sans modification.
+- Identifiant du mod et paquets Java : encore `golemcore` et `dev.golem.core`, pour rester compatibles avec [GeoNTM](https://github.com/Geoventure-MC/GeoNTM).
+
+La documentation d'origine suit.
+
+---
+
 # Golem Core
 
 Golem Core is a cross-version, cross-loader compatibility layer for Minecraft mods. A mod built on it is
