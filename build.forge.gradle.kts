@@ -108,7 +108,7 @@ tasks.processResources {
         // EntityTicks: NeoForge's EntityTickEvent.Post has no Fabric or Forge counterpart.
         "entity_tick_mixins" to ", \"MixinEntityTicks\"",
         // Respawns: 1.20.1 picks the point in PlayerList.respawn, 1.21+ in ServerPlayer (MixinRespawnSelection).
-        "legacy_respawn_mixins" to if (stonecutter.eval(mcVersion, "<1.21")) ", \"MixinPlayerListRespawns\"" else "",
+        "legacy_respawn_mixins" to if (stonecutter.eval(mcVersion, "<1.21")) ", \"MixinPlayerListRespawns\", \"MixinPlayerListRespawnsMohist\"" else "",
         // The 1.20.5 physics attributes, backported on 1.20.1 only (dev.golem.core.world.Physics).
         "physics_mixins" to if (mcVersion.startsWith("1.20.")) ", \"MixinLegacyAttributeSupplier\", \"MixinLegacyLivingPhysics\"" else "",
         // Chunks.loadEntityTicking before 26.1 (EntitySectionsAccess).
