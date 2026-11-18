@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Golem Profile</title>
+<title>GeoCore Profile</title>
 <style>
 :root {
   --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6677; --line: #dde1e8; --accent: #3b6fd8;
@@ -68,14 +68,14 @@ code { background: var(--code); padding: 1px 4px; border-radius: 4px; font-size:
 </style>
 </head>
 <body>
-<header><h1>Golem profile</h1><span class="meta" id="meta"></span>
+<header><h1>GeoCore profile</h1><span class="meta" id="meta"></span>
   <span style="flex:1"></span>
   <button class="btn" id="theme">Theme</button>
   <button class="btn" id="dl">Download JSON</button></header>
 <nav id="nav"></nav>
 <main id="main"></main>
 <div id="tip"></div>
-<script id="data" type="application/json">/*GOLEM_PROFILE*/null</script>
+<script id="data" type="application/json">/*GEOCORE_PROFILE*/null</script>
 <script>
 "use strict";
 const D = JSON.parse(document.getElementById("data").textContent);
@@ -110,7 +110,7 @@ const threadNamed = n => sampler.threads.find(t => t.name === n);
 const GROUPS = [["java.", "Java"], ["javax.", "Java"], ["jdk.", "Java"], ["sun.", "Java"], ["com.sun.", "Java"],
   ["net.minecraft.", "Minecraft"], ["com.mojang.", "Minecraft"], ["org.lwjgl.", "LWJGL (OpenGL, GLFW, OpenAL)"],
   ["net.neoforged.", "NeoForge"], ["net.minecraftforge.", "Forge"], ["cpw.mods.", "Forge"], ["net.fabricmc.", "Fabric"],
-  ["org.spongepowered.", "Mixin"], ["dev.golem.", "Golem Core"], ["com.hbm.", "HBM"], ["dev.engine_room.flywheel.", "Flywheel"],
+  ["org.spongepowered.", "Mixin"], ["fr.geoventure.", "GeoCore"], ["fr.geoventure.geontm.", "GEONTM"], ["dev.engine_room.flywheel.", "Flywheel"],
   ["me.jellysquid.mods.sodium.", "Sodium"], ["net.caffeinemc.mods.sodium.", "Sodium"], ["net.irisshaders.", "Iris"]];
 function groupOf(frame) {
   const m = /\.([a-zA-Z]+\$[a-z0-9]+\$([a-z0-9_]+)\$)/.exec(frame);
@@ -120,7 +120,7 @@ function groupOf(frame) {
 }
 const PALETTE = {"Java": [215, 8, 62], "Minecraft": [140, 45, 48], "LWJGL (OpenGL, GLFW, OpenAL)": [28, 80, 52],
   "NeoForge": [210, 60, 55], "Forge": [210, 60, 55], "Fabric": [40, 40, 58], "Mixin": [300, 30, 58],
-  "Golem Core": [265, 55, 62], "HBM": [355, 65, 58], "Flywheel": [185, 55, 45], "Sodium": [190, 60, 50], "Iris": [320, 55, 60]};
+  "GeoCore": [265, 55, 62], "GEONTM": [355, 65, 58], "Flywheel": [185, 55, 45], "Sodium": [190, 60, 50], "Iris": [320, 55, 60]};
 function colorOf(frame, dim) {
   if (frame.startsWith("[")) return dim ? "hsla(0,0%,55%,.35)" : "hsl(0,0%,58%)";
   const g = groupOf(frame);
@@ -551,7 +551,7 @@ section("flame", "Flame graph", () => {
   if (!sources.length) return [panel("Flame graph", "No samples were recorded.")];
   const pick = el("select", {}, sources.map((s, i) => el("option", {value: i}, s.label)));
   const mode = el("select", {}, el("option", {value: "down"}, "top-down (callers above callees)"), el("option", {value: "up"}, "bottom-up (hot methods first)"));
-  const search = el("input", {type: "text", placeholder: "Search frames, e.g. com.hbm or RenderMachine"});
+  const search = el("input", {type: "text", placeholder: "Search frames, e.g. fr.geoventure.geontm or RenderMachine"});
   const holder = el("div");
   let graph = null;
   const show = () => {
@@ -652,19 +652,19 @@ section("system", "System", () => {
 });
 
 /* ---------- wiring ---------- */
-$("#meta").textContent = `${D.meta.created.replace("_", " ")} · ${D.meta.side} · Minecraft ${D.meta.minecraft} ${D.meta.loader} · Golem Core ${D.meta.golemCore || "?"} · ${fmt(D.meta.seconds, 1)} s`;
+$("#meta").textContent = `${D.meta.created.replace("_", " ")} · ${D.meta.side} · Minecraft ${D.meta.minecraft} ${D.meta.loader} · GeoCore ${D.meta.geocoreCore || "?"} · ${fmt(D.meta.seconds, 1)} s`;
 const built = {};
 function open(id) {
   for (const b of $("#nav").children) b.classList.toggle("on", b.dataset.id === id);
   for (const s of $("#main").children) s.classList.toggle("on", s.id === id);
   if (!built[id]) { const s = sections.find(x => x.id === id); $("#" + id).append(...s.build()); built[id] = true; }
-  try { localStorage.setItem("golem-profile-tab", id); } catch (e) { /* storage blocked */ }
+  try { localStorage.setItem("geocore-profile-tab", id); } catch (e) { /* storage blocked */ }
 }
 for (const s of sections) {
   $("#nav").append(el("button", {"data-id": s.id, onclick: () => open(s.id)}, s.title));
   $("#main").append(el("section", {id: s.id}));
 }
-let first = "overview"; try { const t = localStorage.getItem("golem-profile-tab"); if (sections.some(s => s.id === t)) first = t; } catch (e) { /* storage blocked */ }
+let first = "overview"; try { const t = localStorage.getItem("geocore-profile-tab"); if (sections.some(s => s.id === t)) first = t; } catch (e) { /* storage blocked */ }
 open(first);
 $("#dl").onclick = () => { const a = el("a", {href: URL.createObjectURL(new Blob([JSON.stringify(D)], {type: "application/json"})), download: `profile-${D.meta.created}-${D.meta.side}.json`}); a.click(); };
 $("#theme").onclick = () => { const r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;

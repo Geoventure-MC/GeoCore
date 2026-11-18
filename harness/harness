@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
-# Golem harness CLI wrapper (Git Bash / Linux / macOS). See README.md next to this file.
-# Builds build/libs/golem-harness.jar on first use and again whenever a source file is newer than the jar,
+# GeoCore harness CLI wrapper (Git Bash / Linux / macOS). See README.md next to this file.
+# Builds build/libs/geocore-harness.jar on first use and again whenever a source file is newer than the jar,
 # then runs it on a Java 21+ runtime. Run it from anywhere inside a mod checkout that has a harness.json
 # (the CLI walks up from the working directory to find it), or pass --config <file>.
 HERE="$(cd "$(dirname "$0")" && pwd)"
-JAR="$HERE/build/libs/golem-harness.jar"
+JAR="$HERE/build/libs/geocore-harness.jar"
 if [ ! -f "$JAR" ] || [ -n "$(find "$HERE/src" "$HERE/build.gradle.kts" -newer "$JAR" -type f 2>/dev/null | head -n 1)" ]; then
     echo "[harness] building harness jar..." >&2
     (cd "$HERE" && sh ./gradlew -q jar) || exit 1

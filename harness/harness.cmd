@@ -1,11 +1,11 @@
 @echo off
-rem Golem harness CLI wrapper (Windows cmd / PowerShell). See README.md next to this file.
-rem Builds build\libs\golem-harness.jar on first use, then runs it on a Java 21+ runtime.
+rem GeoCore harness CLI wrapper (Windows cmd / PowerShell). See README.md next to this file.
+rem Builds build\libs\geocore-harness.jar on first use, then runs it on a Java 21+ runtime.
 rem Prefer the POSIX wrapper `./harness` from Git Bash: cmd mangles quotes in JSON arguments (`exec`, `query`).
-rem After changing the CLI sources from cmd, delete build\libs\golem-harness.jar to force a rebuild.
+rem After changing the CLI sources from cmd, delete build\libs\geocore-harness.jar to force a rebuild.
 setlocal
 set "HERE=%~dp0"
-set "JAR=%HERE%build\libs\golem-harness.jar"
+set "JAR=%HERE%build\libs\geocore-harness.jar"
 if not exist "%JAR%" (
     echo [harness] building harness jar...
     call "%HERE%gradlew.bat" -q jar || exit /b 1

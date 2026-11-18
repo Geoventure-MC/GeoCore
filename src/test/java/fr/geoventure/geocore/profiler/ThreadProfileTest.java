@@ -38,7 +38,7 @@ class ThreadProfileTest {
 
     @Test
     void groupsByModAndMixinHandler() {
-        assertEquals("GEONTM", CodeGroups.of("fr.geoventure.geontm.blocks.Foo", "bar"));
+        assertEquals("GeoNTM", CodeGroups.of("fr.geoventure.geontm.blocks.Foo", "bar"));
         assertEquals("Minecraft", CodeGroups.of("net.minecraft.client.renderer.LevelRenderer", "renderLevel"));
         assertEquals("mixin from sodium",
                 CodeGroups.of("net.minecraft.client.renderer.LevelRenderer", "handler$zzb000$sodium$onRender"));

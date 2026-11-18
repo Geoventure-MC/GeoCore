@@ -16,7 +16,7 @@ final class CodeGroups {
             {"net.neoforged.", "NeoForge"}, {"net.minecraftforge.", "Forge"}, {"cpw.mods.", "Forge"},
             {"net.fabricmc.", "Fabric"},
             {"org.spongepowered.", "Mixin"}, {"com.llamalad7.", "Mixin"},
-            {"fr.geoventure.", "GeoCore"}, {"fr.geoventure.geontm.", "GEONTM"},
+            {"fr.geoventure.geontm.", "GeoNTM"}, {"fr.geoventure.geocore.", "GeoCore"},
             {"dev.engine_room.flywheel.", "Flywheel"},
             {"me.jellysquid.mods.sodium.", "Sodium"}, {"net.caffeinemc.mods.sodium.", "Sodium"},
             {"org.embeddedt.embeddium.", "Embeddium"},
