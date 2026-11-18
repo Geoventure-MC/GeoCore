@@ -9,7 +9,7 @@ fun propOrNull(name: String): String? = (findProperty(name) as String?)?.takeIf 
 
 val mcVersion = stonecutter.current.version
 apply(from = rootProject.file("gradle/mod/gemrender-local.gradle.kts"))
-val localGemRender = extra.properties["golem.gemrender.local"]
+val localGemRender = extra.properties["geocore.gemrender.local"]
 val javaVersion = prop("java_version").toInt()
 val modelEra = if (stonecutter.eval(mcVersion, ">=26.1")) "modern" else "legacy"
 val modelRoots = if (modelEra == "modern") listOf("models-modern")
@@ -29,14 +29,14 @@ val hasSable = sableMc != null && sableVer != null && sableCompanionVer != null
 // NeoForge reads exactly one META-INF/accesstransformer.cfg per jar; it is assembled from whichever sources
 // apply to this node.
 val accessTransformerFiles = listOfNotNull(
-    file("../../src/main/resources/META-INF/golemcore.neoforge.accesstransformer.cfg")
+    file("../../src/main/resources/META-INF/geocore.neoforge.accesstransformer.cfg")
         .takeIf { it.exists() },
-    file("../../src/main/resources/META-INF/golemcore.legacy.neoforge.accesstransformer.cfg")
+    file("../../src/main/resources/META-INF/geocore.legacy.neoforge.accesstransformer.cfg")
         .takeIf { stonecutter.eval(mcVersion, "<26.1") && it.exists() },
-    file("../../src/main/resources/META-INF/golemcore.modern.neoforge.accesstransformer.cfg")
+    file("../../src/main/resources/META-INF/geocore.modern.neoforge.accesstransformer.cfg")
         .takeIf { stonecutter.eval(mcVersion, ">=26.1") && it.exists() },
 )
-val mergedAccessTransformer = layout.buildDirectory.file("golemcore-at/accesstransformer.cfg")
+val mergedAccessTransformer = layout.buildDirectory.file("geocore-at/accesstransformer.cfg")
 val mergeAccessTransformers = tasks.register("mergeAccessTransformers") {
     inputs.files(accessTransformerFiles)
     outputs.file(mergedAccessTransformer)
@@ -157,7 +157,7 @@ repositories {
 }
 
 // Sable (moving block sub-levels; Create Aeronautics), an optional peer on the nodes that declare it. Its backend of
-// dev.golem.core.world.SubLevels lives in its own source roots, src/sable (shared) and src/sable-neoforge (this
+// fr.geoventure.geocore.world.SubLevels lives in its own source roots, src/sable (shared) and src/sable-neoforge (this
 // loader's entry points), added only here: no other node sees them,
 // and the shared tree carries no guard for it. Installed at setup only when the `sable` mod is loaded.
 if (hasSable) {
@@ -177,7 +177,7 @@ if (hasSable) {
 }
 
 // Mo' Bends (bendy player animations), an optional client peer on the nodes that declare it. Its backend of
-// dev.golem.core.render.BodyAnimations lives in its own source roots, src/mobends and src/mobends-neoforge, added only
+// fr.geoventure.geocore.render.BodyAnimations lives in its own source roots, src/mobends and src/mobends-neoforge, added only
 // here. Installed at client setup only when the `mobends` mod is loaded.
 if (propOrNull("deps.mobends") != null) {
     sourceSets["main"].java.srcDir(rootProject.file("src/mobends/java"))
@@ -206,7 +206,7 @@ tasks.processResources {
         "physics_mixins" to "",
         // Chunks.loadEntityTicking before 26.1 (EntitySectionsAccess).
         "entity_load_mixins" to if (mcVersion.substringBefore('.').toInt() < 26) ", \"EntitySectionsAccess\"" else "",
-        // dev.golem.core.gametest.TestChunks: a 26.1 test waits until its whole plot is entity-ticking.
+        // fr.geoventure.geocore.gametest.TestChunks: a 26.1 test waits until its whole plot is entity-ticking.
         "gametest_mixins" to if (mcVersion.substringBefore('.').toInt() >= 26) ", \"MixinGameTestChunks\"" else "",
         // NeoForge 1.21.1 still calls getRailMaxSpeed/onMinecartPass; 26.1 declares but no longer calls them.
         "rail_mixins" to if (mcVersion.substringBefore('.').toInt() >= 26) ", \"MixinMinecartRails\"" else "",
@@ -232,7 +232,7 @@ tasks.processResources {
         // Replacement clouds use NeoForge's hook; additions append after the native renderer on both eras.
         "cloud_mixins" to if (mcVersion.substringBefore('.').toInt() >= 26) ", \"MixinCloudRender\"" else ", \"MixinLegacyCloudRender\", \"MixinLegacyWeatherRender\"",
         // The Sable integration's own mixin config (src/sable/resources), only on nodes that declare Sable.
-        "sable_mixins" to if (hasSable) "[[mixins]]\nconfig = \"golemcore.sable.mixins.json\"" else "",
+        "sable_mixins" to if (hasSable) "[[mixins]]\nconfig = \"geocore.sable.mixins.json\"" else "",
         "pack_format" to prop("pack_format"),
         "pack_format_entry" to if (mcVersion.substringBefore('.').toInt() >= 26)
             "\"min_format\": ${prop("pack_format")}, \"max_format\": ${prop("pack_format")}" 
@@ -244,17 +244,17 @@ tasks.processResources {
     // Only Forge generates a refmap; naming an absent one leaves the jar pointing at a file it lacks.
     filesMatching("*.mixins.json") { filter { if (it.trimStart().startsWith("\"refmap\"")) null else it } }
     exclude(
-        "fabric.mod.json", "golemcore.fabric.mixins.json", "META-INF/mods.toml",
-        "META-INF/accesstransformer.cfg", "META-INF/golemcore.neoforge.accesstransformer.cfg",
-        "META-INF/golemcore.forge.accesstransformer.cfg",
+        "fabric.mod.json", "geocore.fabric.mixins.json", "META-INF/mods.toml",
+        "META-INF/accesstransformer.cfg", "META-INF/geocore.neoforge.accesstransformer.cfg",
+        "META-INF/geocore.forge.accesstransformer.cfg",
     )
-    // Golem Core's KubeJS plugin list names classes that exist only where the `kubejs` constant holds.
+    // GeoCore's KubeJS plugin list names classes that exist only where the `kubejs` constant holds.
     if ((findProperty("deps.kubejs") as String?).isNullOrBlank()) exclude("kubejs.plugins.txt")
     dependsOn(mergeAccessTransformers)
     from(mergedAccessTransformer) { into("META-INF") }
-    // The golem_* shaders use 26.1's pipeline format; older nodes draw the same effects with *_legacy shaders.
+    // The geocore_* shaders use 26.1's pipeline format; older nodes draw the same effects with *_legacy shaders.
     if (mcVersion.substringBefore('.').toInt() < 26) {
-        exclude("assets/golemcore/shaders/core/golem_*")
+        exclude("assets/geocore/shaders/core/geocore_*")
     }
 }
 
@@ -286,58 +286,58 @@ dependencies {
     // compile against the oldest API we use and ship nothing.
     compileOnly("io.github.llamalad7:mixinextras-common:0.3.5")
 
-    // GemRender, an optional client peer: dev.golem.core.gemrender instances gem-declared machines through the
+    // GemRender, an optional client peer: fr.geoventure.geocore.gemrender instances gem-declared machines through the
     // Flywheel it carries. Compiled against, never shipped or required.
     if (localGemRender != null) compileOnly(localGemRender)
     else propOrNull("deps.gemrender")?.let { compileOnly("curse.maven:gemrender-1735539:$it") }
     propOrNull("deps.gemrender_flywheel")?.let { compileOnly(it) }
 
-    // JEI, compile-only and per-node optional: the facade in dev.golem.core.jei exists to hide the
+    // JEI, compile-only and per-node optional: the facade in fr.geoventure.geocore.jei exists to hide the
     // 19.x/29.x API split from consumers, so this library has to see whichever line the node targets.
     // A node that declares no coordinates compiles the facade out entirely (the `jei` constant).
     val jeiMc = (findProperty("deps.jei_mc") as String?)?.takeIf { it.isNotBlank() }
     val jeiVer = (findProperty("deps.jei") as String?)?.takeIf { it.isNotBlank() }
     if (jeiMc != null && jeiVer != null) compileOnly("mezz.jei:jei-$jeiMc-common-api:$jeiVer")
 
-    // REI, compile-only and per-node optional, like JEI: the adapter in dev.golem.core.rei feeds a mod's neutral
-    // viewer declarations (dev.golem.core.viewer) to REI 16/26. A node without deps.rei compiles it out (`rei`).
+    // REI, compile-only and per-node optional, like JEI: the adapter in fr.geoventure.geocore.rei feeds a mod's neutral
+    // viewer declarations (fr.geoventure.geocore.viewer) to REI 16/26. A node without deps.rei compiles it out (`rei`).
     (findProperty("deps.rei") as String?)?.takeIf { it.isNotBlank() }?.let { rei ->
         compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:$rei")
     }
 
-    // EMI, compile-only and per-node optional: dev.golem.core.emi feeds the same viewer declarations to EMI.
+    // EMI, compile-only and per-node optional: fr.geoventure.geocore.emi feeds the same viewer declarations to EMI.
     (findProperty("deps.emi") as String?)?.takeIf { it.isNotBlank() }?.let { compileOnly("maven.modrinth:emi:$it") }
 
-    // Jade, compile-only and per-node optional: dev.golem.core.jade shows dev.golem.core.info declarations in Jade's
+    // Jade, compile-only and per-node optional: fr.geoventure.geocore.jade shows fr.geoventure.geocore.info declarations in Jade's
     // HUD (26.x and 15.x API lines). A node without deps.jade compiles the adapter out (`jade`).
     (findProperty("deps.jade") as String?)?.takeIf { it.isNotBlank() }?.let { compileOnly("maven.modrinth:jade:$it") }
-    // OpenComputers: Rebooted, compile-only: dev.golem.core.opencomputers serves dev.golem.core.computer components to
+    // OpenComputers: Rebooted, compile-only: fr.geoventure.geocore.opencomputers serves fr.geoventure.geocore.computer components to
     // OC cables and Adapters. A node without deps.oc compiles the adapter out (`opencomputers`).
     (findProperty("deps.oc") as String?)?.takeIf { it.isNotBlank() }?.let {
         compileOnly("li.cil.oc:opencomputers:$it:api") { isTransitive = false }
     }
 
-    // Applied Energistics 2, compile-only and per-node optional: dev.golem.core.ae2 serves dev.golem.core.autocraft
+    // Applied Energistics 2, compile-only and per-node optional: fr.geoventure.geocore.ae2 serves fr.geoventure.geocore.autocraft
     // (crafting machines on AE2's lookup, storage cell contents). A node without deps.ae2 compiles it out (`ae2`).
     (findProperty("deps.ae2") as String?)?.takeIf { it.isNotBlank() }?.let {
         compileOnly("maven.modrinth:ae2:$it") { isTransitive = false }
     }
 
-    // Mo' Bends, compile-only and per-node optional: its public skeleton API answers dev.golem.core.render.BodyAnimations
+    // Mo' Bends, compile-only and per-node optional: its public skeleton API answers fr.geoventure.geocore.render.BodyAnimations
     // (src/mobends, added below). Never shipped or required.
     (findProperty("deps.mobends") as String?)?.takeIf { it.isNotBlank() }?.let {
         compileOnly("maven.modrinth:mo-bends-unofficial-modern-port:$it") { isTransitive = false }
     }
 
-    // KubeJS, compile-only and per-node optional: dev.golem.core.kubejs turns every RecipeTables table into a script
-    // recipe schema and serves dev.golem.core.script's bindings and events (8.x on 26.1, 7.x on 1.21.1). Rhino is the
+    // KubeJS, compile-only and per-node optional: fr.geoventure.geocore.kubejs turns every RecipeTables table into a script
+    // recipe schema and serves fr.geoventure.geocore.script's bindings and events (8.x on 26.1, 7.x on 1.21.1). Rhino is the
     // script engine KubeJS's API names. A node without deps.kubejs compiles the adapter out (`kubejs`).
     (findProperty("deps.kubejs") as String?)?.takeIf { it.isNotBlank() }?.let { kubejs ->
         compileOnly("dev.latvian.mods:kubejs-neoforge:$kubejs") { isTransitive = false }
         compileOnly("dev.latvian.mods:rhino:${prop("deps.kubejs_rhino")}") { isTransitive = false }
     }
 
-    // CC: Tweaked, compile-only and per-node optional: dev.golem.core.computer registers peripherals with the
+    // CC: Tweaked, compile-only and per-node optional: fr.geoventure.geocore.computer registers peripherals with the
     // loader's lookup (NeoForge capability, Forge provider, Fabric BlockApiLookup). The peripheral API itself
     // (core-api) is the same on every node. A node without coordinates compiles the facade out.
     val ccMc = (findProperty("deps.cc_mc") as String?)?.takeIf { it.isNotBlank() }

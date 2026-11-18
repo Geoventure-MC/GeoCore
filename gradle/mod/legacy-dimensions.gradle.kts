@@ -1,12 +1,12 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/legacy-dimensions.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/legacy-dimensions.gradle.kts"))
 //
-// Parameters. Every shared build-layer script under Golem-Core/gradle/mod reads its settings as project
-// properties named `golem.build.<script>.<name>`; this one has none of its own. It reads the node fact the loader
+// Parameters. Every shared build-layer script under GeoCore/gradle/mod reads its settings as project
+// properties named `geocore.build.<script>.<name>`; this one has none of its own. It reads the node fact the loader
 // buildscript sets as an extra property before applying:
 //   mc_version   the node's Minecraft version (required)
 //
@@ -23,9 +23,9 @@ import groovy.json.JsonSlurper
 //   minecraft:gameplay/piglins_zombify (negated)       -> piglin_safe (false)
 //   minecraft:gameplay/can_start_raid                  -> has_raids (true)
 //   minecraft:gameplay/nether_portal_spawns_piglin     -> natural, together with has_skylight (true)
-//   has_fixed_time true                                -> fixed_time, from golem:fixed_time (default 6000)
+//   has_fixed_time true                                -> fixed_time, from geocore:fixed_time (default 6000)
 // Removed: attributes, skybox, timelines, default_clock, has_fixed_time, has_ender_dragon_fight.
-// A dimension type may carry "golem:effects" to name the legacy effects id explicitly (a mod's own).
+// A dimension type may carry "geocore:effects" to name the legacy effects id explicitly (a mod's own).
 
 fun Project.applyLegacyDimensionCompatibility(mcVersion: String) {
     if ((mcVersion.substringBefore('.').toIntOrNull() ?: 0) >= 26) return
@@ -41,7 +41,7 @@ fun Project.applyLegacyDimensionCompatibility(mcVersion: String) {
                     @Suppress("UNCHECKED_CAST")
                     val attributes = (json.remove("attributes") as? Map<String, Any?>) ?: emptyMap()
                     val skybox = json.remove("skybox") as? String
-                    val explicitEffects = json.remove("golem:effects") as? String
+                    val explicitEffects = json.remove("geocore:effects") as? String
                     json["effects"] = explicitEffects ?: when (skybox) {
                         "end" -> "minecraft:the_end"
                         "none" -> "minecraft:the_nether"
@@ -57,7 +57,7 @@ fun Project.applyLegacyDimensionCompatibility(mcVersion: String) {
                     json["natural"] = attributes["minecraft:gameplay/nether_portal_spawns_piglin"] as? Boolean
                         ?: (json["has_skylight"] as? Boolean ?: true)
                     val fixed = json.remove("has_fixed_time") as? Boolean ?: false
-                    val fixedTime = json.remove("golem:fixed_time")
+                    val fixedTime = json.remove("geocore:fixed_time")
                     if (fixed) json["fixed_time"] = fixedTime ?: 6000
                     json.remove("timelines")
                     json.remove("default_clock")

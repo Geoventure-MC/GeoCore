@@ -1,6 +1,6 @@
 // On 26.1 GemRender 0.1.21 and older carry their own Flywheel, and 0.1.22 nests upstream Flywheel, whose API differs.
 // Core compiles against both at once, so a call only one of them has builds cleanly and fails at runtime on the
-// other. `checkGemRenderApi` fails if a Flywheel or GemRender member that dev.golem.core.gemrender calls does not
+// other. `checkGemRenderApi` fails if a Flywheel or GemRender member that fr.geoventure.geocore.gemrender calls does not
 // resolve in each: deps.gemrender (the CurseForge GemRender, own Flywheel) and deps.gemrender_flywheel (upstream).
 
 import java.io.DataInputStream
@@ -124,7 +124,7 @@ if (modern && gemrenderId != null && upstreamFlywheel != null) {
             val refs = mutableListOf<Pair<String, Ref>>()
             val classRefs = mutableListOf<Pair<String, String>>()
             for (dir in mainOutput.classesDirs.files) {
-                dir.resolve("dev/golem/core/gemrender").walkTopDown().filter { it.name.endsWith(".class") }.forEach { file ->
+                dir.resolve("fr/geoventure/geocore/gemrender").walkTopDown().filter { it.name.endsWith(".class") }.forEach { file ->
                     val parsed = ClassFile(file.readBytes())
                     parsed.refs.filter { ref -> apiPackages.any { ref.owner.startsWith(it) } }.forEach { refs += parsed.name to it }
                     parsed.classRefs.filter { ref -> apiPackages.any { ref.startsWith(it) } }.forEach { classRefs += parsed.name to it }

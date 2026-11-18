@@ -1,16 +1,16 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/legacy-assets.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/legacy-assets.gradle.kts"))
 //
-// Parameters. Every shared build-layer script under Golem-Core/gradle/mod reads its settings as project
-// properties named `golem.build.<script>.<name>`, looked up with findProperty, so they can be set either
-// as `extra["golem.build..."] = value` in the buildscript BEFORE the apply line or in gradle.properties.
+// Parameters. Every shared build-layer script under GeoCore/gradle/mod reads its settings as project
+// properties named `geocore.build.<script>.<name>`, looked up with findProperty, so they can be set either
+// as `extra["geocore.build..."] = value` in the buildscript BEFORE the apply line or in gradle.properties.
 // A list parameter accepts a Collection or a comma-separated String.
 //
-//   golem.build.legacyAssets.modelNamespace          namespace of the custom item-model vocabulary the
+//   geocore.build.legacyAssets.modelNamespace          namespace of the custom item-model vocabulary the
 //                                                    conversion understands: the `<ns>:machine_obj`,
 //                                                    `<ns>:gun` and `<ns>:custom_item` item-model types and
 //                                                    the `<ns>:item/<frame>_obj_context_legacy`,
@@ -18,31 +18,31 @@ import groovy.json.JsonSlurper
 //                                                    `<ns>:item/<frame>_sprite_legacy` and
 //                                                    `<ns>:item/machine_obj_legacy` marker models that stand
 //                                                    in for them below 1.21.4. Default: the `mod.id` property
-//   golem.build.legacyAssets.selectProperties        `minecraft:select` properties that are registered as
+//   geocore.build.legacyAssets.selectProperties        `minecraft:select` properties that are registered as
 //                                                    legacy float predicates under the same name, so a select
 //                                                    over them becomes ordered model overrides. Default: none
-//   golem.build.legacyAssets.selfRenderedSpecialTypes item-model types that, nested in `minecraft:special`,
+//   geocore.build.legacyAssets.selfRenderedSpecialTypes item-model types that, nested in `minecraft:special`,
 //                                                    are drawn by the mod's own item renderer and so get the
 //                                                    machine_obj_legacy marker. Default: `<ns>:machine_obj`
 //
 // Exported, for a mod's own resource checks applied after this script: the extra property
-// `golem.legacyAssets.parentModelOf`, a `(File) -> String?` giving the model an item definition resolves
+// `geocore.legacyAssets.parentModelOf`, a `(File) -> String?` giving the model an item definition resolves
 // to below 1.21.4 (the same function the conversion uses). It is set on every node.
 //
 // Node facts it also reads, which the loader buildscript sets as extra properties before applying:
 //   mc_version  the node's Minecraft version (required)
 
-fun golemBuild(name: String): Any? = findProperty("golem.build.$name")
-fun golemBuildList(name: String): List<String>? = when (val value = golemBuild(name)) {
+fun geocoreBuild(name: String): Any? = findProperty("geocore.build.$name")
+fun geocoreBuildList(name: String): List<String>? = when (val value = geocoreBuild(name)) {
     null -> null
     is Collection<*> -> value.map { it.toString() }
     else -> value.toString().split(',').map { it.trim() }.filter { it.isNotEmpty() }
 }
 
-val ns: String = golemBuild("legacyAssets.modelNamespace")?.toString() ?: findProperty("mod.id").toString()
-val LEGACY_SELECT_PROPERTIES: Set<String> = golemBuildList("legacyAssets.selectProperties").orEmpty().toSet()
+val ns: String = geocoreBuild("legacyAssets.modelNamespace")?.toString() ?: findProperty("mod.id").toString()
+val LEGACY_SELECT_PROPERTIES: Set<String> = geocoreBuildList("legacyAssets.selectProperties").orEmpty().toSet()
 val SELF_RENDERED_SPECIAL_TYPES: Set<String> =
-    (golemBuildList("legacyAssets.selfRenderedSpecialTypes") ?: listOf("$ns:machine_obj")).toSet()
+    (geocoreBuildList("legacyAssets.selfRenderedSpecialTypes") ?: listOf("$ns:machine_obj")).toSet()
 
 /**
  * Converts client assets written in the 26.1 layout into the pre-1.21.4 layout.
@@ -145,7 +145,7 @@ fun Project.applyLegacyItemAssets() {
                 }
             }
 
-            // Items whose definition selects on one of the configured select properties (golem.build.legacyAssets.selectProperties):
+            // Items whose definition selects on one of the configured select properties (geocore.build.legacyAssets.selectProperties):
             // the modern item definition selects its visual-state models; older clients express the same selection as ordered overrides.
             var selected = 0
             assets.listFiles()?.filter { it.isDirectory }?.forEach { namespace ->
@@ -395,14 +395,14 @@ if (needsLegacyItemAssets(extra.properties["mc_version"] as String)) {
 }
 
 // Exported for the mod's own resource checks (see the parameter block at the top).
-extra["golem.legacyAssets.parentModelOf"] = { definition: File -> parentModelOf(definition) }
+extra["geocore.legacyAssets.parentModelOf"] = { definition: File -> parentModelOf(definition) }
 
 // Fabric's legacy hook reads the descriptor before baking; native geometry loaders use their loader key.
 fun nativeUnbakedModelDispatch(source: String, mcVersion: String, loader: String): String? {
-    if (!source.contains("\"golem:loader\"")) return null
+    if (!source.contains("\"geocore:loader\"")) return null
     @Suppress("UNCHECKED_CAST")
     val model = JsonSlurper().parseText(source) as MutableMap<String, Any?>
-    val customLoader = model.remove("golem:loader") ?: error("Missing unbaked model loader")
+    val customLoader = model.remove("geocore:loader") ?: error("Missing unbaked model loader")
     require(customLoader is String) { "Unbaked model loader must be a string" }
     require(!model.containsKey("fabric:type") && !model.containsKey("loader")) {
         "Conflicting unbaked model loader keys"
@@ -415,11 +415,11 @@ fun nativeUnbakedModelDispatch(source: String, mcVersion: String, loader: String
         }
         model[dispatch] = customLoader
     } else if (loader == "fabric") {
-        model["golem:loader"] = customLoader
+        model["geocore:loader"] = customLoader
     } else {
         require(loader == "forge" || loader == "neoforge") { "Unsupported unbaked model loader: $loader" }
-        model["golem:loader"] = customLoader
-        model["loader"] = "golemcore:groups"
+        model["geocore:loader"] = customLoader
+        model["loader"] = "geocore:groups"
     }
     return JsonOutput.prettyPrint(JsonOutput.toJson(model))
 }

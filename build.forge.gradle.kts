@@ -8,7 +8,7 @@ fun prop(name: String): String = property(name) as String
 
 val mcVersion = stonecutter.current.version
 apply(from = rootProject.file("gradle/mod/gemrender-local.gradle.kts"))
-val localGemRender = extra.properties["golem.gemrender.local"]
+val localGemRender = extra.properties["geocore.gemrender.local"]
 val javaVersion = prop("java_version").toInt()
 val modelEra = if (stonecutter.eval(mcVersion, ">=26.1")) "modern" else "legacy"
 val modelRoots = if (modelEra == "modern") listOf("models-modern")
@@ -32,7 +32,7 @@ legacyForge {
     version = prop("deps.forge")
     // Node projects live in versions/<node>/ and have no src/ of their own — the shared tree is two
     // levels up. A bare "src/main/..." resolves to nothing, and the exists() guard makes that silent.
-    val at = file("../../src/main/resources/META-INF/golemcore.forge.accesstransformer.cfg")
+    val at = file("../../src/main/resources/META-INF/geocore.forge.accesstransformer.cfg")
     if (at.exists()) accessTransformers.from(at)
     validateAccessTransformers = true
     addModdingDependenciesTo(sourceSets["test"])
@@ -109,11 +109,11 @@ tasks.processResources {
         "entity_tick_mixins" to ", \"MixinEntityTicks\"",
         // Respawns: 1.20.1 picks the point in PlayerList.respawn, 1.21+ in ServerPlayer (MixinRespawnSelection).
         "legacy_respawn_mixins" to if (stonecutter.eval(mcVersion, "<1.21")) ", \"MixinPlayerListRespawns\", \"MixinPlayerListRespawnsMohist\"" else "",
-        // The 1.20.5 physics attributes, backported on 1.20.1 only (dev.golem.core.world.Physics).
+        // The 1.20.5 physics attributes, backported on 1.20.1 only (fr.geoventure.geocore.world.Physics).
         "physics_mixins" to if (mcVersion.startsWith("1.20.")) ", \"MixinLegacyAttributeSupplier\", \"MixinLegacyLivingPhysics\"" else "",
         // Chunks.loadEntityTicking before 26.1 (EntitySectionsAccess).
         "entity_load_mixins" to if (mcVersion.substringBefore('.').toInt() < 26) ", \"EntitySectionsAccess\"" else "",
-        // dev.golem.core.gametest.TestChunks: a 26.1 test waits until its whole plot is entity-ticking.
+        // fr.geoventure.geocore.gametest.TestChunks: a 26.1 test waits until its whole plot is entity-ticking.
         "gametest_mixins" to "",
         // Forge 1.20.1 routes carts through getRailMaxSpeed/onMinecartPass itself.
         "rail_mixins" to "",
@@ -143,16 +143,16 @@ tasks.processResources {
     )
     inputs.properties(props)
     filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta", "*.mixins.json")) { expand(props) }
-    // Golem Core's KubeJS plugin list names classes that exist only where the `kubejs` constant holds.
+    // GeoCore's KubeJS plugin list names classes that exist only where the `kubejs` constant holds.
     if ((findProperty("deps.kubejs") as String?).isNullOrBlank()) exclude("kubejs.plugins.txt")
     exclude(
-        "fabric.mod.json", "golemcore.fabric.mixins.json", "META-INF/neoforge.mods.toml",
-        "META-INF/accesstransformer.cfg", "META-INF/golemcore.forge.accesstransformer.cfg",
-        "META-INF/golemcore.neoforge.accesstransformer.cfg",
-        // golem_* shaders use 26.1's pipeline format; this node draws the same effects with *_legacy shaders.
-        "assets/golemcore/shaders/core/golem_*",
+        "fabric.mod.json", "geocore.fabric.mixins.json", "META-INF/neoforge.mods.toml",
+        "META-INF/accesstransformer.cfg", "META-INF/geocore.forge.accesstransformer.cfg",
+        "META-INF/geocore.neoforge.accesstransformer.cfg",
+        // geocore_* shaders use 26.1's pipeline format; this node draws the same effects with *_legacy shaders.
+        "assets/geocore/shaders/core/geocore_*",
     )
-    from(file("../../src/main/resources/META-INF/golemcore.forge.accesstransformer.cfg")) {
+    from(file("../../src/main/resources/META-INF/geocore.forge.accesstransformer.cfg")) {
         into("META-INF")
         rename { "accesstransformer.cfg" }
     }
@@ -179,7 +179,7 @@ dependencies {
     // annotation processor writes its injectors into the refmap.
     compileOnly("io.github.llamalad7:mixinextras-common:0.3.5")
 
-    // GemRender, an optional client peer: dev.golem.core.gemrender instances gem-declared machines through the
+    // GemRender, an optional client peer: fr.geoventure.geocore.gemrender instances gem-declared machines through the
     // Flywheel it carries. SRG-mapped jars, hence modCompileOnly. Never shipped or required.
     if (localGemRender != null) modCompileOnly(localGemRender)
     else (findProperty("deps.gemrender") as String?)?.takeIf { it.isNotBlank() }?.let { modCompileOnly("curse.maven:gemrender-1735539:$it") }
@@ -188,15 +188,15 @@ dependencies {
     implementation("io.github.llamalad7:mixinextras-forge:0.5.5")
     jarJar("io.github.llamalad7:mixinextras-forge:[0.3.5,)") { version { prefer("0.5.5") } }
     // JEI, compile-only and per-node optional — same contract as the other loaders' buildscripts.
-    // The facade in dev.golem.core.jei hides the 15.x/19.x/29.x API split from consumers, so this
+    // The facade in fr.geoventure.geocore.jei hides the 15.x/19.x/29.x API split from consumers, so this
     // library has to see whichever line the node targets; a node that declares no coordinates
     // compiles the facade out entirely (the `jei` constant).
     val jeiMc = (findProperty("deps.jei_mc") as String?)?.takeIf { it.isNotBlank() }
     val jeiVer = (findProperty("deps.jei") as String?)?.takeIf { it.isNotBlank() }
     if (jeiMc != null && jeiVer != null) compileOnly("mezz.jei:jei-$jeiMc-common-api:$jeiVer")
 
-    // REI, compile-only and per-node optional, like JEI: the adapter in dev.golem.core.rei feeds a mod's neutral
-    // viewer declarations (dev.golem.core.viewer) to REI 12. Its Forge jars are SRG-mapped, hence `modCompileOnly`.
+    // REI, compile-only and per-node optional, like JEI: the adapter in fr.geoventure.geocore.rei feeds a mod's neutral
+    // viewer declarations (fr.geoventure.geocore.viewer) to REI 12. Its Forge jars are SRG-mapped, hence `modCompileOnly`.
     (findProperty("deps.rei") as String?)?.takeIf { it.isNotBlank() }?.let { rei ->
         modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-forge:$rei")
         // MDG Legacy remaps the API jar alone, not its POM dependencies; REI's API types name Cloth Config's and
@@ -231,7 +231,7 @@ dependencies {
         }
     }
 
-    // CC: Tweaked, compile-only and per-node optional: dev.golem.core.computer registers peripherals with the
+    // CC: Tweaked, compile-only and per-node optional: fr.geoventure.geocore.computer registers peripherals with the
     // loader's lookup (NeoForge capability, Forge provider, Fabric BlockApiLookup). The peripheral API itself
     // (core-api) is the same on every node. A node without coordinates compiles the facade out.
     val ccMc = (findProperty("deps.cc_mc") as String?)?.takeIf { it.isNotBlank() }
@@ -245,9 +245,9 @@ dependencies {
 }
 
 mixin {
-    add(sourceSets["main"], "golemcore.refmap.json")
-    config("golemcore.mixins.json")
-    config("golemcore.harness.mixins.json")
+    add(sourceSets["main"], "geocore.refmap.json")
+    config("geocore.mixins.json")
+    config("geocore.harness.mixins.json")
 }
 
 // Stonecutter writes the shared resources in place; the legacy toolkit must see the active node's
@@ -260,7 +260,7 @@ tasks.test {
 }
 
 tasks.jar {
-    manifest.attributes["MixinConfigs"] = "golemcore.mixins.json,golemcore.harness.mixins.json"
+    manifest.attributes["MixinConfigs"] = "geocore.mixins.json,geocore.harness.mixins.json"
     from(files(rootProject.file("LICENSE"), rootProject.file("LICENSE.LESSER"), rootProject.file("CREDITS.txt"))) { rename { "${it}_${prop("mod.id")}" } }
 }
 
@@ -283,7 +283,7 @@ apply(from = rootProject.file("gradle/mod/mod-metadata.gradle.kts"))
 apply(from = rootProject.file("gradle/mod/publish.gradle.kts"))
 
 // Mo' Bends (bendy player animations), an optional client peer on the nodes that declare it. Its backend of
-// dev.golem.core.render.BodyAnimations lives in its own source roots, src/mobends and src/mobends-forge, added only here.
+// fr.geoventure.geocore.render.BodyAnimations lives in its own source roots, src/mobends and src/mobends-forge, added only here.
 if ((findProperty("deps.mobends") as String?)?.isNotBlank() == true) {
     sourceSets["main"].java.srcDir(rootProject.file("src/mobends/java"))
     sourceSets["main"].java.srcDir(rootProject.file("src/mobends-forge/java"))

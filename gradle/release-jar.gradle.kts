@@ -8,11 +8,11 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
-val harnessPackage = "dev/golem/core/harness/"
+val harnessPackage = "fr/geoventure/geocore/harness/"
 // Shipped: mods register queries into the registry, and input polls read the hooks.
 val shipped = setOf("HarnessQueryRegistry", "HarnessHooks")
-val harnessMixins = "golemcore.harness.mixins.json"
-val harnessEntrypoint = "dev.golem.core.harness.HarnessFabricClient"
+val harnessMixins = "geocore.harness.mixins.json"
+val harnessEntrypoint = "fr.geoventure.geocore.harness.HarnessFabricClient"
 
 fun isShipped(path: String): Boolean {
     val rest = path.removePrefix(harnessPackage)
@@ -31,7 +31,7 @@ fun withoutHarness(path: String, bytes: ByteArray): ByteArray {
             (json["mixins"] as MutableList<Any?>?)?.remove(harnessMixins)
             JsonOutput.prettyPrint(JsonOutput.toJson(json))
         }
-        "golemcore.refmap.json" -> {
+        "geocore.refmap.json" -> {
             val json = JsonSlurper().parseText(text) as MutableMap<String, Any?>
             fun prune(table: Any?) = (table as MutableMap<String, Any?>?)?.keys?.removeIf { it.startsWith(harnessPackage) }
             prune(json["mappings"])
@@ -96,4 +96,4 @@ val releaseJar = tasks.register("releaseJar") {
 }
 
 tasks.named("assemble") { dependsOn(releaseJar) }
-extra["golem.releaseJar"] = releaseJar.flatMap { layout.file(releaseFile.map { it.asFile }) }
+extra["geocore.releaseJar"] = releaseJar.flatMap { layout.file(releaseFile.map { it.asFile }) }

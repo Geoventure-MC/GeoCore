@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "hbm:blocks/brick_compound"
+    "all": "geontm:blocks/brick_compound"
   }
 }

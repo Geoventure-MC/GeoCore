@@ -2,25 +2,25 @@
 // command instead of twelve manual uploads per mod. Apply it last in a loader buildscript, after the
 // loader plugin has registered its jar tasks:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/publish.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/publish.gradle.kts"))
 //
 // and aggregate it in stonecutter.gradle.kts with a root task depending on
-// `stonecutter.tasks.named("publishMods")` (`publishAllMods` in every Golem Core project).
+// `stonecutter.tasks.named("publishMods")` (`publishAllMods` in every GeoCore project).
 //
 // Keys, read from the project's gradle.properties (a node's own gradle.properties may override any):
-//   golem.build.publish.modrinthProject    Modrinth project ID (8 characters, ⋯ menu > Copy ID); blank skips
+//   geocore.build.publish.modrinthProject    Modrinth project ID (8 characters, ⋯ menu > Copy ID); blank skips
 //                                          Modrinth. A slug only resolves once the project is approved.
-//   golem.build.publish.curseforgeProject  CurseForge numeric project id; blank skips CurseForge
-//   golem.build.publish.requires           required dependencies, comma separated, for both sites
-//   golem.build.publish.optional           optional dependencies, comma separated, for both sites
-//   golem.build.publish.fabricRequires     extra required dependencies on Fabric nodes, both sites (fabric-api)
-//   golem.build.publish.modrinthRequires   per-site lists that replace requires / optional on that site when
-//   golem.build.publish.modrinthOptional   the key is present, even blank. Modrinth takes project IDs or slugs
-//   golem.build.publish.curseforgeRequires (a slug is not found while the project is unapproved, use the ID);
-//   golem.build.publish.curseforgeOptional CurseForge takes slugs, of public (approved) projects only
-//   golem.build.publish.minecraftVersions  game versions this jar is listed for; default deps.minecraft
-//   golem.build.publish.skip               true leaves this node out (snapshot nodes are left out anyway)
-//   golem.build.publish.environment        Modrinth environment: client_and_server (default: the mod has content
+//   geocore.build.publish.curseforgeProject  CurseForge numeric project id; blank skips CurseForge
+//   geocore.build.publish.requires           required dependencies, comma separated, for both sites
+//   geocore.build.publish.optional           optional dependencies, comma separated, for both sites
+//   geocore.build.publish.fabricRequires     extra required dependencies on Fabric nodes, both sites (fabric-api)
+//   geocore.build.publish.modrinthRequires   per-site lists that replace requires / optional on that site when
+//   geocore.build.publish.modrinthOptional   the key is present, even blank. Modrinth takes project IDs or slugs
+//   geocore.build.publish.curseforgeRequires (a slug is not found while the project is unapproved, use the ID);
+//   geocore.build.publish.curseforgeOptional CurseForge takes slugs, of public (approved) projects only
+//   geocore.build.publish.minecraftVersions  game versions this jar is listed for; default deps.minecraft
+//   geocore.build.publish.skip               true leaves this node out (snapshot nodes are left out anyway)
+//   geocore.build.publish.environment        Modrinth environment: client_and_server (default: the mod has content
 //                                          on both sides), client_only, server_only, client_or_server, ...
 //
 // Per-run switches (-P on the command line, or ORG_GRADLE_PROJECT_<name> in CI):
@@ -39,7 +39,7 @@ buildscript {
 
 apply<me.modmuss50.mpp.MppPlugin>()
 
-fun setting(name: String): String = (findProperty("golem.build.publish.$name") as String?)?.trim().orEmpty()
+fun setting(name: String): String = (findProperty("geocore.build.publish.$name") as String?)?.trim().orEmpty()
 fun list(name: String): List<String> = setting(name).split(',').map(String::trim).filter(String::isNotEmpty)
 
 val loader = project.name.substringAfterLast('-')
@@ -58,7 +58,7 @@ val releaseJarTask = listOf("remapJar", "reobfJar").firstOrNull { it in tasks.na
 
 // A per-site key replaces the shared one whenever it is present, so "curseforgeRequires=" (blank) means none.
 fun siteList(site: String, kind: String): List<String> =
-    if (hasProperty("golem.build.publish.$site${kind.replaceFirstChar(Char::uppercase)}"))
+    if (hasProperty("geocore.build.publish.$site${kind.replaceFirstChar(Char::uppercase)}"))
         list("$site${kind.replaceFirstChar(Char::uppercase)}") else list(kind)
 val fabricRequires = if (loader == "fabric") list("fabricRequires") else emptyList()
 
@@ -84,9 +84,9 @@ val changelogText = providers.gradleProperty("publish.changelog").orElse(
 ).map { it.ifBlank { "$modName $modVersion." } }
 
 configure<me.modmuss50.mpp.ModPublishExtension> {
-    // A build that strips dev-only code from its upload names the stripped copy in extra["golem.releaseJar"].
+    // A build that strips dev-only code from its upload names the stripped copy in extra["geocore.releaseJar"].
     @Suppress("UNCHECKED_CAST")
-    file.set(if (project.extra.has("golem.releaseJar")) project.extra["golem.releaseJar"] as Provider<RegularFile>
+    file.set(if (project.extra.has("geocore.releaseJar")) project.extra["geocore.releaseJar"] as Provider<RegularFile>
         else tasks.named<AbstractArchiveTask>(releaseJarTask).flatMap { it.archiveFile })
     // Unique per node: Fabric and Forge jars for one Minecraft version must not share a version number.
     version.set("$modVersion+$minecraft-$loader")
@@ -131,4 +131,4 @@ configure<me.modmuss50.mpp.ModPublishExtension> {
     }
 }
 
-if (skipped) logger.info("publish: $path is left out (${if (unreleased) "unreleased Minecraft $minecraft" else "golem.build.publish.skip"})")
+if (skipped) logger.info("publish: $path is left out (${if (unreleased) "unreleased Minecraft $minecraft" else "geocore.build.publish.skip"})")

@@ -12,7 +12,7 @@ tasks.register("chiseledBuild") {
     dependsOn(stonecutter.tasks.named("build"))
 }
 
-// Uploads every node's jar to Modrinth and CurseForge (Golem-Core/gradle/mod/publish.gradle.kts). Add
+// Uploads every node's jar to Modrinth and CurseForge (GeoCore/gradle/mod/publish.gradle.kts). Add
 // -Ppublish.dryRun=true to build and log the uploads without making them.
 tasks.register("publishAllMods") {
     group = "publishing"
@@ -37,13 +37,13 @@ stonecutter parameters {
     constants["emi"] = !(node.project.findProperty("deps.emi") as String?).isNullOrBlank()
     // True only where the node declares CC: Tweaked coordinates (an optional peer, like JEI).
     constants["computercraft"] = !(node.project.findProperty("deps.cc") as String?).isNullOrBlank()
-    // True only where the node declares KubeJS coordinates (an optional peer; dev.golem.core.kubejs in Golem Core).
+    // True only where the node declares KubeJS coordinates (an optional peer; fr.geoventure.geocore.kubejs in GeoCore).
     constants["kubejs"] = !(node.project.findProperty("deps.kubejs") as String?).isNullOrBlank()
-    // True only where the node declares Jade coordinates (an optional peer; dev.golem.core.jade in Golem Core).
+    // True only where the node declares Jade coordinates (an optional peer; fr.geoventure.geocore.jade in GeoCore).
     constants["jade"] = !(node.project.findProperty("deps.jade") as String?).isNullOrBlank()
-    // True only where the node declares Applied Energistics 2 coordinates (an optional peer; dev.golem.core.ae2).
+    // True only where the node declares Applied Energistics 2 coordinates (an optional peer; fr.geoventure.geocore.ae2).
     constants["ae2"] = !(node.project.findProperty("deps.ae2") as String?).isNullOrBlank()
-    // True only where the node declares OpenComputers: Rebooted coordinates (an optional peer; dev.golem.core.opencomputers).
+    // True only where the node declares OpenComputers: Rebooted coordinates (an optional peer; fr.geoventure.geocore.opencomputers).
     constants["opencomputers"] = !(node.project.findProperty("deps.oc") as String?).isNullOrBlank()
 
     swaps["mc_version"] = "\"${node.metadata.version}\";"
@@ -54,7 +54,7 @@ stonecutter parameters {
     replacements {
         // Fabric API's own rename, not vanilla's. Qualified with the owning type so the rule can only
         // ever hit these calls, and reversible: neither spelling exists in the other era. Without
-        // this, GolemNetwork would need two near-identical fabric branches differing by two tokens.
+        // this, GeoCoreNetwork would need two near-identical fabric branches differing by two tokens.
         string(current.parsed < "26.1") {
             replace("PayloadTypeRegistry.clientboundPlay()", "PayloadTypeRegistry.playS2C()")
             replace("PayloadTypeRegistry.serverboundPlay()", "PayloadTypeRegistry.playC2S()")
@@ -70,7 +70,7 @@ stonecutter parameters {
         }
         // 26.1 moved these vanilla entity classes into per-animal/per-vehicle packages. The old
         // spellings cannot occur in 26.1 code and the new ones cannot occur below it, so the rename
-        // is reversible; the entity facades in dev.golem.core.data extend them by 26.1 name.
+        // is reversible; the entity facades in fr.geoventure.geocore.data extend them by 26.1 name.
         string(current.parsed < "26.1") {
             replace("net.minecraft.world.entity.animal.chicken.Chicken", "net.minecraft.world.entity.animal.Chicken")
             replace("net.minecraft.world.entity.animal.squid.Squid", "net.minecraft.world.entity.animal.Squid")

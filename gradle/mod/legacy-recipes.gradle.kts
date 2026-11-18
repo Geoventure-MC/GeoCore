@@ -1,21 +1,21 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/legacy-recipes.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/legacy-recipes.gradle.kts"))
 //
-// Parameters. Every shared build-layer script under Golem-Core/gradle/mod reads its settings as project
-// properties named `golem.build.<script>.<name>`, looked up with findProperty, so they can be set either
-// as `extra["golem.build..."] = value` in the buildscript BEFORE the apply line or in gradle.properties.
+// Parameters. Every shared build-layer script under GeoCore/gradle/mod reads its settings as project
+// properties named `geocore.build.<script>.<name>`, looked up with findProperty, so they can be set either
+// as `extra["geocore.build..."] = value` in the buildscript BEFORE the apply line or in gradle.properties.
 //
-//   golem.build.legacyRecipes.componentSmeltingType  the recipe type id a count- or tag-carrying smelting
+//   geocore.build.legacyRecipes.componentSmeltingType  the recipe type id a count- or tag-carrying smelting
 //                                                    recipe is routed through on nodes whose vanilla cooking
 //                                                    serializer drops the stack: the id under which the mod
-//                                                    (or a mod it depends on) registers Golem Core's
+//                                                    (or a mod it depends on) registers GeoCore's
 //                                                    ComponentSmeltingRecipe.SERIALIZER.
 //                                                    Default: "<mod.id>:component_smelting"
-//   golem.build.resourceTasks                        comma-separated ProcessResources tasks to convert (a mod's
+//   geocore.build.resourceTasks                        comma-separated ProcessResources tasks to convert (a mod's
 //                                                    extra source sets, such as a dev-only second mod).
 //                                                    Default: "processResources"; recipe-conditions reads it too.
 //
@@ -24,9 +24,9 @@ import groovy.json.JsonSlurper
 //   convention_namespace         the loader's convention tag namespace; default "c"
 //   loader_cooking_result_count  true where the loader patches the cooking serializer to keep a full stack
 
-fun golemBuild(name: String): Any? = findProperty("golem.build.$name")
+fun geocoreBuild(name: String): Any? = findProperty("geocore.build.$name")
 
-val componentSmeltingType: String = golemBuild("legacyRecipes.componentSmeltingType")?.toString()
+val componentSmeltingType: String = geocoreBuild("legacyRecipes.componentSmeltingType")?.toString()
     ?: "${findProperty("mod.id")}:component_smelting"
 
 /**
@@ -53,10 +53,10 @@ val componentSmeltingType: String = golemBuild("legacyRecipes.componentSmeltingT
  */
 fun Project.applyLegacyRecipeCompatibility(mcVersion: String, conventionNamespace: String,
                                             loaderKeepsCookingResultStack: Boolean) {
-    val resourceTasks = (golemBuild("resourceTasks")?.toString() ?: "processResources").split(',').map { it.trim() }
+    val resourceTasks = (geocoreBuild("resourceTasks")?.toString() ?: "processResources").split(',').map { it.trim() }
     tasks.withType<ProcessResources>().matching { it.name in resourceTasks }.configureEach {
         // The rewrite runs in doLast, so a changed parameter must invalidate the task's output itself.
-        inputs.property("golem.build.legacyRecipes.componentSmeltingType", componentSmeltingType)
+        inputs.property("geocore.build.legacyRecipes.componentSmeltingType", componentSmeltingType)
         doLast {
             val root = destinationDir
             val renamed = if (needsLegacyDataDirectories(mcVersion)) renameLegacyDataDirectories(root) else 0
@@ -75,7 +75,7 @@ fun Project.applyLegacyRecipeCompatibility(mcVersion: String, conventionNamespac
                 .forEach { file ->
                     @Suppress("UNCHECKED_CAST")
                     val json = JsonSlurper().parse(file) as? MutableMap<String, Any?> ?: return@forEach
-                    // A machine-table row (recipe/magic/x.json of type hbm:magic) has its own codec (hbm:magic lists
+                    // A machine-table row (recipe/magic/x.json of type geontm:magic) has its own codec (geontm:magic lists
                     // its ingredients as plain strings) and is left alone; any other recipe in a subfolder (an addon's
                     // recipe/crafting, recipe/smelting) is converted like one in the recipe folder itself.
                     if (isMachineTableRow(file, json["type"] as? String)) return@forEach
@@ -136,7 +136,7 @@ fun Project.applyLegacyRecipeCompatibility(mcVersion: String, conventionNamespac
                                 json["result"] = id
                             } else if (json["type"] == "minecraft:smelting") {
                                 // A bare id has no room for a count or NBT, so a x16 meteoric smelt would yield one
-                                // item. Golem Core's smelting serializer reads the full {item,count,tag} result
+                                // item. GeoCore's smelting serializer reads the full {item,count,tag} result
                                 // (CustomRecipes.componentSmeltingLegacy -> legacyResult) and is still a
                                 // SmeltingRecipe, so furnaces, JEI and the recipe book treat it as vanilla smelting.
                                 result.remove("id")
@@ -154,7 +154,7 @@ fun Project.applyLegacyRecipeCompatibility(mcVersion: String, conventionNamespac
                             // 1.21.0-1.21.1 vanilla reads a cooking result with ItemStack.STRICT_SINGLE_ITEM_CODEC,
                             // which ignores `count`: a x16 meteoric smelt yields one ingot. NeoForge 21.1 patches the
                             // serializer to ItemStack.CODEC (the node declares `loader_cooking_result_count`); Fabric
-                            // does not. Route through Golem Core's component smelting (ItemStack.CODEC, still a
+                            // does not. Route through GeoCore's component smelting (ItemStack.CODEC, still a
                             // SmeltingRecipe), whose ingredient is the {"items": [...]} ComponentIngredient shape.
                             if (json["type"] != "minecraft:smelting") {
                                 throw GradleException("${file.name}: ${json["type"]} cannot carry a count or " +
@@ -277,7 +277,7 @@ fun convertLegacyLootTables(root: File): Int {
 /**
  * The loot spellings that changed in 1.20.5: entity targets `attacker`, `direct_attacker` and `attacking_player` were
  * `killer`, `direct_killer` and `killer_player`, and `minecraft:set_components` has nothing to set before components,
- * so it is dropped (Golem's stack codec drops a stack's components there too).
+ * so it is dropped (GeoCore's stack codec drops a stack's components there too).
  */
 fun convertLegacyLootTerms(node: Any?): Boolean {
     var changed = false
@@ -295,9 +295,9 @@ fun convertLegacyLootTerms(node: Any?): Boolean {
                 map["name"] = map.remove("value")
                 changed = true
             }
-            // 1.20.1's set_count caps at the stack size; Golem Core's does not, as later versions do not
+            // 1.20.1's set_count caps at the stack size; GeoCore's does not, as later versions do not
             if (map["function"] == "minecraft:set_count") {
-                map["function"] = "golemcore:set_count"
+                map["function"] = "geocore:set_count"
                 changed = true
             }
             val legacy = mapOf("attacker" to "killer", "direct_attacker" to "direct_killer", "attacking_player" to "killer_player")
@@ -495,7 +495,7 @@ fun recipeFolderDepth(file: File): Int {
 
 /**
  * Whether [file] is a row of a mod's machine recipe table rather than a crafting or cooking recipe: it sits in a
- * subfolder of the recipe folder named like its own non-vanilla type (`recipe/magic/x.json` of type `hbm:magic`).
+ * subfolder of the recipe folder named like its own non-vanilla type (`recipe/magic/x.json` of type `geontm:magic`).
  */
 fun isMachineTableRow(file: File, type: String?): Boolean {
     if (recipeFolderDepth(file) <= 0 || type == null || type.startsWith("minecraft:")) return false
@@ -561,10 +561,10 @@ fun needsLegacyItemStacks(mcVersion: String): Boolean {
  *    and adds `textures/` and `.png` itself; before that the field was the full texture path. The old
  *    parser accepts the short id too, so a missed rewrite shows up only as a missing-texture tab.
  *  - icon components: 26.1 carries a model colour in `minecraft:custom_model_data.colors`; 1.21.1 has
- *    no colour list and Golem Core's ModelData keeps the first colour in `minecraft:dyed_color`. 1.20.1
- *    has no components at all: each becomes a root NBT key (Golem Core's `GolemComponent` spelling, the
+ *    no colour list and GeoCore's ModelData keeps the first colour in `minecraft:dyed_color`. 1.20.1
+ *    has no components at all: each becomes a root NBT key (GeoCore's `GeoCoreComponent` spelling, the
  *    component id itself) inside the icon's SNBT `nbt` string, and the colour becomes ModelData's
- *    `GolemCoreModelColor` int.
+ *    `GeoCoreModelColor` int.
  *  - 1.20.1 only: a `type_specific` sub-predicate type is a bare name (`player`), not a registry id.
  */
 fun convertPre26Advancements(root: File, legacyStacks: Boolean): Int {
@@ -596,7 +596,7 @@ fun convertPre26Advancements(root: File, legacyStacks: Boolean): Int {
                 if (legacyStacks) {
                     val tag = linkedMapOf<String, Any?>()
                     tag.putAll(components)
-                    if (color != null) tag["GolemCoreModelColor"] = color.toInt()
+                    if (color != null) tag["GeoCoreModelColor"] = color.toInt()
                     icon.remove("components")
                     if (tag.isNotEmpty()) icon["nbt"] = tag.entries.joinToString(",", "{", "}") { (key, value) ->
                         "\"$key\":" + (if (value is String) "\"$value\"" else value.toString())

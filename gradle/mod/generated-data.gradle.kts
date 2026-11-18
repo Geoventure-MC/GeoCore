@@ -1,14 +1,14 @@
-// Data generated from Java (Golem Core DataSource / RecipeSource / DataGenerator: recipe tables, fluid properties, data
+// Data generated from Java (GeoCore DataSource / RecipeSource / DataGenerator: recipe tables, fluid properties, data
 // maps, item pools, removal lists, ...), on every node: packs what the
 // mod's generating run wrote into processResources' output, as ordinary datapack files that the other resource scripts
 // then convert like any authored one. processResources depends on the run, so a build, a dev client or an IDE launch on
 // any node generates the tables when they are missing or stale; nothing has to be run by hand first.
 //
 // Parameters (gradle.properties):
-//   golem.build.generatedData.generator  The generating task (default ":26.1-neoforge:runGenerateData"). The mod's
+//   geocore.build.generatedData.generator  The generating task (default ":26.1-neoforge:runGenerateData"). The mod's
 //                                       26.1 NeoForge buildscript declares it: a gameTestServer run with
-//                                       -Dgolem.data.output=<root> and -Dgolem.data.sources=<DataSources classes>.
-//   golem.build.generatedData.root       The run's output root, relative to the root project (default
+//                                       -Dgeocore.data.output=<root> and -Dgeocore.data.sources=<DataSources classes>.
+//   geocore.build.generatedData.root       The run's output root, relative to the root project (default
 //                                       "build/generated/data").
 //
 // The positive signal is the manifest the generator writes beside the pack (`<namespace>/<folder> <files>` per line):
@@ -16,18 +16,18 @@
 // authored file is left in a generated folder (it would be merged with or override the generated rows); fewer means rows
 // never reached this node. Logs "generatedData: packed N generated file(s) in M folder(s)".
 
-val generatedDataGenerator = findProperty("golem.build.generatedData.generator")?.toString() ?: ":26.1-neoforge:runGenerateData"
-val generatedDataRoot = findProperty("golem.build.generatedData.root")?.toString()?.let {
+val generatedDataGenerator = findProperty("geocore.build.generatedData.generator")?.toString() ?: ":26.1-neoforge:runGenerateData"
+val generatedDataRoot = findProperty("geocore.build.generatedData.root")?.toString()?.let {
     rootProject.layout.projectDirectory.dir(it)
 } ?: rootProject.layout.buildDirectory.dir("generated/data").get()
 
 // An authored file at a generated path would silently win over (or merge with) the generated one, so it fails the build,
 // naming the file. While a folder is being migrated to Java (its authored files kept until the generated ones are proven
-// equal), GOLEM_GENERATED_DATA_OVERLAP=authored lets the authored copy win, with a warning; only migration tooling sets it.
-val generatedDataOverlapAllowed = System.getenv("GOLEM_GENERATED_DATA_OVERLAP") == "authored"
+// equal), GEOCORE_GENERATED_DATA_OVERLAP=authored lets the authored copy win, with a warning; only migration tooling sets it.
+val generatedDataOverlapAllowed = System.getenv("GEOCORE_GENERATED_DATA_OVERLAP") == "authored"
 val generatedDataAuthored = rootProject.file("src/main/resources")
 
-// A generated tag (Golem Core TagSource) may share its path with a tag the mod declares (Dejson) or authors: both are
+// A generated tag (GeoCore TagSource) may share its path with a tag the mod declares (Dejson) or authors: both are
 // members of one tag, so the build writes their union. The union is staged here and wins the copy; the declared and
 // authored copies at those paths are left out. A tag whose first Minecraft version (tags_since.txt) is newer than this
 // node's mc_version is left out altogether.
@@ -125,7 +125,7 @@ tasks.named<ProcessResources>("processResources") {
         }.filter { it.first !in skipped }
         val wrong = tables.mapNotNull { (key, rows) ->
             val (namespace, folder) = key.split('/', limit = 2)
-            // Below 1.21 the recipe, loot table and tag folders are plural (Golem Core's legacy-recipes renames them in this
+            // Below 1.21 the recipe, loot table and tag folders are plural (GeoCore's legacy-recipes renames them in this
             // task's output).
             val plural = listOf("recipe/" to "recipes/", "loot_table/" to "loot_tables/", "tags/item/" to "tags/items/",
                 "tags/block/" to "tags/blocks/").firstOrNull { folder.startsWith(it.first) }

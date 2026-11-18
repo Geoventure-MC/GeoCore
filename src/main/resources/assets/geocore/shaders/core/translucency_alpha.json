@@ -1,0 +1,7 @@
+{
+  "vertex": "geocore:translucency_alpha",
+  "fragment": "geocore:translucency_alpha",
+  "attributes": ["Position"],
+  "samplers": [{"name": "Sampler0"}],
+  "uniforms": []
+}

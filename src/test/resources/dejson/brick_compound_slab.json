@@ -1,13 +1,13 @@
 {
   "variants": {
     "type=bottom": {
-      "model": "hbm:block/brick_compound_slab"
+      "model": "geontm:block/brick_compound_slab"
     },
     "type=top": {
-      "model": "hbm:block/brick_compound_slab_top"
+      "model": "geontm:block/brick_compound_slab_top"
     },
     "type=double": {
-      "model": "hbm:block/brick_compound_slab_double"
+      "model": "geontm:block/brick_compound_slab_double"
     }
   }
 }

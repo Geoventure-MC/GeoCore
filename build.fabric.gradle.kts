@@ -8,7 +8,7 @@ fun prop(name: String): String = property(name) as String
 
 val mcVersion = stonecutter.current.version
 apply(from = rootProject.file("gradle/mod/gemrender-local.gradle.kts"))
-val localGemRender = extra.properties["golem.gemrender.local"]
+val localGemRender = extra.properties["geocore.gemrender.local"]
 val javaVersion = prop("java_version").toInt()
 val modelEra = if (stonecutter.eval(mcVersion, ">=26.1")) "modern" else "legacy"
 val modelRoots = if (modelEra == "modern") listOf("models-modern")
@@ -106,10 +106,10 @@ if (hasSable) {
 val obfuscated = mcVersion.substringBefore('.').toInt() < 26
 // Loom validates every widened member against the node's jar, so 1.21.1 (which has VehicleEntity to widen)
 // and 1.20.1 (which does not) need separate legacy files.
-val accessWidenerName = if (!obfuscated) "golemcore.accesswidener"
-    else if (mcVersion.startsWith("1.21")) "golemcore.legacy-1.21.accesswidener"
-    else "golemcore.legacy.accesswidener"
-val allAccessWideners = listOf("golemcore.accesswidener", "golemcore.legacy.accesswidener", "golemcore.legacy-1.21.accesswidener")
+val accessWidenerName = if (!obfuscated) "geocore.accesswidener"
+    else if (mcVersion.startsWith("1.21")) "geocore.legacy-1.21.accesswidener"
+    else "geocore.legacy.accesswidener"
+val allAccessWideners = listOf("geocore.accesswidener", "geocore.legacy.accesswidener", "geocore.legacy-1.21.accesswidener")
 
 dependencies {
     "minecraft"("com.mojang:minecraft:${prop("deps.minecraft")}")
@@ -170,11 +170,11 @@ tasks.processResources {
         "entity_tick_mixins" to ", \"MixinEntityTicks\"",
         // Respawns: 1.20.1 picks the point in PlayerList.respawn, 1.21+ in ServerPlayer (MixinRespawnSelection).
         "legacy_respawn_mixins" to if (stonecutter.eval(mcVersion, "<1.21")) ", \"MixinPlayerListRespawns\"" else "",
-        // The 1.20.5 physics attributes, backported on 1.20.1 only (dev.golem.core.world.Physics).
+        // The 1.20.5 physics attributes, backported on 1.20.1 only (fr.geoventure.geocore.world.Physics).
         "physics_mixins" to if (mcVersion.startsWith("1.20.")) ", \"MixinLegacyAttributeSupplier\", \"MixinLegacyLivingPhysics\", \"MixinLegacyFabricGravity\"" else "",
         // Chunks.loadEntityTicking before 26.1 (EntitySectionsAccess).
         "entity_load_mixins" to if (mcVersion.substringBefore('.').toInt() < 26) ", \"EntitySectionsAccess\"" else "",
-        // dev.golem.core.gametest.TestChunks: a 26.1 test waits until its whole plot is entity-ticking.
+        // fr.geoventure.geocore.gametest.TestChunks: a 26.1 test waits until its whole plot is entity-ticking.
         "gametest_mixins" to if (mcVersion.substringBefore('.').toInt() >= 26) ", \"MixinGameTestChunks\"" else "",
         // Fabric API has no minecart events, so every Fabric node calls the rail hooks through a mixin.
         "rail_mixins" to ", \"MixinMinecartRails\"",
@@ -205,7 +205,7 @@ tasks.processResources {
         // MixinLegacyStackLimit: no per-stack stack size before the 1.20.5 component; see ItemStacks.setMaxStackSize.
         "legacy_explosion_mixins" to if (mcVersion.startsWith("1.20.")) ", \"MixinExplosionBlockHook\", \"MixinLegacyStackLimit\", \"MixinLegacySlotMerge\"" else "",
         // MixinFabricGameTestModInitializer is not listed here: Fabric's GameTest module exists only in dev runs, so
-        // dev.golem.core.gametest.GameTestMixinPlugin adds it when its target is present (a listed mixin with a missing
+        // fr.geoventure.geocore.gametest.GameTestMixinPlugin adds it when its target is present (a listed mixin with a missing
         // target fails the required config and crashed players' clients).
         "legacy_client_mixins" to ", \"MixinMouseInput\"" +
             (if (mcVersion.substringBefore('.').toInt() < 26) ", \"MixinLegacyKeyMappingWinner\"" else "") +
@@ -230,9 +230,9 @@ tasks.processResources {
     // than templated, so the source fabric.mod.json stays valid JSON (Loom parses it at configuration).
     if (hasSable) {
         val sableLines = mapOf(
-            "\"dev.golem.core.platform.FabricEntrypoint\"" to "\"dev.golem.core.sable.SableFabric\"",
-            "\"dev.golem.core.harness.HarnessFabricClient\"" to "\"dev.golem.core.sable.SableFabricClient\"",
-            "\"golemcore.harness.mixins.json\"" to "\"golemcore.sable.mixins.json\"",
+            "\"fr.geoventure.geocore.platform.FabricEntrypoint\"" to "\"fr.geoventure.geocore.sable.SableFabric\"",
+            "\"fr.geoventure.geocore.harness.HarnessFabricClient\"" to "\"fr.geoventure.geocore.sable.SableFabricClient\"",
+            "\"geocore.harness.mixins.json\"" to "\"geocore.sable.mixins.json\"",
         )
         filesMatching("fabric.mod.json") {
             filter { line -> sableLines[line.trim()]?.let { "$line, $it" } ?: line }
@@ -242,21 +242,21 @@ tasks.processResources {
     if (!(findProperty("deps.jade") as String?).isNullOrBlank()) {
         filesMatching("fabric.mod.json") {
             filter { line -> if (line.trim() == "\"entrypoints\": {")
-                "$line\n        \"jade\": [\"dev.golem.core.jade.JadePlugin\"]," else line }
+                "$line\n        \"jade\": [\"fr.geoventure.geocore.jade.JadePlugin\"]," else line }
         }
     }
     allAccessWideners.filter { it != accessWidenerName }.forEach { exclude(it) }
     exclude(
         "META-INF/accesstransformer.cfg",
-        "META-INF/golemcore.neoforge.accesstransformer.cfg",
-        "META-INF/golemcore.forge.accesstransformer.cfg",
+        "META-INF/geocore.neoforge.accesstransformer.cfg",
+        "META-INF/geocore.forge.accesstransformer.cfg",
     )
-    // The golem_* shaders use 26.1's pipeline format; older nodes draw the same effects with *_legacy shaders.
+    // The geocore_* shaders use 26.1's pipeline format; older nodes draw the same effects with *_legacy shaders.
     if (obfuscated) {
-        exclude("assets/golemcore/shaders/core/golem_*")
+        exclude("assets/geocore/shaders/core/geocore_*")
     }
     exclude("META-INF/neoforge.mods.toml", "META-INF/mods.toml")
-    // Golem Core's KubeJS plugin list names classes that exist only where the `kubejs` constant holds.
+    // GeoCore's KubeJS plugin list names classes that exist only where the `kubejs` constant holds.
     if ((findProperty("deps.kubejs") as String?).isNullOrBlank()) exclude("kubejs.plugins.txt")
 }
 
@@ -280,14 +280,14 @@ dependencies {
     // target, and keeps @Nullable usable in shared code across the whole matrix.
     compileOnly("org.jspecify:jspecify:1.0.0")
 
-    // JEI, compile-only and per-node optional: the facade in dev.golem.core.jei exists to hide the
+    // JEI, compile-only and per-node optional: the facade in fr.geoventure.geocore.jei exists to hide the
     // 19.x/29.x API split from consumers, so this library has to see whichever line the node targets.
     // A node that declares no coordinates compiles the facade out entirely (the `jei` constant).
     val jeiMc = (findProperty("deps.jei_mc") as String?)?.takeIf { it.isNotBlank() }
     val jeiVer = (findProperty("deps.jei") as String?)?.takeIf { it.isNotBlank() }
     if (jeiMc != null && jeiVer != null) compileOnly("mezz.jei:jei-$jeiMc-common-api:$jeiVer")
 
-    // GemRender, an optional client peer: dev.golem.core.gemrender instances gem-declared machines through the
+    // GemRender, an optional client peer: fr.geoventure.geocore.gemrender instances gem-declared machines through the
     // Flywheel it carries. CurseForge jars are compiled against, never shipped.
     val gemConfig = if (obfuscated) "modCompileOnly" else "compileOnly"
     if (localGemRender != null) gemConfig(localGemRender)
@@ -298,8 +298,8 @@ dependencies {
         (if (obfuscated) "modCompileOnly" else "compileOnly")(it)
     }
 
-    // REI, compile-only and per-node optional, like JEI: the adapter in dev.golem.core.rei feeds a mod's neutral
-    // viewer declarations (dev.golem.core.viewer) to REI 12/16/26. Fabric REI jars are intermediary-mapped below 26.1.
+    // REI, compile-only and per-node optional, like JEI: the adapter in fr.geoventure.geocore.rei feeds a mod's neutral
+    // viewer declarations (fr.geoventure.geocore.viewer) to REI 12/16/26. Fabric REI jars are intermediary-mapped below 26.1.
     // Its POM's Fabric Loader / Fabric API are left out: the node declares its own.
     (findProperty("deps.rei") as String?)?.takeIf { it.isNotBlank() }?.let { rei ->
         (if (obfuscated) "modCompileOnly" else "compileOnly")("me.shedaniel:RoughlyEnoughItems-api-fabric:$rei") {
@@ -342,7 +342,7 @@ dependencies {
         )) (if (obfuscated) "modCompileOnly" else "compileOnly")(dep) { isTransitive = false }
     }
 
-    // CC: Tweaked, compile-only and per-node optional: dev.golem.core.computer registers peripherals with the
+    // CC: Tweaked, compile-only and per-node optional: fr.geoventure.geocore.computer registers peripherals with the
     // loader's lookup (NeoForge capability, Forge provider, Fabric BlockApiLookup). The peripheral API itself
     // (core-api) is the same on every node. A node without coordinates compiles the facade out.
     val ccMc = (findProperty("deps.cc_mc") as String?)?.takeIf { it.isNotBlank() }

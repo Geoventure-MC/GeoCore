@@ -1,2 +1,2 @@
-# Golem Core's KubeJS plugin: recipe schemas for every RecipeTables table, dev.golem.core.script bindings and events.
-dev.golem.core.kubejs.ScriptsPlugin
+# GeoCore's KubeJS plugin: recipe schemas for every RecipeTables table, fr.geoventure.geocore.script bindings and events.
+fr.geoventure.geocore.kubejs.ScriptsPlugin

@@ -1,9 +1,9 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/recipe-conditions.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/recipe-conditions.gradle.kts"))
 //
 // Parameters: none of its own. It reads the node facts the loader buildscript sets as extra properties before
 // applying:
@@ -11,7 +11,7 @@ import groovy.json.JsonSlurper
 //   loader       "neoforge", "forge" or "fabric" (required)
 //
 // Every loader can skip a data file (a recipe, an advancement, a loot table) when a condition fails, and each spells
-// it differently. Forge 1.20.1 is the exception for loot tables: it never reads their conditions, so they always load. A mod writes its conditions once, under the neutral key "golem:conditions", and this rewrites that
+// it differently. Forge 1.20.1 is the exception for loot tables: it never reads their conditions, so they always load. A mod writes its conditions once, under the neutral key "geocore:conditions", and this rewrites that
 // key in processResources' output to the node's own spelling.
 //
 // Not for removing another mod's file by shipping a never-file at its path: which mod's pack wins a path is not
@@ -38,7 +38,7 @@ fun Project.applyRecipeConditions(mcVersion: String, loader: String) {
 
     fun convert(condition: Any?): Any? {
         @Suppress("UNCHECKED_CAST")
-        val c = condition as? Map<String, Any?> ?: error("golem:conditions entry is not an object: $condition")
+        val c = condition as? Map<String, Any?> ?: error("geocore:conditions entry is not an object: $condition")
         return when (val type = c["type"]) {
             "never" -> when (loader) {
                 "neoforge" -> mapOf("type" to if (major >= 26) "neoforge:never" else "neoforge:false")
@@ -47,7 +47,7 @@ fun Project.applyRecipeConditions(mcVersion: String, loader: String) {
                         else mapOf("condition" to "fabric:not", "value" to mapOf("condition" to "fabric:true"))
             }
             "mod_loaded" -> {
-                val mod = c["mod"] ?: error("golem:conditions mod_loaded needs \"mod\"")
+                val mod = c["mod"] ?: error("geocore:conditions mod_loaded needs \"mod\"")
                 when (loader) {
                     "neoforge" -> mapOf("type" to "neoforge:mod_loaded", "modid" to mod)
                     "forge" -> mapOf("type" to "forge:mod_loaded", "modid" to mod)
@@ -62,12 +62,12 @@ fun Project.applyRecipeConditions(mcVersion: String, loader: String) {
                     else -> mapOf("condition" to "fabric:not", "value" to value)
                 }
             }
-            else -> error("unknown golem:conditions type $type")
+            else -> error("unknown geocore:conditions type $type")
         }
     }
 
-    // golem.build.resourceTasks: the ProcessResources tasks to convert (default processResources), as in legacy-recipes
-    val resourceTasks = (findProperty("golem.build.resourceTasks")?.toString() ?: "processResources").split(',').map { it.trim() }
+    // geocore.build.resourceTasks: the ProcessResources tasks to convert (default processResources), as in legacy-recipes
+    val resourceTasks = (findProperty("geocore.build.resourceTasks")?.toString() ?: "processResources").split(',').map { it.trim() }
     tasks.withType<ProcessResources>().matching { it.name in resourceTasks }.configureEach {
         doLast {
             var converted = 0
@@ -75,10 +75,10 @@ fun Project.applyRecipeConditions(mcVersion: String, loader: String) {
                 .filter { it.isFile && it.extension == "json" && it.invariantSeparatorsPath.contains("/data/") }
                 .forEach { file ->
                     val text = file.readText()
-                    if (!text.contains("\"golem:conditions\"")) return@forEach
+                    if (!text.contains("\"geocore:conditions\"")) return@forEach
                     @Suppress("UNCHECKED_CAST")
                     val json = JsonSlurper().parseText(text) as? MutableMap<String, Any?> ?: return@forEach
-                    val neutral = json.remove("golem:conditions") as? List<*> ?: return@forEach
+                    val neutral = json.remove("geocore:conditions") as? List<*> ?: return@forEach
                     val conditions = neutral.map { convert(it) }
                     val isRecipe = Regex("/data/[^/]+/recipes?/").containsMatchIn(file.invariantSeparatorsPath)
                     val key = when (loader) {

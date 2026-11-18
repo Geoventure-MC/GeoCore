@@ -1,5 +1,5 @@
-# Publishes a Golem Core release: builds every node and uploads its six jars to Modrinth and CurseForge
-# (gradle/mod/publish.gradle.kts), then attaches them to a GitHub release. Release Golem Core before any mod
+# Publishes a GeoCore release: builds every node and uploads its six jars to Modrinth and CurseForge
+# (gradle/mod/publish.gradle.kts), then attaches them to a GitHub release. Release GeoCore before any mod
 # that needs the new version (NTM - Continuum has its own Release workflow).
 #
 # Trigger it by pushing a tag that matches mod.version in gradle.properties:
@@ -104,7 +104,7 @@ jobs:
             echo "version=$version"; echo "tag=$tag"; echo "type=$type"
             echo "changelog=$changelog"; echo "dry=$dry"
           } >> "$GITHUB_OUTPUT"
-          echo "Golem Core $version ($type), tag $tag, dry run=$dry"
+          echo "GeoCore $version ($type), tag $tag, dry run=$dry"
 
       - name: Build every node
         run: bash ./gradlew chiseledBuild --no-daemon --stacktrace
@@ -129,7 +129,7 @@ jobs:
           for jar in versions/*/build/release/*.jar; do
             cp "${jar%/release/*}/libs/${jar##*/}" "dist/$(basename "$jar" .jar)-dev.jar"
           done
-          (cd harness && bash ./gradlew -q jar --no-daemon) && cp harness/build/libs/golem-harness.jar dist/
+          (cd harness && bash ./gradlew -q jar --no-daemon) && cp harness/build/libs/geocore-harness.jar dist/
           ls -l dist
 
       - name: GitHub release
@@ -138,7 +138,7 @@ jobs:
         with:
           tag_name: ${{ steps.cfg.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: Golem Core ${{ steps.cfg.outputs.version }}
+          name: GeoCore ${{ steps.cfg.outputs.version }}
           prerelease: ${{ steps.cfg.outputs.type != 'release' }}
           body_path: ${{ steps.cfg.outputs.changelog || '' }}
           generate_release_notes: ${{ steps.cfg.outputs.changelog == '' }}

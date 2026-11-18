@@ -1,14 +1,14 @@
 {
   "variants": {
     "axis=y": {
-      "model": "hbm:block/waste_log"
+      "model": "geontm:block/waste_log"
     },
     "axis=z": {
-      "model": "hbm:block/waste_log",
+      "model": "geontm:block/waste_log",
       "x": 90
     },
     "axis=x": {
-      "model": "hbm:block/waste_log",
+      "model": "geontm:block/waste_log",
       "x": 90,
       "y": 90
     }

@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "fr.geoventure.geocore.harness.mixin",
+  "refmap": "geocore.refmap.json",
+  "compatibilityLevel": "${mixin_compatibility}",
+  "mixins": [
+    "MixinGameTestDimensions"${harness_clock_mixins}
+  ],
+  "client": [
+    "MixinHarnessWindow",
+    "MixinHarnessMouseGrab",
+    "HarnessKeyboardHandlerAccessor",
+    "HarnessMouseHandlerAccessor",
+    "HarnessCreateWorldScreenAccessor",
+    "HarnessContainerScreenAccessor",
+    "MixinHarnessClientClock",
+    "MixinHarnessFramerate"${harness_frame_mixins}${render_validation_mixins}${client_gametest_mixins}
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

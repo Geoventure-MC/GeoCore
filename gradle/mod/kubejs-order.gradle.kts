@@ -1,6 +1,6 @@
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/kubejs-order.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/kubejs-order.gradle.kts"))
 //
 // Parameters: none of its own. It reads the node facts the loader buildscript sets as extra properties before
 // applying:
@@ -8,15 +8,15 @@
 // and the node's deps.kubejs (blank: nothing to do).
 //
 // Why: KubeJS asks its plugins for event groups and bindings, and runs the startup scripts, inside its own mod
-// constructor. A Golem-based mod declares its dev.golem.core.script groups and bindings in its constructor
+// constructor. A GeoCore-based mod declares its fr.geoventure.geocore.script groups and bindings in its constructor
 // (ModEntries.start), so it must be constructed first, or its startup events and bindings are missing from the startup
-// scripts (Golem Core's adapter then WARNs and still serves the server and client scripts). This adds to each mod of
+// scripts (GeoCore's adapter then WARNs and still serves the server and client scripts). This adds to each mod of
 // the processed mods.toml / neoforge.mods.toml an optional dependency on kubejs with ordering BEFORE:
 //   NeoForge 1.21.1 / 26.1   type = "optional"   (absent: no error; present: sorted before it)
-//   Forge 1.20.1             mandatory = false   (same; Forge constructs in parallel, so Golem Core's 6.x adapter also
-//                                                 waits for the Golem-based mods' declarations in its plugin init)
+//   Forge 1.20.1             mandatory = false   (same; Forge constructs in parallel, so GeoCore's 6.x adapter also
+//                                                 waits for the GeoCore-based mods' declarations in its plugin init)
 // A mod that already names kubejs in its metadata is left alone. Fabric has no ordering in fabric.mod.json; there the
-// adapter runs the pending Golem declarations itself (see dev.golem.core.kubejs).
+// adapter runs the pending GeoCore declarations itself (see fr.geoventure.geocore.kubejs).
 //
 // Rewrites every ProcessResources task's output (the mod's and, e.g., a probe source set's); logs
 // `kubejsOrder: ordered N mod(s) before kubejs`.
@@ -38,7 +38,7 @@ fun Project.applyKubejsOrder(loader: String) {
             for (id in modIds) {
                 val already = Regex("""\[\[dependencies\.${Regex.escape(id)}]]\s*\r?\n\s*modId\s*=\s*"kubejs"""").containsMatchIn(text)
                 if (already) continue
-                blocks.append("\n# Added by Golem Core's kubejs-order.gradle.kts: declare script groups and bindings before KubeJS's startup scripts.\n")
+                blocks.append("\n# Added by GeoCore's kubejs-order.gradle.kts: declare script groups and bindings before KubeJS's startup scripts.\n")
                 blocks.append("[[dependencies.$id]]\n")
                 blocks.append("modId = \"kubejs\"\n")
                 blocks.append(if (loader == "neoforge") "type = \"optional\"\n" else "mandatory = false\n")

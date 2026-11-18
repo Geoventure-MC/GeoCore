@@ -5,9 +5,9 @@
 // class still names one. Apply before publish.gradle.kts.
 //
 // Parameters (gradle.properties):
-//   golem.build.releaseJar.testPackages   Class folders to drop, comma-separated (e.g. com/hbm/gametest/).
-//   golem.build.releaseJar.testResources  Resource folders to drop, comma-separated (optional).
-//   golem.build.releaseJar.testAssets     Asset file-name prefixes registered only by a GameTest (optional).
+//   geocore.build.releaseJar.testPackages   Class folders to drop, comma-separated (e.g. fr/geoventure/geontm/gametest/).
+//   geocore.build.releaseJar.testResources  Resource folders to drop, comma-separated (optional).
+//   geocore.build.releaseJar.testAssets     Asset file-name prefixes registered only by a GameTest (optional).
 // Classes named *GameTest* or *HarnessQueries* are dropped wherever they are.
 
 import groovy.json.JsonOutput
@@ -19,10 +19,10 @@ import java.util.zip.ZipOutputStream
 fun listProperty(name: String) = findProperty(name)?.toString()?.split(',')?.map { it.trim() }?.filter { it.isNotEmpty() }
     ?: emptyList()
 
-val testPackages = listProperty("golem.build.releaseJar.testPackages")
-val testResources = listProperty("golem.build.releaseJar.testResources")
-val testAssetNames = listProperty("golem.build.releaseJar.testAssets")
-if (testPackages.isEmpty()) throw GradleException("release-jar.gradle.kts: set golem.build.releaseJar.testPackages")
+val testPackages = listProperty("geocore.build.releaseJar.testPackages")
+val testResources = listProperty("geocore.build.releaseJar.testResources")
+val testAssetNames = listProperty("geocore.build.releaseJar.testAssets")
+if (testPackages.isEmpty()) throw GradleException("release-jar.gradle.kts: set geocore.build.releaseJar.testPackages")
 
 fun isDevClass(path: String): Boolean {
     if (!path.endsWith(".class")) return false
@@ -117,6 +117,6 @@ tasks.register("releaseDevJar") {
 }
 
 tasks.named("assemble") { dependsOn(releaseJar) }
-extra["golem.releaseJar"] = releaseJar.flatMap { layout.file(releaseFile.map { it.asFile }) }
+extra["geocore.releaseJar"] = releaseJar.flatMap { layout.file(releaseFile.map { it.asFile }) }
 // The upload reads the stripped copy, so it must be built first.
 tasks.matching { it.name in setOf("publishMods", "publishModrinth", "publishCurseforge") }.configureEach { dependsOn(releaseJar) }

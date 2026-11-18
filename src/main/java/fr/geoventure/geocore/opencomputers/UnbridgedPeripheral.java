@@ -1,0 +1,23 @@
+package fr.geoventure.geocore.opencomputers;
+
+//? if opencomputers && computercraft {
+/*import fr.geoventure.geocore.computer.ComputerComponent;
+import fr.geoventure.geocore.computer.ComputerCraftPeripheral;
+import li.cil.oc.api.network.BlacklistedPeripheral;
+
+/^*
+ * A component's CC peripheral with OpenComputers installed too. OC's own CC bridge would wrap it into a second,
+ * CC-shaped component on an Adapter; {@link OpenComputers} already serves the component itself.
+ ^/
+public final class UnbridgedPeripheral extends ComputerCraftPeripheral implements BlacklistedPeripheral {
+
+    public UnbridgedPeripheral(ComputerComponent component) {
+        super(component);
+    }
+
+    @Override
+    public boolean isPeripheralBlacklisted() {
+        return true;
+    }
+}
+*///?}

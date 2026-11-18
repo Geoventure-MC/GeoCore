@@ -1,15 +1,15 @@
 import java.util.function.BiFunction
 
-// Shared by every Golem Core mod built on Fabric. Apply it from the Fabric buildscript, before the dependencies block:
+// Shared by every GeoCore mod built on Fabric. Apply it from the Fabric buildscript, before the dependencies block:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/composite-freshness.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/composite-freshness.gradle.kts"))
 //
 // Parameters (project properties, set in gradle.properties or as extra[...] before the apply line):
 //
-//   golem.build.composite.roots   List of "<path>=<maven group path>" pairs, one per composite build this mod
-//                                 compiles against, e.g. "../Golem-Core=dev/golem,../NTM-Continuum=com/hbm".
-//                                 Default: "../Golem-Core=dev/golem".
-//   golem.build.composite.artifactDirectory
+//   geocore.build.composite.roots   List of "<path>=<maven group path>" pairs, one per composite build this mod
+//                                 compiles against, e.g. "../GeoCore=fr/geoventure,../NTM-Continuum=fr/geoventure/geontm".
+//                                 Default: "../GeoCore=fr/geoventure".
+//   geocore.build.composite.artifactDirectory
 //                                 Optional BiFunction<File, String, File>: upstream checkout and node name
 //                                 (e.g. 1.21.1-fabric) -> its actual jar directory. Defaults to
 //                                 <checkout>/versions/<node>/build/libs. Set before applying this script.
@@ -31,15 +31,15 @@ import java.util.function.BiFunction
 val compositeMcVersion = (findProperty("mc_version") ?: error("composite-freshness needs extra[\"mc_version\"]")).toString()
 val compositeObfuscated = compositeMcVersion.substringBefore('.').toInt() < 26
 
-val compositeRoots: List<Pair<File, String>> = (findProperty("golem.build.composite.roots")?.toString()
-    ?: "../Golem-Core=dev/golem").split(',').map { it.trim() }.filter { it.isNotEmpty() }.map { entry ->
+val compositeRoots: List<Pair<File, String>> = (findProperty("geocore.build.composite.roots")?.toString()
+    ?: "../GeoCore=fr/geoventure").split(',').map { it.trim() }.filter { it.isNotEmpty() }.map { entry ->
     val (path, group) = entry.split('=', limit = 2)
     rootProject.file(path.trim()) to group.trim()
 }
 
-val compositeArtifactResolver = findProperty("golem.build.composite.artifactDirectory")?.let { resolver ->
+val compositeArtifactResolver = findProperty("geocore.build.composite.artifactDirectory")?.let { resolver ->
     require(resolver is BiFunction<*, *, *>) {
-        "golem.build.composite.artifactDirectory must be a BiFunction<File, String, File>"
+        "geocore.build.composite.artifactDirectory must be a BiFunction<File, String, File>"
     }
     @Suppress("UNCHECKED_CAST")
     resolver as BiFunction<File, String, File>

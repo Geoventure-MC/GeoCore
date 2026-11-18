@@ -1,9 +1,9 @@
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/mixin-validation.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/mixin-validation.gradle.kts"))
 //
-// Parameters. Every shared build-layer script under Golem-Core/gradle/mod reads its settings as project
-// properties named `golem.build.<script>.<name>`; this one has none. It checks every mixin config (a file
+// Parameters. Every shared build-layer script under GeoCore/gradle/mod reads its settings as project
+// properties named `geocore.build.<script>.<name>`; this one has none. It checks every mixin config (a file
 // whose name ends in .mixins.json) at the root of the node's processed resources.
 //
 // Validates every mixin config against the classes that will actually ship in this node's jar.

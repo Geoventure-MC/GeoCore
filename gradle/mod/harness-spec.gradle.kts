@@ -1,10 +1,10 @@
 import org.gradle.jvm.toolchain.JavaToolchainService
 
 /**
- * Launch-spec capture for the Golem Core visual test harness. Shared by every Golem Core mod: apply it
+ * Launch-spec capture for the GeoCore visual test harness. Shared by every GeoCore mod: apply it
  * from each loader buildscript with
  *
- *     apply(from = rootProject.file("../Golem-Core/gradle/mod/harness-spec.gradle.kts"))
+ *     apply(from = rootProject.file("../GeoCore/gradle/mod/harness-spec.gradle.kts"))
  *
  * `gradlew :<node>:runClient -Pharness.spec=<file>` then runs every preparation step the real client
  * run needs (ModDev's `prepareClientRun` and `syncDevMods`, Loom's remap and jar-freshness guards) and
@@ -27,7 +27,7 @@ if (harnessSpec != null) {
     val javaVersion = (extra.properties["java_version"] as String).toInt()
     val toolchains = extensions.getByType(JavaToolchainService::class.java)
     val captureDir = layout.buildDirectory.dir("harness")
-    val captureSource = captureDir.map { it.file("src/dev/golem/harness/capture/CaptureMain.java") }
+    val captureSource = captureDir.map { it.file("src/fr/geoventure/harness/capture/CaptureMain.java") }
     val captureClasses = captureDir.map { it.dir("capture") }
 
     val writeCapture = tasks.register("harnessCaptureSource") {
@@ -58,16 +58,16 @@ if (harnessSpec != null) {
         run.classpath(captureClasses)
         doFirst {
             val realMain = run.mainClass.get()
-            run.mainClass.set("dev.golem.harness.capture.CaptureMain")
-            run.systemProperty("golem.harness.capture.main", realMain)
-            run.systemProperty("golem.harness.capture.out", specFile.absolutePath)
+            run.mainClass.set("fr.geoventure.harness.capture.CaptureMain")
+            run.systemProperty("geocore.harness.capture.main", realMain)
+            run.systemProperty("geocore.harness.capture.out", specFile.absolutePath)
             logger.lifecycle("Capturing the launch of $path to ${specFile.absolutePath} (main class $realMain)")
         }
     }
 }
 
 val CAPTURE_MAIN_SOURCE = """
-package dev.golem.harness.capture;
+package fr.geoventure.harness.capture;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -88,15 +88,15 @@ public final class CaptureMain {
     private CaptureMain() {}
 
     public static void main(String[] args) throws IOException {
-        String out = System.getProperty("golem.harness.capture.out");
-        String realMain = System.getProperty("golem.harness.capture.main");
+        String out = System.getProperty("geocore.harness.capture.out");
+        String realMain = System.getProperty("geocore.harness.capture.main");
         if (out == null || realMain == null) {
-            System.err.println("CaptureMain: missing golem.harness.capture.out / golem.harness.capture.main");
+            System.err.println("CaptureMain: missing geocore.harness.capture.out / geocore.harness.capture.main");
             System.exit(2);
         }
         List<String> jvmArgs = new ArrayList<>();
         for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-            if (arg.startsWith("-Dgolem.harness.capture.")) continue;
+            if (arg.startsWith("-Dgeocore.harness.capture.")) continue;
             jvmArgs.add(arg);
         }
         List<String> classpath = new ArrayList<>();

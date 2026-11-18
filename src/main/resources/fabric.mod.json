@@ -3,11 +3,11 @@
     "id": "${mod_id}",
     "version": "${mod_version}",
     "name": "${mod_name}",
-    "description": "${mod_description}@golem.credits@",
+    "description": "${mod_description}@geocore.credits@",
     "contact": {
-        "homepage": "@golem.homepage@",
-        "sources": "@golem.sources@",
-        "issues": "@golem.issues@"
+        "homepage": "@geocore.homepage@",
+        "sources": "@geocore.sources@",
+        "issues": "@geocore.issues@"
     },
     "authors": [
         "${mod_author}"
@@ -16,17 +16,17 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "dev.golem.core.platform.FabricEntrypoint"
+            "fr.geoventure.geocore.platform.FabricEntrypoint"
         ],
         "client": [
-            "dev.golem.core.platform.FabricClientEntrypoint",
-            "dev.golem.core.harness.HarnessFabricClient"
+            "fr.geoventure.geocore.platform.FabricClientEntrypoint",
+            "fr.geoventure.geocore.harness.HarnessFabricClient"
         ]
     },
     "mixins": [
-        "golemcore.mixins.json",
-        "golemcore.fabric.mixins.json",
-        "golemcore.harness.mixins.json"
+        "geocore.mixins.json",
+        "geocore.fabric.mixins.json",
+        "geocore.harness.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=${fabric_loader}",

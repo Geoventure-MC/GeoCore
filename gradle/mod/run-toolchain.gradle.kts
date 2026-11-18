@@ -1,14 +1,14 @@
 import org.gradle.jvm.toolchain.JavaToolchainService
 
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/run-toolchain.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/run-toolchain.gradle.kts"))
 //
-// Parameters. Every shared build-layer script under Golem-Core/gradle/mod reads its settings as project
-// properties named `golem.build.<script>.<name>`, looked up with findProperty, so they can be set either
-// as `extra["golem.build..."] = value` in the buildscript BEFORE the apply line or in gradle.properties.
+// Parameters. Every shared build-layer script under GeoCore/gradle/mod reads its settings as project
+// properties named `geocore.build.<script>.<name>`, looked up with findProperty, so they can be set either
+// as `extra["geocore.build..."] = value` in the buildscript BEFORE the apply line or in gradle.properties.
 //
-//   golem.build.runToolchain.clientFlags  Gradle property name to JVM system property name, as a Map or as
+//   geocore.build.runToolchain.clientFlags  Gradle property name to JVM system property name, as a Map or as
 //                                         a comma-separated String of `gradleName=systemName` pairs. Each
 //                                         flag given as `-P<gradle name>` or `-D<system name>` is forwarded
 //                                         to runClient as `-D<system name>` (a blank value becomes "true").
@@ -40,7 +40,7 @@ fun Project.pinRunsToToolchain(javaVersion: Int) {
     val launcher = toolchains.launcherFor { languageVersion.set(JavaLanguageVersion.of(javaVersion)) }
     // Gradle JVM properties are not inherited by the Minecraft process. Keep each opt-in neutral so
     // `-D<system name>=true` and `-P<gradle name>=true` reach only the client run that consumes it.
-    val clientFlagNames: Map<String, String> = when (val value = findProperty("golem.build.runToolchain.clientFlags")) {
+    val clientFlagNames: Map<String, String> = when (val value = findProperty("geocore.build.runToolchain.clientFlags")) {
         null -> emptyMap()
         is Map<*, *> -> value.entries.associate { it.key.toString() to it.value.toString() }
         else -> value.toString().split(',').map { it.trim() }.filter { it.isNotEmpty() }

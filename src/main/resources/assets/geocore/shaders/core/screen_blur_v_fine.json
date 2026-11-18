@@ -1,0 +1,7 @@
+{
+  "vertex": "geocore:screen_fullscreen",
+  "fragment": "geocore:screen_blur_v_fine",
+  "attributes": ["Position"],
+  "samplers": [{"name": "Sampler0"}],
+  "uniforms": []
+}

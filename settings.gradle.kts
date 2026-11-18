@@ -38,4 +38,4 @@ stonecutter {
     }
 }
 
-rootProject.name = "Golem-Core"
+rootProject.name = "GeoCore"

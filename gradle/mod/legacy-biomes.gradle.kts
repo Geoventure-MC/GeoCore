@@ -1,12 +1,12 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-// Shared by every Golem Core mod. Apply it from each loader buildscript:
+// Shared by every GeoCore mod. Apply it from each loader buildscript:
 //
-//     apply(from = rootProject.file("../Golem-Core/gradle/mod/legacy-biomes.gradle.kts"))
+//     apply(from = rootProject.file("../GeoCore/gradle/mod/legacy-biomes.gradle.kts"))
 //
-// Parameters. Every shared build-layer script under Golem-Core/gradle/mod reads its settings as project
-// properties named `golem.build.<script>.<name>`; this one has none of its own. It reads the node facts the
+// Parameters. Every shared build-layer script under GeoCore/gradle/mod reads its settings as project
+// properties named `geocore.build.<script>.<name>`; this one has none of its own. It reads the node facts the
 // loader buildscript sets as extra properties before applying:
 //   mc_version            the node's Minecraft version (required)
 //   convention_namespace  "forge" on Forge 1.20.1 selects Forge's biome tag spellings; anything else, Fabric's

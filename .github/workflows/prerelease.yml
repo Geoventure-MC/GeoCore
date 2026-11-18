@@ -86,7 +86,7 @@ jobs:
         with:
           tag_name: ${{ steps.jars.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: Golem Core ${{ steps.jars.outputs.version }} build ${{ steps.build.outputs.number }}
+          name: GeoCore ${{ steps.jars.outputs.version }} build ${{ steps.build.outputs.number }}
           prerelease: true
           generate_release_notes: true
           files: dist/*.jar
