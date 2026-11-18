@@ -7,13 +7,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
+/*import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * Compile-only proof that a renderer written once against the GeoCore shape resolves on every supported
@@ -49,10 +49,10 @@ public final class SpikeRenderer implements CompatBER<BlockEntity, SpikeRenderer
         poseStack.mulPose(Axis.YP.rotationDegrees(-state.yaw));
         sink.submitCustomGeometry(poseStack, layer, (pose, buffer) ->
                 //? if >=1.21 {
-                buffer.addVertex(pose, 0F, 0F, 0F).setColor(-1).setUv(0F, 0F).setLight(state.lightCoords).setNormal(pose, 0F, 1F, 0F));
-                //?} else {
-                /*buffer.vertex(pose.pose(), 0F, 0F, 0F).color(-1).uv(0F, 0F).uv2(state.lightCoords).normal(pose.normal(), 0F, 1F, 0F).endVertex());
-                *///?}
+                /*buffer.addVertex(pose, 0F, 0F, 0F).setColor(-1).setUv(0F, 0F).setLight(state.lightCoords).setNormal(pose, 0F, 1F, 0F));
+                *///?} else {
+                buffer.vertex(pose.pose(), 0F, 0F, 0F).color(-1).uv(0F, 0F).uv2(state.lightCoords).normal(pose.normal(), 0F, 1F, 0F).endVertex());
+                //?}
         poseStack.popPose();
 
         // A later-ordered, camera-facing submission — the pattern GEONTM uses for translucent effects
@@ -60,10 +60,10 @@ public final class SpikeRenderer implements CompatBER<BlockEntity, SpikeRenderer
         sink.order(1).submitCustomGeometry(poseStack, layer, (pose, buffer) -> {
             Poses.rotate(pose, Axis.YP.rotationDegrees(-camera.yRot));
             //? if >=1.21 {
-            buffer.addVertex(pose, 0F, 1F, 0F).setColor(-1).setUv(1F, 1F).setLight(state.lightCoords).setNormal(pose, 0F, 1F, 0F);
-            //?} else {
-            /*buffer.vertex(pose.pose(), 0F, 1F, 0F).color(-1).uv(1F, 1F).uv2(state.lightCoords).normal(pose.normal(), 0F, 1F, 0F).endVertex();
-            *///?}
+            /*buffer.addVertex(pose, 0F, 1F, 0F).setColor(-1).setUv(1F, 1F).setLight(state.lightCoords).setNormal(pose, 0F, 1F, 0F);
+            *///?} else {
+            buffer.vertex(pose.pose(), 0F, 1F, 0F).color(-1).uv(1F, 1F).uv2(state.lightCoords).normal(pose.normal(), 0F, 1F, 0F).endVertex();
+            //?}
         });
     }
 
@@ -71,31 +71,31 @@ public final class SpikeRenderer implements CompatBER<BlockEntity, SpikeRenderer
     // The real module will expose these as CompatRenderTypes / Ids.
     private static RenderType entityCutout(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return RenderTypes.entityCutout(texture);
-        //?} else {
-        /*return RenderType.entityCutout(texture);
-        *///?}
+        /*return RenderTypes.entityCutout(texture);
+        *///?} else {
+        return RenderType.entityCutout(texture);
+        //?}
     }
 
     private static
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id(String namespace, String path) {
         //? if >=26.1 {
-        return Ids.of(namespace, path);
-        //?} elif >=1.21 {
+        /*return Ids.of(namespace, path);
+        *///?} elif >=1.21 {
         /*return Ids.of(namespace, path);
         *///?} else {
-        /*return Ids.of(namespace, path);
-        *///?}
+        return Ids.of(namespace, path);
+        //?}
     }
 }

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
  * differs.
  */
 //? if >=26.1 {
-@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteSources.class)
+/*@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteSources.class)
 public interface SpriteSourceTypesAccess {
 
     @Accessor("ID_MAPPER")
@@ -21,8 +21,8 @@ public interface SpriteSourceTypesAccess {
         throw new AssertionError("mixin accessor not applied");
     }
 }
-//?} else {
-/*@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteSources.class)
+*///?} else {
+@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteSources.class)
 public interface SpriteSourceTypesAccess {
 
     @Accessor("TYPES")
@@ -31,4 +31,4 @@ public interface SpriteSourceTypesAccess {
         throw new AssertionError("mixin accessor not applied");
     }
 }
-*///?}
+//?}

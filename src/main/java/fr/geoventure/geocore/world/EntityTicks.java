@@ -16,12 +16,12 @@ public final class EntityTicks {
 
     static {
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.tick.EntityTickEvent.Post event) -> {
                     var entity = event.getEntity();
                     if (entity.level() instanceof ServerLevel) ticked(entity);
                 });
-        //?}
+        *///?}
     }
 
     private EntityTicks() {

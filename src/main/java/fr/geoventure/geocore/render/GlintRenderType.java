@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -11,15 +11,15 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 
 import java.util.function.Function;
-//?} else {
-/*import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+*///?} else {
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.Util;
 
 import java.util.function.Function;
-*///?}
+//?}
 
 /**
  * The item glint over a texture of the caller's choosing, with the caller's own UVs: the glint shader, depth
@@ -43,7 +43,7 @@ public final class GlintRenderType {
     private GlintRenderType() {}
 
     //? if >=26.1 {
-    private static final RenderPipeline ADDITIVE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET,
+    /*private static final RenderPipeline ADDITIVE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET,
                     RenderPipelines.FOG_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
             .withLocation("pipeline/geocore_glint_additive")
             .withVertexShader("core/glint")
@@ -67,8 +67,8 @@ public final class GlintRenderType {
     public static RenderType of(Identifier texture, boolean additive) {
         return (additive ? ADDITIVE_GLINT : GLINT).apply(texture);
     }
-    //?} else {
-    /*/^* {@code create} and the state shards are protected on {@code RenderType}, hence the subclass. ^/
+    *///?} else {
+    /** {@code create} and the state shards are protected on {@code RenderType}, hence the subclass. */
     private static final class Factory extends RenderType {
         private Factory() { super(null, null, null, 0, false, false, null, null); }
 
@@ -92,5 +92,5 @@ public final class GlintRenderType {
     public static RenderType of(ResourceLocation texture, boolean additive) {
         return (additive ? ADDITIVE_GLINT : GLINT).apply(texture);
     }
-    *///?}
+    //?}
 }

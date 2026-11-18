@@ -4,13 +4,13 @@ import net.minecraft.world.level.ClipContext;
 import org.spongepowered.asm.mixin.Mixin;
 
 //? if <1.20.5 {
-/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.At;
-*///?}
+//?}
 
 /**
  * Lets a block raytrace be built without an entity below 1.20.5.
@@ -26,10 +26,10 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinClipContext {
 
     //? if <1.20.5 {
-    /*@WrapOperation(method = "<init>", at = @At(value = "INVOKE",
+    @WrapOperation(method = "<init>", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/phys/shapes/CollisionContext;of(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/phys/shapes/CollisionContext;"))
     private CollisionContext geocore$contextOf(@Nullable Entity entity, Operation<CollisionContext> original) {
         return entity == null ? CollisionContext.empty() : original.call(entity);
     }
-    *///?}
+    //?}
 }

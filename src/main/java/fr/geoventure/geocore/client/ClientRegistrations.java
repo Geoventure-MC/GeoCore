@@ -103,7 +103,7 @@ public final class ClientRegistrations {
     }
 
     //? if neoforge {
-    private static synchronized void hook() {
+    /*private static synchronized void hook() {
         if (hooked) return;
         hooked = true;
         var bus = fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus();
@@ -129,8 +129,8 @@ public final class ClientRegistrations {
             for (Consumer<Renderers> declarations : RENDERERS) declarations.accept(sink);
         });
     }
-    //?} elif forge {
-    /*private static synchronized void hook() {
+    *///?} elif forge {
+    private static synchronized void hook() {
         if (hooked) return;
         hooked = true;
         var bus = fr.geoventure.geocore.platform.ForgeEntrypoint.modBus();
@@ -156,5 +156,5 @@ public final class ClientRegistrations {
             for (Consumer<Renderers> declarations : RENDERERS) declarations.accept(sink);
         });
     }
-    *///?}
+    //?}
 }

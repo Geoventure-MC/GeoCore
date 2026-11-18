@@ -35,10 +35,10 @@ final class HarnessWindow {
 
     static long handle(Minecraft minecraft) {
         //? if >=26.1 {
-        return minecraft.getWindow().handle();
-        //?} else {
-        /*return minecraft.getWindow().getWindow();
-        *///?}
+        /*return minecraft.getWindow().handle();
+        *///?} else {
+        return minecraft.getWindow().getWindow();
+        //?}
     }
 
     static void tick(Minecraft minecraft) {
@@ -46,9 +46,9 @@ final class HarnessWindow {
             applied = true;
             minecraft.options.pauseOnLostFocus = false;
             //? if >=26.1 {
-            // "minimized" would drop the loop to 10 fps for a client that is always minimized.
+            /*// "minimized" would drop the loop to 10 fps for a client that is always minimized.
             minecraft.options.inactivityFpsLimit().set(net.minecraft.client.InactivityFpsLimit.AFK);
-            //?}
+            *///?}
             if (minimize) setMinimized(minecraft, true);
             GeoCore.LOG.info("[harness] window policy applied (minimize={})", minimize);
         }

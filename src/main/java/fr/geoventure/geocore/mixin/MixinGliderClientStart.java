@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class MixinGliderClientStart {
 
     //? if <26.1 && !fabric {
-    /*@com.llamalad7.mixinextras.injector.ModifyExpressionValue(method = "aiStep",
+    @com.llamalad7.mixinextras.injector.ModifyExpressionValue(method = "aiStep",
             at = @org.spongepowered.asm.mixin.injection.At(value = "INVOKE",
                     target = "Lnet/minecraft/world/item/ItemStack;canElytraFly(Lnet/minecraft/world/entity/LivingEntity;)Z"))
     private boolean geocore$canStart(boolean vanilla) {
         return vanilla || fr.geoventure.geocore.world.Gliders.canGlide((LocalPlayer) (Object) this);
     }
-    *///?}
+    //?}
 }

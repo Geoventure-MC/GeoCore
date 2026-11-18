@@ -16,12 +16,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.entity.state.AvatarRenderState;
-//?}
+/*import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+*///?}
 //? if neoforge && >=26.1 {
-import net.neoforged.neoforge.client.event.RenderPlayerEvent;
+/*import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 import net.neoforged.neoforge.common.NeoForge;
-//?}
+*///?}
 
 /** Frame bindings keep player model and layer callbacks attached to the same rendered player. */
 public final class PlayerRenderHooks {
@@ -41,12 +41,12 @@ public final class PlayerRenderHooks {
         if (flightEventsInstalled) return;
         flightEventsInstalled = true;
         //? if neoforge && >=26.1 {
-        NeoForge.EVENT_BUS.addListener((RenderPlayerEvent.Pre<?> event) -> applyFlightState(event.getRenderState()));
-        //?}
+        /*NeoForge.EVENT_BUS.addListener((RenderPlayerEvent.Pre<?> event) -> applyFlightState(event.getRenderState()));
+        *///?}
     }
 
     //? if >=26.1 {
-    public static void applyFlightState(AvatarRenderState state) {
+    /*public static void applyFlightState(AvatarRenderState state) {
         var player = playerForState(state);
         if (player != null && FLIGHT_POSES.invoker().test(player)) {
             state.isFallFlying = true;
@@ -54,7 +54,7 @@ public final class PlayerRenderHooks {
             state.shouldApplyFlyingYRot = false;
         }
     }
-    //?}
+    *///?}
 
     public static void applyFlightRotation(Player player, PoseStack pose) {
         if (FLIGHT_POSES.invoker().test(player))
@@ -78,8 +78,8 @@ public final class PlayerRenderHooks {
         if (player == null) return;
         // 26.1's setupAnim locks the head at -45 degrees for a fall-flying state; older nodes only get the root rotation
         //? if <26.1 {
-        /*if (FLIGHT_POSES.invoker().test(player)) model.head.xRot = -(float) Math.PI / 4F;
-        *///?}
+        if (FLIGHT_POSES.invoker().test(player)) model.head.xRot = -(float) Math.PI / 4F;
+        //?}
         if (!MODEL.isEmpty()) {
             HumanoidPose parts = new HumanoidPose(model, player.isCrouching(),
                     player.isBaby(), player.isInvisible(), player);
@@ -88,8 +88,8 @@ public final class PlayerRenderHooks {
         // Below 26.1 the hat is a sibling, not a child of the head. PlayerModel copies the other
         // skin layers after HumanoidModel.setupAnim returns.
         //? if <26.1 {
-        /*model.hat.copyFrom(model.head);
-        *///?}
+        model.hat.copyFrom(model.head);
+        //?}
     }
     // Render states are frame-scoped. Weak keys cover skipped renderer paths without pinning a player or
     // a frame indefinitely, while allowing every attached GEONTM layer to read the same player binding.

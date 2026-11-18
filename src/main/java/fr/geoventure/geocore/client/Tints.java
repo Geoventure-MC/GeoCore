@@ -1,11 +1,11 @@
 package fr.geoventure.geocore.client;
 
 //? if neoforge {
-import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
-//?}
+/*import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
+*///?}
 //? if neoforge && >=26.1 {
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-//?}
+/*import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+*///?}
 
 import fr.geoventure.geocore.GeoCore;
 import fr.geoventure.geocore.Ids;
@@ -17,15 +17,15 @@ import com.google.gson.JsonParseException;
 import java.io.IOException;
 import net.minecraft.world.item.ItemStack;
 //? if >=26.1 {
-import com.mojang.serialization.MapCodec;
+/*import com.mojang.serialization.MapCodec;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
-//?}
+*///?}
 
 //? if <26.1 {
-/*import com.google.gson.JsonArray;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -41,7 +41,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-*///?}
+//?}
 
 /**
  * Item and block tints through native declarations and legacy color callbacks.
@@ -56,20 +56,20 @@ public final class Tints {
     public static final int UNTINTED = 0xFFFFFF;
 
     //? if <26.1 {
-    /*/^* Full alpha. Pre-26.1 item tints are ARGB and a zero alpha erases the item entirely. ^/
+    /** Full alpha. Pre-26.1 item tints are ARGB and a zero alpha erases the item entirely. */
     private static final int OPAQUE = 0xFF000000;
 
-    /^* What vanilla's own ItemColors returns for an untinted quad: opaque white. ^/
+    /** What vanilla's own ItemColors returns for an untinted quad: opaque white. */
     private static final int NO_TINT = -1;
 
-    /^*
+    /**
      * One entry of an item definition's `tints` array.
      *
      * <p>A constant carries a finished ARGB value and is returned verbatim. A custom-model-data tint
      * reads a colour the stack carries, falling back to the declared default; that colour is RGB in
      * both eras, so full alpha is added. {@code colorIndex} picks the colour: index 0 is the one
      * {@code ModelData.setColor} stores, higher indices come from {@code ModelData.setColors}.
-     ^/
+     */
     private record Tint(boolean constant, int value, int colorIndex, int defaultColor, ToIntFunction<ItemStack> source) {
 
         int resolve(ItemStack stack) {
@@ -78,11 +78,11 @@ public final class Tints {
         }
     }
 
-    /^* Item id -> its tints, by tint index. Rebuilt on every resource reload. ^/
+    /** Item id -> its tints, by tint index. Rebuilt on every resource reload. */
     private static Map<ResourceLocation, Function<ItemStack, List<Tint>>> tints = Map.of();
-    /^* One reload listener reads every namespace's declarations, however many namespaces install. ^/
+    /** One reload listener reads every namespace's declarations, however many namespaces install. */
     private static boolean reloading;
-    *///?}
+    //?}
 
     /**
      * Applies 26.1 tint behaviour to every item in {@code namespace}. Call from client init, on every
@@ -91,7 +91,7 @@ public final class Tints {
      */
     public static void install(String namespace) {
         //? if <26.1 {
-        /*ItemColor color = (stack, tintIndex) -> {
+        ItemColor color = (stack, tintIndex) -> {
             var selector = tints.get(BuiltInRegistries.ITEM.getKey(stack.getItem()));
             var declared = selector == null ? List.<Tint>of() : selector.apply(stack);
             // Past the end of the declared array, or on an item that declares none, vanilla's own
@@ -101,7 +101,7 @@ public final class Tints {
         };
 
         //? if fabric {
-        /^// Fabric's registry takes items now. The client initializer runs after the main one, so the
+        /*// Fabric's registry takes items now. The client initializer runs after the main one, so the
         // mod's items are already in BuiltInRegistries by this point.
         List<Item> items = itemsIn(namespace);
         for (Item item : items) {
@@ -125,8 +125,8 @@ public final class Tints {
                         Tints.reload(resources);
                     }
                 });
-        ^///?} elif neoforge {
-        // NeoForge takes item colours through a mod-bus event, and this runs during mod construction:
+        *///?} elif neoforge {
+        /*// NeoForge takes item colours through a mod-bus event, and this runs during mod construction:
         // long before deferred registration has put anything in BuiltInRegistries. Collecting the items
         // here would silently find none, so the lookup happens inside the listener, by which time the
         // registries are populated and frozen.
@@ -143,8 +143,8 @@ public final class Tints {
                 (net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent event) ->
                         event.registerReloadListener(
                                 (net.minecraft.server.packs.resources.ResourceManagerReloadListener) Tints::reload));
-        //?} elif forge {
-        /^fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        *///?} elif forge {
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) -> {
                     List<Item> items = itemsIn(namespace);
                     if (!items.isEmpty()) event.register(color, items.toArray(new Item[0]));
@@ -157,8 +157,8 @@ public final class Tints {
                 (net.minecraftforge.client.event.RegisterClientReloadListenersEvent event) ->
                         event.registerReloadListener(
                                 (net.minecraft.server.packs.resources.ResourceManagerReloadListener) Tints::reload));
-        ^///?}
-        *///?}
+        //?}
+        //?}
     }
 
     /** The same item tint source resolves native declarations and selected legacy model leaves. */
@@ -167,19 +167,19 @@ public final class Tints {
             throw new IllegalArgumentException("Item tint source already registered: " + namespace + ":" + name);
         }
         //? if >=26.1 {
-        var source = new CallbackTint(color);
+        /*var source = new CallbackTint(color);
         //? if fabric {
-        /*ItemTintSources.ID_MAPPER.put(Ids.of(namespace, name), source.type());
-        *///?} elif neoforge {
-        NeoForgeEntrypoint.modBus().addListener(
+        /^ItemTintSources.ID_MAPPER.put(Ids.of(namespace, name), source.type());
+        ^///?} elif neoforge {
+        /^NeoForgeEntrypoint.modBus().addListener(
                 (RegisterColorHandlersEvent.ItemTintSources event) ->
                         event.register(Ids.of(namespace, name), source.type()));
-        //?}
-        //?}
+        ^///?}
+        *///?}
     }
 
     //? if >=26.1 {
-    private static final class CallbackTint implements ItemTintSource {
+    /*private static final class CallbackTint implements ItemTintSource {
         private final ToIntFunction<ItemStack> color;
         private final MapCodec<CallbackTint> codec;
 
@@ -194,7 +194,7 @@ public final class Tints {
 
         @Override public MapCodec<CallbackTint> type() { return codec; }
     }
-    //?}
+    *///?}
 
     /**
      * Registers a {@link BlockTint} for the given blocks, on whichever colour API this node has.
@@ -217,7 +217,7 @@ public final class Tints {
                     new net.minecraft.world.level.block.Block[blocks.length];
             for (int i = 0; i < blocks.length; i++) resolved[i] = blocks[i].get();
             //? if >=26.1 {
-            colors.register(java.util.List.of(new net.minecraft.client.color.block.BlockTintSource() {
+            /*colors.register(java.util.List.of(new net.minecraft.client.color.block.BlockTintSource() {
                 @Override
                 public int color(net.minecraft.world.level.block.state.BlockState state) {
                     return tint.color(state);
@@ -235,10 +235,10 @@ public final class Tints {
                     return tint.relevantProperties();
                 }
             }), resolved);
-            //?} else {
-            /*colors.register((state, level, pos, tintIndex) -> level == null || pos == null ? tint.color(state)
+            *///?} else {
+            colors.register((state, level, pos, tintIndex) -> level == null || pos == null ? tint.color(state)
                     : tint.colorInWorld(state, level, pos), resolved);
-            *///?}
+            //?}
             GeoCore.LOG.info("Block tint installed for {} block(s)", resolved.length);
         });
     }
@@ -258,7 +258,7 @@ public final class Tints {
                     new net.minecraft.world.level.block.Block[blocks.length];
             for (int i = 0; i < blocks.length; i++) resolved[i] = blocks[i].get();
             //? if >=26.1 {
-            java.util.List<net.minecraft.client.color.block.BlockTintSource> sources = new java.util.ArrayList<>();
+            /*java.util.List<net.minecraft.client.color.block.BlockTintSource> sources = new java.util.ArrayList<>();
             for (BlockTint tint : tints) {
                 sources.add(new net.minecraft.client.color.block.BlockTintSource() {
                     @Override
@@ -280,11 +280,11 @@ public final class Tints {
                 });
             }
             colors.register(sources, resolved);
-            //?} else {
-            /*colors.register((state, level, pos, tintIndex) -> tintIndex < 0 || tintIndex >= tints.size() ? -1
+            *///?} else {
+            colors.register((state, level, pos, tintIndex) -> tintIndex < 0 || tintIndex >= tints.size() ? -1
                     : level == null || pos == null ? tints.get(tintIndex).color(state)
                     : tints.get(tintIndex).colorInWorld(state, level, pos), resolved);
-            *///?}
+            //?}
             GeoCore.LOG.info("Indexed block tints ({}) installed for {} block(s)", tints.size(), resolved.length);
         });
     }
@@ -301,16 +301,16 @@ public final class Tints {
         /*net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents.CLIENT_STARTED.register(
                 client -> action.run());
         *///?} elif neoforge {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) -> event.enqueueWork(action));
-        //?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        *///?} elif forge {
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) -> event.enqueueWork(action));
-        *///?}
+        //?}
     }
 
     //? if <26.1 {
-    /*/^* Reparses every item definition's tint declarations. ^/
+    /** Reparses every item definition's tint declarations. */
     private static void reload(ResourceManager resources) {
         var built = new HashMap<ResourceLocation, Function<ItemStack, List<Tint>>>();
         var definitions = new HashMap<ResourceLocation, JsonObject>();
@@ -397,7 +397,7 @@ public final class Tints {
         return items;
     }
 
-    /^* A tint that never got installed is indistinguishable from a white texture, so say either way. ^/
+    /** A tint that never got installed is indistinguishable from a white texture, so say either way. */
     private static void report(String namespace, int count) {
         if (count == 0) {
             GeoCore.LOG.warn("Tint emulation found no {} items to cover", namespace);
@@ -405,5 +405,5 @@ public final class Tints {
             GeoCore.LOG.info("Tint emulation installed for {} {} item(s)", count, namespace);
         }
     }
-    *///?}
+    //?}
 }

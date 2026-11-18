@@ -22,12 +22,12 @@ public class CompatMeleeAttackGoal extends MeleeAttackGoal {
     }
 
     //? if >=1.21 {
-    @Override
+    /*@Override
     protected boolean canPerformAttack(LivingEntity target) {
         return isTimeToAttack() && inReach(target) && mob.getSensing().hasLineOfSight(target);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected void checkAndPerformAttack(LivingEntity target, double distanceSqr) {
         if (inReach(target) && isTimeToAttack()) {
             resetAttackCooldown();
@@ -35,5 +35,5 @@ public class CompatMeleeAttackGoal extends MeleeAttackGoal {
             mob.doHurtTarget(target);
         }
     }
-    *///?}
+    //?}
 }

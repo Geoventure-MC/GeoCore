@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.computer;
 
 //? if computercraft && forge {
-/*import dan200.computercraft.api.ForgeComputerCraftAPI;
+import dan200.computercraft.api.ForgeComputerCraftAPI;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import java.util.ArrayList;
@@ -44,4 +44,4 @@ final class ForgePeripherals {
         return null;
     }
 }
-*///?}
+//?}

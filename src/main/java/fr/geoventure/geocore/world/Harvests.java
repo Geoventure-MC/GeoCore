@@ -75,17 +75,17 @@ public final class Harvests {
     public static void afterBreak(ServerLevel level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity,
                                   @Nullable Entity breaker, ItemStack tool) {
         //? if neoforge {
-        state.spawnAfterBreak(level, pos, tool, false);
+        /*state.spawnAfterBreak(level, pos, tool, false);
         int xp = net.minecraft.world.item.enchantment.EnchantmentHelper.processBlockExperience(level, tool,
                 state.getExpDrop(level, pos, blockEntity, breaker, tool));
         if (xp > 0) state.getBlock().popExperience(level, pos, xp);
-        //?} elif forge {
-        /*state.spawnAfterBreak(level, pos, tool, false);
+        *///?} elif forge {
+        state.spawnAfterBreak(level, pos, tool, false);
         int fortune = tool.getEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.BLOCK_FORTUNE);
         int silk = tool.getEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.SILK_TOUCH);
         int xp = state.getExpDrop(level, level.random, pos, fortune, silk);
         if (xp > 0) state.getBlock().popExperience(level, pos, xp);
-        *///?} else {
+        //?} else {
         /*state.spawnAfterBreak(level, pos, tool, true);
         *///?}
     }
@@ -99,24 +99,24 @@ public final class Harvests {
                 || state.getBlock() instanceof GameMasterBlock && !player.canUseGameMasterBlocks();
 
         //? if neoforge && >=26.1 {
-        net.neoforged.neoforge.event.level.block.BreakBlockEvent event =
+        /*net.neoforged.neoforge.event.level.block.BreakBlockEvent event =
                 new net.neoforged.neoforge.event.level.block.BreakBlockEvent(level, pos, state, player);
         event.setCanceled(restricted);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(event);
         return !event.isCanceled();
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*net.neoforged.neoforge.event.level.BlockEvent.BreakEvent event =
                 new net.neoforged.neoforge.event.level.BlockEvent.BreakEvent(level, pos, state, player);
         event.setCanceled(restricted);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(event);
         return !event.isCanceled();
         *///?} elif forge {
-        /*net.minecraftforge.event.level.BlockEvent.BreakEvent event =
+        net.minecraftforge.event.level.BlockEvent.BreakEvent event =
                 new net.minecraftforge.event.level.BlockEvent.BreakEvent(level, pos, state, player);
         event.setCanceled(restricted);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
         return !event.isCanceled();
-        *///?} else {
+        //?} else {
         /*if (restricted) return false;
         return net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.invoker()
                 .beforeBlockBreak(level, player, pos, state, level.getBlockEntity(pos));
@@ -125,11 +125,11 @@ public final class Harvests {
 
     private static void notifyToolBroken(ServerPlayer player, ItemStack tool, InteractionHand hand) {
         //? if neoforge {
-        net.neoforged.neoforge.event.EventHooks.onPlayerDestroyItem(player, tool, hand);
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+        /*net.neoforged.neoforge.event.EventHooks.onPlayerDestroyItem(player, tool, hand);
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
                 new net.minecraftforge.event.entity.player.PlayerDestroyItemEvent(player, tool, hand));
-        *///?} else {
+        //?} else {
          //?}
     }
 }

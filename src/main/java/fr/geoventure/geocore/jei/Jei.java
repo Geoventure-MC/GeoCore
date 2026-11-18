@@ -59,10 +59,10 @@ public final class Jei {
      * for the same thing; the rename came with no behavioural change.
      */
     //? if >=26.1 {
-    public static final RecipeIngredientRole CRAFTING_STATION = RecipeIngredientRole.CRAFTING_STATION;
-    //?} else {
-    /*public static final RecipeIngredientRole CRAFTING_STATION = RecipeIngredientRole.CATALYST;
-    *///?}
+    /*public static final RecipeIngredientRole CRAFTING_STATION = RecipeIngredientRole.CRAFTING_STATION;
+    *///?} else {
+    public static final RecipeIngredientRole CRAFTING_STATION = RecipeIngredientRole.CATALYST;
+    //?}
 
     /**
      * Declares the block(s) that perform a recipe type. 29.x calls this {@code addCraftingStation};
@@ -71,12 +71,12 @@ public final class Jei {
     public static void addCraftingStation(IRecipeCatalystRegistration registration, JeiRecipeType<?> type,
                                           ItemStack... stations) {
         //? if >=26.1 {
-        registration.addCraftingStation(type.unwrap(), stations);
-        //?} else {
-        /*// 19.x takes the item first and the types as varargs, and accepts an ItemLike rather than a
+        /*registration.addCraftingStation(type.unwrap(), stations);
+        *///?} else {
+        // 19.x takes the item first and the types as varargs, and accepts an ItemLike rather than a
         // stack. Every catalyst here is a plain machine block, so the item alone carries all of it.
         for (ItemStack station : stations) registration.addRecipeCatalyst(station.getItem(), type.unwrap());
-        *///?}
+        //?}
     }
 
     /**
@@ -86,16 +86,16 @@ public final class Jei {
      */
     public static void addCraftingStation(IRecipeCatalystRegistration registration,
             //? if >=26.1 {
-            mezz.jei.api.recipe.types.IRecipeType<?> type,
-            //?} else {
-            /*mezz.jei.api.recipe.RecipeType<?> type,
-            *///?}
+            /*mezz.jei.api.recipe.types.IRecipeType<?> type,
+            *///?} else {
+            mezz.jei.api.recipe.RecipeType<?> type,
+            //?}
             ItemStack... stations) {
         //? if >=26.1 {
-        registration.addCraftingStation(type, stations);
-        //?} else {
-        /*for (ItemStack station : stations) registration.addRecipeCatalyst(station.getItem(), type);
-        *///?}
+        /*registration.addCraftingStation(type, stations);
+        *///?} else {
+        for (ItemStack station : stations) registration.addRecipeCatalyst(station.getItem(), type);
+        //?}
     }
 
     /** Adds the recipes of one type. Identical on both lines once the type is unwrapped. */
@@ -150,7 +150,7 @@ public final class Jei {
             JeiRecipeType<R> type, int[] recipeSlotIndices, int inventorySlotStart, int inventorySlotCount,
             Predicate<R> canHandle) {
         //? if >=26.1 {
-        registration.addRecipeTransferHandler(new mezz.jei.api.recipe.transfer.IRecipeTransferInfo<C, R>() {
+        /*registration.addRecipeTransferHandler(new mezz.jei.api.recipe.transfer.IRecipeTransferInfo<C, R>() {
             @Override public Class<? extends C> getContainerClass() { return containerClass; }
             @Override public Optional<MenuType<C>> getMenuType() { return Optional.of(menuType); }
             @Override public mezz.jei.api.recipe.types.IRecipeType<R> getRecipeType() { return type.unwrap(); }
@@ -165,8 +165,8 @@ public final class Jei {
                         inventorySlotStart + inventorySlotCount));
             }
         });
-        //?} else {
-        /*registration.addRecipeTransferHandler(new mezz.jei.api.recipe.transfer.IRecipeTransferInfo<C, R>() {
+        *///?} else {
+        registration.addRecipeTransferHandler(new mezz.jei.api.recipe.transfer.IRecipeTransferInfo<C, R>() {
             @Override public Class<? extends C> getContainerClass() { return containerClass; }
             @Override public Optional<MenuType<C>> getMenuType() { return Optional.of(menuType); }
             @Override public mezz.jei.api.recipe.RecipeType<R> getRecipeType() { return type.unwrap(); }
@@ -181,7 +181,7 @@ public final class Jei {
                         inventorySlotStart + inventorySlotCount));
             }
         });
-        *///?}
+        //?}
     }
 
     /** Registers a transfer button that runs a {@link TransferAction} on the container screen. */
@@ -194,10 +194,10 @@ public final class Jei {
             @Override public Class<? extends C> getContainerClass() { return containerClass; }
             @Override public Optional<MenuType<C>> getMenuType() { return Optional.of(menuType); }
             //? if >=26.1 {
-            @Override public mezz.jei.api.recipe.types.IRecipeType<R> getRecipeType() { return type.unwrap(); }
-            //?} else {
-            /*@Override public mezz.jei.api.recipe.RecipeType<R> getRecipeType() { return type.unwrap(); }
-            *///?}
+            /*@Override public mezz.jei.api.recipe.types.IRecipeType<R> getRecipeType() { return type.unwrap(); }
+            *///?} else {
+            @Override public mezz.jei.api.recipe.RecipeType<R> getRecipeType() { return type.unwrap(); }
+            //?}
             @Override
             public IRecipeTransferError transferRecipe(C menu, R recipe, IRecipeSlotsView slots, Player player,
                                                        boolean maxTransfer, boolean doTransfer) {
@@ -221,12 +221,12 @@ public final class Jei {
                                                       fr.geoventure.geocore.data.GeoCoreComponent<?>... components) {
         if (components.length == 0) return;
         //? if >=26.1 {
-        registration.registerFromDataComponentTypes(item,
+        /*registration.registerFromDataComponentTypes(item,
                 java.util.Arrays.stream(components)
                         .map(fr.geoventure.geocore.data.GeoCoreComponent::type)
                         .toArray(net.minecraft.core.component.DataComponentType[]::new));
-        //?} else {
-        /*registration.registerSubtypeInterpreter(item, (stack, context) -> {
+        *///?} else {
+        registration.registerSubtypeInterpreter(item, (stack, context) -> {
             StringBuilder subtype = new StringBuilder();
             for (fr.geoventure.geocore.data.GeoCoreComponent<?> component : components) {
                 Object value = component.get(stack).orElse(null);
@@ -234,7 +234,7 @@ public final class Jei {
             }
             return subtype.toString();
         });
-        *///?}
+        //?}
     }
 
     /** {@code Subtypes.listed}: recipe lookups use {@link UidContext#Recipe}, which sees no subtype. */
@@ -292,7 +292,7 @@ public final class Jei {
     public static List<Map.Entry<ItemStack, ItemStack>> smeltingRecipes(IJeiRuntime runtime) {
         List<Map.Entry<ItemStack, ItemStack>> out = new ArrayList<>();
         //? if >=26.1 {
-        runtime.getRecipeManager().createRecipeLookup(mezz.jei.api.constants.RecipeTypes.SMELTING).get().forEach(holder -> {
+        /*runtime.getRecipeManager().createRecipeLookup(mezz.jei.api.constants.RecipeTypes.SMELTING).get().forEach(holder -> {
             var recipe = holder.value();
             recipe.input().items().forEach(item -> {
                 ItemStack in = new ItemStack(item);
@@ -300,7 +300,7 @@ public final class Jei {
                 if (!result.isEmpty()) out.add(Map.entry(in, result));
             });
         });
-        //?} elif >=1.21.1 {
+        *///?} elif >=1.21.1 {
         /*var registries = net.minecraft.client.Minecraft.getInstance().level.registryAccess();
         runtime.getRecipeManager().createRecipeLookup(mezz.jei.api.constants.RecipeTypes.SMELTING).get().forEach(holder -> {
             var recipe = holder.value();
@@ -310,14 +310,14 @@ public final class Jei {
             for (ItemStack in : recipe.getIngredients().get(0).getItems()) out.add(Map.entry(in.copyWithCount(1), result.copy()));
         });
         *///?} else {
-        /*var registries = net.minecraft.client.Minecraft.getInstance().level.registryAccess();
+        var registries = net.minecraft.client.Minecraft.getInstance().level.registryAccess();
         runtime.getRecipeManager().createRecipeLookup(mezz.jei.api.constants.RecipeTypes.SMELTING).get().forEach(recipe -> {
             if (recipe.getIngredients().isEmpty()) return;
             ItemStack result = recipe.getResultItem(registries);
             if (result.isEmpty()) return;
             for (ItemStack in : recipe.getIngredients().get(0).getItems()) out.add(Map.entry(in.copyWithCount(1), result.copy()));
         });
-        *///?}
+        //?}
         return out;
     }
 }

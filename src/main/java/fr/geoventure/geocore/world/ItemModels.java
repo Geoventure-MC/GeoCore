@@ -12,14 +12,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
- *///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+ //?}
 //? if >=1.20.5 {
-import fr.geoventure.geocore.registry.ComponentPatches;
+/*import fr.geoventure.geocore.registry.ComponentPatches;
 import net.minecraft.core.component.DataComponents;
-//?}
+*///?}
 
 /** Item-definition aliases retain lazy handles until the registry and client models are available. */
 public final class ItemModels {
@@ -28,10 +28,10 @@ public final class ItemModels {
 
     private static final List<Alias> ALIASES = new CopyOnWriteArrayList<>();
     //? if >=26.1 {
-    private static volatile Map<Item, Identifier> resolved;
-    //?} else {
-    /*private static volatile Map<Item, ResourceLocation> resolved;
-     *///?}
+    /*private static volatile Map<Item, Identifier> resolved;
+    *///?} else {
+    private static volatile Map<Item, ResourceLocation> resolved;
+     //?}
 
     private ItemModels() {
     }
@@ -40,24 +40,24 @@ public final class ItemModels {
         ALIASES.add(new Alias(item, namespace, path));
         resolved = null;
         //? if >=1.21.2 {
-        ComponentPatches.add(item, components -> components.set(DataComponents.ITEM_MODEL, Ids.of(namespace, path)));
-        //?}
+        /*ComponentPatches.add(item, components -> components.set(DataComponents.ITEM_MODEL, Ids.of(namespace, path)));
+        *///?}
     }
 
     public static
         //? if >=26.1 {
-    Identifier
-    //?} else {
-    /*ResourceLocation
-     *///?}
+    /*Identifier
+    *///?} else {
+    ResourceLocation
+     //?}
     id(Item item) {
         var models = resolved;
         if (models == null) {
             //? if >=26.1 {
-            var built = new IdentityHashMap<Item, Identifier>();
-            //?} else {
-            /*var built = new IdentityHashMap<Item, ResourceLocation>();
-             *///?}
+            /*var built = new IdentityHashMap<Item, Identifier>();
+            *///?} else {
+            var built = new IdentityHashMap<Item, ResourceLocation>();
+             //?}
             for (var alias : ALIASES) built.put(alias.item().get().asItem(), Ids.of(alias.namespace(), alias.path()));
             models = built;
             resolved = models;

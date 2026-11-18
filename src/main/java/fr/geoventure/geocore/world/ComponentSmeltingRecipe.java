@@ -18,18 +18,18 @@ public final class ComponentSmeltingRecipe extends SmeltingRecipe {
     protected ComponentSmeltingRecipe(String namespace, String path, ComponentIngredient ingredient, ItemStackSpec result,
                                       float experience, int cookingTime) {
         //? if >=26.1 {
-        super(new net.minecraft.world.item.crafting.Recipe.CommonInfo(true),
+        /*super(new net.minecraft.world.item.crafting.Recipe.CommonInfo(true),
                 new net.minecraft.world.item.crafting.AbstractCookingRecipe.CookingBookInfo(
                         net.minecraft.world.item.crafting.CookingBookCategory.MISC, ""),
                 ingredient.displayIngredient(), result.template(), experience, cookingTime);
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*super("", net.minecraft.world.item.crafting.CookingBookCategory.MISC,
                 ingredient.displayIngredient(), result.create(), experience, cookingTime);
         *///?} else {
-        /*super(new net.minecraft.resources.ResourceLocation(namespace, path), "",
+        super(new net.minecraft.resources.ResourceLocation(namespace, path), "",
                 net.minecraft.world.item.crafting.CookingBookCategory.MISC,
                 ingredient.displayIngredient(), result.create(), experience, cookingTime);
-        *///?}
+        //?}
         this.componentIngredient = ingredient;
         this.resultSpec = result;
     }
@@ -39,28 +39,28 @@ public final class ComponentSmeltingRecipe extends SmeltingRecipe {
     }
 
     //? if >=26.1 {
-    public net.minecraft.world.item.ItemStackTemplate resultTemplate() {
+    /*public net.minecraft.world.item.ItemStackTemplate resultTemplate() {
         return resultSpec.template();
     }
-    //?} else {
-    /*public ItemStack result() {
+    *///?} else {
+    public ItemStack result() {
         return resultSpec.create();
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public boolean matches(net.minecraft.world.item.crafting.SingleRecipeInput input, Level level) {
         return componentIngredient.test(input.item());
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean matches(net.minecraft.world.Container input, Level level) {
         // A furnace passes its own three-slot container, so the size cannot be required to be 1; like vanilla's
         // SmeltingRecipe, only slot 0 is the input. (Requiring 1 made the recipe match nothing in a real furnace.)
         return input.getContainerSize() >= 1 && componentIngredient.test(input.getItem(0));
     }
-    *///?}
+    //?}
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})

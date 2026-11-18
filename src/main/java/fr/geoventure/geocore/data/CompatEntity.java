@@ -7,15 +7,15 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.Nullable;
 
 //? if >=1.21.1 {
-import net.minecraft.network.syncher.SynchedEntityData;
-//?}
+/*import net.minecraft.network.syncher.SynchedEntityData;
+*///?}
 
 //? if >=26.1 {
-import net.minecraft.world.level.storage.ValueInput;
+/*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-//?} else {
-/*import net.minecraft.nbt.CompoundTag;
-*///?}
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+//?}
 
 /**
  * Entity counterpart to {@link CompatBlockEntity}.
@@ -46,39 +46,39 @@ public abstract class CompatEntity extends Entity {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public boolean canBeCollidedWith(@Nullable Entity other) {
         return isSolidTo(other);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean canBeCollidedWith() {
         return isSolidTo(null);
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public final boolean ignoreExplosion(net.minecraft.world.level.Explosion explosion) {
         return shouldIgnoreExplosion();
     }
-    //?}
+    *///?}
 
     //? if <1.21 {
-    /*// Entity.getRandom (public on every entity from 1.20.5): this entity's own random, backported so callers outside
+    // Entity.getRandom (public on every entity from 1.20.5): this entity's own random, backported so callers outside
     // the subclass can spell it the modern way.
     public net.minecraft.util.RandomSource getRandom() {
         return this.random;
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*// 26.1 Entity.isInvulnerableToBase: the vanilla invulnerability answer, backported so a subclass can
+    // 26.1 Entity.isInvulnerableToBase: the vanilla invulnerability answer, backported so a subclass can
     // spell it the 26.1 way on every node.
     protected final boolean isInvulnerableToBase(net.minecraft.world.damagesource.DamageSource source) {
         return super.isInvulnerableTo(source);
     }
-    *///?}
+    //?}
 
     /** Reads this entity's persisted state. */
     protected void loadData(DataIn in) {}
@@ -89,37 +89,37 @@ public abstract class CompatEntity extends Entity {
     /** Matches PrimedTnt: portal handling is part of its tick from 1.21.1 onward, not in 1.20.1. */
     protected final void compatHandlePortal() {
         //? if >=1.21.1 {
-        handlePortal();
-        //?}
+        /*handlePortal();
+        *///?}
     }
 
     /** Applies the legacy water push hook where the target entity API still exposes it. */
     protected final void compatUpdateInWaterStateAndDoFluidPushing() {
         //? if >=26.1 {
-        updateFluidInteraction();
-        //?} else {
-        /*
+        /*updateFluidInteraction();
+        *///?} else {
+        
         updateInWaterStateAndDoFluidPushing();
-        *///?}
+        //?}
     }
 
     /** Defines synchronized entity data. Called during entity construction. */
     protected void defineData(SynchedData data) {}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     protected final void defineSynchedData(SynchedEntityData.Builder builder) {
         defineData(builder::define);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected final void defineSynchedData() {
         defineData(entityData::define);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void readAdditionalSaveData(ValueInput input) {
         loadData(new ValueDataIn(input));
     }
@@ -128,8 +128,8 @@ public abstract class CompatEntity extends Entity {
     protected void addAdditionalSaveData(ValueOutput output) {
         saveData(new ValueDataOut(output));
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         loadData(new TagDataIn(tag, level().registryAccess()));
     }
@@ -138,7 +138,7 @@ public abstract class CompatEntity extends Entity {
     protected void addAdditionalSaveData(CompoundTag tag) {
         saveData(new TagDataOut(tag, level().registryAccess()));
     }
-    *///?}
+    //?}
 
     /**
      * Handles damage. Override instead of vanilla's hook, whose name and parameters differ by version:
@@ -155,17 +155,17 @@ public abstract class CompatEntity extends Entity {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public final boolean hurtServer(net.minecraft.server.level.ServerLevel level,
                                     net.minecraft.world.damagesource.DamageSource source, float amount) {
         return onHurt(source, amount);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public final boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
         return onHurt(source, amount);
     }
-    *///?}
+    //?}
 
     /**
      * Handles a player right-clicking this entity. 26.1 passes the hit position; older versions do not.
@@ -178,19 +178,19 @@ public abstract class CompatEntity extends Entity {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public final net.minecraft.world.InteractionResult interact(net.minecraft.world.entity.player.Player player,
                                                                 net.minecraft.world.InteractionHand hand,
                                                                 net.minecraft.world.phys.Vec3 hitPosition) {
         return onInteract(player, hand);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public final net.minecraft.world.InteractionResult interact(net.minecraft.world.entity.player.Player player,
                                                                 net.minecraft.world.InteractionHand hand) {
         return onInteract(player, hand);
     }
-    *///?}
+    //?}
 
     /**
      * Client interpolation for this entity, or null for none (vanilla's default for a plain entity). An
@@ -202,12 +202,12 @@ public abstract class CompatEntity extends Entity {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public final net.minecraft.world.entity.@org.jspecify.annotations.Nullable InterpolationHandler getInterpolation() {
         fr.geoventure.geocore.world.EntityInterpolation interpolation = interpolation();
         return interpolation == null ? null : interpolation.handler();
     }
-    //?} elif >=1.21.1 {
+    *///?} elif >=1.21.1 {
     /*@Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
         fr.geoventure.geocore.world.EntityInterpolation interpolation = interpolation();
@@ -215,25 +215,25 @@ public abstract class CompatEntity extends Entity {
         else interpolation.interpolateTo(new net.minecraft.world.phys.Vec3(x, y, z), yRot, xRot);
     }
     *///?} else {
-    /*@Override
+    @Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps, boolean teleport) {
         fr.geoventure.geocore.world.EntityInterpolation interpolation = interpolation();
         if (interpolation == null) super.lerpTo(x, y, z, yRot, xRot, steps, teleport);
         else interpolation.interpolateTo(new net.minecraft.world.phys.Vec3(x, y, z), yRot, xRot);
     }
-    *///?}
+    //?}
 
     /** 26.1 {@code applyEffectsFromBlocks}; {@code checkInsideBlocks} before 1.21.2 (protected there, hence the facade). */
     protected final void compatApplyEffectsFromBlocks() {
         //? if >=26.1 {
-        applyEffectsFromBlocks();
-        //?} else {
-        /*checkInsideBlocks();
-        *///?}
+        /*applyEffectsFromBlocks();
+        *///?} else {
+        checkInsideBlocks();
+        //?}
     }
 
     //? if <26.1 {
-    /*public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.item.ItemStack stack) {
+    public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.item.ItemStack stack) {
         return super.spawnAtLocation(stack);
     }
 
@@ -244,5 +244,5 @@ public abstract class CompatEntity extends Entity {
     public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.level.ItemLike item) {
         return super.spawnAtLocation(item);
     }
-    *///?}
+    //?}
 }

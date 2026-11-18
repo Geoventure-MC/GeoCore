@@ -14,10 +14,10 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinLevelDaylight {
 
     //? if >=26.1 {
-    @ModifyReturnValue(method = "isBrightOutside", at = @At("RETURN"))
-    //?} else {
-    /*@ModifyReturnValue(method = "isDay", at = @At("RETURN"))
-    *///?}
+    /*@ModifyReturnValue(method = "isBrightOutside", at = @At("RETURN"))
+    *///?} else {
+    @ModifyReturnValue(method = "isDay", at = @At("RETURN"))
+    //?}
     private boolean geocore$daylightQuery(boolean bright) {
         return Skies.brightOutside((Level) (Object) this, bright);
     }

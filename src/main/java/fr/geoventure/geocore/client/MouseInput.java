@@ -24,14 +24,14 @@ public final class MouseInput {
         // Fabric has no world-input event. MixinMouseInput invokes fireButton from the tail of the
         // raw mouse callback, after mappings update but before Minecraft handles buffered clicks.
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.InputEvent.MouseButton.Post event) ->
                         fireButton(event.getButton(), event.getAction() == org.lwjgl.glfw.GLFW.GLFW_PRESS));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.InputEvent.MouseButton.Post event) ->
                         fireButton(event.getButton(), event.getAction() == org.lwjgl.glfw.GLFW.GLFW_PRESS));
-        *///?}
+        //?}
     }
 
     /** Whether a physical mouse button is held, independent of any drained vanilla mapping. */
@@ -39,10 +39,10 @@ public final class MouseInput {
         if (button < 0) return false;
         if (HarnessHooks.mouseHeld(button)) return true;
         //? if >=26.1 {
-        long window = net.minecraft.client.Minecraft.getInstance().getWindow().handle();
-        //?} else {
-        /*long window = net.minecraft.client.Minecraft.getInstance().getWindow().getWindow();
-        *///?}
+        /*long window = net.minecraft.client.Minecraft.getInstance().getWindow().handle();
+        *///?} else {
+        long window = net.minecraft.client.Minecraft.getInstance().getWindow().getWindow();
+        //?}
         return org.lwjgl.glfw.GLFW.glfwGetMouseButton(window, button) == org.lwjgl.glfw.GLFW.GLFW_PRESS;
     }
 

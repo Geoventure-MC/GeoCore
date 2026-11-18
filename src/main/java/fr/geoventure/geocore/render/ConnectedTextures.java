@@ -96,10 +96,10 @@ public final class ConnectedTextures {
         for (Pending pending : PENDING) SPECS.put(pending.block().get(), pending.spec());
         PENDING.clear();
         //? if >=26.1 {
-        QUADS26.clear();
-        //?} else {
-        /*LEGACY_QUADS.clear();
-        *///?}
+        /*QUADS26.clear();
+        *///?} else {
+        LEGACY_QUADS.clear();
+        //?}
     }
 
     /** How many blocks are registered, and how many block-state models were wrapped at the last bake. */
@@ -374,7 +374,7 @@ public final class ConnectedTextures {
 
     // 26.1: shared BlockStateModel part
     //? if >=26.1 {
-    private static final QuadCache<net.minecraft.client.resources.model.geometry.BakedQuad> QUADS26 = new QuadCache<>(
+    /*private static final QuadCache<net.minecraft.client.resources.model.geometry.BakedQuad> QUADS26 = new QuadCache<>(
             (quarter, sprite, face) -> {
                 float[][] p = quarter.positions();
                 float[][] uv = quarter.uvs();
@@ -391,22 +391,22 @@ public final class ConnectedTextures {
                         quarter.face(), material);
             });
 
-    /** The material of the base model's face, carried into the quarters (layer, tint, shade); set while building. */
+    /^* The material of the base model's face, carried into the quarters (layer, tint, shade); set while building. ^/
     private static final ThreadLocal<net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo> TEMPLATE =
             new ThreadLocal<>();
 
     private static net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo withSprite(
             net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo t, TextureAtlasSprite sprite) {
         //? if neoforge {
-        return new net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo(sprite, t.layer(),
+        /^return new net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo(sprite, t.layer(),
                 t.itemRenderType(), t.tintIndex(), t.shade(), t.lightEmission(), t.ambientOcclusion());
-        //?} else {
-        /*return new net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo(sprite, t.layer(),
+        ^///?} else {
+        return new net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo(sprite, t.layer(),
                 t.itemRenderType(), t.tintIndex(), t.shade(), t.lightEmission());
-        *///?}
+        //?}
     }
 
-    /** The world-aware part: the 24 quarters under their faces (culled like the faces they replace). */
+    /^* The world-aware part: the 24 quarters under their faces (culled like the faces they replace). ^/
     static final class Part26 implements net.minecraft.client.renderer.block.dispatch.BlockStateModelPart {
         private final net.minecraft.client.renderer.block.dispatch.BlockStateModelPart base;
         private final List<net.minecraft.client.resources.model.geometry.BakedQuad>[] byFace;
@@ -439,7 +439,7 @@ public final class ConnectedTextures {
         }
     }
 
-    /** The base part of a wrapped model and the world-aware part replacing it, or null if the model is not CT. */
+    /^* The base part of a wrapped model and the world-aware part replacing it, or null if the model is not CT. ^/
     static net.minecraft.client.renderer.block.dispatch.BlockStateModelPart part26(
             net.minecraft.client.renderer.block.dispatch.BlockStateModel model, BlockGetter level, BlockPos pos,
             BlockState state, net.minecraft.util.RandomSource random) {
@@ -456,11 +456,11 @@ public final class ConnectedTextures {
             TEMPLATE.remove();
         }
     }
-    //?}
+    *///?}
 
     // 26.1 NeoForge
     //? if >=26.1 && neoforge {
-    static final class Model26 extends net.neoforged.neoforge.client.model.DelegateBlockStateModel
+    /*static final class Model26 extends net.neoforged.neoforge.client.model.DelegateBlockStateModel
             implements net.neoforged.neoforge.client.model.DynamicBlockStateModel {
 
         Model26(net.minecraft.client.renderer.block.dispatch.BlockStateModel delegate) {
@@ -501,7 +501,7 @@ public final class ConnectedTextures {
                     wrapped = count;
                 });
     }
-    //?}
+    *///?}
 
     // 26.1 Fabric
     //? if >=26.1 && fabric {
@@ -554,7 +554,7 @@ public final class ConnectedTextures {
 
     // legacy: shared quads
     //? if <26.1 {
-    /*private static final QuadCache<net.minecraft.client.renderer.block.model.BakedQuad> LEGACY_QUADS = new QuadCache<>(
+    private static final QuadCache<net.minecraft.client.renderer.block.model.BakedQuad> LEGACY_QUADS = new QuadCache<>(
             (quarter, sprite, face) -> new net.minecraft.client.renderer.block.model.BakedQuad(legacyVertices(quarter), -1,
                     quarter.face(), sprite, true));
 
@@ -562,7 +562,7 @@ public final class ConnectedTextures {
         return modelIds(SPECS.keySet());
     }
 
-    /^* The model locations of every state of {@code blocks}, as the legacy baking events key them. ^/
+    /** The model locations of every state of {@code blocks}, as the legacy baking events key them. */
     static java.util.Set<Object> modelIds(java.util.Collection<Block> blocks) {
         java.util.Set<Object> ids = new java.util.HashSet<>();
         for (Block block : blocks) {
@@ -572,7 +572,7 @@ public final class ConnectedTextures {
         }
         return ids;
     }
-    *///?}
+    //?}
 
     // 1.21.1 NeoForge / 1.20.1 Forge: ModelData
     //? if neoforge && <26.1 {
@@ -625,7 +625,7 @@ public final class ConnectedTextures {
     *///?}
 
     //? if forge {
-    /*private static final net.minecraftforge.client.model.data.ModelProperty<int[]> TYPES =
+    private static final net.minecraftforge.client.model.data.ModelProperty<int[]> TYPES =
             new net.minecraftforge.client.model.data.ModelProperty<>();
 
     static final class LegacyModel extends net.minecraftforge.client.model.BakedModelWrapper<net.minecraft.client.resources.model.BakedModel> {
@@ -671,7 +671,7 @@ public final class ConnectedTextures {
                     wrapped = count;
                 });
     }
-    *///?}
+    //?}
 
     // 1.20.1 / 1.21.1 Fabric: FabricBakedModel
     //? if fabric && <26.1 {

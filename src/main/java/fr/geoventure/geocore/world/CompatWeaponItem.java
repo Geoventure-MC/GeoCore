@@ -13,27 +13,27 @@ import net.minecraft.world.entity.EquipmentSlot;
 public class CompatWeaponItem extends CompatItem {
 
     //? if <1.21.1 {
-    /*private final float legacyDamage;
+    private final float legacyDamage;
     private final float legacySpeed;
-    *///?}
+    //?}
 
     public CompatWeaponItem(Properties properties, float attackDamage, float attackSpeed) {
         //? if >=1.21.1 {
-        super(properties.attributes(Tools.attributes(attackDamage, attackSpeed, 0.0D)));
-        //?} else {
-        /*super(properties);
+        /*super(properties.attributes(Tools.attributes(attackDamage, attackSpeed, 0.0D)));
+        *///?} else {
+        super(properties);
         this.legacyDamage = attackDamage;
         this.legacySpeed = attackSpeed;
-        *///?}
+        //?}
     }
 
     //? if <1.21.1 {
-    /*@Override
+    @Override
     public com.google.common.collect.Multimap<net.minecraft.world.entity.ai.attributes.Attribute,
             net.minecraft.world.entity.ai.attributes.AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
         return slot == EquipmentSlot.MAINHAND
                 ? Tools.legacyAttributes(BASE_ATTACK_DAMAGE_UUID, BASE_ATTACK_SPEED_UUID, legacyDamage, legacySpeed, 0.0D)
                 : super.getDefaultAttributeModifiers(slot);
     }
-    *///?}
+    //?}
 }

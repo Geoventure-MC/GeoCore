@@ -19,16 +19,16 @@ public final class Renderers {
 
     public static <T extends BlockEntity, S extends CompatRenderState>
             //? if >=26.1 {
-            BlockEntityRendererProvider<T, S>
-            //?} else {
-            /*BlockEntityRendererProvider<T>
-            *///?}
+            /*BlockEntityRendererProvider<T, S>
+            *///?} else {
+            BlockEntityRendererProvider<T>
+            //?}
             toVanilla(CompatBERProvider<T, S> provider) {
         //? if >=26.1 {
-        return provider::create;
-        //?} else {
-        /*return context -> new LegacyBERAdapter<>(provider.create(context));
-        *///?}
+        /*return provider::create;
+        *///?} else {
+        return context -> new LegacyBERAdapter<>(provider.create(context));
+        //?}
     }
 
     /**
@@ -41,9 +41,9 @@ public final class Renderers {
      */
     public static int lightAt(Level level, BlockPos pos) {
         //? if >=26.1 {
-        return net.minecraft.client.renderer.LevelRenderer.getLightCoords((net.minecraft.world.level.BlockAndLightGetter) level, pos);
-        //?} else {
-        /*return net.minecraft.client.renderer.LevelRenderer.getLightColor((net.minecraft.world.level.BlockAndTintGetter) level, pos);
-        *///?}
+        /*return net.minecraft.client.renderer.LevelRenderer.getLightCoords((net.minecraft.world.level.BlockAndLightGetter) level, pos);
+        *///?} else {
+        return net.minecraft.client.renderer.LevelRenderer.getLightColor((net.minecraft.world.level.BlockAndTintGetter) level, pos);
+        //?}
     }
 }

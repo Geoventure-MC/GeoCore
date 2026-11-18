@@ -5,14 +5,14 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.monster.blaze.BlazeModel;
 import net.minecraft.client.model.monster.silverfish.SilverfishModel;
-//?} else {
-/*import net.minecraft.client.model.BlazeModel;
+*///?} else {
+import net.minecraft.client.model.BlazeModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.SilverfishModel;
-*///?}
+//?}
 
 /**
  * The model a {@link CompatMobRenderer} draws, as an opaque handle.
@@ -28,18 +28,18 @@ import net.minecraft.client.model.SilverfishModel;
 public final class LivingModel<S extends CompatLivingRenderState> {
 
     //? if >=26.1 {
-    final EntityModel<? super S> model;
-    //?} else {
-    /*final EntityModel model;
-    *///?}
+    /*final EntityModel<? super S> model;
+    *///?} else {
+    final EntityModel model;
+    //?}
     final @Nullable CompatEntityModel<S> compat;
 
     private LivingModel(
             //? if >=26.1 {
-            EntityModel<? super S>
-            //?} else {
-            /*EntityModel
-            *///?}
+            /*EntityModel<? super S>
+            *///?} else {
+            EntityModel
+            //?}
             model, @Nullable CompatEntityModel<S> compat) {
         this.model = model;
         this.compat = compat;

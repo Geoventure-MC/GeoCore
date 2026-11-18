@@ -14,18 +14,18 @@ import org.spongepowered.asm.mixin.Shadow;
  * either way.
  */
 //? if >=1.20.2 {
-@Mixin(net.minecraft.server.network.ServerCommonPacketListenerImpl.class)
+/*@Mixin(net.minecraft.server.network.ServerCommonPacketListenerImpl.class)
 public abstract class MixinPacketListenerConnection implements ChannelAccess.HasConnection {
 
     @Shadow
     protected Connection connection;
-//?} else {
-/*@Mixin(net.minecraft.server.network.ServerGamePacketListenerImpl.class)
+*///?} else {
+@Mixin(net.minecraft.server.network.ServerGamePacketListenerImpl.class)
 public abstract class MixinPacketListenerConnection implements ChannelAccess.HasConnection {
 
     @Shadow
     private Connection connection;
-*///?}
+//?}
 
     @Override
     public Connection geocore$connection() {

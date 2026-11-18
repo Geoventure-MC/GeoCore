@@ -50,16 +50,16 @@ public final class Lifecycle {
         net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents.AFTER_RESPAWN.register(
                 (oldPlayer, newPlayer, alive) -> entityLoaded(newPlayer, (ServerLevel) newPlayer.level()));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.EntityJoinLevelEvent event) -> {
                     if (event.getLevel() instanceof ServerLevel level) entityLoaded(event.getEntity(), level);
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.EntityJoinLevelEvent event) -> {
                     if (event.getLevel() instanceof ServerLevel level) entityLoaded(event.getEntity(), level);
                 });
-        *///?}
+        //?}
     }
 
     private static void entityLoaded(net.minecraft.world.entity.Entity entity, ServerLevel level) {
@@ -83,14 +83,14 @@ public final class Lifecycle {
         //? if fabric {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(handler::accept);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.tick.ServerTickEvent.Post event) -> handler.accept(event.getServer()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.TickEvent.ServerTickEvent event) -> {
                     if (event.phase == net.minecraftforge.event.TickEvent.Phase.END) handler.accept(event.getServer());
                 });
-        *///?}
+        //?}
     }
 
     /** Runs when a level is unloaded, before its chunks are gone. */
@@ -100,16 +100,16 @@ public final class Lifecycle {
         *///?} elif fabric {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents.UNLOAD.register(handler::accept);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.level.LevelEvent.Unload event) -> {
                     if (event.getLevel() instanceof ServerLevel level) handler.accept(level.getServer(), level);
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.level.LevelEvent.Unload event) -> {
                     if (event.getLevel() instanceof ServerLevel level) handler.accept(level.getServer(), level);
                 });
-        *///?}
+        //?}
     }
 
     /** Runs when a chunk finishes loading on the server. */
@@ -124,20 +124,20 @@ public final class Lifecycle {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_LOAD
                 .register((level, chunk) -> handler.accept(level, chunk));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.level.ChunkEvent.Load event) -> {
                     if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk chunk) {
                         handler.accept(level, chunk);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.level.ChunkEvent.Load event) -> {
                     if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk chunk) {
                         handler.accept(level, chunk);
                     }
                 });
-        *///?}
+        //?}
     }
 
     /** Runs when a chunk is unloaded on the server. */
@@ -146,20 +146,20 @@ public final class Lifecycle {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_UNLOAD
                 .register((level, chunk) -> handler.accept(level, chunk));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.level.ChunkEvent.Unload event) -> {
                     if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk chunk) {
                         handler.accept(level, chunk);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.level.ChunkEvent.Unload event) -> {
                     if (event.getLevel() instanceof ServerLevel level && event.getChunk() instanceof LevelChunk chunk) {
                         handler.accept(level, chunk);
                     }
                 });
-        *///?}
+        //?}
     }
     //? if fabric {
     /*/^* The Fabric COPY_FROM phase edge is added once, however many handlers register. ^/
@@ -187,22 +187,22 @@ public final class Lifecycle {
         }
         event.register(fr.geoventure.geocore.Ids.of(fr.geoventure.geocore.GeoCore.MOD_ID, "player_copy"), handler::copy);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.player.PlayerEvent.Clone event) -> {
                     if (event.getOriginal() instanceof net.minecraft.server.level.ServerPlayer old
                             && event.getEntity() instanceof net.minecraft.server.level.ServerPlayer copy) {
                         handler.copy(old, copy, !event.isWasDeath());
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.PlayerEvent.Clone event) -> {
                     if (event.getOriginal() instanceof net.minecraft.server.level.ServerPlayer old
                             && event.getEntity() instanceof net.minecraft.server.level.ServerPlayer copy) {
                         handler.copy(old, copy, !event.isWasDeath());
                     }
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -223,16 +223,16 @@ public final class Lifecycle {
         /*net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register(
                 (listener, sender, server) -> playerJoined(listener.getPlayer()));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) -> {
                     if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player) playerJoined(player);
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent event) -> {
                     if (event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player) playerJoined(player);
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -270,15 +270,15 @@ public final class Lifecycle {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(
                 (player, joined) -> handler.accept(((ServerLevel) player.level()).getServer(), java.util.List.of(player)));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.OnDatapackSyncEvent event) -> handler.accept(
                         event.getPlayerList().getServer(), event.getRelevantPlayers().toList()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.OnDatapackSyncEvent event) -> handler.accept(
                         event.getPlayerList().getServer(),
                         event.getPlayer() != null ? java.util.List.of(event.getPlayer()) : event.getPlayerList().getPlayers()));
-        *///?}
+        //?}
     }
 
     /**
@@ -298,21 +298,21 @@ public final class Lifecycle {
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(
                 (server, resources, success) -> handler.accept(server));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,
                 (net.neoforged.neoforge.event.server.ServerAboutToStartEvent event) -> handler.accept(event.getServer()));
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.HIGHEST,
                 (net.neoforged.neoforge.event.OnDatapackSyncEvent event) -> {
                     // A null player is the /reload broadcast; a joining player sees the set already handled.
                     if (event.getPlayer() == null) handler.accept(event.getPlayerList().getServer());
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.HIGHEST,
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.HIGHEST,
                 (net.minecraftforge.event.server.ServerAboutToStartEvent event) -> handler.accept(event.getServer()));
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.HIGHEST,
                 (net.minecraftforge.event.OnDatapackSyncEvent event) -> {
                     if (event.getPlayer() == null) handler.accept(event.getPlayerList().getServer());
                 });
-        *///?}
+        //?}
     }
 
     /** Runs as the server begins starting, before any level or block entity is loaded. */
@@ -320,12 +320,12 @@ public final class Lifecycle {
         //? if fabric {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTING.register(handler::accept);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.server.ServerAboutToStartEvent event) -> handler.accept(event.getServer()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.server.ServerAboutToStartEvent event) -> handler.accept(event.getServer()));
-        *///?}
+        //?}
     }
 
     /** Runs once the server has finished starting, every level loaded. */
@@ -333,12 +333,12 @@ public final class Lifecycle {
         //? if fabric {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTED.register(handler::accept);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.server.ServerStartedEvent event) -> handler.accept(event.getServer()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.server.ServerStartedEvent event) -> handler.accept(event.getServer()));
-        *///?}
+        //?}
     }
 
     /** Runs when the server begins stopping, before levels are saved and unloaded. */
@@ -346,11 +346,11 @@ public final class Lifecycle {
         //? if fabric {
         /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPING.register(handler::accept);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.server.ServerStoppingEvent event) -> handler.accept(event.getServer()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.server.ServerStoppingEvent event) -> handler.accept(event.getServer()));
-        *///?}
+        //?}
     }
 }

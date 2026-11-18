@@ -30,10 +30,10 @@ public final class Explosions {
     /** One native callback context whose identity survives allocation and block processing. */
     public abstract static class Context
             //? if >=26.1 {
-            implements Explosion
-            //?} else {
-            /*extends Explosion
-            *///?}
+            /*implements Explosion
+            *///?} else {
+            extends Explosion
+            //?}
     {
         protected Context(Level level, @Nullable Entity source, double x, double y, double z, float radius) {
             //? if >=1.21 && <26.1 {
@@ -41,9 +41,9 @@ public final class Explosions {
                     x, y, z, radius, false, BlockInteraction.DESTROY_WITH_DECAY,
                     ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);
             *///?} elif <1.21 {
-            /*super(level, source, level.damageSources().explosion(source, sourceOwner(source)), null,
+            super(level, source, level.damageSources().explosion(source, sourceOwner(source)), null,
                     x, y, z, radius, false, BlockInteraction.DESTROY_WITH_DECAY);
-            *///?}
+            //?}
         }
 
         public abstract ServerLevel level();
@@ -78,18 +78,18 @@ public final class Explosions {
         }
 
         //? if <26.1 {
-        /*@Override
+        @Override
         public final boolean interactsWithBlocks() {
             return getBlockInteraction() != BlockInteraction.KEEP;
         }
-        *///?}
+        //?}
 
         //? if <1.21 {
-        /*@Override
+        @Override
         public final DamageSource getDamageSource() {
             return level().damageSources().explosion(getDirectSourceEntity(), getIndirectSourceEntity());
         }
-        *///?}
+        //?}
     }
 
     /** {@link Level#explode} without fire, with 1.7 damage. */
@@ -121,10 +121,10 @@ public final class Explosions {
             return;
         }
         //? if >=1.21.1 {
-        DamageSource damage = owner == null ? null : level.damageSources().explosion(source, owner);
+        /*DamageSource damage = owner == null ? null : level.damageSources().explosion(source, owner);
         level.explode(source, damage, new LegacyDamage(server, source, responsible), x, y, z, radius, fire, interaction);
-        //?} else {
-        /*Guarded guard = Protection.active() ? new Guarded(server, source, responsible) : null;
+        *///?} else {
+        Guarded guard = Protection.active() ? new Guarded(server, source, responsible) : null;
         java.util.List<Hit> hits = new java.util.ArrayList<>();
         // No damage hook here: vanilla hurts with the 7 factor and opens the invulnerability window, and a second
         // hurt with the 8 factor deals the difference.
@@ -161,7 +161,7 @@ public final class Explosions {
         for (Hit hit : hits) {
             if (hit.entity.isAlive() && hit.entity.invulnerableTime > 10) Compat.hurt(hit.entity, server, damage, hit.damage);
         }
-        *///?}
+        //?}
     }
 
     /** Vetoes block destruction and entity damage that {@link Protection} providers deny. */
@@ -187,16 +187,16 @@ public final class Explosions {
         }
 
         //? if >=1.21 {
-        @Override
+        /*@Override
         public boolean shouldDamageEntity(Explosion explosion, Entity entity) {
             return mayHarm(entity);
         }
-        //?}
+        *///?}
     }
 
     // 1.20.1's calculator cannot refuse entity damage, so a guarded blast cancels the attack instead.
     //? if <1.21 {
-    /*private static final ThreadLocal<Guarded> BLASTING = new ThreadLocal<>();
+    private static final ThreadLocal<Guarded> BLASTING = new ThreadLocal<>();
 
     static {
         DamageEvents.onAttack(event -> {
@@ -205,26 +205,26 @@ public final class Explosions {
                     && !guard.mayHarm(event.entity())) event.cancel();
         });
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
-    private static final class LegacyDamage extends Guarded {
+    /*private static final class LegacyDamage extends Guarded {
         LegacyDamage(Level level, @Nullable Entity source, Protection.@Nullable Source responsible) {
             super(level, source, responsible);
         }
 
         // One hurt carries the final 1.7 damage.
         //? if >=26.1 {
-        @Override
+        /^@Override
         public float getEntityDamageAmount(Explosion explosion, Entity entity, float seen) {
             return legacyAmount(explosion, entity, seen);
         }
-        //?} else {
-        /*@Override
+        ^///?} else {
+        @Override
         public float getEntityDamageAmount(Explosion explosion, Entity entity) {
             return legacyAmount(explosion, entity, Explosion.getSeenPercent(explosion.center(), entity));
         }
-        *///?}
+        //?}
 
         private static float legacyAmount(Explosion explosion, Entity entity, float seen) {
             float reach = explosion.radius() * 2.0F;
@@ -233,8 +233,8 @@ public final class Explosions {
             return (int) ((exposed * exposed + exposed) / 2.0D * LEGACY_FACTOR * reach + 1.0D);
         }
     }
-    //?} else {
-    /*
+    *///?} else {
+    
     private static double seenPercent(Level level, net.minecraft.world.phys.Vec3 centre, Entity entity) {
         // The share of the entity box that the blast centre can see, sampled like vanilla.
         net.minecraft.world.phys.AABB box = entity.getBoundingBox();
@@ -261,5 +261,5 @@ public final class Explosions {
     }
 
     private record Hit(LivingEntity entity, float damage) {}
-    *///?}
+    //?}
 }

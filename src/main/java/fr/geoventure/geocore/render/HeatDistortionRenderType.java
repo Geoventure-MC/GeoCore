@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.ColorTargetState;
+/*import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -19,8 +19,8 @@ import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -29,7 +29,7 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import java.io.IOException;
-*///?}
+//?}
 
 /**
  * Scene-sampling render type for the jetpack heat shimmer.
@@ -61,10 +61,10 @@ public final class HeatDistortionRenderType {
         HeatDistortionRenderType.pipelineId = pipelineId;
         HeatDistortionRenderType.shaderId = shaderId;
         //? if >=26.1 {
-        RenderTypes.clear();
-        //?} else {
-        /*clear();
-        *///?}
+        /*RenderTypes.clear();
+        *///?} else {
+        clear();
+        //?}
         registerReloads();
         resetScene();
     }
@@ -96,7 +96,7 @@ public final class HeatDistortionRenderType {
     private static final double MODERN_TIME_RANGE = 16_384.0D;
 
     //? if >=26.1 {
-    private static final com.mojang.blaze3d.vertex.VertexFormat HEAT_FORMAT =
+    /*private static final com.mojang.blaze3d.vertex.VertexFormat HEAT_FORMAT =
             com.mojang.blaze3d.vertex.VertexFormat.builder()
                     .add("Position", com.mojang.blaze3d.vertex.VertexFormatElement.POSITION)
                     .add("UV0", com.mojang.blaze3d.vertex.VertexFormatElement.UV0)
@@ -110,39 +110,39 @@ public final class HeatDistortionRenderType {
                 * 4_294_967_295.0D);
         return new int[] {(int) encoded, (int) (encoded >>> 16)};
     }
-    //?}
+    *///?}
 
     /** Emits the position/UV/amount vertex used by the shared custom shader. */
     public static void vertex(VertexConsumer buffer, PoseStack.Pose pose, float x, float y, float z,
             float u, float v, float amount, float timeOffset) {
         //? if >=26.1 {
-        int[] encodedTime = encodeModernTime(timeOffset);
+        /*int[] encodedTime = encodeModernTime(timeOffset);
         buffer.addVertex(pose, x, y, z).setUv(u, v)
                 .setColor(amount, 0F, 0F, 1F)
                 .setUv1(encodedTime[0], encodedTime[1]);
-        //?} else if >=1.21 {
+        *///?} else if >=1.21 {
         /*buffer.addVertex(pose, x, y, z).setUv(u, v)
                 .setColor(amount, timeOffset, 0F, 1F);
         *///?} else {
-        /*buffer.vertex(pose.pose(), x, y, z).uv(u, v).color(amount, timeOffset, 0F, 1F).endVertex();
-        *///?}
+        buffer.vertex(pose.pose(), x, y, z).uv(u, v).color(amount, timeOffset, 0F, 1F).endVertex();
+        //?}
     }
 
     private static void resetScene() {
         captureReported = false;
         //? if >=26.1 {
-        SceneTexture.reset();
-        //?} else {
-        /*SceneCopy.reset();
+        /*SceneTexture.reset();
+        *///?} else {
+        SceneCopy.reset();
         if (shader != null) {
             shader.close();
             shader = null;
         }
-        *///?}
+        //?}
     }
 
     //? if >=26.1 {
-    /** The render type is cached by the two mask/noise resources, like vanilla texture render types. */
+    /*/^* The render type is cached by the two mask/noise resources, like vanilla texture render types. ^/
     public static RenderType of(Identifier mask, Identifier noise) {
         require(shaderId, "shader");
         return RenderTypes.of(mask, noise);
@@ -157,7 +157,7 @@ public final class HeatDistortionRenderType {
         reportCapture();
     }
 
-    /** The detached scene copy, shared with {@link SceneWarp} so a pass is captured once. */
+    /^* The detached scene copy, shared with {@link SceneWarp} so a pass is captured once. ^/
     static Identifier sceneTexture() {
         installSceneTexture();
         return SceneTexture.ID;
@@ -232,7 +232,7 @@ public final class HeatDistortionRenderType {
         registerReloads();
     }
 
-    /** An identifier-backed texture whose view is a detached copy of the current main target. */
+    /^* An identifier-backed texture whose view is a detached copy of the current main target. ^/
     private static final class SceneTexture extends AbstractTexture {
         private static final Identifier ID = fr.geoventure.geocore.Ids.of("geocore", "main_render_target");
         private static final SceneTexture INSTANCE = new SceneTexture();
@@ -276,8 +276,8 @@ public final class HeatDistortionRenderType {
             return RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR);
         }
     }
-    //?} else {
-    /*private static final java.util.Map<String, RenderType> TYPES = new java.util.HashMap<>();
+    *///?} else {
+    private static final java.util.Map<String, RenderType> TYPES = new java.util.HashMap<>();
     private static ShaderInstance shader;
     private static boolean reloadRegistered;
 
@@ -294,7 +294,7 @@ public final class HeatDistortionRenderType {
         reportCapture();
     }
 
-    /^* The detached scene copy's GL texture, shared with {@link SceneWarp} so a pass is captured once. ^/
+    /** The detached scene copy's GL texture, shared with {@link SceneWarp} so a pass is captured once. */
     static int sceneTextureId() {
         ensureReloadListener();
         return SceneCopy.textureId();
@@ -429,5 +429,5 @@ public final class HeatDistortionRenderType {
                             .createCompositeState(false));
         }
     }
-    *///?}
+    //?}
 }

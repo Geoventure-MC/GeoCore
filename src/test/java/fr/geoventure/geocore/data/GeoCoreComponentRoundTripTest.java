@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.data;
 
 //? if >=1.21.1 {
-import com.mojang.serialization.Codec;
+/*import com.mojang.serialization.Codec;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-//?}
+*///?}
 
 //? if <1.21.1 {
-/*import net.minecraft.SharedConstants;
+import net.minecraft.SharedConstants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.Bootstrap;
 import net.minecraft.world.item.Items;
@@ -62,10 +62,10 @@ class GeoCoreComponentRoundTripTest {
         assertEquals(Items.STONE, filter.get(owner).orElseThrow().getItem());
     }
 }
-*///?}
+//?}
 
 //? if >=1.21.1 {
-class GeoCoreComponentRoundTripTest {
+/*class GeoCoreComponentRoundTripTest {
 
     @Test
     void persistentComponentsAlsoHaveARegistryAwareNetworkCodec() {
@@ -81,4 +81,4 @@ class GeoCoreComponentRoundTripTest {
         }
     }
 }
-//?}
+*///?}

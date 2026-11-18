@@ -5,8 +5,8 @@ import org.jspecify.annotations.Nullable;
 
 import net.minecraft.client.Minecraft;
 //? if >=26.1 {
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-//?}
+/*import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+*///?}
 
 /**
  * A block entity that is not in the world (one carried by a falling structure, say) prepared for
@@ -19,26 +19,26 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 public final class CompatBlockEntityRenderState {
 
     //? if >=26.1 {
-    @Nullable BlockEntityRenderState delegate;
-    //?} else {
-    /*@Nullable BlockEntity blockEntity;
+    /*@Nullable BlockEntityRenderState delegate;
+    *///?} else {
+    @Nullable BlockEntity blockEntity;
     float partialTicks;
-    *///?}
+    //?}
 
     public boolean isEmpty() {
         //? if >=26.1 {
-        return delegate == null;
-        //?} else {
-        /*return blockEntity == null;
-        *///?}
+        /*return delegate == null;
+        *///?} else {
+        return blockEntity == null;
+        //?}
     }
 
     public void clear() {
         //? if >=26.1 {
-        delegate = null;
-        //?} else {
-        /*blockEntity = null;
-        *///?}
+        /*delegate = null;
+        *///?} else {
+        blockEntity = null;
+        //?}
     }
 
     /** Prepares {@code blockEntity}; a block entity with no registered renderer clears. */
@@ -48,12 +48,12 @@ public final class CompatBlockEntityRenderState {
             return;
         }
         //? if >=26.1 {
-        delegate = Minecraft.getInstance().getBlockEntityRenderDispatcher()
+        /*delegate = Minecraft.getInstance().getBlockEntityRenderDispatcher()
                 .tryExtractRenderState(blockEntity, partialTicks, null);
-        //?} else {
-        /*this.blockEntity = Minecraft.getInstance().getBlockEntityRenderDispatcher().getRenderer(blockEntity) == null
+        *///?} else {
+        this.blockEntity = Minecraft.getInstance().getBlockEntityRenderDispatcher().getRenderer(blockEntity) == null
                 ? null : blockEntity;
         this.partialTicks = partialTicks;
-        *///?}
+        //?}
     }
 }

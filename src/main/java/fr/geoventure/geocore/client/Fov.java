@@ -26,16 +26,16 @@ public final class Fov {
         Fov.modifier = modifier;
 
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.ViewportEvent.ComputeFov event) -> {
                     if (event.usedConfiguredFov()) event.setFOV(apply((float) event.getFOV(), (float) event.getPartialTick()));
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.ViewportEvent.ComputeFov event) -> {
                     if (event.usedConfiguredFov()) event.setFOV(apply((float) event.getFOV(), (float) event.getPartialTick()));
                 });
-        *///?}
+        //?}
     }
 
     private static Modifier multiplier = (held, fov, partialTick) -> fov;
@@ -51,18 +51,18 @@ public final class Fov {
         multiplier = modifier;
 
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.ComputeFovModifierEvent event) -> {
                     if (event.getPlayer() == Minecraft.getInstance().player)
                         event.setNewFovModifier(applyMultiplier(event.getNewFovModifier()));
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.ComputeFovModifierEvent event) -> {
                     if (event.getPlayer() == Minecraft.getInstance().player)
                         event.setNewFovModifier(applyMultiplier(event.getNewFovModifier()));
                 });
-        *///?}
+        //?}
     }
 
     /** Applies {@link #registerMultiplier}'s callback to the local player's FOV multiplier for this tick. */
@@ -86,25 +86,25 @@ public final class Fov {
     public static float current() {
         Minecraft minecraft = Minecraft.getInstance();
         //? if >=26.1 {
-        return minecraft.gameRenderer.getMainCamera().getFov();
-        //?} else {
-        /*if (!recording) {
+        /*return minecraft.gameRenderer.getMainCamera().getFov();
+        *///?} else {
+        if (!recording) {
             recording = true;
             //? if neoforge {
-            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST,
+            /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST,
                     (net.neoforged.neoforge.client.event.ViewportEvent.ComputeFov event) -> {
                         if (event.usedConfiguredFov()) record(event.getFOV());
                     });
-            //?} elif forge {
-            /^net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.LOWEST,
+            *///?} elif forge {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.LOWEST,
                     (net.minecraftforge.client.event.ViewportEvent.ComputeFov event) -> {
                         if (event.usedConfiguredFov()) record(event.getFOV());
                     });
-            ^///?}
+            //?}
         }
         float fov = lastWorldFov;
         return Float.isNaN(fov) ? minecraft.options.fov().get().floatValue() : fov;
-        *///?}
+        //?}
     }
 
     /** Records the level FOV vanilla computed this frame (before 26.1; see {@link #current}). */

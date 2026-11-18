@@ -18,14 +18,14 @@ public interface CompatBonemealableBlock extends BonemealableBlock {
     boolean canBonemeal(LevelReader level, BlockPos pos, BlockState state);
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     default boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
         return canBonemeal(level, pos, state);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     default boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return canBonemeal(level, pos, state);
     }
-    *///?}
+    //?}
 }

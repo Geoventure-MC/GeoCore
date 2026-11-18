@@ -10,8 +10,8 @@ package fr.geoventure.geocore.render.living;
  */
 public class CompatHumanoidRenderState
         //? if >=26.1 {
-        extends net.minecraft.client.renderer.entity.state.ZombieRenderState
-        //?}
+        /*extends net.minecraft.client.renderer.entity.state.ZombieRenderState
+        *///?}
 {
     /** Which of the renderer's bodies and skins this frame wears. */
     public int variant;

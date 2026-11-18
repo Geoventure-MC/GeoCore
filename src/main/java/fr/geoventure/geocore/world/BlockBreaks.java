@@ -55,14 +55,14 @@ public final class BlockBreaks {
         if (hooked) return;
         hooked = true;
         //? if neoforge && >=26.1 {
-        // NeoForge 26.1.2 moved BlockEvent.BreakEvent to level.block.BreakBlockEvent (same members)
+        /*// NeoForge 26.1.2 moved BlockEvent.BreakEvent to level.block.BreakBlockEvent (same members)
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.level.block.BreakBlockEvent event) -> {
                     if (!event.isCanceled() && !before(event.getPlayer(), event.getLevel(), event.getPos(), event.getState())) {
                         event.setCanceled(true);
                     }
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.level.BlockEvent.BreakEvent event) -> {
                     if (!event.isCanceled() && !before(event.getPlayer(), event.getLevel(), event.getPos(), event.getState())) {
@@ -70,13 +70,13 @@ public final class BlockBreaks {
                     }
                 });
         *///?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.level.BlockEvent.BreakEvent event) -> {
                     if (!event.isCanceled() && !before(event.getPlayer(), event.getLevel(), event.getPos(), event.getState())) {
                         event.setCanceled(true);
                     }
                 });
-        *///?} else {
+        //?} else {
         /*net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, blockEntity) -> {
             return before(player, level, pos, state);
         });

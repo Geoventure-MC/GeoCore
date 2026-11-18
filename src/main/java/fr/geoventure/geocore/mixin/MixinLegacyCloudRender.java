@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if <26.1 {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import fr.geoventure.geocore.client.Clouds;
 import fr.geoventure.geocore.render.CloudRendering;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/^*
+/**
  * Vanilla has no extra-cloud stage. Loader replacement callbacks precede the native pass.
  * Widening cannot append a draw, so HEAD retains replacement ownership and RETURN draws additions.
- ^/
+ */
 @Mixin(LevelRenderer.class)
 public abstract class MixinLegacyCloudRender {
 
@@ -24,7 +24,7 @@ public abstract class MixinLegacyCloudRender {
     private ClientLevel level;
     @Shadow private int ticks;
     //? if >=1.21 {
-    @Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
+    /*@Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
     private void geocore$clouds(PoseStack pose, Matrix4f frustum, Matrix4f projection, float partialTick, double camX,
                               double camY, double camZ, CallbackInfo ci) {
         if (!Clouds.nativeVisible(level)) { ci.cancel(); return; }
@@ -43,8 +43,8 @@ public abstract class MixinLegacyCloudRender {
         CloudRendering.renderAdditionsLegacy(pose, frustum, projection, partialTick, camX, camY, camZ,
                 height, level.getCloudColor(partialTick), ticks);
     }
-    //?} else {
-    /^@Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
+    *///?} else {
+    @Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
     private void geocore$clouds(PoseStack pose, Matrix4f projection, float partialTick, double camX, double camY,
                               double camZ, CallbackInfo ci) {
         if (!Clouds.nativeVisible(level)) { ci.cancel(); return; }
@@ -63,11 +63,11 @@ public abstract class MixinLegacyCloudRender {
         CloudRendering.renderAdditionsLegacy(pose, null, projection, partialTick, camX, camY, camZ,
                 height, level.getCloudColor(partialTick), ticks);
     }
-    ^///?}
+    //?}
 }
-*///?} else {
-public final class MixinLegacyCloudRender {
+//?} else {
+/*public final class MixinLegacyCloudRender {
     // Empty on 26.1: MixinCloudRender appends additions; NeoForge replacement uses CustomCloudsRenderer.
     private MixinLegacyCloudRender() {}
 }
-//?}
+*///?}

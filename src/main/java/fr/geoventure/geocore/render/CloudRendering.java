@@ -50,7 +50,7 @@ public final class CloudRendering {
         hooked = true;
         fr.geoventure.geocore.client.ClientResourceReloads.register(Clouds.NAMESPACE, Clouds.PATH, CloudRendering::reload);
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterCustomEnvironmentEffectRendererEvent event) ->
                         event.registerCloudRenderer(fr.geoventure.geocore.Ids.of(Clouds.NAMESPACE, Clouds.PATH),
                                 new net.neoforged.neoforge.client.CustomCloudsRenderer() {
@@ -62,16 +62,16 @@ public final class CloudRendering {
                                         return render(status, range, camera);
                                     }
                                 }));
-        //?}
+        *///?}
     }
 
     /** Whether {@code renderer} is one of GeoCore's own layer renderers (26.1; the vanilla hook must not take them over). */
     public static boolean isLayerRenderer(Object renderer) {
         //? if >=26.1 {
-        return renderer instanceof LayerRenderer;
-        //?} else {
-        /*return false;
-        *///?}
+        /*return renderer instanceof LayerRenderer;
+        *///?} else {
+        return false;
+        //?}
     }
 
     private static volatile boolean reloadPending;
@@ -115,7 +115,7 @@ public final class CloudRendering {
 
     //? if >=26.1 {
 
-    /** A vanilla cloud renderer that loads its own copy of the cloud texture (26.1). */
+    /*/^* A vanilla cloud renderer that loads its own copy of the cloud texture (26.1). ^/
     private static final class LayerRenderer extends net.minecraft.client.renderer.CloudRenderer {
         void load() {
             net.minecraft.server.packs.resources.ResourceManager resources = Minecraft.getInstance().getResourceManager();
@@ -126,10 +126,10 @@ public final class CloudRendering {
 
     private static final List<LayerRenderer> RENDERERS = new ArrayList<>();
 
-    /**
+    /^*
      * 26.1: draws the client level's layers in place of vanilla's clouds. False (vanilla draws) when the level is not
      * registered with {@link Clouds}.
-     */
+     ^/
     public static boolean render(net.minecraft.client.CloudStatus status, int range, net.minecraft.world.phys.Vec3 camera) {
         net.minecraft.client.multiplayer.ClientLevel level = Minecraft.getInstance().level;
         if (!Clouds.replaces(level)) return false;
@@ -138,7 +138,7 @@ public final class CloudRendering {
         return true;
     }
 
-    /** Called after the native renderer, with its actual color, height and clock; no second color transform. */
+    /^* Called after the native renderer, with its actual color, height and clock; no second color transform. ^/
     public static void renderAdditions(int color, CloudStatus status, float bottomY, int range,
                                        Vec3 camera, long gameTime, float partialTick) {
         var level = Minecraft.getInstance().level;
@@ -170,10 +170,10 @@ public final class CloudRendering {
             layersDrawn++;
         }
     }
-    //?} else {
-    /*private static final List<LegacyLayer> LEGACY = new ArrayList<>();
+    *///?} else {
+    private static final List<LegacyLayer> LEGACY = new ArrayList<>();
 
-    /^* One layer's vertex buffer and the values it was built for (vanilla's prevCloudX/Y/Z, colour and setting). ^/
+    /** One layer's vertex buffer and the values it was built for (vanilla's prevCloudX/Y/Z, colour and setting). */
     private static final class LegacyLayer {
         com.mojang.blaze3d.vertex.VertexBuffer buffer;
         int cellX = Integer.MIN_VALUE, cellY = Integer.MIN_VALUE, cellZ = Integer.MIN_VALUE;
@@ -181,15 +181,15 @@ public final class CloudRendering {
         net.minecraft.client.CloudStatus status;
     }
 
-    /^* One vertex of {@code POSITION_TEX_COLOR_NORMAL}. ^/
+    /** One vertex of {@code POSITION_TEX_COLOR_NORMAL}. */
     private interface Sink {
         void vertex(float x, float y, float z, float u, float v, float r, float g, float b, float a, float nx, float ny, float nz);
     }
 
-    /^*
+    /**
      * Before 26.1: draws the client level's layers where vanilla's {@code renderClouds} would draw its clouds, with the
      * same arguments ({@code modelView} is 1.21.1's frustum matrix, null on 1.20.1 where {@code pose} carries it).
-     ^/
+     */
     public static void renderLegacy(com.mojang.blaze3d.vertex.PoseStack pose, org.joml.Matrix4f modelView,
                                     org.joml.Matrix4f projection, float partialTick, double camX, double camY, double camZ) {
         Minecraft mc = Minecraft.getInstance();
@@ -199,7 +199,7 @@ public final class CloudRendering {
         renderLegacyLayers(layers, pose, modelView, projection, camX, camY, camZ);
     }
 
-    /^* Older native clouds use their effects height, level color and renderer tick clock. ^/
+    /** Older native clouds use their effects height, level color and renderer tick clock. */
     public static void renderAdditionsLegacy(PoseStack pose, Matrix4f modelView,
                                              Matrix4f projection, float partialTick, double camX, double camY,
                                              double camZ, float height, Vec3 color, int ticks) {
@@ -242,7 +242,7 @@ public final class CloudRendering {
         net.minecraft.client.CloudStatus status = mc.options.getCloudsType();
         while (LEGACY.size() < layers.size()) LEGACY.add(new LegacyLayer());
         //? if <1.21 {
-        /^com.mojang.blaze3d.systems.RenderSystem.disableCull();
+        com.mojang.blaze3d.systems.RenderSystem.disableCull();
         com.mojang.blaze3d.systems.RenderSystem.enableBlend();
         com.mojang.blaze3d.systems.RenderSystem.enableDepthTest();
         com.mojang.blaze3d.systems.RenderSystem.blendFuncSeparate(
@@ -251,18 +251,18 @@ public final class CloudRendering {
                 com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE,
                 com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         com.mojang.blaze3d.systems.RenderSystem.depthMask(true);
-        ^///?}
+        //?}
         for (int i = 0; i < layers.size(); i++) {
             drawLegacyLayer(LEGACY.get(i), layers.get(i), status, pose, modelView, projection, camX, camY, camZ);
         }
         //? if <1.21 {
-        /^com.mojang.blaze3d.systems.RenderSystem.enableCull();
+        com.mojang.blaze3d.systems.RenderSystem.enableCull();
         com.mojang.blaze3d.systems.RenderSystem.disableBlend();
         com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
-        ^///?}
+        //?}
     }
 
-    /^* Vanilla's {@code renderClouds} body for one layer. ^/
+    /** Vanilla's {@code renderClouds} body for one layer. */
     private static void drawLegacyLayer(LegacyLayer cache, Clouds.Layer layer, net.minecraft.client.CloudStatus status,
                                         com.mojang.blaze3d.vertex.PoseStack pose, org.joml.Matrix4f modelView,
                                         org.joml.Matrix4f projection, double camX, double camY, double camZ) {
@@ -291,15 +291,15 @@ public final class CloudRendering {
             if (cache.buffer != null) cache.buffer.close();
             cache.buffer = new com.mojang.blaze3d.vertex.VertexBuffer(com.mojang.blaze3d.vertex.VertexBuffer.Usage.STATIC);
             //? if >=1.21 {
-            com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().begin(
+            /*com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().begin(
                     com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS,
                     com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
             build((x, y, z, u, v, r, g, b, a, nx, ny, nz) -> builder.addVertex(x, y, z).setUv(u, v).setColor(r, g, b, a)
                     .setNormal(nx, ny, nz), status, d2, d3, d4, layer);
             cache.buffer.bind();
             cache.buffer.upload(builder.buildOrThrow());
-            //?} else {
-            /^com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder();
+            *///?} else {
+            com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder();
             com.mojang.blaze3d.systems.RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionTexColorNormalShader);
             builder.begin(com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS,
                     com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL);
@@ -308,35 +308,35 @@ public final class CloudRendering {
             com.mojang.blaze3d.vertex.BufferBuilder.RenderedBuffer rendered = builder.end();
             cache.buffer.bind();
             cache.buffer.upload(rendered);
-            ^///?}
+            //?}
             com.mojang.blaze3d.vertex.VertexBuffer.unbind();
         }
 
         //? if <1.21 {
-        /^com.mojang.blaze3d.systems.RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionTexColorNormalShader);
+        com.mojang.blaze3d.systems.RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionTexColorNormalShader);
         com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, CLOUDS);
-        ^///?}
+        //?}
         net.minecraft.client.renderer.FogRenderer.levelFogColor();
         pose.pushPose();
         //? if >=1.21 {
-        pose.mulPose(modelView);
-        //?}
+        /*pose.mulPose(modelView);
+        *///?}
         pose.scale(12.0F, 1.0F, 12.0F);
         pose.translate(-f3, f4, -f5);
         cache.buffer.bind();
         int first = cache.status == net.minecraft.client.CloudStatus.FANCY ? 0 : 1;
         for (int pass = first; pass < 2; pass++) {
             //? if >=1.21 {
-            net.minecraft.client.renderer.RenderType type = pass == 0
+            /*net.minecraft.client.renderer.RenderType type = pass == 0
                     ? net.minecraft.client.renderer.RenderType.cloudsDepthOnly() : net.minecraft.client.renderer.RenderType.clouds();
             type.setupRenderState();
             cache.buffer.drawWithShader(pose.last().pose(), projection, com.mojang.blaze3d.systems.RenderSystem.getShader());
             type.clearRenderState();
-            //?} else {
-            /^if (pass == 0) com.mojang.blaze3d.systems.RenderSystem.colorMask(false, false, false, false);
+            *///?} else {
+            if (pass == 0) com.mojang.blaze3d.systems.RenderSystem.colorMask(false, false, false, false);
             else com.mojang.blaze3d.systems.RenderSystem.colorMask(true, true, true, true);
             cache.buffer.drawWithShader(pose.last().pose(), projection, com.mojang.blaze3d.systems.RenderSystem.getShader());
-            ^///?}
+            //?}
         }
         com.mojang.blaze3d.vertex.VertexBuffer.unbind();
         pose.popPose();
@@ -344,14 +344,14 @@ public final class CloudRendering {
     }
 
     //? if <1.21 {
-    /^private static final net.minecraft.resources.ResourceLocation CLOUDS =
+    private static final net.minecraft.resources.ResourceLocation CLOUDS =
             new net.minecraft.resources.ResourceLocation("textures/environment/clouds.png");
-    ^///?}
+    //?}
 
-    /^*
+    /**
      * Vanilla's {@code buildClouds} (the 1.7 geometry, which geontm-space's {@code CloudProviderCelestial} kept for each
      * layer), with the layer's colour and alpha in place of {@code getCloudColor} and 0.8.
-     ^/
+     */
     private static void build(Sink sink, net.minecraft.client.CloudStatus status, double d2, double d3, double d4,
                               Clouds.Layer layer) {
         float f3 = (float) net.minecraft.util.Mth.floor(d2) * 0.00390625F;
@@ -434,5 +434,5 @@ public final class CloudRendering {
             }
         }
     }
-    *///?}
+    //?}
 }

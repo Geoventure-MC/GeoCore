@@ -7,9 +7,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import net.minecraft.client.multiplayer.ClientLevel;
+/*import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
-//?}
+*///?}
 
 /**
  * A block in flight (a falling block, a thrown chunk of a structure), drawn with the world lighting
@@ -23,12 +23,12 @@ import net.minecraft.client.renderer.block.MovingBlockRenderState;
 public final class CompatMovingBlock {
 
     //? if >=26.1 {
-    final MovingBlockRenderState delegate = new MovingBlockRenderState();
-    //?} else {
-    /*@Nullable Level level;
+    /*final MovingBlockRenderState delegate = new MovingBlockRenderState();
+    *///?} else {
+    @Nullable Level level;
     @Nullable BlockPos pos;
     @Nullable BlockPos seedPos;
-    *///?}
+    //?}
 
     private @Nullable BlockState state;
 
@@ -50,7 +50,7 @@ public final class CompatMovingBlock {
     public void extract(Level level, BlockState block, BlockPos pos, BlockPos seedPos) {
         this.state = block;
         //? if >=26.1 {
-        delegate.blockState = block;
+        /*delegate.blockState = block;
         delegate.blockPos = pos;
         delegate.randomSeedPos = seedPos;
         if (level instanceof ClientLevel clientLevel) {
@@ -58,10 +58,10 @@ public final class CompatMovingBlock {
             delegate.cardinalLighting = clientLevel.cardinalLighting();
             delegate.lightEngine = clientLevel.getLightEngine();
         }
-        //?} else {
-        /*this.level = level;
+        *///?} else {
+        this.level = level;
         this.pos = pos;
         this.seedPos = seedPos;
-        *///?}
+        //?}
     }
 }

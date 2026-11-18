@@ -150,22 +150,22 @@ final class FieldJson {
     /** A one-item or one-tag ingredient as this node's vanilla {@code Ingredient} JSON. */
     static JsonElement vanillaIngredient(ItemIn in) {
         //? if >=1.21.2 {
-        return new JsonPrimitive(in.tag() ? "#" + in.id() : in.id());
-        //?} else {
-        /*JsonObject json = new JsonObject();
+        /*return new JsonPrimitive(in.tag() ? "#" + in.id() : in.id());
+        *///?} else {
+        JsonObject json = new JsonObject();
         json.addProperty(in.tag() ? "tag" : "item", in.id());
         return json;
-        *///?}
+        //?}
     }
 
     /** An item stack as this node's vanilla {@code ItemStack} JSON. */
     static JsonObject vanillaStack(String id, int count) {
         JsonObject json = new JsonObject();
         //? if >=1.20.5 {
-        json.addProperty("id", id);
-        //?} else {
-        /*json.addProperty("item", id);
-        *///?}
+        /*json.addProperty("id", id);
+        *///?} else {
+        json.addProperty("item", id);
+        //?}
         json.addProperty("count", count);
         return json;
     }

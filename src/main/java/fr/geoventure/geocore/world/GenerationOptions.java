@@ -15,9 +15,9 @@ public final class GenerationOptions {
     /** The "generate structures" world option (1.7's {@code isMapFeaturesEnabled}). */
     public static boolean structures(MinecraftServer server) {
         //? if >=26.1 {
-        return server.getWorldGenSettings().options().generateStructures();
-        //?} else {
-        /*return server.getWorldData().worldGenOptions().generateStructures();
-        *///?}
+        /*return server.getWorldGenSettings().options().generateStructures();
+        *///?} else {
+        return server.getWorldData().worldGenOptions().generateStructures();
+        //?}
     }
 }

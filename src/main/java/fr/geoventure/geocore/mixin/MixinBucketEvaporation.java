@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinBucketEvaporation {
 
     //? if >=26.1 {
-    @WrapOperation(method = "emptyContents*", at = @At(value = "INVOKE", target =
+    /*@WrapOperation(method = "emptyContents*", at = @At(value = "INVOKE", target =
             "Lnet/minecraft/world/attribute/EnvironmentAttributeSystem;getValue(Lnet/minecraft/world/attribute/EnvironmentAttribute;Lnet/minecraft/core/BlockPos;)Ljava/lang/Object;"))
     private Object geocore$evaporates(net.minecraft.world.attribute.EnvironmentAttributeSystem system,
                                     net.minecraft.world.attribute.EnvironmentAttribute<?> attribute, BlockPos pos,
@@ -44,14 +44,14 @@ public abstract class MixinBucketEvaporation {
         }
         return fr.geoventure.geocore.world.Evaporation.water(level, pos, b);
     }
-    //?} else if forge {
-    /*@WrapOperation(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",
+    *///?} else if forge {
+    @WrapOperation(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;ultraWarm()Z"))
     private boolean geocore$evaporates(net.minecraft.world.level.dimension.DimensionType type, Operation<Boolean> original,
                                      @Local(argsOnly = true) Level level, @Local(argsOnly = true) BlockPos pos) {
         return fr.geoventure.geocore.world.Evaporation.water(level, pos, original.call(type));
     }
-    *///?} else {
+    //?} else {
     /*@WrapOperation(method = "emptyContents*", at = @At(value = "INVOKE", target =
             "Lnet/minecraft/world/level/dimension/DimensionType;ultraWarm()Z"))
     private boolean geocore$evaporates(net.minecraft.world.level.dimension.DimensionType type, Operation<Boolean> original,

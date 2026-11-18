@@ -44,9 +44,9 @@ public final class EntityLoot {
         /*private static final net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType TYPE =
                 new net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType(CODEC);
         *///?} elif <1.20.5 {
-        /*private static final net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType TYPE =
+        private static final net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType TYPE =
                 new net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType(new LootJson<>(CODEC));
-        *///?}
+        //?}
 
         @Override
         public float getFloat(LootContext context) {
@@ -56,16 +56,16 @@ public final class EntityLoot {
         }
 
         //? if >=26.1 {
-        @Override
+        /*@Override
         public MapCodec<? extends NumberProvider> codec() {
             return CODEC;
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType getType() {
             return TYPE;
         }
-        *///?}
+        //?}
     }
 
     /** Registers {@code geocore:looting}; a mod whose tables use it calls this during construction. */
@@ -73,10 +73,10 @@ public final class EntityLoot {
         if (registered) return;
         registered = true;
         //? if >=26.1 {
-        DeferredRegister.create(() -> Registries.LOOT_NUMBER_PROVIDER_TYPE, GeoCore.MOD_ID).register("looting", () -> Looting.CODEC);
-        //?} else {
-        /*DeferredRegister.create(() -> Registries.LOOT_NUMBER_PROVIDER_TYPE, GeoCore.MOD_ID).register("looting", () -> Looting.TYPE);
-        *///?}
+        /*DeferredRegister.create(() -> Registries.LOOT_NUMBER_PROVIDER_TYPE, GeoCore.MOD_ID).register("looting", () -> Looting.CODEC);
+        *///?} else {
+        DeferredRegister.create(() -> Registries.LOOT_NUMBER_PROVIDER_TYPE, GeoCore.MOD_ID).register("looting", () -> Looting.TYPE);
+        //?}
     }
 
     /** Rolls the entity loot table {@code table} for {@code victim} killed by {@code source}, {@code player} credited. */
@@ -87,23 +87,23 @@ public final class EntityLoot {
                 .withParameter(LootContextParams.ORIGIN, victim.position())
                 .withParameter(LootContextParams.DAMAGE_SOURCE, source);
         //? if >=1.20.5 {
-        params.withOptionalParameter(LootContextParams.ATTACKING_ENTITY, source.getEntity())
+        /*params.withOptionalParameter(LootContextParams.ATTACKING_ENTITY, source.getEntity())
                 .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, source.getDirectEntity());
-        //?} else {
-        /*params.withOptionalParameter(LootContextParams.KILLER_ENTITY, source.getEntity())
+        *///?} else {
+        params.withOptionalParameter(LootContextParams.KILLER_ENTITY, source.getEntity())
                 .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, source.getDirectEntity());
-        *///?}
+        //?}
         if (player != null) params.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player).withLuck(player.getLuck());
         return new ArrayList<>(ChestLoot.table(level, table).getRandomItems(params.create(LootContextParamSets.ENTITY)));
     }
 
     private static @Nullable Entity killer(LootContext context) {
         //? if >=26.1 {
-        return context.getOptionalParameter(LootContextParams.ATTACKING_ENTITY);
-        //?} elif >=1.20.5 {
+        /*return context.getOptionalParameter(LootContextParams.ATTACKING_ENTITY);
+        *///?} elif >=1.20.5 {
         /*return context.getParamOrNull(LootContextParams.ATTACKING_ENTITY);
         *///?} else {
-        /*return context.getParamOrNull(LootContextParams.KILLER_ENTITY);
-        *///?}
+        return context.getParamOrNull(LootContextParams.KILLER_ENTITY);
+        //?}
     }
 }

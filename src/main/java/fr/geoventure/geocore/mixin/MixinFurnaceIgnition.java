@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinFurnaceIgnition {
 
     //? if >=26.1 {
-    @WrapOperation(method = "serverTick", at = @At(value = "INVOKE", target =
+    /*@WrapOperation(method = "serverTick", at = @At(value = "INVOKE", target =
             "Lnet/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity;getBurnDuration(Lnet/minecraft/world/level/block/entity/FuelValues;Lnet/minecraft/world/item/ItemStack;)I"))
     private static int geocore$ignition(AbstractFurnaceBlockEntity furnace,
                                       net.minecraft.world.level.block.entity.FuelValues values, ItemStack fuel,
@@ -36,13 +36,13 @@ public abstract class MixinFurnaceIgnition {
                                       @Local(argsOnly = true) BlockPos pos) {
         return fr.geoventure.geocore.world.Furnaces.burnDuration(level, pos, fuel, original.call(furnace, values, fuel));
     }
-    //?} else {
-    /*@WrapOperation(method = "serverTick", at = @At(value = "INVOKE", target =
+    *///?} else {
+    @WrapOperation(method = "serverTick", at = @At(value = "INVOKE", target =
             "Lnet/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity;getBurnDuration(Lnet/minecraft/world/item/ItemStack;)I"))
     private static int geocore$ignition(AbstractFurnaceBlockEntity furnace, ItemStack fuel, Operation<Integer> original,
                                       @Local(argsOnly = true) net.minecraft.world.level.Level level,
                                       @Local(argsOnly = true) BlockPos pos) {
         return fr.geoventure.geocore.world.Furnaces.burnDuration(level, pos, fuel, original.call(furnace, fuel));
     }
-    *///?}
+    //?}
 }

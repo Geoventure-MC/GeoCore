@@ -40,10 +40,10 @@ public final class PeripheralExposure {
     public static void exposeBlocks(ComputerPorts ports, Predicate<Block> carriers) {
         if (!available()) return;
         //? if neoforge {
-        NeoPeripherals.exposeBlocks(ports, carriers);
-        //?} elif forge {
-        /*ForgePeripherals.exposeBlocks(ports, carriers);
-        *///?} else {
+        /*NeoPeripherals.exposeBlocks(ports, carriers);
+        *///?} elif forge {
+        ForgePeripherals.exposeBlocks(ports, carriers);
+        //?} else {
         /*FabricPeripherals.exposeBlocks(ports, carriers);
         *///?}
     }
@@ -63,10 +63,10 @@ public final class PeripheralExposure {
     public static @Nullable IPeripheral find(ServerLevel level, BlockPos pos, @Nullable Direction side) {
         if (!available()) return null;
         //? if neoforge {
-        return NeoPeripherals.find(level, pos, side);
-        //?} elif forge {
-        /*return ForgePeripherals.find(level, pos, side);
-        *///?} else {
+        /*return NeoPeripherals.find(level, pos, side);
+        *///?} elif forge {
+        return ForgePeripherals.find(level, pos, side);
+        //?} else {
         /*return FabricPeripherals.find(level, pos, side);
         *///?}
     }

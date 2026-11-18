@@ -1,14 +1,14 @@
 package fr.geoventure.geocore.world;
 
 //? if forge {
-/*import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.common.util.LazyOptional;
+//?}
+//? if neoforge && >=26.1 {
+/*import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 *///?}
 //? if neoforge && >=26.1 {
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-//?}
-//? if neoforge && >=26.1 {
-import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
-//?}
+/*import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+*///?}
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,8 +40,8 @@ public final class EnergyExposure {
     private EnergyExposure() {}
 
     //? if forge {
-    /*private static int forgeKeys;
-    *///?}
+    private static int forgeKeys;
+    //?}
 
     /** Whether anything on this node can see what {@link #expose} publishes. */
     public static boolean supported() {
@@ -58,7 +58,7 @@ public final class EnergyExposure {
      */
     public static void expose(EnergySource source, Supplier<Block[]> blocks) {
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) ->
                         event.registerBlock(net.neoforged.neoforge.capabilities.Capabilities.Energy.BLOCK,
                                 (level, pos, state, be, side) -> {
@@ -67,7 +67,7 @@ public final class EnergyExposure {
                                     return face == null ? null : new Journalled(face, server, pos.immutable(), side);
                                 },
                                 blocks.get()));
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) ->
                         event.registerBlock(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
@@ -78,7 +78,7 @@ public final class EnergyExposure {
                                 },
                                 blocks.get()));
         *///?} elif forge {
-        /*java.util.List<java.util.Set<Block>> carriers = new java.util.ArrayList<>(1);
+        java.util.List<java.util.Set<Block>> carriers = new java.util.ArrayList<>(1);
         // Forge refuses a second capability under one key on a block entity, and two sources may share a block.
         var key = fr.geoventure.geocore.Ids.of("geocore", forgeKeys++ == 0 ? "energy" : "energy_" + (forgeKeys - 1));
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addGenericListener(
@@ -93,16 +93,16 @@ public final class EnergyExposure {
                         event.addCapability(key, new ForgeProvider(source, be));
                     }
                 });
-        *///?} elif fabric {
+        //?} elif fabric {
         /*if (RebornEnergy.present()) RebornEnergy.expose(source, blocks);
         *///?}
     }
 
     //? if neoforge && >=26.1 {
-    /**
+    /*/^*
      * A handler whose every mutation is journalled, because 26.1 lets a caller open a transaction,
      * take energy, and then abort, at which point what we handed over has to come back.
-     */
+     ^/
     private static final class Journalled implements EnergyHandler {
         private static final EnergyJournalCache<Journal> JOURNALS = new EnergyJournalCache<>();
         private final Journal journal;
@@ -159,7 +159,7 @@ public final class EnergyExposure {
             return (int) owner.extractFe(level, pos, amount);
         }
     }
-    //?}
+    *///?}
 
     //? if neoforge && <26.1 {
     /*private static final class Simulated implements net.neoforged.neoforge.energy.IEnergyStorage {
@@ -203,7 +203,7 @@ public final class EnergyExposure {
     *///?}
 
     //? if forge {
-    /*private static final class ForgeProvider implements net.minecraftforge.common.capabilities.ICapabilityProvider {
+    private static final class ForgeProvider implements net.minecraftforge.common.capabilities.ICapabilityProvider {
 
         private final EnergySource source;
         private final net.minecraft.world.level.block.entity.BlockEntity be;
@@ -265,11 +265,11 @@ public final class EnergyExposure {
             return saturate(moved);
         }
     }
-    *///?}
+    //?}
 
     //? if forgelike && <26.1 {
-    /*private static int saturate(long value) {
+    private static int saturate(long value) {
         return value > Integer.MAX_VALUE ? Integer.MAX_VALUE : (value < 0L ? 0 : (int) value);
     }
-    *///?}
+    //?}
 }

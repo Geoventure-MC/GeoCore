@@ -86,19 +86,19 @@ final class GemModels {
 
     private static Material perFace(SimpleMaterial.Builder builder) {
         //? if >=26.1 {
-        if (GemRender.FORK) return builder.build();
+        /*if (GemRender.FORK) return builder.build();
         return builder.shaders(PER_FACE).cardinalLightingMode(CardinalLightingMode.OFF).build();
-        //?} else {
-        /*return builder.build();
-        *///?}
+        *///?} else {
+        return builder.build();
+        //?}
     }
 
     private static LightShader vanillaLight() {
         //? if >=26.1 {
-        return new SimpleLightShader(Ids.of("geocore", "light/centered_smooth_when_embedded.glsl"));
-        //?} else {
-        /*return LightShaders.SMOOTH_WHEN_EMBEDDED;
-        *///?}
+        /*return new SimpleLightShader(Ids.of("geocore", "light/centered_smooth_when_embedded.glsl"));
+        *///?} else {
+        return LightShaders.SMOOTH_WHEN_EMBEDDED;
+        //?}
     }
 
     /** SRC_ALPHA/ONE, unculled, colour only and unlit, as {@code PlasmaGlowRenderType} draws on this node. */
@@ -109,10 +109,10 @@ final class GemModels {
                 .writeMask(WriteMask.COLOR)
                 .backfaceCulling(false);
         //? if >=26.1 {
-        return builder.cutout(CutoutShaders.OFF).cardinalLightingMode(CardinalLightingMode.OFF).build();
-        //?} else {
-        /*return builder.cutout(CutoutShaders.ONE_TENTH).cardinalLightingMode(CardinalLightingMode.ENTITY).build();
-        *///?}
+        /*return builder.cutout(CutoutShaders.OFF).cardinalLightingMode(CardinalLightingMode.OFF).build();
+        *///?} else {
+        return builder.cutout(CutoutShaders.ONE_TENTH).cardinalLightingMode(CardinalLightingMode.ENTITY).build();
+        //?}
     }
 
     /** Geometry's eight floats per vertex: position, uv, normal. */

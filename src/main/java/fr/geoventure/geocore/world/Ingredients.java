@@ -37,33 +37,33 @@ public final class Ingredients {
     public static String potionId(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return "";
         //? if >=1.20.5 {
-        net.minecraft.world.item.alchemy.PotionContents contents =
+        /*net.minecraft.world.item.alchemy.PotionContents contents =
                 stack.get(net.minecraft.core.component.DataComponents.POTION_CONTENTS);
         if (contents == null) return "";
         return contents.potion().map(Holder::getRegisteredName).orElse("");
-        //?} else {
-        /*if (!stack.hasTag() || !stack.getTag().contains("Potion", 8)) return "";
+        *///?} else {
+        if (!stack.hasTag() || !stack.getTag().contains("Potion", 8)) return "";
         net.minecraft.world.item.alchemy.Potion potion = net.minecraft.world.item.alchemy.PotionUtils.getPotion(stack);
         return BuiltInRegistries.POTION.getKey(potion).toString();
-        *///?}
+        //?}
     }
 
     /** One {@code item} carrying the potion {@code id} ({@code minecraft:water} makes a water bottle). */
     public static ItemStack potionStack(String item, String id) {
-        Item base = BuiltInRegistries.ITEM.getValue(Ids.parse(item));
+        Item base = BuiltInRegistries.ITEM.get(Ids.parse(item));
         //? if >=26.1 {
-        net.minecraft.world.item.alchemy.Potion potion = BuiltInRegistries.POTION.getValue(Ids.parse(id));
+        /*net.minecraft.world.item.alchemy.Potion potion = BuiltInRegistries.POTION.getValue(Ids.parse(id));
         if (potion == null) return new ItemStack(base);
         return net.minecraft.world.item.alchemy.PotionContents.createItemStack(base,
                 BuiltInRegistries.POTION.wrapAsHolder(potion));
-        //?} else if >=1.20.5 {
+        *///?} else if >=1.20.5 {
         /*return BuiltInRegistries.POTION.getHolder(Ids.parse(id))
                 .map(holder -> net.minecraft.world.item.alchemy.PotionContents.createItemStack(base, holder))
                 .orElseGet(() -> new ItemStack(base));
         *///?} else {
-        /*net.minecraft.world.item.alchemy.Potion potion = BuiltInRegistries.POTION.get(Ids.parse(id));
+        net.minecraft.world.item.alchemy.Potion potion = BuiltInRegistries.POTION.get(Ids.parse(id));
         return net.minecraft.world.item.alchemy.PotionUtils.setPotion(new ItemStack(base), potion);
-        *///?}
+        //?}
     }
 
     /**

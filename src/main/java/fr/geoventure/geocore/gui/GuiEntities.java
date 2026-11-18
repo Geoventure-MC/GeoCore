@@ -7,13 +7,13 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-//?} else {
-/*import com.mojang.blaze3d.platform.Lighting;
+*///?} else {
+import com.mojang.blaze3d.platform.Lighting;
 import net.minecraft.client.gui.GuiGraphics;
-*///?}
+//?}
 
 /**
  * Draws an entity inside a screen, for GUIs that show a 3D preview of something.
@@ -48,23 +48,23 @@ public final class GuiEntities {
     /** Draws {@code entity} centred in the screen rectangle {@code (x0, y0)–(x1, y1)}, GUI pixels. */
     public static void draw(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             Entity entity, int x0, int y0, int x1, int y1,
             float size, Vector3f translation, Quaternionf rotation) {
 
         EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
 
         //? if >=26.1 {
-        EntityRenderer<? super Entity, ?> renderer = dispatcher.getRenderer(entity);
+        /*EntityRenderer<? super Entity, ?> renderer = dispatcher.getRenderer(entity);
         EntityRenderState state = renderer.createRenderState(entity, 1.0F);
         state.shadowPieces.clear();
         state.outlineColor = 0;
         graphics.entity(state, size, translation, rotation, null, x0, y0, x1, y1);
-        //?} else {
-        /*graphics.enableScissor(x0, y0, x1, y1);
+        *///?} else {
+        graphics.enableScissor(x0, y0, x1, y1);
         graphics.pose().pushPose();
         graphics.pose().translate((x0 + x1) / 2.0F, (y0 + y1) / 2.0F, 50.0F);
         // Negative Z: the GUI's depth axis runs the other way from the world's.
@@ -79,6 +79,6 @@ public final class GuiEntities {
         graphics.pose().popPose();
         Lighting.setupFor3DItems();
         graphics.disableScissor();
-        *///?}
+        //?}
     }
 }

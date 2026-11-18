@@ -51,11 +51,11 @@ public class ComponentCopyShapelessRecipe extends CompatCustomRecipe {
     }
 
     //? if >=26.1 {
-    /** The native recipe result representation on the template-based recipe API. */
+    /*/^* The native recipe result representation on the template-based recipe API. ^/
     public final net.minecraft.world.item.ItemStackTemplate resultTemplate() {
         return result.template();
     }
-    //?}
+    *///?}
 
     @Override
     public boolean isSpecial() {
@@ -144,7 +144,7 @@ public class ComponentCopyShapelessRecipe extends CompatCustomRecipe {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public net.minecraft.world.item.crafting.PlacementInfo placementInfo() {
         return net.minecraft.world.item.crafting.PlacementInfo.create(ingredients);
     }
@@ -157,16 +157,16 @@ public class ComponentCopyShapelessRecipe extends CompatCustomRecipe {
                         resultTemplate()),
                 new net.minecraft.world.item.crafting.display.SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
     }
-    //?}
+    *///?}
 
     //? if <26.1 {
-    /*@Override
+    @Override
     public net.minecraft.core.NonNullList<Ingredient> getIngredients() {
         net.minecraft.core.NonNullList<Ingredient> copy = net.minecraft.core.NonNullList.create();
         copy.addAll(ingredients);
         return copy;
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 && <26.1 {
     /*@Override
@@ -176,11 +176,11 @@ public class ComponentCopyShapelessRecipe extends CompatCustomRecipe {
     *///?}
 
     //? if <1.21.1 {
-    /*@Override
+    @Override
     public ItemStack getResultItem(net.minecraft.core.RegistryAccess registries) {
         return result.create();
     }
-    *///?}
+    //?}
 
     @Override
     protected RecipeSerializer<?> serializer() {

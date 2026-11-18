@@ -7,10 +7,10 @@ import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
@@ -26,16 +26,16 @@ public final class Sounds {
 
     public static SoundEvent get(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id) {
         //? if >=26.1 {
-        return net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.getValue(id);
-        //?} else {
-        /*return net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.get(id);
-        *///?}
+        /*return net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.getValue(id);
+        *///?} else {
+        return net.minecraft.core.registries.BuiltInRegistries.SOUND_EVENT.get(id);
+        //?}
     }
 
     /** Public equipment noise: ENTITY_ACTION replaced the frequency-four ENTITY_ROAR event after 1.20.1. */
@@ -43,10 +43,10 @@ public final class Sounds {
         if (volume > 0F && source.level() instanceof ServerLevel server) {
             server.gameEvent(
                     //? if >=1.21.1 {
-                    GameEvent.ENTITY_ACTION,
-                    //?} else {
-                    /*GameEvent.ENTITY_ROAR,
-                    *///?}
+                    /*GameEvent.ENTITY_ACTION,
+                    *///?} else {
+                    GameEvent.ENTITY_ROAR,
+                    //?}
                     new Vec3(x, y, z), GameEvent.Context.of(source));
         }
     }
@@ -66,12 +66,12 @@ public final class Sounds {
         var level = (ServerLevel) player.level();
         Holder<SoundEvent> sound = BuiltInRegistries.SOUND_EVENT.wrapAsHolder(event);
         //? if neoforge {
-        var played = net.neoforged.neoforge.event.EventHooks.onPlaySoundAtPosition(
+        /*var played = net.neoforged.neoforge.event.EventHooks.onPlaySoundAtPosition(
                 level, x, y, z, sound, source, volume, pitch);
-        //?} elif forge {
-        /*var played = net.minecraftforge.event.ForgeEventFactory.onPlaySoundAtPosition(
+        *///?} elif forge {
+        var played = net.minecraftforge.event.ForgeEventFactory.onPlaySoundAtPosition(
                 level, x, y, z, sound, source, volume, pitch);
-        *///?}
+        //?}
         //? if !fabric {
         if (played.isCanceled() || played.getSound() == null) return;
         sound = played.getSound();

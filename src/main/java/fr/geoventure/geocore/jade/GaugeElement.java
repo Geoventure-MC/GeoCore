@@ -7,21 +7,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import snownee.jade.api.ui.IDisplayHelper;
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import snownee.jade.api.ui.ResizeableElement;
-//?} else {
-/*import net.minecraft.client.gui.GuiGraphics;
+*///?} else {
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.phys.Vec2;
 import snownee.jade.api.ui.Element;
-*///?}
+//?}
 
 /** A {@link Gauge} as a Jade bar: a dark box filled from the left with the gauge's colour ramp, its text on top. */
 final class GaugeElement extends
         //? if >=26.1 {
-        ResizeableElement {
-        //?} else {
-        /*Element {
-        *///?}
+        /*ResizeableElement {
+        *///?} else {
+        Element {
+        //?}
 
     private static final int HEIGHT = 12;
 
@@ -34,10 +34,10 @@ final class GaugeElement extends
         this.text = text;
         minWidth = Math.max(100, Minecraft.getInstance().font.width(text) + 8);
         //? if >=26.1 {
-        width = minWidth;
+        /*width = minWidth;
         height = HEIGHT;
         setFlexGrow(1);
-        //?}
+        *///?}
     }
 
     static Component text(Gauge gauge) {
@@ -49,7 +49,7 @@ final class GaugeElement extends
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public Component getNarration() {
         return text;
     }
@@ -65,8 +65,8 @@ final class GaugeElement extends
     }
 
     private void draw(GuiGraphicsExtractor graphics, int x, int y, int w) {
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public Vec2 getSize() {
         return new Vec2(minWidth, HEIGHT);
     }
@@ -77,7 +77,7 @@ final class GaugeElement extends
     }
 
     private void draw(GuiGraphics graphics, int x, int y, int w) {
-    *///?}
+    //?}
         GuiDraw.fill(graphics, x, y, x + w, y + HEIGHT, 0xFF505050);
         GuiDraw.fill(graphics, x + 1, y + 1, x + w - 1, y + HEIGHT - 1, 0xFF161616);
         int inner = w - 2;

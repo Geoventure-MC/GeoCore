@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 //? if >=26.1 {
-import net.minecraft.world.level.storage.ValueInput;
+/*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-//?} else {
-/*import net.minecraft.core.HolderLookup;
+*///?} else {
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-*///?}
+//?}
 
 /**
  * Block entity base that persists through {@link DataIn}/{@link DataOut} on every version.
@@ -41,7 +41,7 @@ public abstract class CompatBlockEntity extends BlockEntity {
     }
 
     //? if forge {
-    /*/^*
+    /**
      * Forge's per-block-entity render culling box.
      *
      * <p>Forge culls each block entity against this AABB, defaulting to the block's collision shape, which is
@@ -52,14 +52,14 @@ public abstract class CompatBlockEntity extends BlockEntity {
      * Forge 1.20.1 puts it on the block entity. Both apply one rule: a renderer that declares
      * {@code shouldRenderOffScreen()} is never culled; everything else keeps the one-block box. Fabric has no
      * such hook.
-     ^/
+     */
     @Override
     public net.minecraft.world.phys.AABB getRenderBoundingBox() {
         return fr.geoventure.geocore.render.ClientRenderBounds.rendersOffScreen(this)
                 ? net.minecraftforge.common.extensions.IForgeBlockEntity.INFINITE_EXTENT_AABB
                 : new net.minecraft.world.phys.AABB(getBlockPos());
     }
-    *///?}
+    //?}
 
     /**
      * Whether the chunk-load sync tag should carry every persisted field.
@@ -72,16 +72,16 @@ public abstract class CompatBlockEntity extends BlockEntity {
     }
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public net.minecraft.nbt.CompoundTag getUpdateTag(net.minecraft.core.HolderLookup.Provider registries) {
         return syncFullTagOnChunkLoad() ? saveCustomOnly(registries) : super.getUpdateTag(registries);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.nbt.CompoundTag getUpdateTag() {
         return syncFullTagOnChunkLoad() ? saveWithoutMetadata() : super.getUpdateTag();
     }
-    *///?}
+    //?}
 
     /** Reads this block entity's persisted state. */
     protected void loadData(DataIn in) {}
@@ -136,23 +136,23 @@ public abstract class CompatBlockEntity extends BlockEntity {
      * Call this from drop handling instead of vanilla's version-specific method.
      */
     //? if >=26.1 {
-    public final void saveToItemCompat(ItemStack stack) {
+    /*public final void saveToItemCompat(ItemStack stack) {
         stack.applyComponents(collectComponents());
     }
-    //?}
+    *///?}
     //? if >=1.21.1 && <26.1 {
     /*public final void saveToItemCompat(ItemStack stack) {
         saveToItem(stack, level.registryAccess());
     }
     *///?}
     //? if <1.21.1 {
-    /*public final void saveToItemCompat(ItemStack stack) {
+    public final void saveToItemCompat(ItemStack stack) {
         saveToItem(stack);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void applyImplicitComponents(net.minecraft.core.component.DataComponentGetter components) {
         super.applyImplicitComponents(components);
         NonNullList<ItemStack> items = carriedItems();
@@ -201,7 +201,7 @@ public abstract class CompatBlockEntity extends BlockEntity {
         super.removeComponentsFromTag(output);
         removeSavedComponents(new ValueDataOut(output));
     }
-    //?} elif >=1.20.5 {
+    *///?} elif >=1.20.5 {
     /*@Override
     protected void applyImplicitComponents(BlockEntity.DataComponentInput components) {
         super.applyImplicitComponents(components);
@@ -246,7 +246,7 @@ public abstract class CompatBlockEntity extends BlockEntity {
         saveData(new TagDataOut(tag, registries));
     }
     *///?} else {
-    /*@Override
+    @Override
     public void load(CompoundTag tag) {
         super.load(tag);
         loadData(new TagDataIn(tag, null));
@@ -266,13 +266,13 @@ public abstract class CompatBlockEntity extends BlockEntity {
         if (carried != null) tag.put(LEGACY_CARRIED_KEY, carried);
     }
 
-    /^* NBT key of {@link #collectCarriedData} below 1.20.5, in the saved tag and in the item's BlockEntityTag. ^/
+    /** NBT key of {@link #collectCarriedData} below 1.20.5, in the saved tag and in the item's BlockEntityTag. */
     public static final String LEGACY_CARRIED_KEY = "CarriedData";
-    *///?}
+    //?}
 
     //? if <26.1 {
     
-    /*/^*
+    /**
      * Side effects of this block entity being removed, dropping an inventory, most of the time.
      *
      * <p>26.1 declares this on {@code BlockEntity} and calls it itself; the default drops the contents of a
@@ -282,11 +282,11 @@ public abstract class CompatBlockEntity extends BlockEntity {
      *
      * <p>This declares the method so overrides bind, with 26.1's default. It does nothing until
      * {@code fr.geoventure.geocore.world.Compat.preRemoveSideEffects} calls it from the block's removal hook.
-     ^/
+     */
     public void preRemoveSideEffects(net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state) {
         if (this instanceof net.minecraft.world.Container container && this.level != null) {
             net.minecraft.world.Containers.dropContents(this.level, pos, container);
         }
     }
-    *///?}
+    //?}
 }

@@ -8,13 +8,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-//?} else {
-/*import net.minecraft.client.gui.GuiGraphics;
-*///?}
+*///?} else {
+import net.minecraft.client.gui.GuiGraphics;
+//?}
 
 /**
  * A container screen that behaves like 26.1's on every version.
@@ -54,9 +54,9 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
     /** The sized constructor, which 26.1 has natively and older versions reproduce field by field. */
     protected CompatContainerScreen(T menu, Inventory inventory, Component title, int imageWidth, int imageHeight) {
         //? if >=26.1 {
-        super(menu, inventory, title, imageWidth, imageHeight);
-        //?} else {
-        /*super(menu, inventory, title);
+        /*super(menu, inventory, title, imageWidth, imageHeight);
+        *///?} else {
+        super(menu, inventory, title);
         // Exactly what 26.1's sized constructor does, in the same order.
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -64,16 +64,16 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
         this.titleLabelY = 6;
         this.inventoryLabelX = 8;
         this.inventoryLabelY = imageHeight - 94;
-        *///?}
+        //?}
     }
 
     /** The 26.1 background hook, backported for subclasses. */
     public void extractBackground(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int mouseX, int mouseY, float partialTick) {}
 
     /**
@@ -84,16 +84,16 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
      */
     protected void extractLabels(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int mouseX, int mouseY) {
         //? if >=26.1 {
-        super.extractLabels(graphics, mouseX, mouseY);
-        //?} else {
-        /*super.renderLabels(graphics, mouseX, mouseY);
-        *///?}
+        /*super.extractLabels(graphics, mouseX, mouseY);
+        *///?} else {
+        super.renderLabels(graphics, mouseX, mouseY);
+        //?}
     }
 
     /**
@@ -110,21 +110,21 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
      */
     protected void extractOwnTooltip(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int mouseX, int mouseY) {}
 
     //? if >=26.1 {
-    /** Runs this screen's own tooltips, then vanilla's hovered-item one. See {@link #extractOwnTooltip}. */
+    /*/^* Runs this screen's own tooltips, then vanilla's hovered-item one. See {@link #extractOwnTooltip}. ^/
     @Override
     protected final void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         GuiDraw.beginOwnTooltips();
         this.extractOwnTooltip(graphics, mouseX, mouseY);
         super.extractTooltip(graphics, mouseX, mouseY);
     }
-    //?}
+    *///?}
 
     /** Version-neutral click hook. */
     protected boolean mouseClicked(MouseInput event, boolean doubleClick) { return false; }
@@ -155,7 +155,7 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
     protected boolean mouseScrolledCompat(double mouseX, double mouseY, double scrollX, double scrollY) { return false; }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         boolean handled = this.mouseClicked(new MouseInput(event), doubleClick)
                 || super.mouseClicked(event, doubleClick);
@@ -201,8 +201,8 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         return this.mouseScrolledCompat(mouseX, mouseY, scrollX, scrollY) || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         this.extractBackground(graphics, mouseX, mouseY, partialTick);
     }
@@ -267,7 +267,7 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
         this.updateFocusedEditBox();
         return handled;
     }
-    *///?}
+    //?}
 
     //? if >=1.21 && <26.1 {
     /*@Override
@@ -276,22 +276,22 @@ public abstract class CompatContainerScreen<T extends AbstractContainerMenu> ext
                 || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
     *///?} elif <1.21 {
-    /*@Override
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
         return this.mouseScrolledCompat(mouseX, mouseY, 0.0D, scrollDelta)
                 || super.mouseScrolled(mouseX, mouseY, scrollDelta);
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*@Override
+    @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         // 26.1 calls this from extractRenderState; here it is on us. After super.render so it draws over
         // the slots, matching the order the tooltip hooks run in.
         this.renderTooltip(graphics, mouseX, mouseY);
     }
-    *///?}
+    //?}
 
     private EditBox focusedEditBox() {
         if (this.focusedEditBoxForInput != null && this.focusedEditBoxForInput.isActive()

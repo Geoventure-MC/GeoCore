@@ -8,8 +8,8 @@ import net.minecraft.world.level.ChunkPos;
 /*import net.minecraft.world.level.portal.DimensionTransition;
 *///?}
 //? if >=26.1 {
-import net.minecraft.world.level.portal.TeleportTransition;
-//?}
+/*import net.minecraft.world.level.portal.TeleportTransition;
+*///?}
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.server.level.ServerLevel;
@@ -39,10 +39,10 @@ public final class Teleports {
      */
     public static boolean toLevel(Entity entity, ServerLevel level, double x, double y, double z) {
         //? if >=26.1 {
-        return entity.teleportTo(level, x, y, z, java.util.Set.of(), entity.getYRot(), entity.getXRot(), true);
-        //?} else {
-        /*return entity.teleportTo(level, x, y, z, java.util.Set.of(), entity.getYRot(), entity.getXRot());
-        *///?}
+        /*return entity.teleportTo(level, x, y, z, java.util.Set.of(), entity.getYRot(), entity.getXRot(), true);
+        *///?} else {
+        return entity.teleportTo(level, x, y, z, java.util.Set.of(), entity.getYRot(), entity.getXRot());
+        //?}
     }
 
     /**
@@ -53,19 +53,19 @@ public final class Teleports {
      */
     public static boolean remount(Entity passenger, Entity vehicle) {
         //? if >=26.1 {
-        return passenger.startRiding(vehicle, true, true);
-        //?} else {
-        /*return passenger.startRiding(vehicle, true);
-        *///?}
+        /*return passenger.startRiding(vehicle, true, true);
+        *///?} else {
+        return passenger.startRiding(vehicle, true);
+        //?}
     }
 
     /** Whether callers must queue cross-level moves: below 1.21.1 vanilla has no passenger transition. */
     public static boolean defersTransfers() {
         //? if >=1.21.1 {
-        return false;
-        //?} else {
-        /*return true;
-        *///?}
+        /*return false;
+        *///?} else {
+        return true;
+        //?}
     }
 
     /**
@@ -75,36 +75,36 @@ public final class Teleports {
     public static boolean transferRoot(Entity root, ServerLevel target, Vec3 pos,
                                        Consumer<Entity> afterPassengers) {
         //? if >=26.1 {
-        root.teleport(new TeleportTransition(target, pos, root.getDeltaMovement(),
+        /*root.teleport(new TeleportTransition(target, pos, root.getDeltaMovement(),
                 root.getYRot(), root.getXRot(), afterPassengers::accept));
         return true;
-        //?} elif >=1.21.1 {
+        *///?} elif >=1.21.1 {
         /*root.changeDimension(new DimensionTransition(target, pos, root.getDeltaMovement(),
                 root.getYRot(), root.getXRot(), afterPassengers::accept));
         return true;
         *///?} else {
-        /*return false;
-        *///?}
+        return false;
+        //?}
     }
 
     /** Cross-level move that keeps velocity and leaves a portal ticket at the arrival. */
     public static void transferWithTicket(Entity entity, ServerLevel destination, Vec3 pos) {
         //? if >=26.1 {
-        entity.teleport(new TeleportTransition(destination, pos, entity.getDeltaMovement(),
+        /*entity.teleport(new TeleportTransition(destination, pos, entity.getDeltaMovement(),
                 entity.getYRot(), entity.getXRot(),
                 TeleportTransition.PLACE_PORTAL_TICKET));
-        //?} elif >=1.21.1 {
+        *///?} elif >=1.21.1 {
         /*entity.changeDimension(new DimensionTransition(destination, pos, entity.getDeltaMovement(),
                 entity.getYRot(), entity.getXRot(),
                 DimensionTransition.PLACE_PORTAL_TICKET));
         *///?} else {
-        /*var arrival = BlockPos.containing(pos.x, pos.y, pos.z);
+        var arrival = BlockPos.containing(pos.x, pos.y, pos.z);
         destination.getChunk(arrival);
         if (toLevel(entity, destination, pos.x, pos.y, pos.z)) {
             destination.getChunkSource().addRegionTicket(TicketType.PORTAL,
                     new ChunkPos(arrival), 3, arrival);
         }
-        *///?}
+        //?}
     }
 
     /**
@@ -113,9 +113,9 @@ public final class Teleports {
      */
     public static net.minecraft.core.BlockPos worldSpawn(net.minecraft.server.MinecraftServer server) {
         //? if >=26.1 {
-        return server.overworld().getRespawnData().globalPos().pos();
-        //?} else {
-        /*return server.overworld().getSharedSpawnPos();
-        *///?}
+        /*return server.overworld().getRespawnData().globalPos().pos();
+        *///?} else {
+        return server.overworld().getSharedSpawnPos();
+        //?}
     }
 }

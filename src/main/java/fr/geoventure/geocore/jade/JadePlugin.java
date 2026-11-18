@@ -25,14 +25,14 @@ import snownee.jade.api.view.IClientExtensionProvider;
 import snownee.jade.api.view.IServerExtensionProvider;
 import snownee.jade.api.view.ViewGroup;
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 //? if <1.21 {
-/*import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-*///?}
+//?}
 
 /**
  * Jade's side of {@link BlockInfo}. Tanks are Jade's own fluid view. Gauges go to the client as server data and draw
@@ -46,12 +46,12 @@ public final class JadePlugin implements IWailaPlugin {
     static final String KEY = "geocore:gauges";
 
     //? if >=26.1 {
-    static final HideEnergy<EnergyView.Data> ENERGY = new HideEnergy<>();
+    /*static final HideEnergy<EnergyView.Data> ENERGY = new HideEnergy<>();
     static final Tanks<FluidView.Data> TANKS = new Tanks<>();
-    //?} else {
-    /*static final HideEnergy<CompoundTag> ENERGY = new HideEnergy<>();
+    *///?} else {
+    static final HideEnergy<CompoundTag> ENERGY = new HideEnergy<>();
     static final Tanks<CompoundTag> TANKS = new Tanks<>();
-    *///?}
+    //?}
 
     @Override
     public void register(IWailaCommonRegistration registration) {
@@ -66,10 +66,10 @@ public final class JadePlugin implements IWailaPlugin {
     }
 
     //? if >=26.1 {
-    static Identifier uid(String path) {
-    //?} else {
-    /*static ResourceLocation uid(String path) {
-    *///?}
+    /*static Identifier uid(String path) {
+    *///?} else {
+    static ResourceLocation uid(String path) {
+    //?}
         return Ids.of("geocore", path);
     }
 
@@ -83,18 +83,18 @@ public final class JadePlugin implements IWailaPlugin {
         }
 
         //? if >=1.21 {
-        @Override
+        /*@Override
         public boolean shouldRequestData(BlockAccessor accessor) {
             return BlockInfo.declaresGauges(accessor.getBlockEntity());
         }
-        //?}
+        *///?}
 
         @Override
         //? if >=26.1 {
-        public Identifier getUid() {
-        //?} else {
-        /*public ResourceLocation getUid() {
-        *///?}
+        /*public Identifier getUid() {
+        *///?} else {
+        public ResourceLocation getUid() {
+        //?}
             return uid("gauges");
         }
     }
@@ -102,24 +102,24 @@ public final class JadePlugin implements IWailaPlugin {
     /** An empty energy view for a target with an energy gauge; null lets Jade's next provider answer. */
     static final class HideEnergy<D> implements
             //? if >=1.21 {
-            IServerExtensionProvider<D>,
-            //?} else {
-            /*IServerExtensionProvider<BlockEntity, D>,
-            *///?}
+            /*IServerExtensionProvider<D>,
+            *///?} else {
+            IServerExtensionProvider<BlockEntity, D>,
+            //?}
             IClientExtensionProvider<D, EnergyView> {
 
         //? if >=1.21 {
-        @Override
+        /*@Override
         public @Nullable List<ViewGroup<D>> getGroups(Accessor<?> accessor) {
             return hides(accessor.getTarget()) ? List.of() : null;
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public @Nullable List<ViewGroup<D>> getGroups(ServerPlayer player, ServerLevel level, BlockEntity target,
                                                       boolean showDetails) {
             return hides(target) ? List.of() : null;
         }
-        *///?}
+        //?}
 
         private static boolean hides(@Nullable Object target) {
             if (!BlockInfo.declaresGauges(target)) return false;
@@ -134,10 +134,10 @@ public final class JadePlugin implements IWailaPlugin {
 
         @Override
         //? if >=26.1 {
-        public Identifier getUid() {
-        //?} else {
-        /*public ResourceLocation getUid() {
-        *///?}
+        /*public Identifier getUid() {
+        *///?} else {
+        public ResourceLocation getUid() {
+        //?}
             return uid("energy_storage");
         }
     }
@@ -145,14 +145,14 @@ public final class JadePlugin implements IWailaPlugin {
     /** Declared tanks as Jade's fluid view, ahead of the loader-capability view. */
     static final class Tanks<D> implements
             //? if >=1.21 {
-            IServerExtensionProvider<D>,
-            //?} else {
-            /*IServerExtensionProvider<BlockEntity, D>,
-            *///?}
+            /*IServerExtensionProvider<D>,
+            *///?} else {
+            IServerExtensionProvider<BlockEntity, D>,
+            //?}
             IClientExtensionProvider<D, FluidView> {
 
         //? if >=1.21 {
-        @Override
+        /*@Override
         public @Nullable List<ViewGroup<D>> getGroups(Accessor<?> accessor) {
             return groups(accessor.getTarget());
         }
@@ -161,13 +161,13 @@ public final class JadePlugin implements IWailaPlugin {
         public boolean shouldRequestData(Accessor<?> accessor) {
             return BlockInfo.declaresTanks(accessor.getTarget());
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public @Nullable List<ViewGroup<D>> getGroups(ServerPlayer player, ServerLevel level, BlockEntity target,
                                                       boolean showDetails) {
             return groups(target);
         }
-        *///?}
+        //?}
 
         @SuppressWarnings("unchecked")
         private static <D> @Nullable List<ViewGroup<D>> groups(@Nullable Object target) {
@@ -179,10 +179,10 @@ public final class JadePlugin implements IWailaPlugin {
                 JadeFluidObject content = tank.fluid() == null ? JadeFluidObject.empty()
                         : JadeFluidObject.of(tank.fluid(), toPlatform(tank.millibuckets()));
                 //? if >=26.1 {
-                views.add((D) new FluidView.Data(content, toPlatform(tank.capacity())));
-                //?} else {
-                /*views.add((D) FluidView.writeDefault(content, toPlatform(tank.capacity())));
-                *///?}
+                /*views.add((D) new FluidView.Data(content, toPlatform(tank.capacity())));
+                *///?} else {
+                views.add((D) FluidView.writeDefault(content, toPlatform(tank.capacity())));
+                //?}
             }
             return List.of(new ViewGroup<>(views));
         }
@@ -194,18 +194,18 @@ public final class JadePlugin implements IWailaPlugin {
         @Override
         public List<ClientViewGroup<FluidView>> getClientGroups(Accessor<?> accessor, List<ViewGroup<D>> groups) {
             //? if >=26.1 {
-            return ClientViewGroup.map(groups, data -> FluidView.readDefault((FluidView.Data) data), null);
-            //?} else {
-            /*return ClientViewGroup.map(groups, data -> FluidView.readDefault((CompoundTag) data), null);
-            *///?}
+            /*return ClientViewGroup.map(groups, data -> FluidView.readDefault((FluidView.Data) data), null);
+            *///?} else {
+            return ClientViewGroup.map(groups, data -> FluidView.readDefault((CompoundTag) data), null);
+            //?}
         }
 
         @Override
         //? if >=26.1 {
-        public Identifier getUid() {
-        //?} else {
-        /*public ResourceLocation getUid() {
-        *///?}
+        /*public Identifier getUid() {
+        *///?} else {
+        public ResourceLocation getUid() {
+        //?}
             return uid("fluid_storage");
         }
     }

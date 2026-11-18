@@ -5,10 +5,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 //? if >=26.1 {
-import net.minecraft.world.entity.InterpolationHandler;
+/*import net.minecraft.world.entity.InterpolationHandler;
 import net.minecraft.world.phys.Vec2;
 import org.jspecify.annotations.Nullable;
-//?}
+*///?}
 
 /**
  * Client-side position interpolation for a custom non-living entity, under 26.1's
@@ -24,7 +24,7 @@ public final class EntityInterpolation {
     public static final int DEFAULT_STEPS = 3;
 
     //? if >=26.1 {
-    /** Raw target data and fields, including values retained after interpolation stops. */
+    /*/^* Raw target data and fields, including values retained after interpolation stops. ^/
     public static Object data(InterpolationHandler handler) {
         return handler.interpolationData;
     }
@@ -45,7 +45,7 @@ public final class EntityInterpolation {
         return ((InterpolationHandler.InterpolationData) data).xRot;
     }
 
-    /** Raw previous-tick references, including null after native cancellation. */
+    /^* Raw previous-tick references, including null after native cancellation. ^/
     public static @Nullable Vec3 previousPosition(InterpolationHandler handler) {
         return handler.previousTickPosition;
     }
@@ -64,7 +64,7 @@ public final class EntityInterpolation {
         this.handler = new net.minecraft.world.entity.InterpolationHandler(entity, steps);
     }
 
-    /** The vanilla handler the entity's {@code getInterpolation()} must return. */
+    /^* The vanilla handler the entity's {@code getInterpolation()} must return. ^/
     public net.minecraft.world.entity.InterpolationHandler handler() {
         return handler;
     }
@@ -77,8 +77,8 @@ public final class EntityInterpolation {
     public void setInterpolationLength(int steps) { handler.setInterpolationLength(steps); }
     public void interpolate() { handler.interpolate(); }
     public void cancel() { handler.cancel(); }
-    //?} else {
-    /*private final Entity entity;
+    *///?} else {
+    private final Entity entity;
     private int interpolationSteps;
     private int steps;
     private Vec3 target = Vec3.ZERO;
@@ -128,7 +128,7 @@ public final class EntityInterpolation {
     }
 
     public void cancel() { steps = 0; }
-    *///?}
+    //?}
 
     /**
      * Nudges a vanilla entity's active yaw interpolation endpoint toward {@code targetYaw} without restarting its
@@ -139,14 +139,14 @@ public final class EntityInterpolation {
      */
     public static void pullYaw(Entity entity, double targetYaw) {
         //? if >=26.1 {
-        var handler = entity.getInterpolation();
+        /*var handler = entity.getInterpolation();
         if (!handler.hasActiveInterpolation()) return;
         var data = handler.interpolationData;
         data.yRot += (float) (Mth.wrapDegrees(targetYaw - data.yRot) * 0.1D);
-        //?} else {
-        /*if (entity instanceof LivingEntity living && living.lerpSteps > 0) {
+        *///?} else {
+        if (entity instanceof LivingEntity living && living.lerpSteps > 0) {
             living.lerpYRot += Mth.wrapDegrees(targetYaw - living.lerpYRot) * 0.1D;
         }
-        *///?}
+        //?}
     }
 }

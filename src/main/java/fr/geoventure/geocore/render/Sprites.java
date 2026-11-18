@@ -56,10 +56,10 @@ public final class Sprites {
         /** The atlas definition id, what {@code atlases/<path>.json} is read for. */
         public String id() {
             //? if >=26.1 {
-            return this == ITEMS ? "minecraft:items" : "minecraft:blocks";
-            //?} else {
-            /*return "minecraft:blocks";
-            *///?}
+            /*return this == ITEMS ? "minecraft:items" : "minecraft:blocks";
+            *///?} else {
+            return "minecraft:blocks";
+            //?}
         }
     }
 
@@ -91,12 +91,12 @@ public final class Sprites {
     }
 
     //? if neoforge && >=26.1 {
-    private static void registerRemapType() {
+    /*private static void registerRemapType() {
         fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterSpriteSourcesEvent event) ->
                         event.register(Ids.parse(typeId()), InterpolatedRemapSource.CODEC));
     }
-    //?}
+    *///?}
 
     //? if neoforge && <26.1 {
     /*private static void registerRemapType() {
@@ -121,25 +121,25 @@ public final class Sprites {
     *///?}
 
     //? if <1.21 {
-    /*private static void registerRemapType() {
+    private static void registerRemapType() {
         // 1.20.1's SpriteSourceType holds a plain Codec; every version after it holds the MapCodec.
         remapType = new net.minecraft.client.renderer.texture.atlas.SpriteSourceType(
                 InterpolatedRemapSource.CODEC.codec());
         fr.geoventure.geocore.mixin.SpriteSourceTypesAccess.geocore$types().put(Ids.parse(typeId()), remapType);
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*private static volatile net.minecraft.client.renderer.texture.atlas.SpriteSourceType remapType;
+    private static volatile net.minecraft.client.renderer.texture.atlas.SpriteSourceType remapType;
 
-    /^* The registered type, which a source instance has to name on the versions that ask it to. ^/
+    /** The registered type, which a source instance has to name on the versions that ask it to. */
     static net.minecraft.client.renderer.texture.atlas.SpriteSourceType remapSourceType() {
         if (remapType == null) {
             install();
         }
         return remapType;
     }
-    *///?}
+    //?}
 
     /**
      * The sources declared for an atlas, in declaration order. Called by Core's own atlas hook; a
@@ -162,17 +162,17 @@ public final class Sprites {
     public static net.minecraft.client.renderer.texture.TextureAtlasSprite sprite(
             Atlas atlas,
             //? if >=26.1 {
-            net.minecraft.resources.Identifier id) {
-            //?} else {
-            /*net.minecraft.resources.ResourceLocation id) {
-            *///?}
+            /*net.minecraft.resources.Identifier id) {
+            *///?} else {
+            net.minecraft.resources.ResourceLocation id) {
+            //?}
         //? if >=26.1 {
-        return net.minecraft.client.Minecraft.getInstance().getAtlasManager()
+        /*return net.minecraft.client.Minecraft.getInstance().getAtlasManager()
                 .getAtlasOrThrow(Ids.parse(atlas.id())).getSprite(id);
-        //?} else {
-        /*return net.minecraft.client.Minecraft.getInstance()
+        *///?} else {
+        return net.minecraft.client.Minecraft.getInstance()
                 .getTextureAtlas(net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS).apply(id);
-        *///?}
+        //?}
     }
 
     /** A remap under construction. */

@@ -38,10 +38,10 @@ public final class ScreenEffects {
         HarnessQueryRegistry.register("geocore_screen_effects", (mc, params) -> query());
         ClientResourceReloads.register("geocore", "screen_effects", () -> {
             //? if <26.1 {
-            /*Programs.reset();
+            Programs.reset();
             Bloom.resetShaders();
             ScreenDistortion.resetShaders();
-            *///?}
+            //?}
         });
     }
 
@@ -104,10 +104,10 @@ public final class ScreenEffects {
         private final String label;
         private boolean used;
         //? if >=26.1 {
-        private SharedDepthTarget target;
-        //?} else {
-        /*private com.mojang.blaze3d.pipeline.TextureTarget target;
-        *///?}
+        /*private SharedDepthTarget target;
+        *///?} else {
+        private com.mojang.blaze3d.pipeline.TextureTarget target;
+        //?}
 
         Layer(String label) {
             this.label = label;
@@ -125,7 +125,7 @@ public final class ScreenEffects {
         }
 
         //? if >=26.1 {
-        /** The target a render type draws into this frame; marks the layer used. */
+        /*/^* The target a render type draws into this frame; marks the layer used. ^/
         RenderTarget drawTarget() {
             used = true;
             return ensure();
@@ -146,8 +146,8 @@ public final class ScreenEffects {
                 RenderSystem.getDevice().createCommandEncoder().clearColorTexture(target.getColorTexture(), 0);
             }
         }
-        //?} else {
-        /*/^* Binds the layer (with the main depth attached) for a render type's draw; marks the layer used. ^/
+        *///?} else {
+        /** Binds the layer (with the main depth attached) for a render type's draw; marks the layer used. */
         void bindForDraw() {
             used = true;
             RenderTarget main = Minecraft.getInstance().getMainRenderTarget();
@@ -169,15 +169,15 @@ public final class ScreenEffects {
         void clear() {
             if (target != null) clearColor(target);
         }
-        *///?}
+        //?}
     }
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * A layer target whose depth attachment is the main target's. {@code RenderType.draw} attaches
      * {@code getDepthTextureView()} of its output target, so this is all it takes for the layer to be tested
      * against the hand's depth. Its own depth texture is allocated by the superclass and never used.
-     */
+     ^/
     private static final class SharedDepthTarget extends com.mojang.blaze3d.pipeline.TextureTarget {
         SharedDepthTarget(String label, int width, int height) {
             super(label, width, height, true);
@@ -189,7 +189,7 @@ public final class ScreenEffects {
         }
     }
 
-    /** A plain colour target for a chain pass. */
+    /^* A plain colour target for a chain pass. ^/
     static com.mojang.blaze3d.pipeline.TextureTarget newTarget(String label, int width, int height) {
         com.mojang.blaze3d.pipeline.TextureTarget target =
                 new com.mojang.blaze3d.pipeline.TextureTarget(label, Math.max(1, width), Math.max(1, height), false);
@@ -197,7 +197,7 @@ public final class ScreenEffects {
         return target;
     }
 
-    /** A fullscreen pass: {@code pipeline} draws the screen triangle into {@code output}. */
+    /^* A fullscreen pass: {@code pipeline} draws the screen triangle into {@code output}. ^/
     static void fullscreen(String label, com.mojang.blaze3d.pipeline.RenderPipeline pipeline,
                            com.mojang.blaze3d.textures.GpuTextureView output, float time,
                            java.util.function.Consumer<com.mojang.blaze3d.systems.RenderPass> samplers) {
@@ -217,7 +217,7 @@ public final class ScreenEffects {
         }
     }
 
-    /** A fullscreen pipeline: no depth, colour written without alpha (1.12's colorMask(true, true, true, false)). */
+    /^* A fullscreen pipeline: no depth, colour written without alpha (1.12's colorMask(true, true, true, false)). ^/
     static com.mojang.blaze3d.pipeline.RenderPipeline fullscreenPipeline(String fragment, int samplers,
             java.util.Optional<com.mojang.blaze3d.pipeline.BlendFunction> blend) {
         var builder = com.mojang.blaze3d.pipeline.RenderPipeline.builder()
@@ -237,8 +237,8 @@ public final class ScreenEffects {
     static com.mojang.blaze3d.textures.GpuSampler linearClamp() {
         return RenderSystem.getSamplerCache().getClampToEdge(com.mojang.blaze3d.textures.FilterMode.LINEAR);
     }
-    //?} else {
-    /*/^* A plain colour target for a chain pass, filtered as given. ^/
+    *///?} else {
+    /** A plain colour target for a chain pass, filtered as given. */
     static com.mojang.blaze3d.pipeline.TextureTarget newTarget(int width, int height, int filter) {
         com.mojang.blaze3d.pipeline.TextureTarget target = new com.mojang.blaze3d.pipeline.TextureTarget(
                 Math.max(1, width), Math.max(1, height), false, Minecraft.ON_OSX);
@@ -247,23 +247,23 @@ public final class ScreenEffects {
         return target;
     }
 
-    /^*
+    /**
      * {@code type} as a layer render type. 1.20.1's {@code RenderType.end} sets the state up (which binds the layer
      * and marks it used) for any batch that was begun, even one with no vertices; 1.21 discards an empty batch first,
      * and 26.1 never draws one. A fully clipped blade (the spent crucible) submits exactly such a batch, so on 1.20.1
      * the whole bloom chain ran every frame over an empty layer. The empty batch is discarded here as 1.21 does.
-     ^/
+     */
     static net.minecraft.client.renderer.RenderType skipEmpty(net.minecraft.client.renderer.RenderType type,
                                                             boolean sortOnUpload) {
         //? if >=1.21 {
-        return type;
-        //?} else {
-        /^return new SkipEmpty(type, sortOnUpload);
-        ^///?}
+        /*return type;
+        *///?} else {
+        return new SkipEmpty(type, sortOnUpload);
+        //?}
     }
 
     //? if <1.21 {
-    /^private static final class SkipEmpty extends net.minecraft.client.renderer.RenderType {
+    private static final class SkipEmpty extends net.minecraft.client.renderer.RenderType {
         SkipEmpty(net.minecraft.client.renderer.RenderType type, boolean sortOnUpload) {
             super(type.toString(), type.format(), type.mode(), type.bufferSize(), type.affectsCrumbling(), sortOnUpload,
                     type::setupRenderState, type::clearRenderState);
@@ -278,9 +278,9 @@ public final class ScreenEffects {
             super.end(buffer, sorting);
         }
     }
-    ^///?}
+    //?}
 
-    /^* Clears a target's colour to transparent black, leaving the bound framebuffer and clear colour as they were. ^/
+    /** Clears a target's colour to transparent black, leaving the bound framebuffer and clear colour as they were. */
     static void clearColor(RenderTarget target) {
         int drawTarget = org.lwjgl.opengl.GL11.glGetInteger(org.lwjgl.opengl.GL30.GL_DRAW_FRAMEBUFFER_BINDING);
         float[] clear = new float[4];
@@ -292,7 +292,7 @@ public final class ScreenEffects {
         com.mojang.blaze3d.platform.GlStateManager._glBindFramebuffer(org.lwjgl.opengl.GL30.GL_FRAMEBUFFER, drawTarget);
     }
 
-    /^* The legacy fullscreen programs, loaded on first use and dropped on resource reload. ^/
+    /** The legacy fullscreen programs, loaded on first use and dropped on resource reload. */
     static final class Programs {
         private static final java.util.Map<String, net.minecraft.client.renderer.ShaderInstance> LOADED = new java.util.HashMap<>();
 
@@ -315,11 +315,11 @@ public final class ScreenEffects {
         }
     }
 
-    /^*
+    /**
      * The GL state a run of fullscreen passes changes, saved once and put back afterwards. The passes bind their
      * program directly (like {@code DepthMerge}) instead of through {@code ShaderInstance.apply()}, so vanilla's
      * shader and blend caches are left alone.
-     ^/
+     */
     static final class SavedState implements AutoCloseable {
         private final int program;
         private final int activeTexture;
@@ -387,10 +387,10 @@ public final class ScreenEffects {
         }
     }
 
-    /^*
+    /**
      * A fullscreen pass into {@code output} ({@code additive}: ONE / ONE, otherwise unblended), sampling
      * {@code textures} as Sampler0.. in order. Run inside a {@link SavedState}.
-     ^/
+     */
     static void fullscreen(String program, RenderTarget output, boolean additive, float time, int... textures) {
         net.minecraft.client.renderer.ShaderInstance shader = Programs.get(program);
         output.bindWrite(true);
@@ -410,19 +410,19 @@ public final class ScreenEffects {
         }
         RenderSystem.activeTexture(org.lwjgl.opengl.GL13.GL_TEXTURE0);
         //? if >=1.21 {
-        var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
+        /*var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
         builder.addVertex(-1F, -1F, time);
         builder.addVertex(3F, -1F, time);
         builder.addVertex(-1F, 3F, time);
         com.mojang.blaze3d.vertex.BufferUploader.draw(builder.buildOrThrow());
-        //?} else {
-        /^var builder = Tesselator.getInstance().getBuilder();
+        *///?} else {
+        var builder = Tesselator.getInstance().getBuilder();
         builder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
         builder.vertex(-1F, -1F, time).endVertex();
         builder.vertex(3F, -1F, time).endVertex();
         builder.vertex(-1F, 3F, time).endVertex();
         com.mojang.blaze3d.vertex.BufferUploader.draw(builder.end());
-        ^///?}
+        //?}
     }
-    *///?}
+    //?}
 }

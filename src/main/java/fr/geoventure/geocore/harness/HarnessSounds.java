@@ -96,10 +96,10 @@ final class HarnessSounds {
         try {
             String id;
             //? if >=26.1 {
-            id = String.valueOf(sound.getIdentifier());
-            //?} else {
-            /*id = String.valueOf(sound.getLocation());
-            *///?}
+            /*id = String.valueOf(sound.getIdentifier());
+            *///?} else {
+            id = String.valueOf(sound.getLocation());
+            //?}
             float volume, pitch;
             try {
                 volume = sound.getVolume();
@@ -120,15 +120,15 @@ final class HarnessSounds {
 
     private static final class Listener implements SoundEventListener {
         //? if >=1.21 {
-        @Override
+        /*@Override
         public void onPlaySound(SoundInstance sound, WeighedSoundEvents accessor, float range) {
             record(sound);
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public void onPlaySound(SoundInstance sound, WeighedSoundEvents accessor) {
             record(sound);
         }
-        *///?}
+        //?}
     }
 }

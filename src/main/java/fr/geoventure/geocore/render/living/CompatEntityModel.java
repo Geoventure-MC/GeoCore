@@ -4,12 +4,12 @@ import java.util.function.Function;
 import net.minecraft.client.model.geom.ModelPart;
 
 //? if >=26.1 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+*///?} else {
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.List;
 import net.minecraft.client.model.EntityModel;
@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import org.jspecify.annotations.Nullable;
-*///?}
+//?}
 
 /**
  * A cube-model ({@code ModelPart} tree) for a living entity, written once against 26.1's shape: built from a
@@ -35,55 +35,55 @@ import org.jspecify.annotations.Nullable;
  */
 public abstract class CompatEntityModel<S extends CompatLivingRenderState>
         //? if >=26.1 {
-        extends EntityModel<S>
-        //?} else {
-        /*extends EntityModel<LivingEntity>
-        *///?}
+        /*extends EntityModel<S>
+        *///?} else {
+        extends EntityModel<LivingEntity>
+        //?}
 {
 
     //? if <26.1 {
-    /*private final ModelPart root;
+    private final ModelPart root;
     private final List<ModelPart> parts;
     @Nullable S bound;
-    *///?}
+    //?}
 
     /** A model drawn with the cutout, unculled entity type (vanilla's default for cube models). */
     protected CompatEntityModel(ModelPart root) {
         //? if >=26.1 {
-        super(root);
-        //?} else {
-        /*this(root, RenderType::entityCutoutNoCull);
-        *///?}
+        /*super(root);
+        *///?} else {
+        this(root, RenderType::entityCutoutNoCull);
+        //?}
     }
 
     /** A model drawn with a specific render type per texture, e.g. translucent or culled. */
     protected CompatEntityModel(ModelPart root, Function<
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             , RenderType> renderType) {
         //? if >=26.1 {
-        super(root, renderType);
-        //?} else {
-        /*super(renderType);
+        /*super(root, renderType);
+        *///?} else {
+        super(renderType);
         this.root = root;
         this.parts = root.getAllParts().toList();
-        *///?}
+        //?}
     }
 
     /** Writes this frame's rotations into the parts. Every part starts at its baked pose. */
     protected abstract void pose(S state);
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public final void setupAnim(S state) {
         super.setupAnim(state);
         pose(state);
     }
-    //?} else {
-    /*public final ModelPart root() {
+    *///?} else {
+    public final ModelPart root() {
         return root;
     }
 
@@ -105,14 +105,14 @@ public abstract class CompatEntityModel<S extends CompatLivingRenderState>
 
     @Override
     //? if >=1.21 {
-    public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, int color) {
+    /*public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, int color) {
         root.render(poseStack, buffer, light, overlay, color);
     }
-    //?} else {
-    /^public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay,
+    *///?} else {
+    public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay,
                                      float red, float green, float blue, float alpha) {
         root.render(poseStack, buffer, light, overlay, red, green, blue, alpha);
-    }^/
+    }
     //?}
-    *///?}
+    //?}
 }

@@ -21,10 +21,10 @@ public final class NbtFiles {
     /** Reads a whole compressed compound with no size quota (large hand-made structure files exceed it). */
     public static CompoundTag readCompressed(InputStream in) throws IOException {
         //? if >=1.20.2 {
-        return NbtIo.readCompressed(in, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
-        //?} else {
-        /*return NbtIo.readCompressed(in);
-        *///?}
+        /*return NbtIo.readCompressed(in, net.minecraft.nbt.NbtAccounter.unlimitedHeap());
+        *///?} else {
+        return NbtIo.readCompressed(in);
+        //?}
     }
 
     public static void writeCompressed(CompoundTag tag, OutputStream out) throws IOException {
@@ -42,10 +42,10 @@ public final class NbtFiles {
         Tag element = list.get(index);
         if (!(element instanceof NumericTag number)) return 0;
         //? if >=26.1 {
-        return number.intValue();
-        //?} else {
-        /*return number.getAsInt();
-        *///?}
+        /*return number.intValue();
+        *///?} else {
+        return number.getAsInt();
+        //?}
     }
 
     /** The text of element {@code index} of a string list, "" for anything else. */
@@ -54,10 +54,10 @@ public final class NbtFiles {
         Tag element = list.get(index);
         if (!(element instanceof net.minecraft.nbt.StringTag string)) return "";
         //? if >=26.1 {
-        return string.value();
-        //?} else {
-        /*return string.getAsString();
-        *///?}
+        /*return string.value();
+        *///?} else {
+        return string.getAsString();
+        //?}
     }
 
     /** The compound stored under {@code name}, or null when missing or of another type. */

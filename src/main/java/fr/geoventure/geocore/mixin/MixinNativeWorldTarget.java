@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import com.llamalad7.mixinextras.sugar.Local;
+/*import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.opengl.GlRenderPass;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -33,4 +33,4 @@ public abstract class MixinNativeWorldTarget {
         }
     }
 }
-//?}
+*///?}

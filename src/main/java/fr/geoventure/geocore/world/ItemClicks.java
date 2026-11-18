@@ -40,7 +40,7 @@ public final class ItemClicks {
             return net.minecraft.world.InteractionResultHolder.success(held);
         });
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClickItem event) -> {
                     InteractionResult result = dispatch(event.getEntity(), event.getHand());
                     if (ends(result)) {
@@ -48,8 +48,8 @@ public final class ItemClicks {
                         event.setCancellationResult(result);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem event) -> {
                     InteractionResult result = dispatch(event.getEntity(), event.getHand());
                     if (ends(result)) {
@@ -57,7 +57,7 @@ public final class ItemClicks {
                         event.setCancellationResult(result);
                     }
                 });
-        *///?}
+        //?}
     }
 
     /** Offers a click to every handler; the first that ends it wins, else {@code PASS}. */

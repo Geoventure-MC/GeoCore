@@ -10,10 +10,10 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+/*import net.minecraft.client.renderer.rendertype.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 /** A sink that draws nothing and keeps every custom-geometry vertex position, in the sink's own space. */
 public final class GeometryPoints implements SubmitSink {
@@ -66,7 +66,7 @@ public final class GeometryPoints implements SubmitSink {
     /** Takes positions only; the posed forms land here after the default transform. */
     private final class Positions implements VertexConsumer {
         //? if >=1.21 {
-        @Override public VertexConsumer addVertex(float x, float y, float z) { add(x, y, z); return this; }
+        /*@Override public VertexConsumer addVertex(float x, float y, float z) { add(x, y, z); return this; }
         @Override public VertexConsumer addVertex(PoseStack.Pose pose, float x, float y, float z) {
             Vector3f at = pose.pose().transformPosition(x, y, z, new Vector3f());
             add(at.x, at.y, at.z);
@@ -78,12 +78,12 @@ public final class GeometryPoints implements SubmitSink {
         @Override public VertexConsumer setUv1(int u, int v) { return this; }
         @Override public VertexConsumer setUv2(int u, int v) { return this; }
         @Override public VertexConsumer setNormal(float x, float y, float z) { return this; }
-        //?}
+        *///?}
         //? if >=26.1 {
-        @Override public VertexConsumer setLineWidth(float width) { return this; }
-        //?}
+        /*@Override public VertexConsumer setLineWidth(float width) { return this; }
+        *///?}
         //? if <1.21 {
-        /*@Override public VertexConsumer vertex(double x, double y, double z) { add((float) x, (float) y, (float) z); return this; }
+        @Override public VertexConsumer vertex(double x, double y, double z) { add((float) x, (float) y, (float) z); return this; }
         @Override public VertexConsumer vertex(org.joml.Matrix4f matrix, float x, float y, float z) {
             Vector3f at = matrix.transformPosition(x, y, z, new Vector3f());
             add(at.x, at.y, at.z);
@@ -97,6 +97,6 @@ public final class GeometryPoints implements SubmitSink {
         @Override public void endVertex() {}
         @Override public void defaultColor(int r, int g, int b, int a) {}
         @Override public void unsetDefaultColor() {}
-        *///?}
+        //?}
     }
 }

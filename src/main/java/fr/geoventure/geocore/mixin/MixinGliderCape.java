@@ -16,16 +16,16 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinGliderCape {
 
     //? if >=26.1 {
-    @ModifyExpressionValue(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/AvatarRenderState;FF)V",
+    /*@ModifyExpressionValue(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/AvatarRenderState;FF)V",
             at = @At(value = "FIELD", target = "chestEquipment:Lnet/minecraft/world/item/ItemStack;"))
     private ItemStack geocore$wings(ItemStack chest) {
         return Gliders.wingsFor(chest);
     }
-    //?} else {
-    /*@ModifyExpressionValue(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;FFFFFF)V",
+    *///?} else {
+    @ModifyExpressionValue(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"))
     private ItemStack geocore$wings(ItemStack chest) {
         return Gliders.wingsFor(chest);
     }
-    *///?}
+    //?}
 }

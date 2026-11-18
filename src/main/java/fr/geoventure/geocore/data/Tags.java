@@ -28,34 +28,34 @@ public final class Tags {
 
     public static int getIntOr(CompoundTag tag, String name, int defaultValue) {
         //? if >=26.1 {
-        return tag.getIntOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getInt(name) : defaultValue;
-        *///?}
+        /*return tag.getIntOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getInt(name) : defaultValue;
+        //?}
     }
 
     public static long getLongOr(CompoundTag tag, String name, long defaultValue) {
         //? if >=26.1 {
-        return tag.getLongOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getLong(name) : defaultValue;
-        *///?}
+        /*return tag.getLongOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getLong(name) : defaultValue;
+        //?}
     }
 
     public static float getFloatOr(CompoundTag tag, String name, float defaultValue) {
         //? if >=26.1 {
-        return tag.getFloatOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getFloat(name) : defaultValue;
-        *///?}
+        /*return tag.getFloatOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getFloat(name) : defaultValue;
+        //?}
     }
 
     public static double getDoubleOr(CompoundTag tag, String name, double defaultValue) {
         //? if >=26.1 {
-        return tag.getDoubleOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getDouble(name) : defaultValue;
-        *///?}
+        /*return tag.getDoubleOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getDouble(name) : defaultValue;
+        //?}
     }
 
     /**
@@ -64,76 +64,76 @@ public final class Tags {
      */
     public static boolean getBooleanOr(CompoundTag tag, String name, boolean defaultValue) {
         //? if >=26.1 {
-        return tag.getBooleanOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getBoolean(name) : defaultValue;
-        *///?}
+        /*return tag.getBooleanOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getBoolean(name) : defaultValue;
+        //?}
     }
 
     public static byte getByteOr(CompoundTag tag, String name, byte defaultValue) {
         //? if >=26.1 {
-        return tag.getByteOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getByte(name) : defaultValue;
-        *///?}
+        /*return tag.getByteOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC) ? tag.getByte(name) : defaultValue;
+        //?}
     }
 
     public static String getStringOr(CompoundTag tag, String name, String defaultValue) {
         //? if >=26.1 {
-        return tag.getStringOr(name, defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_STRING) ? tag.getString(name) : defaultValue;
-        *///?}
+        /*return tag.getStringOr(name, defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_STRING) ? tag.getString(name) : defaultValue;
+        //?}
     }
 
     public static boolean hasInt(CompoundTag tag, String name) {
         //? if >=26.1 {
-        return tag.getInt(name).isPresent();
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC);
-        *///?}
+        /*return tag.getInt(name).isPresent();
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC);
+        //?}
     }
 
     public static boolean hasDouble(CompoundTag tag, String name) {
         //? if >=26.1 {
-        return tag.getDouble(name).isPresent();
-        //?} else {
-        /*return tag.contains(name, TAG_ANY_NUMERIC);
-        *///?}
+        /*return tag.getDouble(name).isPresent();
+        *///?} else {
+        return tag.contains(name, TAG_ANY_NUMERIC);
+        //?}
     }
 
     public static int[] getIntArrayOr(CompoundTag tag, String name, int[] defaultValue) {
         //? if >=26.1 {
-        return tag.getIntArray(name).orElse(defaultValue);
-        //?} else {
-        /*return tag.contains(name, TAG_INT_ARRAY) ? tag.getIntArray(name) : defaultValue;
-        *///?}
+        /*return tag.getIntArray(name).orElse(defaultValue);
+        *///?} else {
+        return tag.contains(name, TAG_INT_ARRAY) ? tag.getIntArray(name) : defaultValue;
+        //?}
     }
 
     public static java.util.Set<String> keys(CompoundTag tag) {
         //? if >=26.1 {
-        return tag.keySet();
-        //?} else {
-        /*return tag.getAllKeys();
-        *///?}
+        /*return tag.keySet();
+        *///?} else {
+        return tag.getAllKeys();
+        //?}
     }
 
     /** A compound-element list across the 26.1 typed-getter change (missing or wrongly typed: empty). */
     public static net.minecraft.nbt.ListTag getListOrEmpty(CompoundTag tag, String name) {
         //? if >=26.1 {
-        return tag.getListOrEmpty(name);
-        //?} else {
-        /*return tag.getList(name, net.minecraft.nbt.Tag.TAG_COMPOUND);
-        *///?}
+        /*return tag.getListOrEmpty(name);
+        *///?} else {
+        return tag.getList(name, net.minecraft.nbt.Tag.TAG_COMPOUND);
+        //?}
     }
 
     /** The compound at {@code index} of a list, across the 26.1 typed-getter change. */
     public static CompoundTag getCompoundOrEmpty(net.minecraft.nbt.ListTag list, int index) {
         //? if >=26.1 {
-        return list.getCompoundOrEmpty(index);
-        //?} else {
-        /*return list.getCompound(index);
-        *///?}
+        /*return list.getCompoundOrEmpty(index);
+        *///?} else {
+        return list.getCompound(index);
+        //?}
     }
 
     /** Whether the tag holds {@code name} at all, across the key-lookup rename. */

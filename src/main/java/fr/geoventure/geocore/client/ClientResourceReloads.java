@@ -30,8 +30,8 @@ public final class ClientResourceReloads {
                     }
                 });
         *///?} elif neoforge {
-        //? if >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*//? if >=26.1 {
+        /^fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.AddClientReloadListenersEvent event) ->
                         event.addListener(Ids.of(namespace, path),
                                 new net.minecraft.server.packs.resources.ResourceManagerReloadListener() {
@@ -41,19 +41,19 @@ public final class ClientResourceReloads {
                                         callback.run();
                                     }
                                 }));
-        //?} else {
-        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        ^///?} else {
+        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent event) ->
                         event.registerReloadListener(
                                 (net.minecraft.server.packs.resources.ResourceManagerReloadListener) resources ->
                                         callback.run()));
-        *///?}
-        //?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        //?}
+        *///?} elif forge {
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.client.event.RegisterClientReloadListenersEvent event) ->
                         event.registerReloadListener(
                                 (net.minecraft.server.packs.resources.ResourceManagerReloadListener) resources ->
                                         callback.run()));
-        *///?}
+        //?}
     }
 }

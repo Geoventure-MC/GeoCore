@@ -76,24 +76,24 @@ public final class GeoCoreArmorMaterial {
     }
 
     //? if >=26.1 {
-    private TagKey<Item> repairTag() {
+    /*private TagKey<Item> repairTag() {
         return TagKey.create(Registries.ITEM,
                 Ids.of(namespace, repairIngredient));
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*private TagKey<Item> repairTag() {
         return TagKey.create(Registries.ITEM,
                 Ids.of(namespace, repairIngredient));
     }
     *///?} else {
-    /*private TagKey<Item> repairTag() {
+    private TagKey<Item> repairTag() {
         return TagKey.create(Registries.ITEM,
                 Ids.of(namespace, repairIngredient));
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    private net.minecraft.world.item.equipment.ArmorMaterial createNative() {
+    /*private net.minecraft.world.item.equipment.ArmorMaterial createNative() {
         Map<net.minecraft.world.item.equipment.ArmorType, Integer> defense =
                 new EnumMap<>(net.minecraft.world.item.equipment.ArmorType.class);
         defense.put(net.minecraft.world.item.equipment.ArmorType.HELMET, helmetDefense);
@@ -106,7 +106,7 @@ public final class GeoCoreArmorMaterial {
                 net.minecraft.resources.ResourceKey.create(net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID,
                         Ids.of(namespace, name)));
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*private net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial> createNative() {
         Map<net.minecraft.world.item.ArmorItem.Type, Integer> defense =
                 new EnumMap<>(net.minecraft.world.item.ArmorItem.Type.class);
@@ -122,7 +122,7 @@ public final class GeoCoreArmorMaterial {
         return net.minecraft.core.Holder.direct(material);
     }
     *///?} else {
-    /*private net.minecraft.world.item.ArmorMaterial createNative() {
+    private net.minecraft.world.item.ArmorMaterial createNative() {
         return new net.minecraft.world.item.ArmorMaterial() {
             @Override public int getDurabilityForType(net.minecraft.world.item.ArmorItem.Type type) {
                 return durability * switch (type) {
@@ -145,5 +145,5 @@ public final class GeoCoreArmorMaterial {
             @Override public float getKnockbackResistance() { return knockbackResistance; }
         };
     }
-    *///?}
+    //?}
 }

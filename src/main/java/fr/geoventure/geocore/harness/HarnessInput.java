@@ -164,32 +164,32 @@ final class HarnessInput {
         int scancode = GLFW.glfwGetKeyScancode(key);
         int action = down ? GLFW.GLFW_PRESS : GLFW.GLFW_RELEASE;
         //? if >=26.1 {
-        ((HarnessKeyboardHandlerAccessor) minecraft.keyboardHandler).geocore$keyPress(window, action,
+        /*((HarnessKeyboardHandlerAccessor) minecraft.keyboardHandler).geocore$keyPress(window, action,
                 new net.minecraft.client.input.KeyEvent(key, scancode, mods));
-        //?} else {
-        /*minecraft.keyboardHandler.keyPress(window, key, scancode, action, mods);
-        *///?}
+        *///?} else {
+        minecraft.keyboardHandler.keyPress(window, key, scancode, action, mods);
+        //?}
     }
 
     static void charTyped(Minecraft minecraft, int codepoint, int mods) {
         long window = HarnessWindow.handle(minecraft);
         //? if >=26.1 {
-        ((HarnessKeyboardHandlerAccessor) minecraft.keyboardHandler).geocore$charTyped(window,
+        /*((HarnessKeyboardHandlerAccessor) minecraft.keyboardHandler).geocore$charTyped(window,
                 new net.minecraft.client.input.CharacterEvent(codepoint));
-        //?} else {
-        /*((HarnessKeyboardHandlerAccessor) minecraft.keyboardHandler).geocore$charTyped(window, codepoint, mods);
-        *///?}
+        *///?} else {
+        ((HarnessKeyboardHandlerAccessor) minecraft.keyboardHandler).geocore$charTyped(window, codepoint, mods);
+        //?}
     }
 
     static void mouseButton(Minecraft minecraft, int button, boolean down, int mods) {
         long window = HarnessWindow.handle(minecraft);
         int action = down ? GLFW.GLFW_PRESS : GLFW.GLFW_RELEASE;
         //? if >=26.1 {
-        ((HarnessMouseHandlerAccessor) minecraft.mouseHandler).geocore$onButton(window,
+        /*((HarnessMouseHandlerAccessor) minecraft.mouseHandler).geocore$onButton(window,
                 new net.minecraft.client.input.MouseButtonInfo(button, mods), action);
-        //?} else {
-        /*((HarnessMouseHandlerAccessor) minecraft.mouseHandler).geocore$onPress(window, button, action, mods);
-        *///?}
+        *///?} else {
+        ((HarnessMouseHandlerAccessor) minecraft.mouseHandler).geocore$onPress(window, button, action, mods);
+        //?}
     }
 
     /** Moves the cursor to GUI-scaled coordinates (the space screens and slots are laid out in). */

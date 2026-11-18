@@ -3,18 +3,18 @@ package fr.geoventure.geocore.render;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 //? if <26.1 {
-/*import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-*///?}
+//?}
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-//?}
+*///?}
 
 /**
  * The base class for a mod's own textured, camera-facing particle.
@@ -37,10 +37,10 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
  */
 public abstract class CompatParticle extends
         //? if >=26.1 {
-        net.minecraft.client.particle.SingleQuadParticle
-        //?} else {
-        /*net.minecraft.client.particle.TextureSheetParticle
-        *///?}
+        /*net.minecraft.client.particle.SingleQuadParticle
+        *///?} else {
+        net.minecraft.client.particle.TextureSheetParticle
+        //?}
 {
 
     /** Full sky+block light, the modern spelling of 1.12's {@code 0xF000F0}. */
@@ -55,7 +55,7 @@ public abstract class CompatParticle extends
     private float planePitch;
 
     //? if >=26.1 {
-    // PARTICLE_SNIPPET keeps the vanilla particle atlas bindings while this replaces only blend/depth.
+    /*// PARTICLE_SNIPPET keeps the vanilla particle atlas bindings while this replaces only blend/depth.
     // The loader hooks register this pipeline alongside their normal particle pipeline registration.
     public static final RenderPipeline ADDITIVE_PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.PARTICLE_SNIPPET)
             .withLocation("pipeline/geocore_particle_additive")
@@ -63,12 +63,12 @@ public abstract class CompatParticle extends
             .withDepthStencilState(new DepthStencilState(DepthStencilState.DEFAULT.depthTest(), false)).build(), RenderPipelines.TRANSLUCENT_PARTICLE);
     private static final net.minecraft.client.particle.SingleQuadParticle.Layer ADDITIVE_LAYER =
             new net.minecraft.client.particle.SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_PARTICLES, ADDITIVE_PIPELINE);
-    //?}
+    *///?}
     //? if <26.1 {
-    /*private static final net.minecraft.client.particle.ParticleRenderType ADDITIVE_LAYER =
+    private static final net.minecraft.client.particle.ParticleRenderType ADDITIVE_LAYER =
             new net.minecraft.client.particle.ParticleRenderType() {
                 //? if >=1.21 {
-                @Override
+                /*@Override
                 public com.mojang.blaze3d.vertex.BufferBuilder begin(
                         com.mojang.blaze3d.vertex.Tesselator tesselator,
                         net.minecraft.client.renderer.texture.TextureManager textureManager) {
@@ -79,8 +79,8 @@ public abstract class CompatParticle extends
                     return tesselator.begin(com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS,
                             com.mojang.blaze3d.vertex.DefaultVertexFormat.PARTICLE);
                 }
-                //?} else {
-                /^@Override
+                *///?} else {
+                @Override
                 public void begin(com.mojang.blaze3d.vertex.BufferBuilder buffer,
                         net.minecraft.client.renderer.texture.TextureManager textureManager) {
                     RenderSystem.depthMask(false);
@@ -90,24 +90,24 @@ public abstract class CompatParticle extends
                     buffer.begin(com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS,
                             com.mojang.blaze3d.vertex.DefaultVertexFormat.PARTICLE);
                 }
-                ^///?}
+                //?}
 
                 //? if <1.21 {
-                /^@Override
+                @Override
                 public void end(com.mojang.blaze3d.vertex.Tesselator tesselator) {
                     tesselator.end();
                     RenderSystem.defaultBlendFunc();
                     RenderSystem.depthMask(true);
                     RenderSystem.disableBlend();
                 }
-                ^///?}
+                //?}
 
                 @Override
                 public String toString() {
                     return "GEOCORE_PARTICLE_ADDITIVE";
                 }
             };
-    *///?}
+    //?}
 
     //? if fabric && <26.1 {
     /*static {
@@ -126,21 +126,21 @@ public abstract class CompatParticle extends
 
     protected CompatParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite) {
         //? if >=26.1 {
-        super(level, x, y, z, sprite);
-        //?} else {
-        /*super(level, x, y, z);
+        /*super(level, x, y, z, sprite);
+        *///?} else {
+        super(level, x, y, z);
         this.setSprite(sprite);
-        *///?}
+        //?}
     }
 
     protected CompatParticle(ClientLevel level, double x, double y, double z,
             double xa, double ya, double za, TextureAtlasSprite sprite) {
         //? if >=26.1 {
-        super(level, x, y, z, xa, ya, za, sprite);
-        //?} else {
-        /*super(level, x, y, z, xa, ya, za);
+        /*super(level, x, y, z, xa, ya, za, sprite);
+        *///?} else {
+        super(level, x, y, z, xa, ya, za);
         this.setSprite(sprite);
-        *///?}
+        //?}
     }
 
     /** Chooses how this particle's quad is drawn. Call from the subclass constructor. */
@@ -206,7 +206,7 @@ public abstract class CompatParticle extends
     }
 
     //? if >=1.21 {
-    @Override
+    /*@Override
     public net.minecraft.client.particle.SingleQuadParticle.FacingCameraMode getFacingCameraMode() {
         if (this.planeOriented) {
             return (target, camera, partialTick) -> target.identity()
@@ -216,7 +216,7 @@ public abstract class CompatParticle extends
         if (!this.isFlatOnGround()) return super.getFacingCameraMode();
         return (target, camera, partialTick) -> target.rotationX((float) (-Math.PI / 2D));
     }
-    //?}
+    *///?}
 
     /**
      * Called once per frame, just before the quad is built, with the frame's partial tick.
@@ -257,7 +257,7 @@ public abstract class CompatParticle extends
     // directly. Both are called once per particle per frame, which is all updateForFrame needs, and
     // both then route the quads through emitQuads so a cluster particle works on either era.
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void extract(net.minecraft.client.renderer.state.level.QuadParticleRenderState renderState,
             net.minecraft.client.Camera camera, float partialTick) {
         this.updateForFrame(partialTick);
@@ -289,23 +289,23 @@ public abstract class CompatParticle extends
                 this.geocoreColor(),
                 light), partialTick);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void render(com.mojang.blaze3d.vertex.VertexConsumer buffer,
             net.minecraft.client.Camera camera, float partialTick) {
         this.updateForFrame(partialTick);
 
         org.joml.Quaternionf rotation;
         //? if >=1.21 {
-        rotation = new org.joml.Quaternionf();
+        /*rotation = new org.joml.Quaternionf();
         this.getFacingCameraMode().setRotation(rotation, camera, partialTick);
-        //?} else {
-        /^// 1.20.1 has no FacingCameraMode seam; the camera's own rotation is all there is.
+        *///?} else {
+        // 1.20.1 has no FacingCameraMode seam; the camera's own rotation is all there is.
         rotation = this.planeOriented
                 ? new org.joml.Quaternionf().rotateY((float) Math.toRadians(this.planeYaw))
                         .rotateX((float) Math.toRadians(this.planePitch - 90F))
                 : new org.joml.Quaternionf(camera.rotation());
-        ^///?}
+        //?}
         if (this.roll != 0.0F) {
             rotation.rotateZ(net.minecraft.util.Mth.lerp(partialTick, this.oRoll, this.roll));
         }
@@ -320,10 +320,10 @@ public abstract class CompatParticle extends
         // two face opposite ways, and vanilla 1.20.1 SingleQuadParticle mirrors the corners in x to keep the quad's
         // front toward the camera. With 1.21's corner order a camera-facing quad was back-face culled on 1.20.1.
         //? if >=1.21 {
-        final float sx = 1F;
-        //?} else {
-        /^final float sx = this.planeOriented ? 1F : -1F;
-        ^///?}
+        /*final float sx = 1F;
+        *///?} else {
+        final float sx = this.planeOriented ? 1F : -1F;
+        //?}
         this.emitQuads((dx, dy, dz, size) -> {
             float x = baseX + dx;
             float y = baseY + dy;
@@ -340,34 +340,34 @@ public abstract class CompatParticle extends
         }, partialTick);
     }
 
-    /^* One corner of a particle quad. The particle vertex format is position/uv/colour/light only. ^/
+    /** One corner of a particle quad. The particle vertex format is position/uv/colour/light only. */
     private void geocoreQuadVertex(com.mojang.blaze3d.vertex.VertexConsumer buffer, org.joml.Quaternionf rotation,
             float x, float y, float z, float cornerX, float cornerY, float size, float u, float v, int light) {
         org.joml.Vector3f corner = new org.joml.Vector3f(cornerX, cornerY, 0.0F)
                 .rotate(rotation).mul(size).add(x, y, z);
         //? if >=1.21 {
-        buffer.addVertex(corner.x(), corner.y(), corner.z())
+        /*buffer.addVertex(corner.x(), corner.y(), corner.z())
                 .setUv(u, v)
                 .setColor(geocoreChannel(this.rCol), geocoreChannel(this.gCol), geocoreChannel(this.bCol),
                         geocoreChannel(this.alpha))
                 .setLight(light);
-        //?} else {
-        /^buffer.vertex(corner.x(), corner.y(), corner.z())
+        *///?} else {
+        buffer.vertex(corner.x(), corner.y(), corner.z())
                 .uv(u, v)
                 .color(geocoreChannel(this.rCol), geocoreChannel(this.gCol), geocoreChannel(this.bCol),
                         geocoreChannel(this.alpha))
                 .uv2(light)
                 .endVertex();
-        ^///?}
+        //?}
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    private int geocoreColor() {
+    /*private int geocoreColor() {
         return net.minecraft.util.ARGB.colorFromFloat(geocoreChannel(this.alpha), geocoreChannel(this.rCol),
                 geocoreChannel(this.gCol), geocoreChannel(this.bCol));
     }
-    //?}
+    *///?}
 
     /** 1.7's Tessellator clamped each channel; packing a fade below zero wraps it to nearly opaque. */
     private static float geocoreChannel(float value) {
@@ -380,20 +380,20 @@ public abstract class CompatParticle extends
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected int getLightCoords(float partialTick) {
         return lightOverride >= 0 ? lightOverride : this.geocoreLayer.isFullbright() ? FULLBRIGHT : super.getLightCoords(
                 partialTick);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected int getLightColor(float partialTick) {
         return lightOverride >= 0 ? lightOverride : this.geocoreLayer.isFullbright() ? FULLBRIGHT : super.getLightColor(partialTick);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected net.minecraft.client.particle.SingleQuadParticle.Layer getLayer() {
         if (this.geocoreFogless) return FaintParticleLayers.FOGLESS_ADDITIVE;
         if (this.geocoreFaint) {
@@ -402,8 +402,8 @@ public abstract class CompatParticle extends
         return this.geocoreLayer == ParticleLayer.ADDITIVE ? ADDITIVE_LAYER
                 : net.minecraft.client.particle.SingleQuadParticle.Layer.TRANSLUCENT;
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.client.particle.ParticleRenderType getRenderType() {
         if (this.geocoreFogless) return FaintParticleLayers.FOGLESS_ADDITIVE;
         if (this.geocoreFaint) {
@@ -412,5 +412,5 @@ public abstract class CompatParticle extends
         return this.geocoreLayer == ParticleLayer.ADDITIVE ? ADDITIVE_LAYER
                 : net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
-    *///?}
+    //?}
 }

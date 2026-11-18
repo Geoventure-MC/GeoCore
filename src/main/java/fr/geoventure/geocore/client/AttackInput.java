@@ -79,21 +79,21 @@ public final class AttackInput {
                     return true;
                 });
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.InputEvent.InteractionKeyMappingTriggered event) -> {
                     if (event.isAttack() && guarded()) {
                         event.setCanceled(true);
                         event.setSwingHand(false);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.InputEvent.InteractionKeyMappingTriggered event) -> {
                     if (event.isAttack() && guarded()) {
                         event.setCanceled(true);
                         event.setSwingHand(false);
                     }
                 });
-        *///?}
+        //?}
     }
 }

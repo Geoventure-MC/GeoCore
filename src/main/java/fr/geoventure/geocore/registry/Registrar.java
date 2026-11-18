@@ -31,8 +31,8 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import net.minecraft.world.level.ItemLike;
 //? if >=1.20.5 {
-import net.minecraft.core.component.DataComponentMap;
-//?}
+/*import net.minecraft.core.component.DataComponentMap;
+*///?}
 
 /**
  * Registration and its declarations in one chain, for any mod (after ntm-next's {@code Reg}):
@@ -203,17 +203,17 @@ public class Registrar {
     }
 
     //? if >=1.20.5 {
-    /**
+    /*/^*
      * Patches {@code item}'s default components when the loader builds them (a remainder pointing at another
      * mod's item, which cannot be named while this registrar's own properties are built). Queued during
      * declarations; each loader applies the queue once. The handle is resolved when the event fires, not here.
      * Call during mod construction.
-     */
+     ^/
     public void modifyDefaultComponents(Supplier<? extends ItemLike> item,
                                         Consumer<DataComponentMap.Builder> patch) {
         ComponentPatches.add(item, patch);
     }
-    //?}
+    *///?}
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private <R> Handle<R> registerOn(DeferredRegister register, String name, Supplier<? extends R> value) {

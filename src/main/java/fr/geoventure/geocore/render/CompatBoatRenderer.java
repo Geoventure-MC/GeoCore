@@ -5,7 +5,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.vertex.PoseStack;
+/*import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -16,8 +16,8 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
-//?} else {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+*///?} else {
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -27,9 +27,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.vehicle.boat.Boat;
+import net.minecraft.world.entity.vehicle.Boat;
 import org.joml.Quaternionf;
-*///?}
+//?}
 
 /**
  * A boat renderer for a custom hull: one baked cube model and one skin, drawn with vanilla's boat
@@ -42,53 +42,53 @@ import org.joml.Quaternionf;
  */
 public class CompatBoatRenderer
         //? if >=26.1 {
-        extends AbstractBoatRenderer
-        //?} else {
-        /*extends EntityRenderer<Boat>
-        *///?}
+        /*extends AbstractBoatRenderer
+        *///?} else {
+        extends EntityRenderer<Boat>
+        //?}
 {
 
     //? if >=26.1 {
-    private final EntityModel<BoatRenderState> hull;
+    /*private final EntityModel<BoatRenderState> hull;
     private final Model.Simple waterPatch;
-    //?} else {
-    /*private final ResourceLocation texture;
+    *///?} else {
+    private final ResourceLocation texture;
     private final ModelPart hull;
     private final ModelPart waterPatch;
-    *///?}
+    //?}
 
     public CompatBoatRenderer(EntityRendererProvider.Context context,
                               //? if >=26.1 {
-                              Identifier
-                              //?} else {
-                              /*ResourceLocation
-                              *///?}
+                              /*Identifier
+                              *///?} else {
+                              ResourceLocation
+                              //?}
                               texture, LayerDefinition hull) {
         //? if >=26.1 {
-        super(context, texture);
+        /*super(context, texture);
         this.hull = new EntityModel<>(hull.bakeRoot()) {};
         this.waterPatch = new Model.Simple(context.bakeLayer(ModelLayers.BOAT_WATER_PATCH), ignored -> RenderTypes.waterMask());
-        //?} else {
-        /*super(context);
+        *///?} else {
+        super(context);
         this.texture = texture;
         this.hull = hull.bakeRoot();
         // This era bakes the patch into each vanilla boat's own layer; the oak one is any of them.
         this.waterPatch = context.bakeLayer(ModelLayers.createBoatModelName(Boat.Type.OAK)).getChild("water_patch");
         this.shadowRadius = 0.8F;
-        *///?}
+        //?}
     }
 
     /** The baked hull, for a subclass that animates a part of it. */
     public ModelPart hull() {
         //? if >=26.1 {
-        return hull.root();
-        //?} else {
-        /*return hull;
-        *///?}
+        /*return hull.root();
+        *///?} else {
+        return hull;
+        //?}
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected EntityModel<BoatRenderState> model() {
         return hull;
     }
@@ -101,8 +101,8 @@ public class CompatBoatRenderer
                     OverlayTexture.NO_OVERLAY, state.outlineColor, null);
         }
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void render(Boat boat, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLight) {
         poseStack.pushPose();
@@ -133,5 +133,5 @@ public class CompatBoatRenderer
     public ResourceLocation getTextureLocation(Boat boat) {
         return texture;
     }
-    *///?}
+    //?}
 }

@@ -72,7 +72,7 @@ public final class ItemFirstUse {
         /*net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.register((player, level, hand, hit) ->
                 dispatch(player, hand, hit));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClickBlock event) -> {
                     InteractionResult result = dispatch(event.getEntity(), event.getHand(), event.getHitVec());
                     if (result.consumesAction()) {
@@ -80,8 +80,8 @@ public final class ItemFirstUse {
                         event.setCancellationResult(result);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock event) -> {
                     InteractionResult result = dispatch(event.getEntity(), event.getHand(), event.getHitVec());
                     if (result.consumesAction()) {
@@ -89,7 +89,7 @@ public final class ItemFirstUse {
                         event.setCancellationResult(result);
                     }
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -113,12 +113,12 @@ public final class ItemFirstUse {
     private static InteractionResult useBlock(BlockState state, Level level, Player player, InteractionHand hand,
                                               ItemStack stack, BlockHitResult hit) {
         //? if >=26.1 {
-        InteractionResult result = state.useItemOn(stack, level, player, hand, hit);
+        /*InteractionResult result = state.useItemOn(stack, level, player, hand, hit);
         if (result instanceof InteractionResult.TryEmptyHandInteraction && hand == InteractionHand.MAIN_HAND) {
             return state.useWithoutItem(level, player, hit);
         }
         return result;
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*net.minecraft.world.ItemInteractionResult result = state.useItemOn(stack, level, player, hand, hit);
         if (result == net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
                 && hand == InteractionHand.MAIN_HAND) {
@@ -126,8 +126,8 @@ public final class ItemFirstUse {
         }
         return result.result();
         *///?} else {
-        /*return state.use(level, player, hand, hit);
-        *///?}
+        return state.use(level, player, hand, hit);
+        //?}
     }
 
     private static InteractionResult dispatch(Player player, InteractionHand hand, BlockHitResult hit) {

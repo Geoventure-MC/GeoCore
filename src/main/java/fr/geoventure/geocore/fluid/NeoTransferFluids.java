@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.fluid;
 
 //? if neoforge && >=26.1 {
-import java.lang.ref.WeakReference;
+/*import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.function.Predicate;
@@ -28,12 +28,12 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
 
-/**
+/^*
  * 26.1 NeoForge: {@code Capabilities.Fluid.BLOCK}/{@code ITEM}, a {@code ResourceHandler<FluidResource>} in mB
  * whose insert and extract run inside a transaction the caller may roll back after the call returned. Block
  * moves are staged per owner ({@link FluidStaging}) and applied on the root commit; item moves exchange one
  * item through the caller's {@link ItemAccess}, which is transactional itself.
- */
+ ^/
 final class NeoTransferFluids {
 
     private NeoTransferFluids() {}
@@ -154,7 +154,7 @@ final class NeoTransferFluids {
             return face == null ? null : new BlockHandler(ports, level, pos.immutable(), side, face);
         }
 
-        /** The live face; a capability cache may hold this handler past the machine it was made for. */
+        /^* The live face; a capability cache may hold this handler past the machine it was made for. ^/
         private @Nullable FluidMachine face() {
             if (face.valid()) return face;
             FluidMachine fresh = ports.at(level, pos, side);
@@ -220,10 +220,10 @@ final class NeoTransferFluids {
 
     // --- items ---
 
-    /**
+    /^*
      * One container item through the caller's {@link ItemAccess}: a move replaces one item of the accessed
      * stack with what the contract says it becomes, inside the caller's transaction.
-     */
+     ^/
     private static final class ItemHandler implements ResourceHandler<FluidResource> {
 
         private final FluidContainer contract;
@@ -292,4 +292,4 @@ final class NeoTransferFluids {
         }
     }
 }
-//?}
+*///?}

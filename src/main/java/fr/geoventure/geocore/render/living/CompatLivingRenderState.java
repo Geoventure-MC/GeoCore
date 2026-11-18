@@ -16,17 +16,17 @@ package fr.geoventure.geocore.render.living;
  */
 public class CompatLivingRenderState
         //? if >=26.1 {
-        extends net.minecraft.client.renderer.entity.state.LivingEntityRenderState
-        //?}
+        /*extends net.minecraft.client.renderer.entity.state.LivingEntityRenderState
+        *///?}
 {
 
     //? if <26.1 {
-    /*public int lightCoords;
+    public int lightCoords;
     public float ageInTicks;
     public float bodyRot;
-    /^* Head yaw relative to the body, degrees. ^/
+    /** Head yaw relative to the body, degrees. */
     public float yRot;
-    /^* Head pitch, degrees. ^/
+    /** Head pitch, degrees. */
     public float xRot;
     public float deathTime;
     public float walkAnimationPos;
@@ -36,9 +36,9 @@ public class CompatLivingRenderState
     public boolean isInvisible;
     public boolean hasRedOverlay;
     public boolean isFullyFrozen;
-    /^* Vanilla's outline colour field; always "none" below 26.1, kept so callers need no guard. ^/
+    /** Vanilla's outline colour field; always "none" below 26.1, kept so callers need no guard. */
     public int outlineColor;
-    *///?}
+    //?}
 
     /** The attack swing, 0..1; a 26.1 {@code ArmedEntityRenderState} field, so it lives here for the rest. */
     public float attackTime;

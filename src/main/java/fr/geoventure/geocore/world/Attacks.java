@@ -59,15 +59,15 @@ public final class Attacks {
                         ? net.minecraft.world.InteractionResult.SUCCESS
                         : net.minecraft.world.InteractionResult.PASS);
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.player.AttackEntityEvent event) -> {
                     if (dispatch(event.getEntity(), event.getTarget())) event.setCanceled(true);
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.AttackEntityEvent event) -> {
                     if (dispatch(event.getEntity(), event.getTarget())) event.setCanceled(true);
                 });
-        *///?}
+        //?}
     }
 }

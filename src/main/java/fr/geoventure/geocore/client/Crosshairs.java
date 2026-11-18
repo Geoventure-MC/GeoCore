@@ -1,10 +1,10 @@
 package fr.geoventure.geocore.client;
 
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-//?} else {
-/*import net.minecraft.client.gui.GuiGraphics;
-*///?}
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
+*///?} else {
+import net.minecraft.client.gui.GuiGraphics;
+//?}
 
 /** Replaces the vanilla crosshair only when a registered renderer claims the current frame. */
 public final class Crosshairs {
@@ -15,10 +15,10 @@ public final class Crosshairs {
     public interface Renderer {
         boolean render(
                 //? if >=26.1 {
-                GuiGraphicsExtractor graphics
-                //?} else {
-                /*GuiGraphics graphics
-                *///?}
+                /*GuiGraphicsExtractor graphics
+                *///?} else {
+                GuiGraphics graphics
+                //?}
         );
     }
 
@@ -38,7 +38,7 @@ public final class Crosshairs {
                     if (!render(graphics)) vanilla.extractRenderState(graphics, deltaTracker);
                 });
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderGuiLayerEvent.Pre event) -> {
                     if (event.getName().equals(
                             net.neoforged.neoforge.client.gui.VanillaGuiLayers.CROSSHAIR)
@@ -46,8 +46,8 @@ public final class Crosshairs {
                         event.setCanceled(true);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.RenderGuiOverlayEvent.Pre event) -> {
                     if (event.getOverlay().equals(
                             net.minecraftforge.client.gui.overlay.VanillaGuiOverlay.CROSSHAIR.type())
@@ -55,17 +55,17 @@ public final class Crosshairs {
                         event.setCanceled(true);
                     }
                 });
-        *///?}
+        //?}
         // Legacy Fabric is handled by MixinLegacyCrosshair because HudRenderCallback is post-HUD.
     }
 
     /** Called by loader events and the legacy Fabric mixin. */
     public static boolean render(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics
-            //?} else {
-            /*GuiGraphics graphics
-            *///?}
+            /*GuiGraphicsExtractor graphics
+            *///?} else {
+            GuiGraphics graphics
+            //?}
     ) {
         return renderer.render(graphics);
     }

@@ -31,61 +31,61 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public class CompatToolItem extends
         //? if >=26.1 {
-        Item
-        //?} else {
-        /*net.minecraft.world.item.DiggerItem
-        *///?}
+        /*Item
+        *///?} else {
+        net.minecraft.world.item.DiggerItem
+        //?}
 {
     protected final ToolTier toolTier;
 
     //? if forge {
-    /*@Override
+    @Override
     public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
         fr.geoventure.geocore.render.ForgeItemRenderers.initialize(consumer);
     }
-    *///?}
+    //?}
 
     // SwingReceiver dispatch through the loader's own item hook (Fabric: MixinLivingEntitySwing).
     //? if neoforge {
-    @Override
+    /*@Override
     public boolean onEntitySwing(net.minecraft.world.item.ItemStack stack, net.minecraft.world.entity.LivingEntity entity,
                                  net.minecraft.world.InteractionHand hand) {
         return SwingReceiver.dispatch(stack, entity, hand);
     }
-    //?} elif forge {
-    /*@Override
+    *///?} elif forge {
+    @Override
     public boolean onEntitySwing(net.minecraft.world.item.ItemStack stack, net.minecraft.world.entity.LivingEntity entity) {
         return SwingReceiver.dispatch(stack, entity, SwingReceiver.handOf(stack, entity));
     }
-    *///?}
+    //?}
 
     protected final List<TagKey<Block>> mineable;
     //? if <1.21.1 {
-    /*private final float legacyDamage;
+    private final float legacyDamage;
     private final float legacySpeed;
     private final double legacyMovement;
-    *///?}
+    //?}
 
     public CompatToolItem(Item.Properties properties, ToolTier tier, List<TagKey<Block>> mineable,
                           float attackDamage, float attackSpeed, double movement) {
         //? if >=26.1 {
-        super(modernProperties(properties, tier, mineable, attackDamage, attackSpeed, movement));
-        //?} else if >=1.21.1 {
+        /*super(modernProperties(properties, tier, mineable, attackDamage, attackSpeed, movement));
+        *///?} else if >=1.21.1 {
         /*super(Tools.vanillaTier(tier), mineable.get(0), Tools.unbreakableIfWorn(properties, tier)
                 .attributes(Tools.attributes(attackDamage, attackSpeed, movement)));
         *///?} else {
-        /*super(attackDamage - tier.attackDamageBonus(), attackSpeed, Tools.vanillaTier(tier), mineable.get(0),
+        super(attackDamage - tier.attackDamageBonus(), attackSpeed, Tools.vanillaTier(tier), mineable.get(0),
                 properties);
         this.legacyDamage = attackDamage;
         this.legacySpeed = attackSpeed;
         this.legacyMovement = movement;
-        *///?}
+        //?}
         this.toolTier = tier;
         this.mineable = List.copyOf(mineable);
     }
 
     //? if >=26.1 {
-    private static Item.Properties modernProperties(Item.Properties properties, ToolTier tier,
+    /*private static Item.Properties modernProperties(Item.Properties properties, ToolTier tier,
                                                     List<TagKey<Block>> mineable, float attackDamage,
                                                     float attackSpeed, double movement) {
         net.minecraft.core.HolderGetter<Block> blocks = net.minecraft.core.registries.BuiltInRegistries
@@ -106,7 +106,7 @@ public class CompatToolItem extends
         if (tier.repairItems() != null) properties.repairable(tier.repairItems());
         return properties.attributes(Tools.attributes(attackDamage, attackSpeed, movement));
     }
-    //?}
+    *///?}
 
     public ToolTier toolTier() {
         return toolTier;
@@ -159,30 +159,30 @@ public class CompatToolItem extends
     }
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return compatIsCorrectToolForDrops(stack, state);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean isCorrectToolForDrops(BlockState state) {
         return compatIsCorrectToolForDrops(ItemStack.EMPTY, state);
     }
-    *///?}
+    //?}
 
     //? if forge && <1.21.1 {
-    /*@Override
+    @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return compatIsCorrectToolForDrops(stack, state);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         compatHurtEnemy(stack, target, attacker);
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*@Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         compatHurtEnemy(stack, target, attacker);
@@ -194,7 +194,7 @@ public class CompatToolItem extends
         stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
     }
     *///?} else {
-    /*@Override
+    @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         compatHurtEnemy(stack, target, attacker);
         Tools.hurt(stack, 1, attacker);
@@ -209,10 +209,10 @@ public class CompatToolItem extends
                         legacyMovement)
                 : super.getDefaultAttributeModifiers(slot);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context,
                                 net.minecraft.world.item.component.TooltipDisplay display,
                                 java.util.function.Consumer<Component> tooltip, TooltipFlag flag) {
@@ -242,13 +242,13 @@ public class CompatToolItem extends
         return super.canDestroyBlock(stack, state, level, pos, user)
                 && compatCanDestroyBlock(stack, state, level, pos, user);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void appendHoverText(ItemStack stack,
                                 //? if >=1.21.1 {
-                                Item.TooltipContext context,
-                                //?} else {
-                                /^Level context,^/
+                                /*Item.TooltipContext context,
+                                *///?} else {
+                                Level context,
                                 //?}
                                 List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
@@ -275,5 +275,5 @@ public class CompatToolItem extends
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return compatCanDestroyBlock(player.getMainHandItem(), state, level, pos, player);
     }
-    *///?}
+    //?}
 }

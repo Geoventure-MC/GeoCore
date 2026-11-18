@@ -13,9 +13,9 @@ public final class RegistryLookups {
     /** Resolves a registered key from live dynamic registry access. */
     public static <T> Holder<T> holder(RegistryAccess registries, ResourceKey<Registry<T>> registry, ResourceKey<T> key) {
         //? if >=1.21.1 {
-        return registries.lookupOrThrow(registry).getOrThrow(key);
-        //?} else {
-        /*return registries.registryOrThrow(registry).getHolderOrThrow(key);
-        *///?}
+        /*return registries.lookupOrThrow(registry).getOrThrow(key);
+        *///?} else {
+        return registries.registryOrThrow(registry).getHolderOrThrow(key);
+        //?}
     }
 }

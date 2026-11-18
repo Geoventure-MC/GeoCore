@@ -14,13 +14,13 @@ public final class Targeting {
     private Targeting() {}
 
     //? if >=26.1 {
-    public static net.minecraft.world.entity.ai.targeting.TargetingConditions.@Nullable Selector selector(
+    /*public static net.minecraft.world.entity.ai.targeting.TargetingConditions.@Nullable Selector selector(
             @Nullable Predicate<LivingEntity> predicate) {
         return predicate == null ? null : (entity, level) -> predicate.test(entity);
     }
-    //?} else {
-    /*public static @Nullable Predicate<LivingEntity> selector(@Nullable Predicate<LivingEntity> predicate) {
+    *///?} else {
+    public static @Nullable Predicate<LivingEntity> selector(@Nullable Predicate<LivingEntity> predicate) {
         return predicate;
     }
-    *///?}
+    //?}
 }

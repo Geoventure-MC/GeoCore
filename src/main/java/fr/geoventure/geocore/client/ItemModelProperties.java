@@ -2,11 +2,11 @@ package fr.geoventure.geocore.client;
 
 import fr.geoventure.geocore.GeoCore;
 //? if neoforge {
-import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
-//?}
+/*import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
+*///?}
 //? if neoforge && >=26.1 {
-import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
-//?}
+/*import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
+*///?}
 import fr.geoventure.geocore.Ids;
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,17 +20,17 @@ import java.util.HashMap;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 //? if <26.1 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+import net.minecraft.resources.ResourceLocation;
+//?}
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 //? if >=26.1 {
-import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
+/*import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
-//?}
+*///?}
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -50,8 +50,8 @@ public final class ItemModelProperties {
         ToDoubleFunction<ItemStack> value;
         Function<ItemStack, String> select;
         //? if <26.1 {
-        /*Map<ResourceLocation, Selection> selections = Map.of();
-        *///?}
+        Map<ResourceLocation, Selection> selections = Map.of();
+        //?}
         final Set<String> namespaces = new LinkedHashSet<>();
         final Set<String> installed = new HashSet<>();
     }
@@ -80,10 +80,10 @@ public final class ItemModelProperties {
         property.value = value::get;
         property.select = stack -> Integer.toString(value.get(stack));
         //? if >=26.1 {
-        registerNative(namespace, name, property.select);
-        //?} else {
-        /*schedule(namespace, name);
-        *///?}
+        /*registerNative(namespace, name, property.select);
+        *///?} else {
+        schedule(namespace, name);
+        //?}
     }
 
     /** Selectors share the native definition's case keys and legacy predicate thresholds. */
@@ -93,9 +93,9 @@ public final class ItemModelProperties {
         property.select = value;
         property.namespaces.add(namespace);
         //? if >=26.1 {
-        registerNative(namespace, name, value);
-        //?} else {
-        /*property.value = stack -> {
+        /*registerNative(namespace, name, value);
+        *///?} else {
+        property.value = stack -> {
             var selection = property.selections.get(BuiltInRegistries.ITEM.getKey(stack.getItem()));
             if (selection == null) return 0;
             var selected = value.apply(stack);
@@ -103,7 +103,7 @@ public final class ItemModelProperties {
             return selected == null ? fallback : selection.cases.getOrDefault(selected, fallback);
         };
         schedule(namespace, name);
-        *///?}
+        //?}
     }
 
     static boolean registeredSelect(String property) {
@@ -117,17 +117,17 @@ public final class ItemModelProperties {
     }
 
     //? if >=26.1 {
-    private static void registerNative(String namespace, String name, Function<ItemStack, String> value) {
+    /*private static void registerNative(String namespace, String name, Function<ItemStack, String> value) {
         var property = new SelectProperty(value);
         //? if fabric {
-        /*SelectItemModelProperties.ID_MAPPER.put(Ids.of(namespace, name), property.type());
-        *///?} elif neoforge {
-        NeoForgeEntrypoint.modBus().addListener(
+        /^SelectItemModelProperties.ID_MAPPER.put(Ids.of(namespace, name), property.type());
+        ^///?} elif neoforge {
+        /^NeoForgeEntrypoint.modBus().addListener(
                 (RegisterSelectItemModelPropertyEvent event) ->
                         event.register(Ids.of(namespace, name), property.type()));
-        //?}
+        ^///?}
     }
-    //?}
+    *///?}
 
     /**
      * Makes the property {@code namespace:name} (registered by its owner, before or after this call) apply to the
@@ -142,12 +142,12 @@ public final class ItemModelProperties {
     /** Installs the legacy predicate on the namespaces not yet installed, at the loader's client-setup time. */
     private static void schedule(String namespace, String name) {
         //? if <26.1 {
-        /*registerLegacy(namespace, name);
-        *///?}
+        registerLegacy(namespace, name);
+        //?}
     }
 
     //? if <26.1 {
-    /*private record Selection(Map<String, Float> cases, boolean numeric) {}
+    private record Selection(Map<String, Float> cases, boolean numeric) {}
 
     static synchronized void definitions(Map<ResourceLocation, JsonObject> definitions) {
         var built = new HashMap<String, Map<ResourceLocation, Selection>>();
@@ -183,12 +183,12 @@ public final class ItemModelProperties {
 
     private static void registerLegacy(String namespace, String name) {
         //? if fabric {
-        installLegacy(namespace, name);
-        //?} elif neoforge {
-        NeoForgeEntrypoint.modBus().addListener(
+        /*installLegacy(namespace, name);
+        *///?} elif neoforge {
+        /*NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) -> event.enqueueWork(
                         () -> installLegacy(namespace, name)));
-        //?} elif forge {
+        *///?} elif forge {
         fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) -> event.enqueueWork(
                         () -> installLegacy(namespace, name)));
@@ -212,13 +212,13 @@ public final class ItemModelProperties {
         }
     }
 
-    /^*
+    /**
      * Vanilla's public {@code ItemProperties.register} takes a {@code ClampedItemPropertyFunction}, whose default
      * {@code call} clamps to 0..1. Forge and NeoForge add an unclamped overload a lambda binds to; Fabric has only
      * vanilla's, so every variant above 1 resolved to variant 1's override there (for example
      * satellite, weapon_mod_special, weapon_mod_caliber, part_barrel_heavy on 1.20.1-fabric). Overriding {@code call}
      * returns the raw integer on every loader, which is what the {@code >=} override thresholds need.
-     ^/
+     */
     private record Unclamped(ToDoubleFunction<ItemStack> value)
             implements net.minecraft.client.renderer.item.ClampedItemPropertyFunction {
         @Override
@@ -233,10 +233,10 @@ public final class ItemModelProperties {
             return (float) value.applyAsDouble(stack);
         }
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    static final class SelectProperty implements SelectItemModelProperty<String> {
+    /*static final class SelectProperty implements SelectItemModelProperty<String> {
         private final Function<ItemStack, String> value;
         private final Type<SelectProperty, String> type;
 
@@ -253,5 +253,5 @@ public final class ItemModelProperties {
         @Override public Type<SelectProperty, String> type() { return type; }
         @Override public Codec<String> valueCodec() { return Codec.STRING; }
     }
-    //?}
+    *///?}
 }

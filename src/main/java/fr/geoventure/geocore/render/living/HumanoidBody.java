@@ -6,12 +6,12 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 //? if >=26.1 {
-import net.minecraft.client.model.monster.zombie.ZombieModel;
+/*import net.minecraft.client.model.monster.zombie.ZombieModel;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-//?} else {
-/*import net.minecraft.client.model.AnimationUtils;
+*///?} else {
+import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.renderer.RenderType;
-*///?}
+//?}
 
 /**
  * A humanoid body for a {@link CompatHumanoidMobRenderer}, as an opaque handle: vanilla's
@@ -29,18 +29,18 @@ import net.minecraft.client.renderer.RenderType;
 public final class HumanoidBody<T extends net.minecraft.world.entity.Mob> {
 
     //? if >=26.1 {
-    final HumanoidModel<CompatHumanoidRenderState> model;
+    /*final HumanoidModel<CompatHumanoidRenderState> model;
 
     private HumanoidBody(HumanoidModel<CompatHumanoidRenderState> model) {
         this.model = model;
     }
-    //?} else {
-    /*final HumanoidModel<T> model;
+    *///?} else {
+    final HumanoidModel<T> model;
 
     private HumanoidBody(HumanoidModel<T> model) {
         this.model = model;
     }
-    *///?}
+    //?}
 
     /**
      * A bare biped baked from {@code layer}: {@code HumanoidModel.createMesh} at the sheet size the
@@ -51,14 +51,14 @@ public final class HumanoidBody<T extends net.minecraft.world.entity.Mob> {
     public static <T extends net.minecraft.world.entity.Mob> HumanoidBody<T> plain(LayerDefinition layer,
                                                                                    boolean translucent) {
         //? if >=26.1 {
-        java.util.function.Function<net.minecraft.resources.Identifier, net.minecraft.client.renderer.rendertype.RenderType> type =
+        /*java.util.function.Function<net.minecraft.resources.Identifier, net.minecraft.client.renderer.rendertype.RenderType> type =
                 translucent ? RenderTypes::entityTranslucent : RenderTypes::entityCutout;
         return new HumanoidBody<>(new HumanoidModel<>(layer.bakeRoot(), type));
-        //?} else {
-        /*java.util.function.Function<net.minecraft.resources.ResourceLocation, RenderType> type =
+        *///?} else {
+        java.util.function.Function<net.minecraft.resources.ResourceLocation, RenderType> type =
                 translucent ? RenderType::entityTranslucent : RenderType::entityCutoutNoCull;
         return new HumanoidBody<>(new HumanoidModel<>(layer.bakeRoot(), type));
-        *///?}
+        //?}
     }
 
     /** Vanilla's zombie body: arms out while aggressive. */
@@ -74,9 +74,9 @@ public final class HumanoidBody<T extends net.minecraft.world.entity.Mob> {
     private static <T extends net.minecraft.world.entity.Mob> HumanoidBody<T> undead(
             net.minecraft.client.model.geom.ModelPart root) {
         //? if >=26.1 {
-        return new HumanoidBody<>(new ZombieModel<>(root));
-        //?} else {
-        /*return new HumanoidBody<>(new HumanoidModel<T>(root) {
+        /*return new HumanoidBody<>(new ZombieModel<>(root));
+        *///?} else {
+        return new HumanoidBody<>(new HumanoidModel<T>(root) {
             @Override
             public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks,
                                   float netHeadYaw, float headPitch) {
@@ -85,6 +85,6 @@ public final class HumanoidBody<T extends net.minecraft.world.entity.Mob> {
                         this.attackTime, ageInTicks);
             }
         });
-        *///?}
+        //?}
     }
 }

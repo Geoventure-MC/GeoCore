@@ -18,9 +18,9 @@ public final class Placements {
 
     public static <P extends PlacementModifier> PlacementModifierType<P> type(MapCodec<P> codec) {
         //? if >=1.21 {
-        return () -> codec;
-        //?} else {
-        /*return codec::codec;
-        *///?}
+        /*return () -> codec;
+        *///?} else {
+        return codec::codec;
+        //?}
     }
 }

@@ -28,26 +28,26 @@ public final class HarnessPacing {
 
     static float serverRate(MinecraftServer server, float rate) {
         //? if >=1.21 {
-        var manager = server.tickRateManager();
+        /*var manager = server.tickRateManager();
         var previous = manager.tickrate();
         manager.setTickRate(rate);
         return previous;
-        //?} else {
-        /*var millis = 1000F / rate;
+        *///?} else {
+        var millis = 1000F / rate;
         if (millis != (long) millis)
             throw new IllegalArgumentException("1.20.1 requires a whole number of milliseconds per tick: " + rate);
         var previous = 1000F / serverMillis;
         serverMillis = (long) millis;
         return previous;
-        *///?}
+        //?}
     }
 
     static float serverRate(MinecraftServer server) {
         //? if >=1.21 {
-        return server.tickRateManager().tickrate();
-        //?} else {
-        /*return 1000F / serverMillis;
-         *///?}
+        /*return server.tickRateManager().tickrate();
+        *///?} else {
+        return 1000F / serverMillis;
+         //?}
     }
 
     static void clientRate(float rate) {

@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.render.PrecipitationRendering;
+/*import fr.geoventure.geocore.render.PrecipitationRendering;
 import net.minecraft.client.renderer.WeatherEffectRenderer;
 import net.minecraft.client.renderer.state.level.WeatherRenderState;
 import net.minecraft.world.phys.Vec3;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * 26.1 Fabric's hook for {@link fr.geoventure.geocore.client.Precipitation}: a registered level's rain and snow quads in place
  * of vanilla's weather columns. Listed for Fabric 26.1 only; NeoForge 26.1 uses its {@code CustomWeatherEffectRenderer}.
  *
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * vanilla's rain and miss the frame graph's weather target under Fabulous, which only the weather pass declares;
  * (3) widening cannot add a call. One cancellable HEAD inject on {@code WeatherEffectRenderer.render}, inside vanilla's
  * own weather pass; it cancels only for a level registered with {@code Precipitation}.
- */
+ ^/
 @Mixin(WeatherEffectRenderer.class)
 public abstract class MixinWeatherRender {
 
@@ -30,9 +30,9 @@ public abstract class MixinWeatherRender {
         if (PrecipitationRendering.render(camera)) ci.cancel();
     }
 }
-//?} else {
-/*public final class MixinWeatherRender {
+*///?} else {
+public final class MixinWeatherRender {
     // Empty below 26.1: Fabric uses DimensionRenderingRegistry there, Forge-likes MixinLegacyWeatherRender.
     private MixinWeatherRender() {}
 }
-*///?}
+//?}

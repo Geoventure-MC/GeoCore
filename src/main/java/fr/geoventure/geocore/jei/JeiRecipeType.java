@@ -3,10 +3,10 @@ package fr.geoventure.geocore.jei;
 //? if jei {
 
 //? if >=26.1 {
-import mezz.jei.api.recipe.types.IRecipeType;
-//?} else {
-/*import mezz.jei.api.recipe.RecipeType;
-*///?}
+/*import mezz.jei.api.recipe.types.IRecipeType;
+*///?} else {
+import mezz.jei.api.recipe.RecipeType;
+//?}
 
 /**
  * A JEI recipe type, spelled the same way on every JEI line.
@@ -26,16 +26,16 @@ import mezz.jei.api.recipe.types.IRecipeType;
 public final class JeiRecipeType<T> {
 
     //? if >=26.1 {
-    private final IRecipeType<T> delegate;
-    //?} else {
-    /*private final RecipeType<T> delegate;
-    *///?}
+    /*private final IRecipeType<T> delegate;
+    *///?} else {
+    private final RecipeType<T> delegate;
+    //?}
 
     //? if >=26.1 {
-    private JeiRecipeType(IRecipeType<T> delegate) {
-    //?} else {
-    /*private JeiRecipeType(RecipeType<T> delegate) {
-    *///?}
+    /*private JeiRecipeType(IRecipeType<T> delegate) {
+    *///?} else {
+    private JeiRecipeType(RecipeType<T> delegate) {
+    //?}
         this.delegate = delegate;
     }
 
@@ -48,18 +48,18 @@ public final class JeiRecipeType<T> {
      */
     public static <T> JeiRecipeType<T> create(String namespace, String path, Class<T> recipeClass) {
         //? if >=26.1 {
-        return new JeiRecipeType<>(IRecipeType.create(fr.geoventure.geocore.Ids.of(namespace, path), recipeClass));
-        //?} else {
-        /*return new JeiRecipeType<>(RecipeType.create(namespace, path, recipeClass));
-        *///?}
+        /*return new JeiRecipeType<>(IRecipeType.create(fr.geoventure.geocore.Ids.of(namespace, path), recipeClass));
+        *///?} else {
+        return new JeiRecipeType<>(RecipeType.create(namespace, path, recipeClass));
+        //?}
     }
 
     /** The underlying JEI type, for the API calls that take it directly. */
     //? if >=26.1 {
-    public IRecipeType<T> unwrap() {
-    //?} else {
-    /*public RecipeType<T> unwrap() {
-    *///?}
+    /*public IRecipeType<T> unwrap() {
+    *///?} else {
+    public RecipeType<T> unwrap() {
+    //?}
         return delegate;
     }
 

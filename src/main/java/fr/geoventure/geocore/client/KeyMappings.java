@@ -3,9 +3,9 @@ package fr.geoventure.geocore.client;
 import fr.geoventure.geocore.harness.HarnessHooks;
 import net.minecraft.client.KeyMapping;
 //? if >=26.1 {
-import java.util.HashMap;
+/*import java.util.HashMap;
 import java.util.Map;
-//?}
+*///?}
 
 /**
  * Registers a mod's key mappings and hands back the vanilla object to poll.
@@ -29,12 +29,12 @@ public final class KeyMappings {
     private KeyMappings() {}
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * Categories already built, by id. 26.1's registrar throws outright on a second registration of the
      * same id, so several mappings sharing one category, the normal case, must share one instance.
-     */
+     ^/
     private static final Map<String, KeyMapping.Category> CATEGORIES = new HashMap<>();
-    //?}
+    *///?}
 
     /**
      * Declares a key mapping bound to {@code keysym} (a GLFW key code) by default.
@@ -58,21 +58,21 @@ public final class KeyMappings {
     public static Mapping register(String namespace, String translationKey,
             com.mojang.blaze3d.platform.InputConstants.Type type, int value, String categoryPath) {
         //? if >=26.1 {
-        String categoryId = namespace + ":" + categoryPath;
+        /*String categoryId = namespace + ":" + categoryPath;
         boolean firstOfCategory = !CATEGORIES.containsKey(categoryId);
         KeyMapping.Category category = category(namespace, categoryPath);
         Mapping mapping = new Mapping(translationKey, type, value, category);
-        //?} else {
-        /*Mapping mapping = new Mapping(translationKey, type, value,
+        *///?} else {
+        Mapping mapping = new Mapping(translationKey, type, value,
                 "key.category." + namespace + "." + categoryPath);
-        *///?}
+        //?}
 
         //? if fabric && >=26.1 {
         /*net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping(mapping);
         *///?} elif fabric {
         /*net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding(mapping);
         *///?} elif neoforge && >=26.1 {
-        // Deferred: this loader only accepts mappings inside its own mod-bus event. The category goes over
+        /*// Deferred: this loader only accepts mappings inside its own mod-bus event. The category goes over
         // the same event, or the controls screen has nowhere to file the mapping.
         // Only the first mapping of a category registers it: registerCategory throws on a repeat, which
         // crashes the client during Options construction, before anything that looks like a mod error.
@@ -81,25 +81,25 @@ public final class KeyMappings {
                     if (firstOfCategory) event.registerCategory(category);
                     event.register(mapping);
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*// Same deferral, but this era's event has no registerCategory — categories are bare strings.
         fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent event) -> event.register(mapping));
         *///?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.client.event.RegisterKeyMappingsEvent event) -> event.register(mapping));
-        *///?}
+        //?}
         return mapping;
     }
 
     /** Whether a mapping's current binding is the given mouse button. */
     public static boolean matchesMouse(KeyMapping mapping, int button) {
         //? if >=26.1 {
-        return mapping.matchesMouse(new net.minecraft.client.input.MouseButtonEvent(0, 0,
+        /*return mapping.matchesMouse(new net.minecraft.client.input.MouseButtonEvent(0, 0,
                 new net.minecraft.client.input.MouseButtonInfo(button, 0)));
-        //?} else {
-        /*return mapping.matchesMouse(button);
-        *///?}
+        *///?} else {
+        return mapping.matchesMouse(button);
+        //?}
     }
 
     /**
@@ -108,14 +108,14 @@ public final class KeyMappings {
      */
     public static boolean isKeyDown(int glfwKey) {
         //? if >=26.1 {
-        return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
+        /*return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
                 net.minecraft.client.Minecraft.getInstance().getWindow(), glfwKey)
                 || HarnessHooks.keyHeld(glfwKey);
-        //?} else {
-        /*return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
+        *///?} else {
+        return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
                 net.minecraft.client.Minecraft.getInstance().getWindow().getWindow(), glfwKey)
                 || HarnessHooks.keyHeld(glfwKey);
-        *///?}
+        //?}
     }
 
     /** Physical held state for a mapping's current binding, independent of vanilla's dispatch map. */
@@ -128,12 +128,12 @@ public final class KeyMappings {
         if (key.getType() == com.mojang.blaze3d.platform.InputConstants.Type.KEYSYM) {
             if (HarnessHooks.keyHeld(key.getValue())) return true;
             //? if >=26.1 {
-            return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
-                    net.minecraft.client.Minecraft.getInstance().getWindow(), key.getValue());
-            //?} else {
             /*return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
+                    net.minecraft.client.Minecraft.getInstance().getWindow(), key.getValue());
+            *///?} else {
+            return com.mojang.blaze3d.platform.InputConstants.isKeyDown(
                     net.minecraft.client.Minecraft.getInstance().getWindow().getWindow(), key.getValue());
-            *///?}
+            //?}
         }
         return mapping.isDown();
     }
@@ -152,16 +152,16 @@ public final class KeyMappings {
     public static final class Mapping extends KeyMapping {
 
         //? if >=26.1 {
-        Mapping(String name, com.mojang.blaze3d.platform.InputConstants.Type type, int value,
+        /*Mapping(String name, com.mojang.blaze3d.platform.InputConstants.Type type, int value,
                 KeyMapping.Category category) {
             super(name, type, value, category);
         }
-        //?} else {
-        /*Mapping(String name, com.mojang.blaze3d.platform.InputConstants.Type type, int value,
+        *///?} else {
+        Mapping(String name, com.mojang.blaze3d.platform.InputConstants.Type type, int value,
                 String category) {
             super(name, type, value, category);
         }
-        *///?}
+        //?}
 
         /**
          * Whether this mapping's key is held right now: its own state, any other mapping bound to the same
@@ -178,18 +178,18 @@ public final class KeyMappings {
                 if (other != this && !other.isUnbound() && other.same(this) && other.isDown()) return true;
             }
             //? if <26.1 {
-            /*return KeyMappings.isHeld(this);
-            *///?}
-            //? if >=26.1 {
-            return false;
+            return KeyMappings.isHeld(this);
             //?}
+            //? if >=26.1 {
+            /*return false;
+            *///?}
         }
     }
 
     //? if >=26.1 {
-    private static KeyMapping.Category category(String namespace, String path) {
+    /*private static KeyMapping.Category category(String namespace, String path) {
         return CATEGORIES.computeIfAbsent(namespace + ":" + path,
                 key -> KeyMapping.Category.register(fr.geoventure.geocore.Ids.of(namespace, path)));
     }
-    //?}
+    *///?}
 }

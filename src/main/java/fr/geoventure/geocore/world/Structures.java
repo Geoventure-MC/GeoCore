@@ -16,19 +16,19 @@ public final class Structures {
     /** A structure type for {@code codec}, to be registered under {@code Registries.STRUCTURE_TYPE}. */
     public static <S extends Structure> StructureType<S> type(MapCodec<S> codec) {
         //? if >=1.21 {
-        return () -> codec;
-        //?} else {
-        /*return codec::codec;
-        *///?}
+        /*return () -> codec;
+        *///?} else {
+        return codec::codec;
+        //?}
     }
 
     /** The processor codec uses the same map/plain split as structure codecs. */
     public static <P extends StructureProcessor> StructureProcessorType<P> processorType(MapCodec<P> codec) {
         //? if >=1.21 {
-        return () -> codec;
-        //?} else {
-        /*return codec::codec;
-        *///?}
+        /*return () -> codec;
+        *///?} else {
+        return codec::codec;
+        //?}
     }
 
     /**
@@ -38,10 +38,10 @@ public final class Structures {
     public static <P extends net.minecraft.world.level.levelgen.structure.placement.StructurePlacement>
             net.minecraft.world.level.levelgen.structure.placement.StructurePlacementType<P> placementType(MapCodec<P> codec) {
         //? if >=1.21 {
-        return () -> codec;
-        //?} else {
-        /*return codec::codec;
-        *///?}
+        /*return () -> codec;
+        *///?} else {
+        return codec::codec;
+        //?}
     }
 
     /**
@@ -56,12 +56,12 @@ public final class Structures {
         if (!(level instanceof net.minecraft.server.level.WorldGenRegion region)) return java.util.List.of();
         net.minecraft.world.level.StructureManager manager = level.getLevel().structureManager().forWorldGenRegion(region);
         //? if >=26.1 {
-        net.minecraft.core.Registry<Structure> registry = manager.registryAccess()
-                .lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
-        //?} else {
         /*net.minecraft.core.Registry<Structure> registry = manager.registryAccess()
+                .lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
+        *///?} else {
+        net.minecraft.core.Registry<Structure> registry = manager.registryAccess()
                 .registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
-        *///?}
+        //?}
         return manager.startsForStructure(pos, structure -> registry.wrapAsHolder(structure).is(tag));
     }
 }

@@ -5,10 +5,10 @@ import fr.geoventure.geocore.render.CompatRenderTypes;
 import java.util.Objects;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+/*import net.minecraft.client.renderer.rendertype.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 /**
  * What a {@linkplain Gem.Part part} is drawn with: one texture and one blending rule.

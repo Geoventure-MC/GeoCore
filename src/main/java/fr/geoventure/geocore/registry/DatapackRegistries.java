@@ -1,20 +1,20 @@
 package fr.geoventure.geocore.registry;
 
 //? if forge {
-/*import fr.geoventure.geocore.platform.ForgeEntrypoint;
-*///?}
-//? if neoforge {
-import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
+import fr.geoventure.geocore.platform.ForgeEntrypoint;
 //?}
+//? if neoforge {
+/*import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
+*///?}
 //? if fabric {
 /*import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 *///?}
 //? if forge {
-/*import net.minecraftforge.registries.DataPackRegistryEvent;
-*///?}
-//? if neoforge {
-import net.neoforged.neoforge.registries.DataPackRegistryEvent;
+import net.minecraftforge.registries.DataPackRegistryEvent;
 //?}
+//? if neoforge {
+/*import net.neoforged.neoforge.registries.DataPackRegistryEvent;
+*///?}
 
 import com.mojang.serialization.Codec;
 import java.util.HashSet;
@@ -32,13 +32,13 @@ public final class DatapackRegistries {
         //? if fabric {
         /*DynamicRegistries.registerSynced(key, codec);
         *///?} elif neoforge {
-        NeoForgeEntrypoint.modBus().addListener(
+        /*NeoForgeEntrypoint.modBus().addListener(
                 (DataPackRegistryEvent.NewRegistry event) ->
                         event.dataPackRegistry(key, codec, codec));
-        //?} elif forge {
-        /*ForgeEntrypoint.modBus().addListener(
+        *///?} elif forge {
+        ForgeEntrypoint.modBus().addListener(
                 (DataPackRegistryEvent.NewRegistry event) ->
                         event.dataPackRegistry(key, codec, codec));
-        *///?}
+        //?}
     }
 }

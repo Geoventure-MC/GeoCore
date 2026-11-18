@@ -83,9 +83,9 @@ final class Translucency {
         reportedFast = false;
         reportedFabulous = false;
         //? if <26.1 {
-        /*if (shader != null) shader.close();
+        if (shader != null) shader.close();
         shader = null;
-        *///?}
+        //?}
     }
 
     /** Just before translucent terrain in Fast/Fancy. */
@@ -95,10 +95,10 @@ final class Translucency {
         copyColour(main, under);
         under.copyDepthFrom(main);
         //? if >=26.1 {
-        alphaPass(main, CLEAR_ALPHA);
-        //?} else {
-        /*clearAlpha(main);
-        *///?}
+        /*alphaPass(main, CLEAR_ALPHA);
+        *///?} else {
+        clearAlpha(main);
+        //?}
         cleared = true;
     }
 
@@ -129,10 +129,10 @@ final class Translucency {
 
     private static void restoreAlpha(RenderTarget main) {
         //? if >=26.1 {
-        alphaPass(main, RESTORE_ALPHA);
-        //?} else {
-        /*restoreAlphaLegacy(main);
-        *///?}
+        /*alphaPass(main, RESTORE_ALPHA);
+        *///?} else {
+        restoreAlphaLegacy(main);
+        //?}
     }
 
     private static void ensureTargets(RenderTarget main) {
@@ -140,21 +140,21 @@ final class Translucency {
             if (under != null) under.destroyBuffers();
             if (cover != null) cover.destroyBuffers();
             //? if >=26.1 {
-            under = new TextureTarget("geocore_translucency_under", main.width, main.height, true);
+            /*under = new TextureTarget("geocore_translucency_under", main.width, main.height, true);
             cover = new TextureTarget("geocore_translucency_cover", main.width, main.height, false);
-            //?} else {
-            /*under = new TextureTarget(main.width, main.height, true, Minecraft.ON_OSX);
+            *///?} else {
+            under = new TextureTarget(main.width, main.height, true, Minecraft.ON_OSX);
             cover = new TextureTarget(main.width, main.height, false, Minecraft.ON_OSX);
-            *///?}
+            //?}
         }
     }
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * The textures a scene-warp shader samples: what lay under the translucent layer, its coverage (alpha) and the
      * world depth after translucency. Without this frame's capture the first two are the scene copy itself, so a
      * shader that picks between them, or composites one over the other, sees no difference.
-     */
+     ^/
     static net.minecraft.resources.Identifier underTexture() {
         return View.UNDER.register();
     }
@@ -200,12 +200,12 @@ final class Translucency {
         }
     }
 
-    /** Alpha := 0 (the sampled alpha is multiplied by zero). */
+    /^* Alpha := 0 (the sampled alpha is multiplied by zero). ^/
     private static final com.mojang.blaze3d.pipeline.RenderPipeline CLEAR_ALPHA = alphaPipeline("clear",
             new com.mojang.blaze3d.pipeline.BlendFunction(
                     com.mojang.blaze3d.platform.SourceFactor.ZERO, com.mojang.blaze3d.platform.DestFactor.ONE,
                     com.mojang.blaze3d.platform.SourceFactor.ZERO, com.mojang.blaze3d.platform.DestFactor.ZERO));
-    /** Alpha := coverage + before·(1 - coverage), the saved alpha drawn under the target's own. */
+    /^* Alpha := coverage + before·(1 - coverage), the saved alpha drawn under the target's own. ^/
     private static final com.mojang.blaze3d.pipeline.RenderPipeline RESTORE_ALPHA = alphaPipeline("restore",
             new com.mojang.blaze3d.pipeline.BlendFunction(
                     com.mojang.blaze3d.platform.SourceFactor.ZERO, com.mojang.blaze3d.platform.DestFactor.ONE,
@@ -247,8 +247,8 @@ final class Translucency {
         RenderSystem.getDevice().createCommandEncoder().copyTextureToTexture(source.getColorTexture(),
                 target.getColorTexture(), 0, 0, 0, 0, 0, source.width, source.height);
     }
-    //?} else {
-    /*private static net.minecraft.client.renderer.ShaderInstance shader;
+    *///?} else {
+    private static net.minecraft.client.renderer.ShaderInstance shader;
 
     static int underTextureId() {
         return active ? under.getColorTextureId() : HeatDistortionRenderType.sceneTextureId();
@@ -339,19 +339,19 @@ final class Translucency {
                 int location = com.mojang.blaze3d.shaders.Uniform.glGetUniformLocation(shader.getId(), "Sampler0");
                 com.mojang.blaze3d.shaders.Uniform.uploadInteger(location, 0);
                 //? if >=1.21 {
-                var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
+                /*var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
                 builder.addVertex(-1F, -1F, 0F);
                 builder.addVertex(3F, -1F, 0F);
                 builder.addVertex(-1F, 3F, 0F);
                 com.mojang.blaze3d.vertex.BufferUploader.draw(builder.buildOrThrow());
-                //?} else {
-                /^var builder = Tesselator.getInstance().getBuilder();
+                *///?} else {
+                var builder = Tesselator.getInstance().getBuilder();
                 builder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
                 builder.vertex(-1F, -1F, 0F).endVertex();
                 builder.vertex(3F, -1F, 0F).endVertex();
                 builder.vertex(-1F, 3F, 0F).endVertex();
                 com.mojang.blaze3d.vertex.BufferUploader.draw(builder.end());
-                ^///?}
+                //?}
             } catch (java.io.IOException exception) {
                 throw new IllegalStateException("Could not load translucency alpha shader", exception);
             } finally {
@@ -370,5 +370,5 @@ final class Translucency {
             }
         }
     }
-    *///?}
+    //?}
 }

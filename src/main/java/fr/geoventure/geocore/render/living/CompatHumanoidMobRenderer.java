@@ -8,16 +8,16 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.world.entity.Mob;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.vertex.PoseStack;
+/*import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+*///?} else {
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * A biped mob renderer written once, on every version: vanilla's {@code HumanoidMobRenderer} with
@@ -34,19 +34,19 @@ import net.minecraft.resources.ResourceLocation;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class CompatHumanoidMobRenderer<T extends Mob>
         //? if >=26.1 {
-        extends HumanoidMobRenderer<T, CompatHumanoidRenderState, HumanoidModel<CompatHumanoidRenderState>>
-        //?} else {
-        /*extends HumanoidMobRenderer<T, HumanoidModel<T>>
-        *///?}
+        /*extends HumanoidMobRenderer<T, CompatHumanoidRenderState, HumanoidModel<CompatHumanoidRenderState>>
+        *///?} else {
+        extends HumanoidMobRenderer<T, HumanoidModel<T>>
+        //?}
 {
 
     private final HumanoidBody<T>[] bodies;
     private final
             //? if >=26.1 {
-            Identifier[]
-            //?} else {
-            /*ResourceLocation[]
-            *///?}
+            /*Identifier[]
+            *///?} else {
+            ResourceLocation[]
+            //?}
             textures;
 
     /**
@@ -56,10 +56,10 @@ public abstract class CompatHumanoidMobRenderer<T extends Mob>
     @SafeVarargs
     protected CompatHumanoidMobRenderer(EntityRendererProvider.Context context, float shadow,
                                         //? if >=26.1 {
-                                        Identifier[]
-                                        //?} else {
-                                        /*ResourceLocation[]
-                                        *///?}
+                                        /*Identifier[]
+                                        *///?} else {
+                                        ResourceLocation[]
+                                        //?}
                                         textures, HumanoidBody<T>... bodies) {
         super(context, bodies[0].model, shadow);
         if (bodies.length != textures.length) {
@@ -77,19 +77,19 @@ public abstract class CompatHumanoidMobRenderer<T extends Mob>
     /** Adds vanilla's armour layer over the zombie armour layers, so worn equipment draws. */
     protected final void addZombieArmorLayer(EntityRendererProvider.Context context) {
         //? if >=26.1 {
-        ArmorModelSet<HumanoidModel<CompatHumanoidRenderState>> armor =
+        /*ArmorModelSet<HumanoidModel<CompatHumanoidRenderState>> armor =
                 ArmorModelSet.bake(ModelLayers.ZOMBIE_ARMOR, context.getModelSet(), HumanoidModel::new);
         addLayer(new HumanoidArmorLayer<>(this, armor, context.getEquipmentRenderer()));
-        //?} else {
-        /*addLayer(new HumanoidArmorLayer<>(this,
+        *///?} else {
+        addLayer(new HumanoidArmorLayer<>(this,
                 new HumanoidModel<>(context.bakeLayer(ModelLayers.ZOMBIE_INNER_ARMOR)),
                 new HumanoidModel<>(context.bakeLayer(ModelLayers.ZOMBIE_OUTER_ARMOR)),
                 context.getModelManager()));
-        *///?}
+        //?}
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public CompatHumanoidRenderState createRenderState() {
         return new CompatHumanoidRenderState();
     }
@@ -112,8 +112,8 @@ public abstract class CompatHumanoidMobRenderer<T extends Mob>
     public Identifier getTextureLocation(CompatHumanoidRenderState state) {
         return textures[state.variant];
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLight) {
         this.model = bodies[variant(entity)].model;
@@ -124,5 +124,5 @@ public abstract class CompatHumanoidMobRenderer<T extends Mob>
     public ResourceLocation getTextureLocation(T entity) {
         return textures[variant(entity)];
     }
-    *///?}
+    //?}
 }

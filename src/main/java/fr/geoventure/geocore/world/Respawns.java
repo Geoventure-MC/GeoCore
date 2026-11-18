@@ -48,12 +48,12 @@ public final class Respawns {
 
     public static @Nullable Point stored(ServerPlayer player) {
         //? if >=26.1 {
-        var config = player.getRespawnConfig();
+        /*var config = player.getRespawnConfig();
         return config == null ? null : new Point(config.respawnData().dimension(), config.respawnData().pos());
-        //?} else {
-        /*var pos = player.getRespawnPosition();
+        *///?} else {
+        var pos = player.getRespawnPosition();
         return pos == null ? null : new Point(player.getRespawnDimension(), pos);
-        *///?}
+        //?}
     }
 
     private Respawns() {

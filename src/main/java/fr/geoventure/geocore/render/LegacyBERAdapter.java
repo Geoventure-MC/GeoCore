@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if <26.1 {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 
-/^*
+/**
  * Presents a {@link CompatBER} as a pre-26.1 vanilla {@code BlockEntityRenderer}.
  *
  * <p>Old versions have a single {@code render} call instead of 26.1's extract/submit split, so this
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
  *
  * <p>The camera comes from the global render state rather than being passed in, since old versions do
  * not thread it through the renderer contract.
- ^/
+ */
 public final class LegacyBERAdapter<T extends BlockEntity, S extends CompatRenderState>
         implements BlockEntityRenderer<T> {
 
@@ -73,7 +73,7 @@ public final class LegacyBERAdapter<T extends BlockEntity, S extends CompatRende
     }
 
     //? if neoforge {
-    /^*
+    /*/^*
      * NeoForge culls each block-entity renderer against this box:
      * {@code frustum.isVisible(renderer.getRenderBoundingBox(be))} in {@code ClientHooks}, and the
      * default is the unit cube at the block's position. A machine whose model spans several blocks
@@ -89,6 +89,6 @@ public final class LegacyBERAdapter<T extends BlockEntity, S extends CompatRende
                 ? net.minecraft.world.phys.AABB.INFINITE
                 : new net.minecraft.world.phys.AABB(blockEntity.getBlockPos());
     }
-    //?}
+    *///?}
 }
-*///?}
+//?}

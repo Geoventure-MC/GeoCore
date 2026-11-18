@@ -13,7 +13,7 @@ public abstract class CarriedBlock extends CompatBlock implements EntityBlock {
     }
 
     //? if <1.20.5 {
-    /*@Override
+    @Override
     public java.util.List<ItemStack> getDrops(BlockState state,
             net.minecraft.world.level.storage.loot.LootParams.Builder params) {
         ItemStack stack = new ItemStack(asItem());
@@ -24,5 +24,5 @@ public abstract class CarriedBlock extends CompatBlock implements EntityBlock {
         }
         return java.util.List.of(stack);
     }
-    *///?}
+    //?}
 }

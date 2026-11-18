@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.emi;
 
 //? if emi {
-/*import dev.emi.emi.api.recipe.EmiRecipe;
+import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -21,12 +21,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
-/^*
+/**
  * One recipe of a {@link ViewerCategory} as an EMI recipe. {@code setRecipe} runs once into a recording layout; the
  * recorded slots are drawn at JEI's positions (EMI's slot widget includes the frame, hence {@code x - 1, y - 1}).
  * {@link #items} is the same recipe with its item inputs only, in slot order: EMI's fill maps inputs to menu slots by
  * position and refuses a recipe holding anything it cannot find in the inventory, such as a fluid.
- ^/
+ */
 final class ViewerRecipe<T> implements EmiRecipe {
 
     private static final class RecordedSlot implements SlotLayout.Slot {
@@ -84,7 +84,7 @@ final class ViewerRecipe<T> implements EmiRecipe {
         }
     }
 
-    /^* A slot whose extra tooltip lines depend on the alternative on display. ^/
+    /** A slot whose extra tooltip lines depend on the alternative on display. */
     private static final class ViewerSlot extends SlotWidget {
         private final RecordedSlot slot;
 
@@ -161,7 +161,7 @@ final class ViewerRecipe<T> implements EmiRecipe {
         return recipe;
     }
 
-    /^* This recipe with its item inputs alone, for EMI's fill. ^/
+    /** This recipe with its item inputs alone, for EMI's fill. */
     EmiRecipe items() {
         ViewerRecipe<T> self = this;
         return new EmiRecipe() {
@@ -227,4 +227,4 @@ final class ViewerRecipe<T> implements EmiRecipe {
         }
     }
 }
-*///?}
+//?}

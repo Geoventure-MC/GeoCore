@@ -17,12 +17,12 @@ public final class FluidCompat {
     /** The fluid handler at {@code pos} on {@code side}, or null if there is none. */
     public static @Nullable FluidView find(Level level, BlockPos pos, @Nullable Direction side) {
         //? if neoforge && >=26.1 {
-        return NeoTransferFluids.find(level, pos, side);
-        //?} elif neoforge {
+        /*return NeoTransferFluids.find(level, pos, side);
+        *///?} elif neoforge {
         /*return NeoLegacyFluids.find(level, pos, side);
         *///?} elif forge {
-        /*return ForgeFluids.find(level, pos, side);
-        *///?} else {
+        return ForgeFluids.find(level, pos, side);
+        //?} else {
         /*return FabricTransferFluids.find(level, pos, side);
         *///?}
     }
@@ -33,12 +33,12 @@ public final class FluidCompat {
      */
     public static @Nullable FluidView findItem(ItemStack stack) {
         //? if neoforge && >=26.1 {
-        return NeoTransferFluids.findItem(stack);
-        //?} elif neoforge {
+        /*return NeoTransferFluids.findItem(stack);
+        *///?} elif neoforge {
         /*return NeoLegacyFluids.findItem(stack);
         *///?} elif forge {
-        /*return ForgeFluids.findItem(stack);
-        *///?} else {
+        return ForgeFluids.findItem(stack);
+        //?} else {
         /*return FabricTransferFluids.findItem(stack);
         *///?}
     }

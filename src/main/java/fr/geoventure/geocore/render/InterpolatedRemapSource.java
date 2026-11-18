@@ -134,16 +134,16 @@ public final class InterpolatedRemapSource implements SpriteSource {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public MapCodec<? extends SpriteSource> codec() {
         return CODEC;
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.client.renderer.texture.atlas.SpriteSourceType type() {
         return Sprites.remapSourceType();
     }
-    *///?}
+    //?}
 
     /**
      * One recoloured sprite, produced when the stitcher asks for it. The shared source image is
@@ -151,27 +151,27 @@ public final class InterpolatedRemapSource implements SpriteSource {
      */
     private record Remapped(LazyLoadedImage image, ColorRamp ramp, String id)
             //? if >=26.1 {
-            implements SpriteSource.DiscardableLoader {
-            //?} else {
-            /*implements SpriteSource.SpriteSupplier {
-            *///?}
+            /*implements SpriteSource.DiscardableLoader {
+            *///?} else {
+            implements SpriteSource.SpriteSupplier {
+            //?}
 
         //? if >=26.1 {
-        @Override
+        /*@Override
         public SpriteContents get(SpriteResourceLoader loader) {
             return contents();
         }
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*@Override
         public SpriteContents apply(SpriteResourceLoader loader) {
             return contents();
         }
         *///?} else {
-        /*@Override
+        @Override
         public SpriteContents get() {
             return contents();
         }
-        *///?}
+        //?}
 
         private SpriteContents contents() {
             try {
@@ -180,19 +180,19 @@ public final class InterpolatedRemapSource implements SpriteSource {
                 // every version below hands over the raw int, which is ABGR in memory. Feeding one
                 // version's operator to the other swaps red and blue, so gold comes out blue.
                 //? if >=26.1 {
-                var mapped = image.get().mappedCopy(ramp::applyArgb);
-                //?} else {
-                /*var mapped = image.get().mappedCopy(ramp.abgrOperator());
-                *///?}
+                /*var mapped = image.get().mappedCopy(ramp::applyArgb);
+                *///?} else {
+                var mapped = image.get().mappedCopy(ramp.abgrOperator());
+                //?}
                 //? if >=26.1 {
-                return new SpriteContents(Ids.parse(id), new FrameSize(mapped.getWidth(), mapped.getHeight()), mapped);
-                //?} elif >=1.21 {
+                /*return new SpriteContents(Ids.parse(id), new FrameSize(mapped.getWidth(), mapped.getHeight()), mapped);
+                *///?} elif >=1.21 {
                 /*return new SpriteContents(Ids.parse(id), new FrameSize(mapped.getWidth(), mapped.getHeight()), mapped,
                         net.minecraft.server.packs.resources.ResourceMetadata.EMPTY);
                 *///?} else {
-                /*return new SpriteContents(Ids.parse(id), new FrameSize(mapped.getWidth(), mapped.getHeight()), mapped,
+                return new SpriteContents(Ids.parse(id), new FrameSize(mapped.getWidth(), mapped.getHeight()), mapped,
                         net.minecraft.client.resources.metadata.animation.AnimationMetadataSection.EMPTY);
-                *///?}
+                //?}
             } catch (Exception e) {
                 GeoCore.LOG.error("Unable to remap {}", id, e);
                 return MissingTextureAtlasSprite.create();

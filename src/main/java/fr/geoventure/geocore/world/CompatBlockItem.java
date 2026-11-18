@@ -12,19 +12,19 @@ import net.minecraft.world.level.block.Block;
 public class CompatBlockItem extends BlockItem {
 
     //? if <26.1 {
-    /*private final boolean blockPrefix;
+    private final boolean blockPrefix;
     private String compatDescriptionId;
-    *///?}
+    //?}
 
     public CompatBlockItem(Block block, Properties properties) {
         super(block, properties);
         //? if <26.1 {
-        /*blockPrefix = Compat.takeBlockDescription(properties);
-        *///?}
+        blockPrefix = Compat.takeBlockDescription(properties);
+        //?}
     }
 
     //? if <26.1 {
-    /*@Override
+    @Override
     public String getDescriptionId() {
         if (!blockPrefix) return super.getDescriptionId();
         String id = compatDescriptionId;
@@ -35,14 +35,14 @@ public class CompatBlockItem extends BlockItem {
         }
         return id;
     }
-    *///?}
+    //?}
 
     //? if forge {
-    /*@Override
+    @Override
     public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
         fr.geoventure.geocore.render.ForgeItemRenderers.initialize(consumer);
     }
-    *///?}
+    //?}
 
     protected void appendCompatHoverText(ItemStack stack, CompatTooltipContext context,
                                          List<Component> tooltip, TooltipFlag flag) {
@@ -82,14 +82,14 @@ public class CompatBlockItem extends BlockItem {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public net.minecraft.world.InteractionResult use(net.minecraft.world.level.Level level,
             net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
         net.minecraft.world.InteractionResult result = compatUse(level, player, hand);
         return result != net.minecraft.world.InteractionResult.PASS ? result : super.use(level, player, hand);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.world.InteractionResultHolder<ItemStack> use(net.minecraft.world.level.Level level,
             net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
         net.minecraft.world.InteractionResult result = compatUse(level, player, hand);
@@ -99,17 +99,17 @@ public class CompatBlockItem extends BlockItem {
                 ? net.minecraft.world.InteractionResultHolder.consume(held)
                 : net.minecraft.world.InteractionResultHolder.success(held);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
                                 net.minecraft.world.item.component.TooltipDisplay display,
                                 java.util.function.Consumer<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, tooltip, flag);
         hoverLines(stack, flag).forEach(tooltip);
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*@Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip,
                                 TooltipFlag flag) {
@@ -117,11 +117,11 @@ public class CompatBlockItem extends BlockItem {
         appendLines(stack, tooltip, flag);
     }
     *///?} else {
-    /*@Override
+    @Override
     public void appendHoverText(ItemStack stack, net.minecraft.world.level.Level level, List<Component> tooltip,
                                 TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         appendLines(stack, tooltip, flag);
     }
-    *///?}
+    //?}
 }

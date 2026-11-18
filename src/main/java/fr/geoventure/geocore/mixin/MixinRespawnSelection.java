@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Set;
 //? if >=26.1 {
-import net.minecraft.world.level.portal.TeleportTransition;
-//?} elif >=1.21 {
+/*import net.minecraft.world.level.portal.TeleportTransition;
+*///?} elif >=1.21 {
 /*import net.minecraft.world.level.portal.DimensionTransition;
  *///?}
 
@@ -35,7 +35,7 @@ public abstract class MixinRespawnSelection {
     private static final String BED_LOOKUP = "*(Lnet/minecraft/core/BlockPos;)Lcom/mojang/datafixers/util/Either;";
 
     //? if >=26.1 {
-    @Inject(method = "findRespawnPositionAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
+    /*@Inject(method = "findRespawnPositionAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
     private void geocore$respawnTransition(boolean consumeSpawnBlock, TeleportTransition.PostTeleportTransition after,
                                          CallbackInfoReturnable<TeleportTransition> result) {
         var player = (ServerPlayer) (Object) this;
@@ -63,7 +63,7 @@ public abstract class MixinRespawnSelection {
         return new TeleportTransition(level, Vec3.atBottomCenterOf(player.adjustSpawnLocation(level, spawn.pos())),
                 Vec3.ZERO, spawn.yaw(), spawn.pitch(), true, false, Set.of(), after);
     }
-    //?} elif >=1.21 {
+    *///?} elif >=1.21 {
     /*@Inject(method = "findRespawnPositionAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
     private void geocore$respawnTransition(boolean keepInventory, DimensionTransition.PostDimensionTransition after,
             CallbackInfoReturnable<DimensionTransition> result) {
@@ -101,22 +101,22 @@ public abstract class MixinRespawnSelection {
     *///?}
 
     //? if <26.1 {
-    /*@ModifyExpressionValue(method = BED_LOOKUP, at = @At(value = "INVOKE",
+    @ModifyExpressionValue(method = BED_LOOKUP, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/dimension/DimensionType;natural()Z"))
     private boolean geocore$bedWorld(boolean natural, @Local(argsOnly = true) BlockPos pos) {
         var level = ((ServerPlayer) (Object) this).level();
         return WorldAttributes.BED_SPAWN.invoker().apply(level, pos, natural)
                 || WorldAttributes.BED_SLEEP.invoker().apply(level, pos, natural);
     }
-    *///?}
+    //?}
 
     //? if !fabric && <26.1 {
-    /*@WrapOperation(method = BED_LOOKUP, at = @At(value = "INVOKE",
+    @WrapOperation(method = BED_LOOKUP, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V"))
     private void geocore$bedSpawn(ServerPlayer player, ResourceKey<Level> dimension, BlockPos pos, float yaw,
             boolean forced, boolean message, Operation<Void> original) {
         if (WorldAttributes.BED_SPAWN.invoker().apply(player.level(), pos, player.level().dimensionType().natural()))
             original.call(player, dimension, pos, yaw, forced, message);
     }
-    *///?}
+    //?}
 }

@@ -40,7 +40,7 @@ public final class DebugLines {
     public static synchronized void register(String namespace, String path, Source source) {
         ENTRIES.add(new Entry(namespace, path, source));
         //? if neoforge && >=26.1 {
-        if (hooked) return;
+        /*if (hooked) return;
         hooked = true;
         fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterDebugEntriesEvent event) -> {
@@ -54,7 +54,7 @@ public final class DebugLines {
                                 net.minecraft.client.gui.components.debug.DebugScreenEntryStatus.IN_OVERLAY);
                     }
                 });
-        //?}
+        *///?}
     }
 
     private static synchronized List<Entry> snapshot() {

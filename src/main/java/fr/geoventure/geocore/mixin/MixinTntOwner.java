@@ -20,20 +20,20 @@ public abstract class MixinTntOwner implements TntOwner {
     }
 
     //? if >=26.1 {
-    @Shadow
+    /*@Shadow
     private net.minecraft.world.entity.@Nullable EntityReference<LivingEntity> owner;
 
     @Override
     public void geocore$setOwner(@Nullable LivingEntity value) {
         owner = net.minecraft.world.entity.EntityReference.of(value);
     }
-    //?} else {
-    /*@Shadow
+    *///?} else {
+    @Shadow
     private @Nullable LivingEntity owner;
 
     @Override
     public void geocore$setOwner(@Nullable LivingEntity value) {
         owner = value;
     }
-    *///?}
+    //?}
 }

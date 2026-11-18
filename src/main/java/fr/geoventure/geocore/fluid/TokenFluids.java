@@ -53,23 +53,23 @@ public final class TokenFluids {
     public static Map<String, RegistryObject<Fluid>> register(String namespace, List<Spec> specs) {
         DeferredRegister<Fluid> fluids = DeferredRegister.create(() -> Registries.FLUID, namespace);
         //? if neoforge {
-        DeferredRegister<net.neoforged.neoforge.fluids.FluidType> types = DeferredRegister.create(
+        /*DeferredRegister<net.neoforged.neoforge.fluids.FluidType> types = DeferredRegister.create(
                 () -> net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.FLUID_TYPES, namespace);
-        //?} elif forge {
-        /*DeferredRegister<net.minecraftforge.fluids.FluidType> types = DeferredRegister.create(
+        *///?} elif forge {
+        DeferredRegister<net.minecraftforge.fluids.FluidType> types = DeferredRegister.create(
                 () -> net.minecraftforge.registries.ForgeRegistries.Keys.FLUID_TYPES, namespace);
-        *///?}
+        //?}
         Map<String, RegistryObject<Fluid>> out = new LinkedHashMap<>();
         for (Spec spec : specs) {
             //? if neoforge {
-            RegistryObject<net.neoforged.neoforge.fluids.FluidType> type =
+            /*RegistryObject<net.neoforged.neoforge.fluids.FluidType> type =
                     types.register(spec.path(), () -> new TokenFluidType(spec));
             RegistryObject<Fluid> fluid = fluids.register(spec.path(), () -> new TokenFluid(type));
-            //?} elif forge {
-            /*RegistryObject<net.minecraftforge.fluids.FluidType> type =
+            *///?} elif forge {
+            RegistryObject<net.minecraftforge.fluids.FluidType> type =
                     types.register(spec.path(), () -> new TokenFluidType(spec));
             RegistryObject<Fluid> fluid = fluids.register(spec.path(), () -> new TokenFluid(type));
-            *///?} else {
+            //?} else {
             /*RegistryObject<Fluid> fluid = fluids.register(spec.path(), () -> {
                 TokenFluid created = new TokenFluid();
                 net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes.register(created, attributes(spec));
@@ -140,7 +140,7 @@ public final class TokenFluids {
     *///?}
 
     //? if neoforge {
-    /** The NeoForge half of a token fluid: name, physical properties; rendering is registered by the client. */
+    /*/^* The NeoForge half of a token fluid: name, physical properties; rendering is registered by the client. ^/
     static final class TokenFluidType extends net.neoforged.neoforge.fluids.FluidType {
 
         final Spec spec;
@@ -164,8 +164,8 @@ public final class TokenFluids {
             return getDescription();
         }
     }
-    //?} elif forge {
-    /*static final class TokenFluidType extends net.minecraftforge.fluids.FluidType {
+    *///?} elif forge {
+    static final class TokenFluidType extends net.minecraftforge.fluids.FluidType {
 
         final Spec spec;
 
@@ -195,5 +195,5 @@ public final class TokenFluids {
             consumer.accept(TokenFluidsClient.extensions(() -> this.spec));
         }
     }
-    *///?}
+    //?}
 }

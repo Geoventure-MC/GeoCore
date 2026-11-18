@@ -44,12 +44,12 @@ public final class Biomes {
     /** Resolves a registered biome key from the live world's dynamic registry access. */
     public static Holder<Biome> holder(RegistryAccess registries, ResourceKey<Biome> key) {
         //? if >=26.1 {
-        return registries.lookupOrThrow(Registries.BIOME).getOrThrow(key);
-        //?} else if >=1.21.1 {
+        /*return registries.lookupOrThrow(Registries.BIOME).getOrThrow(key);
+        *///?} else if >=1.21.1 {
         /*return registries.lookupOrThrow(Registries.BIOME).getOrThrow(key);
         *///?} else {
-        /*return registries.registryOrThrow(Registries.BIOME).getHolderOrThrow(key);
-        *///?}
+        return registries.registryOrThrow(Registries.BIOME).getHolderOrThrow(key);
+        //?}
     }
 
     /**
@@ -113,10 +113,10 @@ public final class Biomes {
 
     private static int minSectionY(ChunkAccess chunk) {
         //? if >=26.1 {
-        return chunk.getMinY() >> 4;
-        //?} else {
-        /*return chunk.getMinBuildHeight() >> 4;
-        *///?}
+        /*return chunk.getMinY() >> 4;
+        *///?} else {
+        return chunk.getMinBuildHeight() >> 4;
+        //?}
     }
 
     private record Cell(int x, int y, int z) {}

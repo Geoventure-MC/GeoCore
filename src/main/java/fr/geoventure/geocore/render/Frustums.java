@@ -19,8 +19,8 @@ public final class Frustums {
     public static @Nullable Frustum current() {
         Minecraft minecraft = Minecraft.getInstance();
         //? if >=26.1 {
-        return minecraft.gameRenderer == null ? null : minecraft.gameRenderer.getMainCamera().getCullFrustum();
-        //?} elif fabric {
+        /*return minecraft.gameRenderer == null ? null : minecraft.gameRenderer.getMainCamera().getCullFrustum();
+        *///?} elif fabric {
         /*if (!listening) {
             listening = true;
             net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_SETUP.register(
@@ -28,8 +28,8 @@ public final class Frustums {
         }
         return captured;
         *///?} else {
-        /*return minecraft.levelRenderer == null ? null : minecraft.levelRenderer.getFrustum();
-        *///?}
+        return minecraft.levelRenderer == null ? null : minecraft.levelRenderer.getFrustum();
+        //?}
     }
 
     /** Whether {@code box} (world coordinates) may be seen this frame; true when there is no frustum to ask. */

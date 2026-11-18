@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 
 /**
  * A texture's pixels on the CPU, for code that sampled a texture in an old vertex shader and now does that arithmetic
@@ -44,10 +44,10 @@ public final class TexturePixels {
     /** Reads {@code texture} (a full path such as {@code geontm:textures/misc/noise_2.png}) from the resource manager. */
     public static TexturePixels read(
             //? if >=26.1 {
-            Identifier texture
-            //?} else {
-            /*ResourceLocation texture
-            *///?}
+            /*Identifier texture
+            *///?} else {
+            ResourceLocation texture
+            //?}
     ) throws IOException {
         try (InputStream in = Minecraft.getInstance().getResourceManager().getResourceOrThrow(texture).open();
              NativeImage image = NativeImage.read(in)) {
@@ -57,11 +57,11 @@ public final class TexturePixels {
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
                     //? if >=26.1 {
-                    pixels[y * w + x] = image.getPixel(x, y);
-                    //?} else {
-                    /*int abgr = image.getPixelRGBA(x, y);
+                    /*pixels[y * w + x] = image.getPixel(x, y);
+                    *///?} else {
+                    int abgr = image.getPixelRGBA(x, y);
                     pixels[y * w + x] = (abgr & 0xFF00FF00) | ((abgr >> 16) & 0xFF) | ((abgr & 0xFF) << 16);
-                    *///?}
+                    //?}
                 }
             }
             return new TexturePixels(w, h, pixels);

@@ -220,11 +220,11 @@ public final class Disguises {
     }
 
     //? if >=26.1 {
-    private static net.minecraft.client.renderer.block.dispatch.BlockStateModel model26(BlockState state) {
+    /*private static net.minecraft.client.renderer.block.dispatch.BlockStateModel model26(BlockState state) {
         return net.minecraft.client.Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(state);
     }
 
-    /** The overlays and mesh of one position as one part; null for none. */
+    /^* The overlays and mesh of one position as one part; null for none. ^/
     static net.minecraft.client.renderer.block.dispatch.@Nullable BlockStateModelPart extraPart26(
             net.minecraft.client.renderer.block.dispatch.BlockStateModel own, Look look, BlockGetter level, BlockPos pos,
             BlockState state) {
@@ -250,14 +250,14 @@ public final class Disguises {
                     net.minecraft.client.renderer.chunk.ChunkSectionLayer.CUTOUT;
             net.minecraft.client.renderer.rendertype.RenderType item = net.minecraft.client.renderer.Sheets.cutoutBlockItemSheet();
             //? if neoforge {
-            net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo material =
+            /^net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo material =
                     new net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo(quad.sprite(), layer, item,
                             quad.tintIndex(), true, 0, ao);
-            //?} else {
-            /*net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo material =
+            ^///?} else {
+            net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo material =
                     new net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo(quad.sprite(), layer, item,
                             quad.tintIndex(), true, 0);
-            *///?}
+            //?}
             return new net.minecraft.client.resources.model.geometry.BakedQuad(
                     new Vector3f(p[0][0], p[0][1], p[0][2]), new Vector3f(p[1][0], p[1][1], p[1][2]),
                     new Vector3f(p[2][0], p[2][1], p[2][2]), new Vector3f(p[3][0], p[3][1], p[3][2]),
@@ -304,10 +304,10 @@ public final class Disguises {
             return flags;
         }
     }
-    //?}
+    *///?}
 
     //? if >=26.1 && neoforge {
-    static final class Model26 extends net.neoforged.neoforge.client.model.DelegateBlockStateModel
+    /*static final class Model26 extends net.neoforged.neoforge.client.model.DelegateBlockStateModel
             implements net.neoforged.neoforge.client.model.DynamicBlockStateModel {
 
         Model26(net.minecraft.client.renderer.block.dispatch.BlockStateModel delegate) {
@@ -352,7 +352,7 @@ public final class Disguises {
                     wrapped = count;
                 });
     }
-    //?}
+    *///?}
 
     //? if >=26.1 && fabric {
     /*static final class Model26 implements net.minecraft.client.renderer.block.dispatch.BlockStateModel {
@@ -407,7 +407,7 @@ public final class Disguises {
     *///?}
 
     //? if <26.1 {
-    /*private static net.minecraft.client.resources.model.BakedModel legacyModel(BlockState state) {
+    private static net.minecraft.client.resources.model.BakedModel legacyModel(BlockState state) {
         return net.minecraft.client.Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
     }
 
@@ -421,7 +421,7 @@ public final class Disguises {
     private static java.util.Set<Object> modelIds() {
         return ConnectedTextures.modelIds(LOOKS.keySet());
     }
-    *///?}
+    //?}
 
     //? if neoforge && <26.1 {
     /*private record Appearance(@Nullable BlockState disguise, net.neoforged.neoforge.client.model.data.ModelData disguiseData,
@@ -497,7 +497,7 @@ public final class Disguises {
     *///?}
 
     //? if forge {
-    /*private record Appearance(@Nullable BlockState disguise, net.minecraftforge.client.model.data.ModelData disguiseData,
+    private record Appearance(@Nullable BlockState disguise, net.minecraftforge.client.model.data.ModelData disguiseData,
                               List<Quad> extras) {}
 
     private static final net.minecraftforge.client.model.data.ModelProperty<Appearance> APPEARANCE =
@@ -565,7 +565,7 @@ public final class Disguises {
                     wrapped = count;
                 });
     }
-    *///?}
+    //?}
 
     //? if fabric && <26.1 {
     /*static final class LegacyModel extends net.fabricmc.fabric.api.renderer.v1.model.ForwardingBakedModel {

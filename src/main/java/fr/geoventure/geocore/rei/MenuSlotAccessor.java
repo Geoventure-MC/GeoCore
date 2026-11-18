@@ -60,10 +60,10 @@ final class MenuSlotAccessor implements SlotAccessor {
                     @Override
                     public SlotAccessor read(net.minecraft.world.inventory.AbstractContainerMenu menu, Player player, CompoundTag tag) {
                         //? if >=26.1 {
-                        int index = tag.getIntOr("Slot", -1);
-                        //?} else {
-                        /*int index = tag.getInt("Slot");
-                        *///?}
+                        /*int index = tag.getIntOr("Slot", -1);
+                        *///?} else {
+                        int index = tag.getInt("Slot");
+                        //?}
                         return new MenuSlotAccessor(menu.getSlot(index));
                     }
 

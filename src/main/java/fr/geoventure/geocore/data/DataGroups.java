@@ -17,10 +17,10 @@ import java.util.function.Predicate;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 import net.minecraft.resources.ResourceKey;
 
 /** Typed subsystem parameters. A complete incoming set is validated before any current value is published. */
@@ -37,10 +37,10 @@ public final class DataGroups {
 
     public static Group group(List<Group> groups,
                               //? if >=26.1 {
-                              Identifier
-                              //?} else {
-                              /*ResourceLocation
-                              *///?}
+                              /*Identifier
+                              *///?} else {
+                              ResourceLocation
+                              //?}
                               id) {
         if (groups.stream().anyMatch(group -> group.id.equals(id)))
             throw new IllegalStateException("Parameter group declared twice: " + id);
@@ -59,10 +59,10 @@ public final class DataGroups {
         var folder = id.getNamespace() + "/" + id.getPath();
         DataFiles.folder(folder, files -> {
             //? if >=26.1 {
-            var entries = new LinkedHashMap<Identifier, DataGroup>();
-            //?} else {
-            /*var entries = new LinkedHashMap<ResourceLocation, DataGroup>();
-            *///?}
+            /*var entries = new LinkedHashMap<Identifier, DataGroup>();
+            *///?} else {
+            var entries = new LinkedHashMap<ResourceLocation, DataGroup>();
+            //?}
             files.forEach((name, value) -> entries.put(Ids.parse(name), decode(DataGroup.CODEC, value, name)));
             publish(entries, groups);
         });
@@ -72,24 +72,24 @@ public final class DataGroups {
     public static void apply(RegistryAccess registries, ResourceKey<Registry<DataGroup>> key, List<Group> groups) {
         Registry<DataGroup> registry;
         //? if >=1.21.2 {
-        registry = registries.lookupOrThrow(key);
-        //?} else {
-        /*registry = registries.registryOrThrow(key);
-        *///?}
+        /*registry = registries.lookupOrThrow(key);
+        *///?} else {
+        registry = registries.registryOrThrow(key);
+        //?}
         //? if >=26.1 {
-        var entries = new LinkedHashMap<Identifier, DataGroup>();
-        //?} else {
-        /*var entries = new LinkedHashMap<ResourceLocation, DataGroup>();
-        *///?}
+        /*var entries = new LinkedHashMap<Identifier, DataGroup>();
+        *///?} else {
+        var entries = new LinkedHashMap<ResourceLocation, DataGroup>();
+        //?}
         for (var id : registry.keySet()) entries.put(id, registry.getOptional(id).orElseThrow());
         publish(entries, groups);
     }
 
     //? if >=26.1 {
-    private static void publish(Map<Identifier, DataGroup> entries, List<Group> groups) {
-    //?} else {
-    /*private static void publish(Map<ResourceLocation, DataGroup> entries, List<Group> groups) {
-    *///?}
+    /*private static void publish(Map<Identifier, DataGroup> entries, List<Group> groups) {
+    *///?} else {
+    private static void publish(Map<ResourceLocation, DataGroup> entries, List<Group> groups) {
+    //?}
         var unknown = new HashSet<>(entries.keySet());
         var resolved = new ArrayList<Map<String, Object>>(groups.size());
         for (var group : groups) {
@@ -117,14 +117,14 @@ public final class DataGroups {
     public static final class Group {
         private final List<Param<?>> params = new ArrayList<>();
         //? if >=26.1 {
-        private final Identifier id;
+        /*private final Identifier id;
         private Group(Identifier id) { this.id = id; }
         public Identifier id() { return id; }
-        //?} else {
-        /*private final ResourceLocation id;
+        *///?} else {
+        private final ResourceLocation id;
         private Group(ResourceLocation id) { this.id = id; }
         public ResourceLocation id() { return id; }
-        *///?}
+        //?}
 
         public Map<String, Dynamic<?>> defaults() {
             var values = new LinkedHashMap<String, Dynamic<?>>();

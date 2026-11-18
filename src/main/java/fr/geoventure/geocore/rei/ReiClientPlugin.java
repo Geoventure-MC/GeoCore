@@ -107,7 +107,7 @@ public abstract class ReiClientPlugin implements REIClientPlugin {
                 String category = params.get("category").getAsString();
                 int colon = category.indexOf(':');
                 CategoryIdentifier<Display> id = CategoryIdentifier.<Display>of(category.substring(0, colon), category.substring(colon + 1));
-                EntryStack<ItemStack> wanted = EntryStacks.of(BuiltInRegistries.ITEM.getValue(Ids.parse(params.get("item").getAsString())));
+                EntryStack<ItemStack> wanted = EntryStacks.of(BuiltInRegistries.ITEM.get(Ids.parse(params.get("item").getAsString())));
                 Display display = null;
                 for (Display candidate : DisplayRegistry.getInstance().get(id)) {
                     for (EntryIngredient input : candidate.getInputEntries()) {
@@ -150,7 +150,7 @@ public abstract class ReiClientPlugin implements REIClientPlugin {
                 return out;
             }
             if (op.equals("uses")) {
-                net.minecraft.world.item.Item item = BuiltInRegistries.ITEM.getValue(Ids.parse(params.get("item").getAsString()));
+                net.minecraft.world.item.Item item = BuiltInRegistries.ITEM.get(Ids.parse(params.get("item").getAsString()));
                 out.addProperty("opened", ViewSearchBuilder.builder().addUsagesFor(EntryStacks.of(item)).open());
                 return out;
             }
@@ -170,7 +170,7 @@ public abstract class ReiClientPlugin implements REIClientPlugin {
             if (params.has("entries")) {
                 // how many list entries REI keeps for one item: a subtype-registered item (a fluid icon, say) keeps
                 // one per subtype, any other item collapses to one
-                net.minecraft.world.item.Item item = BuiltInRegistries.ITEM.getValue(Ids.parse(params.get("entries").getAsString()));
+                net.minecraft.world.item.Item item = BuiltInRegistries.ITEM.get(Ids.parse(params.get("entries").getAsString()));
                 out.addProperty("entries", me.shedaniel.rei.api.client.registry.entry.EntryRegistry.getInstance().getEntryStacks()
                         .filter(entry -> entry.getValue() instanceof ItemStack stack && stack.is(item)).count());
             }
@@ -197,11 +197,11 @@ public abstract class ReiClientPlugin implements REIClientPlugin {
     }
 
     //? if <26.1 {
-    /*@Override
+    @Override
     public void registerItemComparators(me.shedaniel.rei.api.common.entry.comparison.ItemComparatorRegistry registry) {
         Rei.comparators(registry, subtypes);
     }
-    *///?}
+    //?}
 
     @Override
     public void registerCategories(CategoryRegistry registry) {

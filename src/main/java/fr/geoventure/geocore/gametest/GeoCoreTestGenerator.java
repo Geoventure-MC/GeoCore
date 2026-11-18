@@ -2,12 +2,12 @@ package fr.geoventure.geocore.gametest;
 
 //? if <26.1 {
 
-/*import net.minecraft.gametest.framework.GameTestGenerator;
+import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.TestFunction;
 
 import java.util.Collection;
 
-/^*
+/**
  * The one hook this era offers for tests that are not static annotated methods.
  *
  * <p>Before 1.21.4 a test is discovered by reflection: a {@code @GameTest} method on a registered class.
@@ -16,7 +16,7 @@ import java.util.Collection;
  * {@link GameTests} collected arrives through here.
  *
  * <p>Public and non-final by necessity: the framework reflects over this class.
- ^/
+ */
 public final class GeoCoreTestGenerator {
 
     private GeoCoreTestGenerator() {}
@@ -26,4 +26,4 @@ public final class GeoCoreTestGenerator {
         return GameTests.pending();
     }
 }
-*///?}
+//?}

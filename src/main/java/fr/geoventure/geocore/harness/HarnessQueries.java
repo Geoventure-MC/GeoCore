@@ -57,19 +57,19 @@ final class HarnessQueries {
         MinecraftServer tickServer = minecraft.getSingleplayerServer();
         if (tickServer != null) {
             //? if >=1.21 {
-            json.addProperty("mspt", tickServer.getAverageTickTimeNanos() / 1_000_000.0);
-            //?} else {
-            /*json.addProperty("mspt", (double) tickServer.getAverageTickTime());
-            *///?}
+            /*json.addProperty("mspt", tickServer.getAverageTickTimeNanos() / 1_000_000.0);
+            *///?} else {
+            json.addProperty("mspt", (double) tickServer.getAverageTickTime());
+            //?}
         }
         // True once the chunk renderer has no section build queued or running (Sodium answers for its own builder).
         // A scenario that changes the render distance must wait for it before placing blocks: Sodium rebuilds every
         // section after that change, and a block entity placed meanwhile could be missing from its section's lists.
         //? if >=1.21 {
-        json.addProperty("sections_built", minecraft.level != null && minecraft.levelRenderer.hasRenderedAllSections());
-        //?} else {
-        /*json.addProperty("sections_built", minecraft.level != null && minecraft.levelRenderer.hasRenderedAllChunks());
-        *///?}
+        /*json.addProperty("sections_built", minecraft.level != null && minecraft.levelRenderer.hasRenderedAllSections());
+        *///?} else {
+        json.addProperty("sections_built", minecraft.level != null && minecraft.levelRenderer.hasRenderedAllChunks());
+        //?}
         if (minecraft.level != null) {
             json.addProperty("dimension", dimensionId(minecraft.level));
             json.addProperty("game_time", minecraft.level.getGameTime());
@@ -146,10 +146,10 @@ final class HarnessQueries {
         }
         json.add("slots", slots);
         //? if >=26.1 {
-        json.addProperty("selected", inventory.getSelectedSlot());
-        //?} else {
-        /*json.addProperty("selected", inventory.selected);
-        *///?}
+        /*json.addProperty("selected", inventory.getSelectedSlot());
+        *///?} else {
+        json.addProperty("selected", inventory.selected);
+        //?}
         json.addProperty("size", inventory.getContainerSize());
         if (minecraft.player.containerMenu != null) {
             json.add("carried", stack(minecraft.player.containerMenu.getCarried()));
@@ -227,10 +227,10 @@ final class HarnessQueries {
             return json;
         }
         //? if >=1.21 {
-        CompoundTag tag = be.saveWithoutMetadata(level.registryAccess());
-        //?} else {
-        /*CompoundTag tag = be.saveWithoutMetadata();
-        *///?}
+        /*CompoundTag tag = be.saveWithoutMetadata(level.registryAccess());
+        *///?} else {
+        CompoundTag tag = be.saveWithoutMetadata();
+        //?}
         json.addProperty("nbt", new SnbtPrinterTagVisitor().visit(tag));
         return json;
     }
@@ -290,13 +290,13 @@ final class HarnessQueries {
                 entry.addProperty("removed", be.isRemoved());
                 entry.addProperty("valid_state", be.getType().isValid(be.getBlockState()));
                 //? if >=26.1 {
-                entry.addProperty("in_global_set", minecraft.level.getGloballyRenderedBlockEntities().contains(be));
+                /*entry.addProperty("in_global_set", minecraft.level.getGloballyRenderedBlockEntities().contains(be));
                 // NeoForge's view of the list the level renderer draws from (Sodium replaces it with its section lists).
                 //? if neoforge {
-                boolean[] listed = {false};
+                /^boolean[] listed = {false};
                 minecraft.levelRenderer.iterateVisibleBlockEntities(seen -> listed[0] |= seen == be);
                 entry.addProperty("listed", listed[0]);
-                //?}
+                ^///?}
                 net.minecraft.client.renderer.blockentity.BlockEntityRenderer<BlockEntity, ?> renderer =
                         minecraft.getBlockEntityRenderDispatcher().getRenderer(be);
                 entry.addProperty("renderer", renderer == null ? null : renderer.getClass().getSimpleName());
@@ -306,7 +306,7 @@ final class HarnessQueries {
                     entry.addProperty("should_render", renderer instanceof fr.geoventure.geocore.render.gem.GemBER gem
                             ? gem.shouldRenderUntraced(be, camera) : renderer.shouldRender(be, camera));
                 }
-                //?}
+                *///?}
             }
             out.add(entry);
         }

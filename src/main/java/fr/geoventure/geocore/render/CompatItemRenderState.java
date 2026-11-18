@@ -7,12 +7,12 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
-//?} else {
 /*import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+*///?} else {
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-*///?}
+//?}
 
 /**
  * An item stack prepared for drawing inside a block-entity renderer, a machine's floating output
@@ -34,18 +34,18 @@ public final class CompatItemRenderState {
     private float droppedItemYOffset;
 
     //? if >=26.1 {
-    final ItemStackRenderState delegate = new ItemStackRenderState();
-    //?} else {
-    /*@Nullable ItemStack stack;
-    *///?}
+    /*final ItemStackRenderState delegate = new ItemStackRenderState();
+    *///?} else {
+    @Nullable ItemStack stack;
+    //?}
 
     /** True when there is nothing to draw. */
     public boolean isEmpty() {
         //? if >=26.1 {
-        return delegate.isEmpty();
-        //?} else {
-        /*return stack == null || stack.isEmpty();
-        *///?}
+        /*return delegate.isEmpty();
+        *///?} else {
+        return stack == null || stack.isEmpty();
+        //?}
     }
 
     /**
@@ -65,10 +65,10 @@ public final class CompatItemRenderState {
         displayContext = ItemDisplayContext.NONE;
         droppedItemYOffset = 0F;
         //? if >=26.1 {
-        delegate.clear();
-        //?} else {
-        /*stack = null;
-        *///?}
+        /*delegate.clear();
+        *///?} else {
+        stack = null;
+        //?}
     }
 
     /**
@@ -82,15 +82,15 @@ public final class CompatItemRenderState {
             return;
         }
         //? if >=26.1 {
-        Minecraft.getInstance().getItemModelResolver().updateForTopItem(delegate, stack, context, level, null, 0);
+        /*Minecraft.getInstance().getItemModelResolver().updateForTopItem(delegate, stack, context, level, null, 0);
         gui3d = delegate.usesBlockLight();
         droppedItemYOffset = (float) (-delegate.getModelBoundingBox().minY + 0.1625D);
-        //?} else {
-        /*this.stack = stack.copy();
+        *///?} else {
+        this.stack = stack.copy();
         var model = Minecraft.getInstance().getItemRenderer().getModel(stack, level, null, 0);
         gui3d = model.isGui3d();
         droppedItemYOffset = model.getTransforms().getTransform(context).scale.y() * 0.25F + 0.1F;
-        *///?}
+        //?}
         displayContext = context;
     }
 
@@ -100,11 +100,11 @@ public final class CompatItemRenderState {
     }
 
     //? if <26.1 {
-    /*/^* Draws immediately; pre-26.1 item rendering is not deferred. ^/
+    /** Draws immediately; pre-26.1 item rendering is not deferred. */
     void draw(PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, @Nullable Level level) {
         if (stack == null || stack.isEmpty()) return;
         Minecraft.getInstance().getItemRenderer().renderStatic(
                 stack, displayContext, light, overlay, poseStack, bufferSource, level, 0);
     }
-    *///?}
+    //?}
 }

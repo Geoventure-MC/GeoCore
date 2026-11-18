@@ -14,10 +14,10 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.config.IPluginConfig;
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 
 /** The client half of {@link JadePlugin}, kept apart so a dedicated server never loads a client type. */
 final class JadeClient {
@@ -57,10 +57,10 @@ final class JadeClient {
 
         @Override
         //? if >=26.1 {
-        public Identifier getUid() {
-        //?} else {
-        /*public ResourceLocation getUid() {
-        *///?}
+        /*public Identifier getUid() {
+        *///?} else {
+        public ResourceLocation getUid() {
+        //?}
             return JadePlugin.uid("gauges");
         }
     }

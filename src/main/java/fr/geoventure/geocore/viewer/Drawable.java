@@ -2,12 +2,12 @@ package fr.geoventure.geocore.viewer;
 
 import fr.geoventure.geocore.gui.GuiDraw;
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.gui.GuiGraphics;
+*///?} else {
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -28,10 +28,10 @@ public interface Drawable {
 
     void draw(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int x, int y);
 
     /** The side an animated drawable starts filling from (JEI's {@code IDrawableAnimated.StartDirection}). */
@@ -51,10 +51,10 @@ public interface Drawable {
     /** A {@code width x height} region at {@code (u, v)} of a 256x256 texture. */
     static Texture texture(
             //? if >=26.1 {
-            Identifier texture,
-            //?} else {
-            /*ResourceLocation texture,
-            *///?}
+            /*Identifier texture,
+            *///?} else {
+            ResourceLocation texture,
+            //?}
             int u, int v, int width, int height) {
         return new Texture(texture, u, v, width, height, 256, 256);
     }
@@ -62,10 +62,10 @@ public interface Drawable {
     /** A region of a texture of the given size. */
     static Texture texture(
             //? if >=26.1 {
-            Identifier texture,
-            //?} else {
-            /*ResourceLocation texture,
-            *///?}
+            /*Identifier texture,
+            *///?} else {
+            ResourceLocation texture,
+            //?}
             int u, int v, int width, int height, int textureWidth, int textureHeight) {
         return new Texture(texture, u, v, width, height, textureWidth, textureHeight);
     }
@@ -91,18 +91,18 @@ public interface Drawable {
     /** A texture region (JEI's {@code DrawableResource} with no padding). */
     final class Texture implements Drawable {
         //? if >=26.1 {
-        private final Identifier texture;
-        //?} else {
-        /*private final ResourceLocation texture;
-        *///?}
+        /*private final Identifier texture;
+        *///?} else {
+        private final ResourceLocation texture;
+        //?}
         private final int u, v, width, height, textureWidth, textureHeight;
 
         Texture(
                 //? if >=26.1 {
-                Identifier texture,
-                //?} else {
-                /*ResourceLocation texture,
-                *///?}
+                /*Identifier texture,
+                *///?} else {
+                ResourceLocation texture,
+                //?}
                 int u, int v, int width, int height, int textureWidth, int textureHeight) {
             this.texture = texture;
             this.u = u;
@@ -126,10 +126,10 @@ public interface Drawable {
         @Override
         public void draw(
                 //? if >=26.1 {
-                GuiGraphicsExtractor graphics,
-                //?} else {
-                /*GuiGraphics graphics,
-                *///?}
+                /*GuiGraphicsExtractor graphics,
+                *///?} else {
+                GuiGraphics graphics,
+                //?}
                 int x, int y) {
             draw(graphics, x, y, 0, 0, 0, 0);
         }
@@ -137,10 +137,10 @@ public interface Drawable {
         /** Draws the region with the given number of pixels cut from each side. */
         public void draw(
                 //? if >=26.1 {
-                GuiGraphicsExtractor graphics,
-                //?} else {
-                /*GuiGraphics graphics,
-                *///?}
+                /*GuiGraphicsExtractor graphics,
+                *///?} else {
+                GuiGraphics graphics,
+                //?}
                 int x, int y, int maskTop, int maskBottom, int maskLeft, int maskRight) {
             int w = width - maskRight - maskLeft;
             int h = height - maskBottom - maskTop;
@@ -187,10 +187,10 @@ public interface Drawable {
         @Override
         public void draw(
                 //? if >=26.1 {
-                GuiGraphicsExtractor graphics,
-                //?} else {
-                /*GuiGraphics graphics,
-                *///?}
+                /*GuiGraphicsExtractor graphics,
+                *///?} else {
+                GuiGraphics graphics,
+                //?}
                 int x, int y) {
             int value = value();
             int maskTop = 0, maskBottom = 0, maskLeft = 0, maskRight = 0;
@@ -226,10 +226,10 @@ public interface Drawable {
         @Override
         public void draw(
                 //? if >=26.1 {
-                GuiGraphicsExtractor graphics,
-                //?} else {
-                /*GuiGraphics graphics,
-                *///?}
+                /*GuiGraphicsExtractor graphics,
+                *///?} else {
+                GuiGraphics graphics,
+                //?}
                 int x, int y) {
             GuiDraw.fill(graphics, x, y, x + 17, y + 1, 0xFF373737);
             GuiDraw.fill(graphics, x, y + 1, x + 1, y + 17, 0xFF373737);
@@ -264,10 +264,10 @@ public interface Drawable {
         @Override
         public void draw(
                 //? if >=26.1 {
-                GuiGraphicsExtractor graphics,
-                //?} else {
-                /*GuiGraphics graphics,
-                *///?}
+                /*GuiGraphicsExtractor graphics,
+                *///?} else {
+                GuiGraphics graphics,
+                //?}
                 int x, int y) {
             GuiDraw.item(graphics, stack, x, y);
         }

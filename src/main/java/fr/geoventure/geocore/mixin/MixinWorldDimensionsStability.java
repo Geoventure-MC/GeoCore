@@ -40,19 +40,19 @@ public abstract class MixinWorldDimensionsStability {
     }
 
     //? if <26.1 {
-    /*@com.llamalad7.mixinextras.injector.ModifyExpressionValue(method = "bake", at = @At(value = "INVOKE",
+    @com.llamalad7.mixinextras.injector.ModifyExpressionValue(method = "bake", at = @At(value = "INVOKE",
             target = "Ljava/util/List;size()I"))
     private int geocore$declaredNotCounted(int size,
             @com.llamalad7.mixinextras.sugar.Local(argsOnly = true) net.minecraft.core.Registry<LevelStem> registry) {
         java.util.Set<ResourceKey<LevelStem>> keys = new java.util.HashSet<>(registry.registryKeySet());
         //? if >=1.21 {
-        /^keys.addAll(((WorldDimensions) (Object) this).dimensions().keySet());
-        ^///?} else {
-        /^keys.addAll(((WorldDimensions) (Object) this).dimensions().registryKeySet());
-        ^///?}
+        /*keys.addAll(((WorldDimensions) (Object) this).dimensions().keySet());
+        *///?} else {
+        keys.addAll(((WorldDimensions) (Object) this).dimensions().registryKeySet());
+        //?}
         int declared = 0;
         for (ResourceKey<LevelStem> key : keys) if (fr.geoventure.geocore.world.Dimensions.isDeclared(key)) declared++;
         return size - declared;
     }
-    *///?}
+    //?}
 }

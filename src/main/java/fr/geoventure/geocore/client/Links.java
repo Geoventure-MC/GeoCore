@@ -13,10 +13,10 @@ public final class Links {
     public static void open(String url) {
         try {
             //? if >=26.1 {
-            net.minecraft.util.Util.getPlatform().openUri(url);
-            //?} else {
-            /*net.minecraft.Util.getPlatform().openUri(url);
-            *///?}
+            /*net.minecraft.util.Util.getPlatform().openUri(url);
+            *///?} else {
+            net.minecraft.Util.getPlatform().openUri(url);
+            //?}
         } catch (Exception ignored) {
             // 1.7 swallowed every failure to reach a browser, and so does this.
         }

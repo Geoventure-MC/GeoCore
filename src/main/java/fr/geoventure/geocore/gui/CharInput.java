@@ -1,8 +1,8 @@
 package fr.geoventure.geocore.gui;
 
 //? if >=26.1 {
-import net.minecraft.client.input.CharacterEvent;
-//?}
+/*import net.minecraft.client.input.CharacterEvent;
+*///?}
 
 /** A version-neutral character event for compatibility-screen hooks. */
 public final class CharInput {
@@ -11,21 +11,21 @@ public final class CharInput {
     private final int modifiers;
 
     //? if >=26.1 {
-    private final CharacterEvent event;
-    //?}
+    /*private final CharacterEvent event;
+    *///?}
 
     //? if >=26.1 {
-    public CharInput(CharacterEvent event) {
+    /*public CharInput(CharacterEvent event) {
         this.codePoint = (char) event.codepoint();
         this.modifiers = 0;
         this.event = event;
     }
-    //?} else {
-    /*public CharInput(char codePoint, int modifiers) {
+    *///?} else {
+    public CharInput(char codePoint, int modifiers) {
         this.codePoint = codePoint;
         this.modifiers = modifiers;
     }
-    *///?}
+    //?}
 
     public char codePoint() { return this.codePoint; }
     public int modifiers() { return this.modifiers; }
@@ -33,9 +33,9 @@ public final class CharInput {
     /** Delivers this character to a text widget without exposing its version-specific event type. */
     public boolean charTyped(net.minecraft.client.gui.components.EditBox editBox) {
         //? if >=26.1 {
-        return editBox.charTyped(this.event);
-        //?} else {
-        /*return editBox.charTyped(this.codePoint, this.modifiers);
-        *///?}
+        /*return editBox.charTyped(this.event);
+        *///?} else {
+        return editBox.charTyped(this.codePoint, this.modifiers);
+        //?}
     }
 }

@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.ae2;
 
 //? if ae2 && forge {
-/*import appeng.api.implementations.blockentities.ICraftingMachine;
+import appeng.api.implementations.blockentities.ICraftingMachine;
 import appeng.api.storage.MEStorage;
 import appeng.capabilities.Capabilities;
 import fr.geoventure.geocore.Ids;
@@ -66,4 +66,4 @@ final class ForgeLookups {
         });
     }
 }
-*///?}
+//?}

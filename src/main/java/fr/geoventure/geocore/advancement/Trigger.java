@@ -53,22 +53,22 @@ public final class Trigger {
         Impl impl = new Impl(Ids.of(namespace, path));
         // 1.20.1: CriteriaTriggers' table is a plain HashMap, and Forge constructs mods in parallel.
         //? if >=1.20.5 {
-        TYPES.computeIfAbsent(namespace, ns -> fr.geoventure.geocore.registry.DeferredRegister.create(
+        /*TYPES.computeIfAbsent(namespace, ns -> fr.geoventure.geocore.registry.DeferredRegister.create(
                 net.minecraft.core.registries.Registries.TRIGGER_TYPE, ns)).register(path, () -> impl);
-        //?} else {
-        /*synchronized (net.minecraft.advancements.CriteriaTriggers.class) {
+        *///?} else {
+        synchronized (net.minecraft.advancements.CriteriaTriggers.class) {
             net.minecraft.advancements.CriteriaTriggers.register(impl);
         }
-        *///?}
+        //?}
         Trigger trigger = new Trigger(id, impl);
         BY_ID.put(id, trigger);
         return trigger;
     }
 
     //? if >=1.20.5 {
-    private static final Map<String, fr.geoventure.geocore.registry.DeferredRegister<net.minecraft.advancements.CriterionTrigger<?>>> TYPES =
+    /*private static final Map<String, fr.geoventure.geocore.registry.DeferredRegister<net.minecraft.advancements.CriterionTrigger<?>>> TYPES =
             new ConcurrentHashMap<>();
-    //?}
+    *///?}
 
     /** The trigger's id, e.g. {@code geontm:detonation}. */
     public String id() {
@@ -109,7 +109,7 @@ public final class Trigger {
     }
 
     //? if >=26.1 {
-    private static final class Impl extends net.minecraft.advancements.criterion.SimpleCriterionTrigger<Impl.Instance> {
+    /*private static final class Impl extends net.minecraft.advancements.criterion.SimpleCriterionTrigger<Impl.Instance> {
 
         Impl(Object id) {}
 
@@ -147,7 +147,7 @@ public final class Trigger {
             }
         }
     }
-    //?} elif >=1.20.5 {
+    *///?} elif >=1.20.5 {
     /*private static final class Impl extends net.minecraft.advancements.critereon.SimpleCriterionTrigger<Impl.Instance> {
 
         Impl(Object id) {}
@@ -187,7 +187,7 @@ public final class Trigger {
         }
     }
     *///?} else {
-    /*private static final class Impl
+    private static final class Impl
             extends net.minecraft.advancements.critereon.SimpleCriterionTrigger<Impl.Instance> {
 
         private final net.minecraft.resources.ResourceLocation id;
@@ -255,5 +255,5 @@ public final class Trigger {
             }
         }
     }
-    *///?}
+    //?}
 }

@@ -36,7 +36,7 @@ public abstract class MixinNaturalSpawnerCheck {
     }
 
     //? if >=26.1 {
-    @WrapOperation(method = "spawnMobsForChunkGeneration", at = @At(value = "INVOKE",
+    /*@WrapOperation(method = "spawnMobsForChunkGeneration", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/EntitySpawnReason;)Z"))
     private static boolean geocore$generationSpawnCheck(Mob mob, LevelAccessor level,
                                                       net.minecraft.world.entity.EntitySpawnReason reason,
@@ -45,8 +45,8 @@ public abstract class MixinNaturalSpawnerCheck {
                 && Spawns.denied(mob, accessor.getLevel(), Spawns.Reason.CHUNK_GENERATION)) return false;
         return original.call(mob, level, reason);
     }
-    //?} else {
-    /*@WrapOperation(method = "spawnMobsForChunkGeneration", at = @At(value = "INVOKE",
+    *///?} else {
+    @WrapOperation(method = "spawnMobsForChunkGeneration", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/MobSpawnType;)Z"))
     private static boolean geocore$generationSpawnCheck(Mob mob, LevelAccessor level,
                                                       net.minecraft.world.entity.MobSpawnType reason,
@@ -55,5 +55,5 @@ public abstract class MixinNaturalSpawnerCheck {
                 && Spawns.denied(mob, accessor.getLevel(), Spawns.Reason.CHUNK_GENERATION)) return false;
         return original.call(mob, level, reason);
     }
-    *///?}
+    //?}
 }

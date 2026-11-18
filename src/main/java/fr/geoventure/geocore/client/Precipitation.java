@@ -82,10 +82,10 @@ public final class Precipitation {
          */
         public int radius() {
             //? if >=26.1 {
-            return net.minecraft.client.Minecraft.getInstance().options.weatherRadius().get();
-            //?} else {
-            /*return net.minecraft.client.Minecraft.useFancyGraphics() ? 10 : 5;
-            *///?}
+            /*return net.minecraft.client.Minecraft.getInstance().options.weatherRadius().get();
+            *///?} else {
+            return net.minecraft.client.Minecraft.useFancyGraphics() ? 10 : 5;
+            //?}
         }
 
         /**

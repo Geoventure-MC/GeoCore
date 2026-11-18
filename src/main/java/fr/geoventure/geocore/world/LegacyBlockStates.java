@@ -56,17 +56,17 @@ public final class LegacyBlockStates {
 
     private static int currentVersion() {
         //? if >=1.21.6 {
-        return SharedConstants.getCurrentVersion().dataVersion().version();
-        //?} else {
-        /*return SharedConstants.getCurrentVersion().getDataVersion().getVersion();
-        *///?}
+        /*return SharedConstants.getCurrentVersion().dataVersion().version();
+        *///?} else {
+        return SharedConstants.getCurrentVersion().getDataVersion().getVersion();
+        //?}
     }
 
     private static BlockState read(CompoundTag tag) {
         //? if >=1.21.2 {
-        return NbtUtils.readBlockState(BuiltInRegistries.BLOCK, tag);
-        //?} else {
-        /*return NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag);
-        *///?}
+        /*return NbtUtils.readBlockState(BuiltInRegistries.BLOCK, tag);
+        *///?} else {
+        return NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag);
+        //?}
     }
 }

@@ -23,13 +23,13 @@ public final class CompatConsumables {
     private static Item.Properties food(Item.Properties properties, int nutrition, float saturation,
                                         List<MobEffectInstance> effects, boolean alwaysEdible) {
         //? if >=1.21.2 {
-        net.minecraft.world.item.component.Consumable.Builder consumable =
+        /*net.minecraft.world.item.component.Consumable.Builder consumable =
                 net.minecraft.world.item.component.Consumables.defaultFood();
         if (!effects.isEmpty()) {
             consumable.onConsume(new net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect(effects));
         }
         return properties.food(ItemStacks.food(nutrition, saturation, alwaysEdible), consumable.build());
-        //?} else if >=1.20.5 {
+        *///?} else if >=1.20.5 {
         /*net.minecraft.world.food.FoodProperties.Builder food =
                 new net.minecraft.world.food.FoodProperties.Builder().nutrition(nutrition);
         food.saturationModifier(saturation);
@@ -41,21 +41,21 @@ public final class CompatConsumables {
         effects.forEach(effect -> food.effect(effect, 1.0F));
         return properties.food(food.build());
         *///?} else {
-        /*net.minecraft.world.food.FoodProperties.Builder food =
+        net.minecraft.world.food.FoodProperties.Builder food =
                 new net.minecraft.world.food.FoodProperties.Builder().nutrition(nutrition)
                         .saturationMod(saturation);
         if (alwaysEdible) food.alwaysEat();
         effects.forEach(effect -> food.effect(effect, 1.0F));
         return properties.food(food.build());
-        *///?}
+        //?}
     }
 
     /** The 26.1 use-time remainder path; older targets use the item's finish hook instead. */
     public static Item.Properties usingConvertsTo(Item.Properties properties, Item remainder) {
         //? if >=26.1 {
-        return properties.usingConvertsTo(remainder);
-        //?} else {
-        /*return properties;
-        *///?}
+        /*return properties.usingConvertsTo(remainder);
+        *///?} else {
+        return properties;
+        //?}
     }
 }

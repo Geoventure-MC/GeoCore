@@ -66,7 +66,7 @@ final class ShaderLoader {
     }
 }
 *///?} elif forge {
-/*import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 
@@ -79,7 +79,7 @@ final class ShaderLoader {
         return new ShaderInstance(provider, fr.geoventure.geocore.Ids.parse(id), format);
     }
 
-    /^* {@link #load}, running {@code afterApply} after every {@code apply()} (the 1.20.1 JSON-blend reset). ^/
+    /** {@link #load}, running {@code afterApply} after every {@code apply()} (the 1.20.1 JSON-blend reset). */
     static ShaderInstance load(ResourceProvider provider, String id, VertexFormat format, Runnable afterApply)
             throws IOException {
         return new ShaderInstance(provider, fr.geoventure.geocore.Ids.parse(id), format) {
@@ -91,4 +91,4 @@ final class ShaderLoader {
         };
     }
 }
-*///?}
+//?}

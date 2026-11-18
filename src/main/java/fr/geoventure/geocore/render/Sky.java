@@ -10,7 +10,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.DestFactor;
@@ -24,8 +24,8 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -34,7 +34,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * One sky draw handed to a {@link Skyboxes.Skybox}: the level, the frame's sun position, and immediate-mode quads in
@@ -159,25 +159,25 @@ public final class Sky {
      */
     public net.minecraft.world.phys.Vec3 skyColor() {
         //? if >=26.1 {
-        int argb = Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.skyRenderState.skyColor;
+        /*int argb = Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.skyRenderState.skyColor;
         return new net.minecraft.world.phys.Vec3(((argb >> 16) & 0xFF) / 255.0, ((argb >> 8) & 0xFF) / 255.0, (argb & 0xFF) / 255.0);
-        //?} else {
-        /*Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        *///?} else {
+        Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         return level.getSkyColor(camera, partialTick);
-        *///?}
+        //?}
     }
 
     /** The current camera's sampled fog colour. */
     public Vec3 fogColor() {
         //? if >=26.1 {
-        int color = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe()
+        /*int color = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe()
                 .getValue(net.minecraft.world.attribute.EnvironmentAttributes.FOG_COLOR, partialTick);
         return new Vec3(net.minecraft.util.ARGB.redFloat(color),
                 net.minecraft.util.ARGB.greenFloat(color), net.minecraft.util.ARGB.blueFloat(color));
-        //?} else {
-        /*var color = RenderSystem.getShaderFogColor();
+        *///?} else {
+        var color = RenderSystem.getShaderFogColor();
         return new Vec3(color[0], color[1], color[2]);
-        *///?}
+        //?}
     }
     /** Untextured quads: {@code xyz} holds 3 floats per vertex, 4 vertices per quad, coloured {@code r g b a}. */
     public void quads(Blend blend, float r, float g, float b, float a, float... xyz) {
@@ -230,9 +230,9 @@ public final class Sky {
         int n = xyz.length / 3;
         if (n < 1) return;
         //? if >=26.1 {
-        drawPoints(texture, blend, r, g, b, a, xyz);
-        //?} else {
-        /*
+        /*drawPoints(texture, blend, r, g, b, a, xyz);
+        *///?} else {
+        
         Matrix4f m = pose.last().pose();
         org.joml.Vector3f right = new org.joml.Matrix3f(m).invert().transform(new org.joml.Vector3f(1, 0, 0));
         if (right.lengthSquared() > 0) right.normalize();
@@ -248,7 +248,7 @@ public final class Sky {
             v[o + 5] = x + right.x * px; v[o + 6] = y + right.y * px; v[o + 7] = z + right.z * px; v[o + 8] = 0; v[o + 9] = 0;
         }
         drawLines(texture, blend, r, g, b, a, v, 5);
-        *///?}
+        //?}
     }
 
     // ======================================================================== mod shaders
@@ -309,11 +309,11 @@ public final class Sky {
         }
 
         //? if >=26.1 {
-        /** The native pipeline used by this shader's sky draws, including its actual uniforms and blend state. */
+        /*/^* The native pipeline used by this shader's sky draws, including its actual uniforms and blend state. ^/
         public RenderPipeline nativePipeline(Blend blend, boolean cull) {
             return SkyShaders.pipeline(namespace, name, samplers, blend, cull, false, premultipliedAlpha);
         }
-        //?}
+        *///?}
 
         String namespace() {
             return namespace;
@@ -366,7 +366,7 @@ public final class Sky {
     // ======================================================================== per-version drawing
 
     //? if >=26.1 {
-    private static final BlendFunction BLEND_ALPHA = new BlendFunction(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
+    /*private static final BlendFunction BLEND_ALPHA = new BlendFunction(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
             SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
     private static final BlendFunction BLEND_ADDITIVE = BlendFunction.OVERLAY; // SRC_ALPHA, ONE, ONE, ZERO
 
@@ -424,7 +424,7 @@ public final class Sky {
             RenderSetup.builder(POINT_COLOR_ADDITIVE).createRenderSetup());
     private static final Map<String, RenderType> TEXTURED_POINTS = new HashMap<>();
 
-    /** Actual native pipelines shared by the renderer's draws and consumers inspecting their state. */
+    /^* Actual native pipelines shared by the renderer's draws and consumers inspecting their state. ^/
     public static RenderPipeline nativePipeline(boolean textured, Blend blend, VertexFormat.Mode mode) {
         return switch (mode) {
             case QUADS -> textured ? (blend == Blend.ALPHA ? TEX_ALPHA : TEX_ADDITIVE)
@@ -437,7 +437,7 @@ public final class Sky {
         };
     }
 
-    /** Plain images only, as with the sky's line draws. */
+    /^* Plain images only, as with the sky's line draws. ^/
     private void drawPoints(Texture texture, Blend blend, float r, float g, float b, float a, float[] xyz) {
         var type = texture == null ? (blend == Blend.ALPHA ? TYPE_POINT_COLOR_ALPHA : TYPE_POINT_COLOR_ADDITIVE)
                 : TEXTURED_POINTS.computeIfAbsent(blend + "|" + texture.id(), key -> RenderType.create("geocore_sky_point_tex",
@@ -447,7 +447,7 @@ public final class Sky {
         drawVertices(type, VertexFormat.Mode.POINTS, texture, r, g, b, a, xyz, 3, xyz.length / 3, 0, 0, 1, 1);
     }
 
-    /** Plain images only. */
+    /^* Plain images only. ^/
     private void drawLines(Texture texture, Blend blend, float r, float g, float b, float a, float[] v, int stride) {
         var type = texture == null ? (blend == Blend.ALPHA ? TYPE_LINE_COLOR_ALPHA : TYPE_LINE_COLOR_ADDITIVE)
                 : texturedLines(Identifier.fromNamespaceAndPath(texture.namespace, texture.path), blend);
@@ -503,19 +503,19 @@ public final class Sky {
 
     void end() {
     }
-    //?} else {
-    /*private static final String TEX_SHADER = "geocore:sky_tex_color_legacy";
+    *///?} else {
+    private static final String TEX_SHADER = "geocore:sky_tex_color_legacy";
     private static net.minecraft.client.renderer.ShaderInstance texShader;
     private static Blend texBlend = Blend.ALPHA;
     private static boolean texReloadRegistered;
 
-    /^*
+    /**
      * The textured program: vanilla's {@code position_tex_color} with the discard at alpha 0 instead of 0.1, as 26.1's
      * own {@code core/position_tex_color} and 1.7's sky (drawn with {@code GL_ALPHA_TEST} disabled). With vanilla's
      * 1.20.1/1.21.1 program every texel below alpha 0.1 vanished: a star's soft halo became a hard-edged disc and a
      * flare drawn at a quarter alpha lost its faint parts. Its {@code apply()} resets the blend (the program's JSON
      * states none on purpose, see {@code FaintParticleLayers}), so the hook sets this draw's blend again.
-     ^/
+     */
     private static net.minecraft.client.renderer.ShaderInstance texShader() {
         if (!texReloadRegistered) {
             texReloadRegistered = true;
@@ -534,10 +534,10 @@ public final class Sky {
         return texShader;
     }
 
-    /^*
+    /**
      * Under a shader pack, vanilla's {@code position_tex_color}: Iris swaps it for the pack's textured sky program, as it
      * does for vanilla's sun. A pack never sees a mod's own program and draws its sky over it.
-     ^/
+     */
     private static java.util.function.Supplier<net.minecraft.client.renderer.ShaderInstance> texProgram() {
         return fr.geoventure.geocore.client.ShaderPacks.inUse() ? GameRenderer::getPositionTexColorShader : Sky::texShader;
     }
@@ -580,7 +580,7 @@ public final class Sky {
         Matrix4f m = pose.last().pose();
         int quads = v.length / (stride * 4);
         //? if >=1.21 {
-        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, format);
+        /*BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, format);
         for (int i = 0; i < quads * 4; i++) {
             int o = i * stride;
             var vertex = builder.addVertex(m, v[o], v[o + 1], v[o + 2]);
@@ -590,8 +590,8 @@ public final class Sky {
         }
         com.mojang.blaze3d.vertex.MeshData mesh = builder.build();
         if (mesh != null) BufferUploader.drawWithShader(mesh);
-        //?} else {
-        /^BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        *///?} else {
+        BufferBuilder builder = Tesselator.getInstance().getBuilder();
         builder.begin(VertexFormat.Mode.QUADS, format);
         for (int i = 0; i < quads * 4; i++) {
             int o = i * stride;
@@ -601,14 +601,14 @@ public final class Sky {
             else vertex.color(r, g, b, a).endVertex();
         }
         BufferUploader.drawWithShader(builder.end());
-        ^///?}
+        //?}
         if (ownUnit) bindUnit(0, 0);
     }
 
-    /^*
+    /**
      * The sky program declares no sampler (vanilla's {@code apply()} looks each one up per draw, a driver sync), so its
      * unset sampler reads unit 0. False for a pack's program, which binds its own.
-     ^/
+     */
     private static boolean bindTexShaderUnit() {
         if (RenderSystem.getShader() != texShader) return false;
         bindUnit(0, RenderSystem.getShaderTexture(0));
@@ -622,7 +622,7 @@ public final class Sky {
         GlStateManager._activeTexture(active);
     }
 
-    /^* {@link #lines} / {@link #points}: plain images only. ^/
+    /** {@link #lines} / {@link #points}: plain images only. */
     private void drawLines(Texture texture, Blend blend, float r, float g, float b, float a, float[] v, int stride) {
         if (texture == null) {
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -642,7 +642,7 @@ public final class Sky {
         Matrix4f m = pose.last().pose();
         int count = (v.length / (stride * 2)) * 2;
         //? if >=1.21 {
-        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, format);
+        /*BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, format);
         for (int i = 0; i < count; i++) {
             int o = i * stride;
             var vertex = builder.addVertex(m, v[o], v[o + 1], v[o + 2]);
@@ -651,8 +651,8 @@ public final class Sky {
         }
         com.mojang.blaze3d.vertex.MeshData mesh = builder.build();
         if (mesh != null) BufferUploader.drawWithShader(mesh);
-        //?} else {
-        /^BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        *///?} else {
+        BufferBuilder builder = Tesselator.getInstance().getBuilder();
         builder.begin(VertexFormat.Mode.DEBUG_LINES, format);
         for (int i = 0; i < count; i++) {
             int o = i * stride;
@@ -661,15 +661,15 @@ public final class Sky {
             vertex.color(r, g, b, a).endVertex();
         }
         BufferUploader.drawWithShader(builder.end());
-        ^///?}
+        //?}
         if (ownUnit) bindUnit(0, 0);
     }
 
-    /^* Leaves the state vanilla's sky has after its own sun, moon and stars. ^/
+    /** Leaves the state vanilla's sky has after its own sun, moon and stars. */
     void end() {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
     }
-    *///?}
+    //?}
 }

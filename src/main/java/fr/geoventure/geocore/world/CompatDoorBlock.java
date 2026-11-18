@@ -12,9 +12,9 @@ public class CompatDoorBlock extends DoorBlock {
 
     public CompatDoorBlock(BlockSetType type, Properties properties) {
         //? if >=1.21.1 {
-        super(type, properties);
-        //?} else {
-        /*super(properties, type);
-        *///?}
+        /*super(type, properties);
+        *///?} else {
+        super(properties, type);
+        //?}
     }
 }

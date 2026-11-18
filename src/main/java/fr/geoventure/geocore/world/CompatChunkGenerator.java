@@ -44,16 +44,16 @@ public abstract class CompatChunkGenerator extends ChunkGenerator {
     protected abstract MapCodec<? extends ChunkGenerator> mapCodec();
 
     //? if >=1.20.5 {
-    @Override
+    /*@Override
     protected final MapCodec<? extends ChunkGenerator> codec() {
         return mapCodec();
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected final com.mojang.serialization.Codec<? extends ChunkGenerator> codec() {
         return Dimensions.legacyCodec(mapCodec());
     }
-    *///?}
+    //?}
 
     @Override
     public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> structureSets, RandomState randomState,
@@ -111,10 +111,10 @@ public abstract class CompatChunkGenerator extends ChunkGenerator {
      */
     protected static void set(ChunkAccess chunk, BlockPos.MutableBlockPos pos, BlockState state) {
         //? if >=26.1 {
-        chunk.setBlockState(pos, state);
-        //?} else {
-        /*chunk.setBlockState(pos, state, false);
-        *///?}
+        /*chunk.setBlockState(pos, state);
+        *///?} else {
+        chunk.setBlockState(pos, state, false);
+        //?}
         if (state.hasBlockEntity()) {
             net.minecraft.nbt.CompoundTag pending = new net.minecraft.nbt.CompoundTag();
             pending.putString("id", "DUMMY");
@@ -128,37 +128,37 @@ public abstract class CompatChunkGenerator extends ChunkGenerator {
     }
 
     //? if >=1.20.5 {
-    @Override
+    /*@Override
     public final CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState,
                                                               StructureManager structureManager, ChunkAccess chunk) {
         fill(chunk);
         return CompletableFuture.completedFuture(chunk);
     }
 
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public final CompletableFuture<ChunkAccess> fillFromNoise(java.util.concurrent.Executor executor, Blender blender,
             RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
         fill(chunk);
         return CompletableFuture.completedFuture(chunk);
     }
-    *///?}
+    //?}
 
     // 1.21.2 dropped the carving step (only air carvers remain); before it the method ran once per step.
     //? if >=1.21.2 {
-    @Override
+    /*@Override
     public final void applyCarvers(WorldGenRegion region, long seed, RandomState randomState, BiomeManager biomeManager,
                                    StructureManager structureManager, ChunkAccess chunk) {
         carve(region, chunk);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public final void applyCarvers(WorldGenRegion region, long seed, RandomState randomState, BiomeManager biomeManager,
             StructureManager structureManager, ChunkAccess chunk,
             net.minecraft.world.level.levelgen.GenerationStep.Carving step) {
         if (step == net.minecraft.world.level.levelgen.GenerationStep.Carving.AIR) carve(region, chunk);
     }
-    *///?}
+    //?}
 
     @Override
     public final void buildSurface(WorldGenRegion region, StructureManager structureManager, RandomState randomState,

@@ -24,33 +24,33 @@ public class CompatItem extends Item implements HeldItemState {
     }
 
     //? if forge {
-    /*@Override
+    @Override
     public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
         fr.geoventure.geocore.render.ForgeItemRenderers.initialize(consumer);
     }
-    *///?}
+    //?}
 
     // Per-stack stack size (ItemStacks.setMaxStackSize) below 1.20.5: Forge asks the item with the stack.
     //? if forge {
-    /*@Override
+    @Override
     public int getMaxStackSize(ItemStack stack) {
         return ItemStacks.legacyMaxStackSize(stack, super.getMaxStackSize(stack));
     }
-    *///?}
+    //?}
 
     // SwingReceiver dispatch through the loader's own item hook (Fabric: MixinLivingEntitySwing).
     //? if neoforge {
-    @Override
+    /*@Override
     public boolean onEntitySwing(net.minecraft.world.item.ItemStack stack, net.minecraft.world.entity.LivingEntity entity,
                                  net.minecraft.world.InteractionHand hand) {
         return SwingReceiver.dispatch(stack, entity, hand);
     }
-    //?} elif forge {
-    /*@Override
+    *///?} elif forge {
+    @Override
     public boolean onEntitySwing(net.minecraft.world.item.ItemStack stack, net.minecraft.world.entity.LivingEntity entity) {
         return SwingReceiver.dispatch(stack, entity, SwingReceiver.handOf(stack, entity));
     }
-    *///?}
+    //?}
 
     /** Adds this item's custom tooltip lines after vanilla's lines. */
     protected void appendCompatHoverText(ItemStack stack, CompatTooltipContext context,
@@ -65,11 +65,11 @@ public class CompatItem extends Item implements HeldItemState {
     /** Calls the vanilla item implementation without exposing its return-type split to callers. */
     protected final InteractionResult compatVanillaUse(Level level, Player player, InteractionHand hand) {
         //? if >=26.1 {
-        return super.use(level, player, hand);
-        //?} else {
-        /*net.minecraft.world.InteractionResultHolder<ItemStack> result = super.use(level, player, hand);
+        /*return super.use(level, player, hand);
+        *///?} else {
+        net.minecraft.world.InteractionResultHolder<ItemStack> result = super.use(level, player, hand);
         return result.getResult();
-        *///?}
+        //?}
     }
 
     /** Receives the successful melee-hit hook used by syringe-like items. */
@@ -127,32 +127,32 @@ public class CompatItem extends Item implements HeldItemState {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         compatHurtEnemy(stack, target, attacker);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return compatHurtEnemy(stack, target, attacker);
     }
-    *///?}
+    //?}
 
     //? if >=1.20.5 {
-    @Override
+    /*@Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return compatUseDuration(stack, entity);
     }
 
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public int getUseDuration(ItemStack stack) {
         return compatUseDuration(stack, null);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public net.minecraft.world.item.ItemUseAnimation getUseAnimation(ItemStack stack) {
         return switch (compatUseAnimation(stack)) {
             case NONE -> net.minecraft.world.item.ItemUseAnimation.NONE;
@@ -166,8 +166,8 @@ public class CompatItem extends Item implements HeldItemState {
     public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         return compatReleaseUsing(stack, level, entity, timeLeft);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.world.item.UseAnim getUseAnimation(ItemStack stack) {
         return switch (compatUseAnimation(stack)) {
             case NONE -> net.minecraft.world.item.UseAnim.NONE;
@@ -181,10 +181,10 @@ public class CompatItem extends Item implements HeldItemState {
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         compatReleaseUsing(stack, level, entity, timeLeft);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context,
                                 net.minecraft.world.item.component.TooltipDisplay display,
                                 java.util.function.Consumer<Component> tooltip, TooltipFlag flag) {
@@ -195,7 +195,7 @@ public class CompatItem extends Item implements HeldItemState {
             @Override public void add(int index, Component component) { tooltip.accept(component); }
         }, flag);
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*@Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip,
                                 TooltipFlag flag) {
@@ -203,16 +203,16 @@ public class CompatItem extends Item implements HeldItemState {
         appendCompatHoverText(stack, CompatTooltipContext.INSTANCE, tooltip, flag);
     }
     *///?} else {
-    /*@Override
+    @Override
     public void appendHoverText(ItemStack stack, net.minecraft.world.level.Level level, List<Component> tooltip,
                                 TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         appendCompatHoverText(stack, CompatTooltipContext.INSTANCE, tooltip, flag);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return compatUse(level, player, hand);
     }
@@ -230,8 +230,8 @@ public class CompatItem extends Item implements HeldItemState {
                                    net.minecraft.world.entity.LivingEntity user) {
         return compatCanDestroyBlock(stack, state, level, pos, user);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.world.InteractionResultHolder<ItemStack> use(Level level, Player player,
                                                                         InteractionHand hand) {
         InteractionResult result = compatUse(level, player, hand);
@@ -253,5 +253,5 @@ public class CompatItem extends Item implements HeldItemState {
                                   net.minecraft.core.BlockPos pos, Player player) {
         return compatCanDestroyBlock(player.getMainHandItem(), state, level, pos, player);
     }
-    *///?}
+    //?}
 }

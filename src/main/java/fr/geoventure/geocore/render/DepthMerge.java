@@ -13,7 +13,7 @@ final class DepthMerge {
     private DepthMerge() {}
 
     //? if >=26.1 {
-    private static final com.mojang.blaze3d.pipeline.RenderPipeline PIPELINE =
+    /*private static final com.mojang.blaze3d.pipeline.RenderPipeline PIPELINE =
             com.mojang.blaze3d.pipeline.RenderPipeline.builder()
                     .withLocation(fr.geoventure.geocore.Ids.of("geocore", "pipeline/depth_merge"))
                     .withVertexShader(fr.geoventure.geocore.Ids.of("geocore", "core/depth_merge"))
@@ -25,16 +25,16 @@ final class DepthMerge {
                     .withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(
                             java.util.Optional.empty(), com.mojang.blaze3d.pipeline.ColorTargetState.WRITE_NONE))
                     .withCull(false).build();
-    //?} else {
-    /*private static net.minecraft.client.renderer.ShaderInstance shader;
-    *///?}
+    *///?} else {
+    private static net.minecraft.client.renderer.ShaderInstance shader;
+    //?}
 
     static void close() {
         reported = false;
         //? if <26.1 {
-        /*if (shader != null) shader.close();
+        if (shader != null) shader.close();
         shader = null;
-        *///?}
+        //?}
     }
 
     static void merge(RenderTarget output, RenderTarget main, RenderTarget terrain, RenderTarget entities) {
@@ -52,7 +52,7 @@ final class DepthMerge {
             return;
         }
         //? if >=26.1 {
-        var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
+        /*var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
         builder.addVertex(-1F, -1F, 0F);
         builder.addVertex(3F, -1F, 0F);
         builder.addVertex(-1F, 3F, 0F);
@@ -70,9 +70,9 @@ final class DepthMerge {
                 pass.draw(0, 3);
             }
         }
-        //?} else {
-        /*mergeLegacy(output, main, terrain, entities);
-        *///?}
+        *///?} else {
+        mergeLegacy(output, main, terrain, entities);
+        //?}
         if (!reported) {
             reported = true;
             GeoCore.LOG.debug("World depth merge active: main + terrain + entities ({}x{})", output.width, output.height);
@@ -80,7 +80,7 @@ final class DepthMerge {
     }
 
     //? if <26.1 {
-    /*private static void mergeLegacy(RenderTarget output, RenderTarget main, RenderTarget terrain, RenderTarget entities) {
+    private static void mergeLegacy(RenderTarget output, RenderTarget main, RenderTarget terrain, RenderTarget entities) {
         try (var stack = org.lwjgl.system.MemoryStack.stackPush()) {
             var viewport = stack.mallocInt(4);
             var colorMask = stack.malloc(4);
@@ -121,19 +121,19 @@ final class DepthMerge {
                     com.mojang.blaze3d.shaders.Uniform.uploadInteger(location, i);
                 }
                 //? if >=1.21 {
-                var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
+                /*var builder = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
                 builder.addVertex(-1F, -1F, 0F);
                 builder.addVertex(3F, -1F, 0F);
                 builder.addVertex(-1F, 3F, 0F);
                 com.mojang.blaze3d.vertex.BufferUploader.draw(builder.buildOrThrow());
-                //?} else {
-                /^var builder = Tesselator.getInstance().getBuilder();
+                *///?} else {
+                var builder = Tesselator.getInstance().getBuilder();
                 builder.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
                 builder.vertex(-1F, -1F, 0F).endVertex();
                 builder.vertex(3F, -1F, 0F).endVertex();
                 builder.vertex(-1F, 3F, 0F).endVertex();
                 com.mojang.blaze3d.vertex.BufferUploader.draw(builder.end());
-                ^///?}
+                //?}
             } catch (java.io.IOException exception) {
                 throw new IllegalStateException("Could not load world depth merge shader", exception);
             } finally {
@@ -153,5 +153,5 @@ final class DepthMerge {
             }
         }
     }
-    *///?}
+    //?}
 }

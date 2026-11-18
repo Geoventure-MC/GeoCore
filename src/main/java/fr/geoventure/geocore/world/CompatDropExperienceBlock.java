@@ -8,9 +8,9 @@ public class CompatDropExperienceBlock extends DropExperienceBlock {
 
     public CompatDropExperienceBlock(IntProvider experience, Properties properties) {
         //? if >=1.20.5 {
-        super(experience, properties);
-        //?} else {
-        /*super(properties, experience);
-        *///?}
+        /*super(experience, properties);
+        *///?} else {
+        super(properties, experience);
+        //?}
     }
 }

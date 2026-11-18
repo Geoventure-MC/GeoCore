@@ -37,20 +37,20 @@ public abstract class MixinLivingHurtAccess implements LivingHurtAccess {
     }
 
     //? if >=26.1 {
-    @Shadow
+    /*@Shadow
     public abstract @Nullable Player getLastHurtByPlayer();
 
     @Override
     public @Nullable Player geocore$lastHurtByPlayer() {
         return getLastHurtByPlayer();
     }
-    //?} else {
-    /*@Shadow
+    *///?} else {
+    @Shadow
     protected @Nullable Player lastHurtByPlayer;
 
     @Override
     public @Nullable Player geocore$lastHurtByPlayer() {
         return lastHurtByPlayer;
     }
-    *///?}
+    //?}
 }

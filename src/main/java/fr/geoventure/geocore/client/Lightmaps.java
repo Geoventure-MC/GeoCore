@@ -2,8 +2,8 @@ package fr.geoventure.geocore.client;
 
 import fr.geoventure.geocore.world.Skies;
 //? if >=26.1 {
-import net.minecraft.world.attribute.EnvironmentAttributes;
-//?}
+/*import net.minecraft.world.attribute.EnvironmentAttributes;
+*///?}
 
 import fr.geoventure.geocore.hook.Hook;
 import java.util.List;
@@ -44,11 +44,11 @@ public final class Lightmaps {
     // port: Older nodes retain native brightness and classic lightmap cells for their rendering API.
     public static float skyInput(ClientLevel level, float partialTick) {
         //? if >=26.1 {
-        return Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe()
+        /*return Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe()
                 .getValue(EnvironmentAttributes.SKY_LIGHT_FACTOR, partialTick);
-        //?} else {
-        /*return level.getSkyDarken(partialTick);
-        *///?}
+        *///?} else {
+        return level.getSkyDarken(partialTick);
+        //?}
     }
 
     public interface Modifier {
@@ -202,7 +202,7 @@ public final class Lightmaps {
     // Per-version application
 
     //? if >=26.1 {
-    private static final com.mojang.blaze3d.pipeline.RenderPipeline PIPELINE =
+    /*private static final com.mojang.blaze3d.pipeline.RenderPipeline PIPELINE =
             com.mojang.blaze3d.pipeline.RenderPipeline.builder()
                     .withLocation(fr.geoventure.geocore.Ids.of("geocore", "pipeline/lightmap_tint"))
                     .withVertexShader(fr.geoventure.geocore.Ids.of("geocore", "core/lightmap_tint"))
@@ -214,7 +214,7 @@ public final class Lightmaps {
                             com.mojang.blaze3d.pipeline.ColorTargetState.WRITE_COLOR))
                     .withCull(false).build();
 
-    /** {@link #PIPELINE} without blending: the classic formula's cells replace vanilla's. */
+    /^* {@link #PIPELINE} without blending: the classic formula's cells replace vanilla's. ^/
     private static final com.mojang.blaze3d.pipeline.RenderPipeline CLASSIC_PIPELINE =
             com.mojang.blaze3d.pipeline.RenderPipeline.builder()
                     .withLocation(fr.geoventure.geocore.Ids.of("geocore", "pipeline/lightmap_classic"))
@@ -226,11 +226,11 @@ public final class Lightmaps {
                             java.util.Optional.empty(), com.mojang.blaze3d.pipeline.ColorTargetState.WRITE_COLOR))
                     .withCull(false).build();
 
-    /**
+    /^*
      * 26.1, after vanilla's light-map pass: for a {@link #classic} level the classic formula's 256 cells (with the
      * additions, clamped to 255 as before 26.1) drawn over vanilla's; otherwise one additive quad per changed cell, in
      * the light map's own 16 x 16.
-     */
+     ^/
     public static void apply(com.mojang.blaze3d.textures.GpuTextureView lightmap,
             net.minecraft.client.renderer.state.LightmapRenderState state) {
         ClientLevel level = Minecraft.getInstance().level;
@@ -254,7 +254,7 @@ public final class Lightmaps {
         draw(lightmap, PIPELINE, add, true);
     }
 
-    /** One quad per cell of {@code add} (0..255 per channel; above 255 drawn as 255), skipping black cells if asked. */
+    /^* One quad per cell of {@code add} (0..255 per channel; above 255 drawn as 255), skipping black cells if asked. ^/
     private static void draw(com.mojang.blaze3d.textures.GpuTextureView lightmap,
             com.mojang.blaze3d.pipeline.RenderPipeline pipeline, int[] add, boolean skipBlack) {
         var builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().begin(
@@ -287,8 +287,8 @@ public final class Lightmaps {
             }
         }
     }
-    //?} else {
-    /*/^* Before 26.1, before the light map is uploaded: the additions made to its pixels (ABGR, red in the low byte). ^/
+    *///?} else {
+    /** Before 26.1, before the light map is uploaded: the additions made to its pixels (ABGR, red in the low byte). */
     public static void apply(com.mojang.blaze3d.platform.NativeImage pixels) {
         int[] add = additions();
         if (add == null) return;
@@ -304,5 +304,5 @@ public final class Lightmaps {
             }
         }
     }
-    *///?}
+    //?}
 }

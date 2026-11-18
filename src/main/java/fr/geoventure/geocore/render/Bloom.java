@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -19,13 +19,13 @@ import net.minecraft.util.Util;
 
 import java.util.Optional;
 import java.util.function.Function;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.Util;
 
 import java.util.function.Function;
-*///?}
+//?}
 
 /**
  * GEONTM 1.12's bloom: geometry drawn into a full-size layer during the hand pass, then blurred through a four-level
@@ -58,7 +58,7 @@ public final class Bloom {
      * writing it, back faces culled. Submit it after the surface it glows over.
      */
     //? if >=26.1 {
-    public static RenderType of(Identifier texture) {
+    /*public static RenderType of(Identifier texture) {
         return BY_TEXTURE.apply(texture);
     }
 
@@ -95,7 +95,7 @@ public final class Bloom {
     private static int chainWidth = -1;
     private static int chainHeight = -1;
 
-    /** (Re)builds the level targets when the screen size changed (a window resize; the GUI scale does not resize them). */
+    /^* (Re)builds the level targets when the screen size changed (a window resize; the GUI scale does not resize them). ^/
     private static void ensureChain(RenderTarget main) {
         if (chainWidth == main.width && chainHeight == main.height && DATA[0] != null) return;
         for (int level = 0; level < LEVELS; level++) {
@@ -147,8 +147,8 @@ public final class Bloom {
         ScreenEffects.report("bloom", LAYER.target());
         LAYER.clear();
     }
-    //?} else {
-    /*public static RenderType of(ResourceLocation texture) {
+    *///?} else {
+    public static RenderType of(ResourceLocation texture) {
         return BY_TEXTURE.apply(texture);
     }
 
@@ -204,7 +204,7 @@ public final class Bloom {
     private static int chainWidth = -1;
     private static int chainHeight = -1;
 
-    /^* (Re)builds the level targets when the screen size changed (a window resize; the GUI scale does not resize them). ^/
+    /** (Re)builds the level targets when the screen size changed (a window resize; the GUI scale does not resize them). */
     private static void ensureChain(RenderTarget main) {
         if (chainWidth == main.width && chainHeight == main.height && DATA[0] != null) return;
         for (int level = 0; level < LEVELS; level++) {
@@ -245,7 +245,7 @@ public final class Bloom {
             LAYER.clear();
         }
     }
-    *///?}
+    //?}
 
     /** The combined level now lives in the spare target: make it the level's data. */
     private static void swap(int level) {

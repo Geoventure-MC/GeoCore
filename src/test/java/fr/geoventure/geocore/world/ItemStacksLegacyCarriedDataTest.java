@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.world;
 
 //? if <1.20.5 {
-/*import net.minecraft.SharedConstants;
+import net.minecraft.SharedConstants;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.Bootstrap;
@@ -57,4 +57,4 @@ class ItemStacksLegacyCarriedDataTest {
         assertTrue(ItemStacks.carriedItem(rootCarrier, "inventory", 3, 1).isEmpty());
     }
 }
-*///?}
+//?}

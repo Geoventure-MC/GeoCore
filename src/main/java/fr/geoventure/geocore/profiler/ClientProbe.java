@@ -68,17 +68,17 @@ final class ClientProbe implements Profiler.Probe {
         hooked = true;
         ClientTicks.onEndTick(ClientProbe::showCountdown);
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderFrameEvent.Pre event) -> begin());
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderFrameEvent.Post event) -> end("GUI, HUD and screen"));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.TickEvent.RenderTickEvent event) -> {
                     if (event.phase == net.minecraftforge.event.TickEvent.Phase.START) begin();
                     else end("GUI, HUD and screen");
                 });
-        *///?} elif fabric && >=26.1 {
+        //?} elif fabric && >=26.1 {
         /*net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents.START_MAIN.register(context -> begin());
         net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents.AFTER_OPAQUE_TERRAIN
                 .register(context -> mark("setup, sky and opaque terrain"));
@@ -104,7 +104,7 @@ final class ClientProbe implements Profiler.Probe {
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.END.register(context -> end("rest of level"));
         *///?}
         //? if neoforge && >=26.1 {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterSky event) -> mark("setup and sky"));
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterOpaqueBlocks event) -> mark("opaque terrain"));
@@ -124,13 +124,13 @@ final class ClientProbe implements Profiler.Probe {
                 (net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterWeather event) -> mark("weather"));
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterLevel event) -> mark("rest of level"));
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderLevelStageEvent event) -> mark(legacyStage(event.getStage())));
         *///?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.RenderLevelStageEvent event) -> mark(legacyStage(event.getStage())));
-        *///?}
+        //?}
     }
 
     //? if neoforge && <26.1 {
@@ -138,17 +138,17 @@ final class ClientProbe implements Profiler.Probe {
         return legacyStage(stage.toString());
     }
     *///?} elif forge {
-    /*private static String legacyStage(net.minecraftforge.client.event.RenderLevelStageEvent.Stage stage) {
+    private static String legacyStage(net.minecraftforge.client.event.RenderLevelStageEvent.Stage stage) {
         return legacyStage(stage.toString());
     }
-    *///?}
+    //?}
 
     //? if forgelike && <26.1 {
-    /*private static String legacyStage(String id) {
+    private static String legacyStage(String id) {
         String name = id.substring(id.indexOf(':') + 1);
         return LEGACY_STAGES.getOrDefault(name, name);
     }
-    *///?}
+    //?}
 
     // The Forge-era stage names; a stage absent here is reported under its own name.
     private static final Map<String, String> LEGACY_STAGES = Map.ofEntries(

@@ -43,10 +43,10 @@ public final class ItemContents {
             int value = 0;
             if (!stack.isEmpty()) {
                 //? if >=1.21.1 {
-                value = 31 * ItemStack.hashItemAndComponents(stack) + stack.getCount();
-                //?} else {
-                /*value = 31 * java.util.Objects.hash(stack.getItem(), stack.getTag()) + stack.getCount();
-                *///?}
+                /*value = 31 * ItemStack.hashItemAndComponents(stack) + stack.getCount();
+                *///?} else {
+                value = 31 * java.util.Objects.hash(stack.getItem(), stack.getTag()) + stack.getCount();
+                //?}
             }
             hash = 31 * hash + value;
         }

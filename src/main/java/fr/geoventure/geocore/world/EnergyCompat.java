@@ -34,19 +34,19 @@ public final class EnergyCompat {
     /** The foreign handler exposed at {@code pos} on {@code side}, or null if there is none. */
     public static @Nullable EnergyView find(Level level, BlockPos pos, @Nullable Direction side) {
         //? if neoforge && >=26.1 {
-        net.neoforged.neoforge.transfer.energy.EnergyHandler handler =
+        /*net.neoforged.neoforge.transfer.energy.EnergyHandler handler =
                 level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Energy.BLOCK, pos, side);
         return handler == null ? null : view(handler);
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*net.neoforged.neoforge.energy.IEnergyStorage storage =
                 level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK, pos, side);
         return storage == null ? null : view(storage);
         *///?} elif forge {
-        /*net.minecraft.world.level.block.entity.BlockEntity be = level.getBlockEntity(pos);
+        net.minecraft.world.level.block.entity.BlockEntity be = level.getBlockEntity(pos);
         if (be == null) return null;
         return be.getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.ENERGY, side)
                 .map(EnergyCompat::view).orElse(null);
-        *///?} else {
+        //?} else {
         /*return RebornEnergy.present() ? RebornEnergy.find(level, pos, side) : null;
         *///?}
     }
@@ -66,15 +66,15 @@ public final class EnergyCompat {
      */
     public static void invalidate(Level level, BlockPos pos) {
         //? if neoforge {
-        level.invalidateCapabilities(pos);
-        //?}
+        /*level.invalidateCapabilities(pos);
+        *///?}
     }
 
     //? if neoforge && >=26.1 {
-    /**
+    /*/^*
      * A simulation is a transaction that is never committed; a real move commits it. Amounts saturate at
      * {@code int}, the width the handler's insert and extract take.
-     */
+     ^/
     private static EnergyView view(net.neoforged.neoforge.transfer.energy.EnergyHandler handler) {
         return new EnergyView() {
             @Override public Object handlerIdentity() { return handler; }
@@ -118,13 +118,13 @@ public final class EnergyCompat {
             }
         };
     }
-    //?}
+    *///?}
 
     //? if forgelike && <26.1 {
-    /*private static EnergyView view(
+    private static EnergyView view(
             //? if neoforge {
-            /^net.neoforged.neoforge.energy.IEnergyStorage storage
-            ^///?} elif forge {
+            /*net.neoforged.neoforge.energy.IEnergyStorage storage
+            *///?} elif forge {
             net.minecraftforge.energy.IEnergyStorage storage
             //?}
     ) {
@@ -138,7 +138,7 @@ public final class EnergyCompat {
             @Override public long extract(long maxFe) { return storage.extractEnergy(saturate(maxFe), false); }
         };
     }
-    *///?}
+    //?}
 
     //? if forgelike {
     private static int saturate(long value) {

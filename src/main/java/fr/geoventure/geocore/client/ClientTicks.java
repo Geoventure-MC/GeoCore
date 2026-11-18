@@ -20,16 +20,16 @@ public final class ClientTicks {
         /*net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register(
                 client -> callback.run());
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.ClientTickEvent.Post event) -> callback.run());
-        //?} elif forge {
-        /*// One event for both halves of the tick here, so the phase has to be filtered by hand —
+        *///?} elif forge {
+        // One event for both halves of the tick here, so the phase has to be filtered by hand —
         // without this the callback runs twice per tick and every edge-detecting consumer breaks.
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.TickEvent.ClientTickEvent event) -> {
                     if (event.phase == net.minecraftforge.event.TickEvent.Phase.END) callback.run();
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -42,13 +42,13 @@ public final class ClientTicks {
         /*net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.START_CLIENT_TICK.register(
                 client -> callback.run());
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.ClientTickEvent.Pre event) -> callback.run());
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.TickEvent.ClientTickEvent event) -> {
                     if (event.phase == net.minecraftforge.event.TickEvent.Phase.START) callback.run();
                 });
-        *///?}
+        //?}
     }
 }

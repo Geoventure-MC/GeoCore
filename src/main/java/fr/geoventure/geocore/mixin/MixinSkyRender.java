@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.vertex.PoseStack;
+/*import com.mojang.blaze3d.vertex.PoseStack;
 import fr.geoventure.geocore.render.Skyboxes;
 import net.minecraft.client.renderer.SkyRenderer;
 import net.minecraft.world.level.MoonPhase;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * The two {@link Skyboxes} seams inside vanilla's overworld sky: replace the sun, moon and stars, and draw after the
  * whole sky.
  *
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * after-sky draw alone, but one hook keeps both loaders' draw order identical; (3) widening cannot add a call.
  * Three injects: HEAD of {@code renderSunMoonAndStars} (cancels only when a registered skybox replaces the celestial
  * bodies this frame), its RETURN, and RETURN of {@code renderDarkDisc}. With no skybox registered they do nothing.
- */
+ ^/
 @Mixin(SkyRenderer.class)
 public abstract class MixinSkyRender {
 
@@ -45,8 +45,8 @@ public abstract class MixinSkyRender {
         Skyboxes.afterSky();
     }
 }
-//?} else {
-/*import com.mojang.blaze3d.systems.RenderSystem;
+*///?} else {
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import fr.geoventure.geocore.render.Skyboxes;
@@ -63,7 +63,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/^*
+/**
  * The two {@link Skyboxes} seams inside vanilla's overworld sky before 26.1: replace the sun, moon and stars, and draw
  * after the whole sky.
  *
@@ -76,7 +76,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * registered skybox replaces the celestial bodies this frame, then repeats vanilla's tail, the colour reset and dark
  * disc, itself) and at the final {@code depthMask(true)}, which only the overworld-type branch reaches. With no
  * skybox registered they do nothing.
- ^/
+ */
 @Mixin(LevelRenderer.class)
 public abstract class MixinSkyRender {
 
@@ -91,7 +91,7 @@ public abstract class MixinSkyRender {
     private VertexBuffer darkBuffer;
 
     //? if >=1.21 {
-    @Inject(method = "renderSky", at = @At(value = "INVOKE", ordinal = 0, target =
+    /*@Inject(method = "renderSky", at = @At(value = "INVOKE", ordinal = 0, target =
             "Lcom/mojang/blaze3d/systems/RenderSystem;blendFuncSeparate(Lcom/mojang/blaze3d/platform/GlStateManager$SourceFactor;Lcom/mojang/blaze3d/platform/GlStateManager$DestFactor;Lcom/mojang/blaze3d/platform/GlStateManager$SourceFactor;Lcom/mojang/blaze3d/platform/GlStateManager$DestFactor;)V"),
             cancellable = true)
     private void geocore$celestial(Matrix4f frustum, Matrix4f projection, float partialTick, Camera camera, boolean foggy,
@@ -108,8 +108,8 @@ public abstract class MixinSkyRender {
         pose.mulPose(frustum);
         Skyboxes.afterSky(pose, partialTick, level.getTimeOfDay(partialTick), level.getMoonPhase());
     }
-    //?} else {
-    /^@Inject(method = "renderSky", at = @At(value = "INVOKE", ordinal = 0, target =
+    *///?} else {
+    @Inject(method = "renderSky", at = @At(value = "INVOKE", ordinal = 0, target =
             "Lcom/mojang/blaze3d/systems/RenderSystem;blendFuncSeparate(Lcom/mojang/blaze3d/platform/GlStateManager$SourceFactor;Lcom/mojang/blaze3d/platform/GlStateManager$DestFactor;Lcom/mojang/blaze3d/platform/GlStateManager$SourceFactor;Lcom/mojang/blaze3d/platform/GlStateManager$DestFactor;)V"),
             cancellable = true)
     private void geocore$celestial(PoseStack pose, Matrix4f projection, float partialTick, Camera camera, boolean foggy,
@@ -122,9 +122,9 @@ public abstract class MixinSkyRender {
                                 Runnable skyFog, CallbackInfo ci) {
         Skyboxes.afterSky(pose, partialTick, level.getTimeOfDay(partialTick), level.getMoonPhase());
     }
-    ^///?}
+    //?}
 
-    /^* Draws a replacement and repeats vanilla's tail after its sun, moon and stars; false leaves vanilla to it. ^/
+    /** Draws a replacement and repeats vanilla's tail after its sun, moon and stars; false leaves vanilla to it. */
     private boolean geocore$replaceCelestial(PoseStack pose, Matrix4f projection, float partialTick) {
         float angle = level.getTimeOfDay(partialTick);
         int phase = level.getMoonPhase();
@@ -149,4 +149,4 @@ public abstract class MixinSkyRender {
         return true;
     }
 }
-*///?}
+//?}

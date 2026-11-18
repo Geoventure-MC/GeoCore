@@ -31,12 +31,12 @@ public final class Permissions {
     public static Predicate<CommandSourceStack> level(int level) {
         if (level <= 0) return any();
         //? if >=26.1 {
-        return net.minecraft.commands.Commands.hasPermission(new net.minecraft.server.permissions.PermissionCheck.Require(
+        /*return net.minecraft.commands.Commands.hasPermission(new net.minecraft.server.permissions.PermissionCheck.Require(
                 new net.minecraft.server.permissions.Permission.HasCommandLevel(
                         net.minecraft.server.permissions.PermissionLevel.byId(Math.min(level, 4)))));
-        //?} else {
-        /*int required = Math.min(level, 4);
+        *///?} else {
+        int required = Math.min(level, 4);
         return source -> source.hasPermission(required);
-        *///?}
+        //?}
     }
 }

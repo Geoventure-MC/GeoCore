@@ -33,13 +33,13 @@ public final class Inventories {
             return;
         }
         //? if >=26.1 {
-        ContainerHelper.saveAllItems(unwrap(out), stacks, alsoWhenEmpty);
-        //?} elif >=1.20.5 {
+        /*ContainerHelper.saveAllItems(unwrap(out), stacks, alsoWhenEmpty);
+        *///?} elif >=1.20.5 {
         /*TagDataOut tagOut = (TagDataOut) out;
         ContainerHelper.saveAllItems(tagOut.tag(), stacks, alsoWhenEmpty, tagOut.registries());
         *///?} else {
-        /*ContainerHelper.saveAllItems(((TagDataOut) out).tag(), stacks, alsoWhenEmpty);
-        *///?}
+        ContainerHelper.saveAllItems(((TagDataOut) out).tag(), stacks, alsoWhenEmpty);
+        //?}
     }
 
     /** Reads a stack list from {@code "Items"} into {@code stacks}. */
@@ -49,22 +49,22 @@ public final class Inventories {
             return;
         }
         //? if >=26.1 {
-        ContainerHelper.loadAllItems(unwrap(in), stacks);
-        //?} elif >=1.20.5 {
+        /*ContainerHelper.loadAllItems(unwrap(in), stacks);
+        *///?} elif >=1.20.5 {
         /*TagDataIn tagIn = (TagDataIn) in;
         ContainerHelper.loadAllItems(tagIn.tag(), stacks, tagIn.registries());
         *///?} else {
-        /*ContainerHelper.loadAllItems(((TagDataIn) in).tag(), stacks);
-        *///?}
+        ContainerHelper.loadAllItems(((TagDataIn) in).tag(), stacks);
+        //?}
     }
 
     /** Returns the live 36-slot main inventory, excluding equipment and offhand slots. */
     public static NonNullList<ItemStack> main(Inventory inventory) {
         //? if >=26.1 {
-        return inventory.getNonEquipmentItems();
-        //?} else {
-        /*return inventory.items;
-        *///?}
+        /*return inventory.getNonEquipmentItems();
+        *///?} else {
+        return inventory.items;
+        //?}
     }
 
     /**
@@ -95,12 +95,12 @@ public final class Inventories {
     public record PlayerSnapshot(List<ItemStack> slots, int selectedSlot) {}
 
     //? if >=26.1 {
-    private static net.minecraft.world.level.storage.ValueOutput unwrap(DataOut out) {
+    /*private static net.minecraft.world.level.storage.ValueOutput unwrap(DataOut out) {
         return ((ValueDataOut) out).delegate();
     }
 
     private static net.minecraft.world.level.storage.ValueInput unwrap(DataIn in) {
         return ((ValueDataIn) in).delegate();
     }
-    //?}
+    *///?}
 }

@@ -60,12 +60,12 @@ public final class Menus {
         return new net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType<>(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory, buffer.readBlockPos()));
         *///?} elif neoforge {
-        return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
+        /*return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory, buffer.readBlockPos()));
-        //?} elif forge {
-        /*return net.minecraftforge.common.extensions.IForgeMenuType.create(
+        *///?} elif forge {
+        return net.minecraftforge.common.extensions.IForgeMenuType.create(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory, buffer.readBlockPos()));
-        *///?}
+        //?}
     }
 
     /** Creates a menu type whose menu is opened with the player's main/off hand as extra data. */
@@ -85,14 +85,14 @@ public final class Menus {
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory,
                         buffer.readVarInt() == 0 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND));
         *///?} elif neoforge {
-        return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
+        /*return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory,
                         buffer.readVarInt() == 0 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND));
-        //?} elif forge {
-        /*return net.minecraftforge.common.extensions.IForgeMenuType.create(
+        *///?} elif forge {
+        return net.minecraftforge.common.extensions.IForgeMenuType.create(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory,
                         buffer.readVarInt() == 0 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND));
-        *///?}
+        //?}
     }
 
     /** As {@link #typeWithHand} with an entity id instead of a hand. */
@@ -115,12 +115,12 @@ public final class Menus {
         /*return new net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType<>(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory, buffer.readVarInt()));
         *///?} elif neoforge {
-        return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
+        /*return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory, buffer.readVarInt()));
-        //?} elif forge {
-        /*return net.minecraftforge.common.extensions.IForgeMenuType.create(
+        *///?} elif forge {
+        return net.minecraftforge.common.extensions.IForgeMenuType.create(
                 (containerId, inventory, buffer) -> factory.create(containerId, inventory, buffer.readVarInt()));
-        *///?}
+        //?}
     }
 
     /** Opens a provider for the player, sending {@code pos} to the client alongside it. */
@@ -177,10 +177,10 @@ public final class Menus {
             }
         });
         *///?} elif neoforge {
-        player.openMenu(provider, pos);
-        //?} elif forge {
-        /*net.minecraftforge.network.NetworkHooks.openScreen(player, provider, pos);
-        *///?}
+        /*player.openMenu(provider, pos);
+        *///?} elif forge {
+        net.minecraftforge.network.NetworkHooks.openScreen(player, provider, pos);
+        //?}
     }
 
     /** Opens a provider for the player, sending the hand that owns a stack-backed menu. */
@@ -231,10 +231,10 @@ public final class Menus {
             }
         });
         *///?} elif neoforge {
-        player.openMenu(provider, buffer -> buffer.writeVarInt(value));
-        //?} elif forge {
-        /*net.minecraftforge.network.NetworkHooks.openScreen(player, provider, buffer -> buffer.writeVarInt(value));
-        *///?}
+        /*player.openMenu(provider, buffer -> buffer.writeVarInt(value));
+        *///?} elif forge {
+        net.minecraftforge.network.NetworkHooks.openScreen(player, provider, buffer -> buffer.writeVarInt(value));
+        //?}
     }
 
     /** As {@link #openWithHand} with an entity id instead of a hand. */
@@ -286,19 +286,19 @@ public final class Menus {
             }
         });
         *///?} elif neoforge {
-        player.openMenu(provider, buffer -> buffer.writeVarInt(value));
-        //?} elif forge {
-        /*net.minecraftforge.network.NetworkHooks.openScreen(player, provider, buffer -> buffer.writeVarInt(value));
-        *///?}
+        /*player.openMenu(provider, buffer -> buffer.writeVarInt(value));
+        *///?} elif forge {
+        net.minecraftforge.network.NetworkHooks.openScreen(player, provider, buffer -> buffer.writeVarInt(value));
+        //?}
     }
 
     /** Dispatches a menu click without exposing the era-specific click enum to common callers. */
     public static void click(AbstractContainerMenu menu, int slotId, int button,
                              CompatContainerMenu.ClickAction action, Player player) {
         //? if >=26.1 {
-        menu.clicked(slotId, button, net.minecraft.world.inventory.ContainerInput.valueOf(action.name()), player);
-        //?} else {
-        /*menu.clicked(slotId, button, net.minecraft.world.inventory.ClickType.valueOf(action.name()), player);
-        *///?}
+        /*menu.clicked(slotId, button, net.minecraft.world.inventory.ContainerInput.valueOf(action.name()), player);
+        *///?} else {
+        menu.clicked(slotId, button, net.minecraft.world.inventory.ClickType.valueOf(action.name()), player);
+        //?}
     }
 }

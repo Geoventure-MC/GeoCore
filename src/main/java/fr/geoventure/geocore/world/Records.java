@@ -33,15 +33,15 @@ public final class Records {
     public static Item disc(Item.Properties properties, String namespace, String song,
                             Supplier<SoundEvent> sound, int comparator, int lengthSeconds) {
         //? if >=1.21 {
-        return new Item(properties.stacksTo(1).jukeboxPlayable(net.minecraft.resources.ResourceKey.create(
+        /*return new Item(properties.stacksTo(1).jukeboxPlayable(net.minecraft.resources.ResourceKey.create(
                 net.minecraft.core.registries.Registries.JUKEBOX_SONG, fr.geoventure.geocore.Ids.of(namespace, song))));
-        //?} else {
-        /*return new LegacyDisc(comparator, sound, properties.stacksTo(1), lengthSeconds);
-        *///?}
+        *///?} else {
+        return new LegacyDisc(comparator, sound, properties.stacksTo(1), lengthSeconds);
+        //?}
     }
 
     //? if <1.21 {
-    /*/^* The pre-1.21 disc, which carries its own song. ^/
+    /** The pre-1.21 disc, which carries its own song. */
     private static final class LegacyDisc extends net.minecraft.world.item.RecordItem {
 
         private final Supplier<SoundEvent> sound;
@@ -51,11 +51,11 @@ public final class Records {
             // items register, so Forge takes its supplier constructor (which counts the length in ticks). Elsewhere
             // the placeholder event only fills vanilla's name table; getSound below is what the jukebox plays.
             //? if forge {
-            /^super(comparator, sound, properties, lengthSeconds * 20);
-            ^///?} else {
-            super(comparator, SoundEvent.createVariableRangeEvent(fr.geoventure.geocore.Ids.of("geocore", "disc")),
+            super(comparator, sound, properties, lengthSeconds * 20);
+            //?} else {
+            /*super(comparator, SoundEvent.createVariableRangeEvent(fr.geoventure.geocore.Ids.of("geocore", "disc")),
                     properties, lengthSeconds);
-            //?}
+            *///?}
             this.sound = sound;
         }
 
@@ -64,5 +64,5 @@ public final class Records {
             return sound.get();
         }
     }
-    *///?}
+    //?}
 }

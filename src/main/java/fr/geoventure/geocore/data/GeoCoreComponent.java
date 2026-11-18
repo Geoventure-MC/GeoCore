@@ -22,9 +22,9 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.item.ItemStack;
 
 //? if >=1.21.1 {
-import net.minecraft.core.component.DataComponentType;
+/*import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-//?}
+*///?}
 
 /**
  * A typed item value which is a data component on modern Minecraft and namespaced item NBT on 1.20.1.
@@ -37,8 +37,8 @@ import net.minecraft.core.registries.Registries;
 public final class GeoCoreComponent<T> {
 
     //? if >=1.21.1 {
-    private static final Map<String, DeferredRegister<DataComponentType<?>>> REGISTERS = new HashMap<>();
-    //?}
+    /*private static final Map<String, DeferredRegister<DataComponentType<?>>> REGISTERS = new HashMap<>();
+    *///?}
 
     /**
      * Every component id declared through this facade, in declaration order.
@@ -55,16 +55,16 @@ public final class GeoCoreComponent<T> {
 
     private final String key;
     //? if >=1.21.1 {
-    // The registered type may hold a different value class than T: a component whose natural value
+    /*// The registered type may hold a different value class than T: a component whose natural value
     // is mutable (an ItemStack) is stored as an immutable wrapper, since the platform validates that
     // component values implement equals/hashCode. toStored/fromStored bridge the two; identity by default.
     private final Supplier<DataComponentType<Object>> component;
     private final java.util.function.Function<T, Object> toStored;
     private final java.util.function.Function<Object, T> fromStored;
-    //?} else {
-    /*private final Supplier<Codec<T>> codec;
+    *///?} else {
+    private final Supplier<Codec<T>> codec;
     private final LegacyValue<T> legacy;
-    *///?}
+    //?}
 
     private GeoCoreComponent(String namespace, String name, Supplier<Codec<T>> codec) {
         this(namespace, name, (Supplier) codec, value -> value, stored -> (T) stored);
@@ -80,17 +80,17 @@ public final class GeoCoreComponent<T> {
         key = declare(namespace, name);
         BY_KEY.put(key, this);
         //? if >=1.21.1 {
-        // The registry is named on first use, as every GeoCore register's is (see RegistryObject).
+        /*// The registry is named on first use, as every GeoCore register's is (see RegistryObject).
         DeferredRegister<DataComponentType<?>> register = REGISTERS.computeIfAbsent(namespace,
                 ns -> DeferredRegister.create(() -> Registries.DATA_COMPONENT_TYPE, ns));
         component = memoize(() -> (DataComponentType) componentType(storedCodec.get()));
         register.register(name, component);
         this.toStored = (java.util.function.Function) toStored;
         this.fromStored = (java.util.function.Function) fromStored;
-        //?} else {
-        /*this.codec = memoize((Supplier) storedCodec);
+        *///?} else {
+        this.codec = memoize((Supplier) storedCodec);
         legacy = null;
-        *///?}
+        //?}
     }
 
     /** Creates one value even when an item factory and the component registry resolve it concurrently. */
@@ -113,20 +113,20 @@ public final class GeoCoreComponent<T> {
     }
 
     //? if >=1.21.1 {
-    static <T> DataComponentType<T> componentType(Codec<T> codec) {
+    /*static <T> DataComponentType<T> componentType(Codec<T> codec) {
         return DataComponentType.<T>builder().persistent(codec).networkSynchronized(
                 net.minecraft.network.codec.ByteBufCodecs.fromCodecWithRegistries(codec)).build();
     }
-    //?}
+    *///?}
 
     //? if <1.21.1 {
-    /*private GeoCoreComponent(String namespace, String name, LegacyValue<T> legacy) {
+    private GeoCoreComponent(String namespace, String name, LegacyValue<T> legacy) {
         key = declare(namespace, name);
         BY_KEY.put(key, this);
         codec = null;
         this.legacy = legacy;
     }
-    *///?}
+    //?}
 
     private static String declare(String namespace, String name) {
         String key = Ids.of(namespace, name).toString();
@@ -151,12 +151,12 @@ public final class GeoCoreComponent<T> {
 
     private Optional<com.google.gson.JsonElement> legacyJsonOf(net.minecraft.nbt.Tag value) {
         //? if >=1.21.1 {
-        return Optional.empty();
-        //?} else {
-        /*if (legacy != null) return Optional.empty();
+        /*return Optional.empty();
+        *///?} else {
+        if (legacy != null) return Optional.empty();
         return codec.get().parse(NbtOps.INSTANCE, value).result()
                 .flatMap(decoded -> codec.get().encodeStart(com.mojang.serialization.JsonOps.INSTANCE, decoded).result());
-        *///?}
+        //?}
     }
 
     /** Every component id declared through this facade so far. */
@@ -203,30 +203,30 @@ public final class GeoCoreComponent<T> {
     }
 
     //? if >=1.21.1 {
-    /**
+    /*/^*
      * Native component handle for integrations that explicitly consume vanilla component types. Its value
      * class is the stored one, which differs from {@code T} only for {@link #itemStack}. The same native type
      * can be used by item properties before its registry is filled.
-     */
+     ^/
     public DataComponentType<T> type() {
         return (DataComponentType) component.get();
     }
 
-    /**
+    /^*
      * Applies this component with {@code value} to item {@code properties}; below 1.21.1 components do not exist
      * and the properties pass through unchanged.
-     */
+     ^/
     public Item.Properties appliedTo(
             Item.Properties properties, T value) {
         return properties.component(type(), value);
     }
-    //?} else {
-    /*// Below 1.21.1 components do not exist; the properties pass through unchanged.
+    *///?} else {
+    // Below 1.21.1 components do not exist; the properties pass through unchanged.
     public Item.Properties appliedTo(
             Item.Properties properties, T value) {
         return properties;
     }
-    *///?}
+    //?}
 
     /**
      * A component holding one stack, including all of its item data.
@@ -236,12 +236,12 @@ public final class GeoCoreComponent<T> {
      */
     public static GeoCoreComponent<ItemStack> itemStack(String namespace, String name) {
         //? if >=1.21.1 {
-        return new GeoCoreComponent<>(namespace, name,
+        /*return new GeoCoreComponent<>(namespace, name,
                 () -> net.minecraft.world.item.component.ItemContainerContents.CODEC,
                 stack -> net.minecraft.world.item.component.ItemContainerContents.fromItems(java.util.List.of(stack)),
                 contents -> contents.copyOne());
-        //?} else {
-        /*return new GeoCoreComponent<>(namespace, name, new LegacyValue<>() {
+        *///?} else {
+        return new GeoCoreComponent<>(namespace, name, new LegacyValue<>() {
             @Override
             public CompoundTag write(ItemStack value) {
                 CompoundTag tag = new CompoundTag();
@@ -254,33 +254,33 @@ public final class GeoCoreComponent<T> {
                 return ItemStack.of(tag);
             }
         });
-        *///?}
+        //?}
     }
 
     /** Codec for fixed-slot stack lists; empty slots use the platform's optional stack representation. */
     public static Codec<java.util.List<ItemStack>> itemStackListCodec() {
         //? if >=1.21.1 {
-        return ItemStack.OPTIONAL_CODEC.listOf();
-        //?} else {
-        /*return ItemStack.CODEC.listOf();
-        *///?}
+        /*return ItemStack.OPTIONAL_CODEC.listOf();
+        *///?} else {
+        return ItemStack.CODEC.listOf();
+        //?}
     }
 
     /** Returns the value, or empty when this stack has no valid value for this component. */
     public Optional<T> get(ItemStack stack) {
         Objects.requireNonNull(stack);
         //? if >=1.21.1 {
-        Object stored = stack.get(component.get());
+        /*Object stored = stack.get(component.get());
         return stored == null ? Optional.empty() : Optional.of(fromStored.apply(stored));
-        //?} else {
-        /*CompoundTag tag = stack.getTag();
+        *///?} else {
+        CompoundTag tag = stack.getTag();
         if (tag == null || !tag.contains(key)) return Optional.empty();
         if (legacy != null) {
             return tag.contains(key, 10) ? Optional.of(legacy.read(tag.getCompound(key))) : Optional.empty();
         }
         return codec.get().parse(NbtOps.INSTANCE, tag.get(key))
                 .resultOrPartial(error -> GeoCore.LOG.error("Failed to decode item component '{}': {}", key, error));
-        *///?}
+        //?}
     }
 
     /** Returns the stored value, or {@code defaultValue} when absent or malformed. */
@@ -293,35 +293,35 @@ public final class GeoCoreComponent<T> {
         Objects.requireNonNull(stack);
         Objects.requireNonNull(value);
         //? if >=1.21.1 {
-        stack.set(component.get(), toStored.apply(value));
-        //?} else {
-        /*if (legacy != null) {
+        /*stack.set(component.get(), toStored.apply(value));
+        *///?} else {
+        if (legacy != null) {
             stack.getOrCreateTag().put(key, legacy.write(value));
             return;
         }
         codec.get().encodeStart(NbtOps.INSTANCE, value)
                 .resultOrPartial(error -> GeoCore.LOG.error("Failed to encode item component '{}': {}", key, error))
                 .ifPresent(encoded -> stack.getOrCreateTag().put(key, encoded));
-        *///?}
+        //?}
     }
 
     public boolean has(ItemStack stack) {
         Objects.requireNonNull(stack);
         //? if >=1.21.1 {
-        return stack.has(component.get());
-        //?} else {
-        /*return stack.hasTag() && stack.getTag().contains(key);
-        *///?}
+        /*return stack.has(component.get());
+        *///?} else {
+        return stack.hasTag() && stack.getTag().contains(key);
+        //?}
     }
 
     /** Removes this component and returns its previous value, if valid. */
     public Optional<T> remove(ItemStack stack) {
         Optional<T> previous = get(stack);
         //? if >=1.21.1 {
-        stack.remove(component.get());
-        //?} else {
-        /*stack.removeTagKey(key);
-        *///?}
+        /*stack.remove(component.get());
+        *///?} else {
+        stack.removeTagKey(key);
+        //?}
         return previous;
     }
 
@@ -333,10 +333,10 @@ public final class GeoCoreComponent<T> {
     }
 
     //? if <1.21.1 {
-    /*private interface LegacyValue<T> {
+    private interface LegacyValue<T> {
         CompoundTag write(T value);
 
         T read(CompoundTag tag);
     }
-    *///?}
+    //?}
 }

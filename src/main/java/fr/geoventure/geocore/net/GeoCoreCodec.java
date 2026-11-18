@@ -4,13 +4,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import net.minecraft.network.FriendlyByteBuf;
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
-//? if >=1.20.5 {
-import net.minecraft.network.codec.StreamCodec;
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
 //?}
+//? if >=1.20.5 {
+/*import net.minecraft.network.codec.StreamCodec;
+*///?}
 
 /**
  * A payload's version-neutral wire format.
@@ -23,20 +23,20 @@ public final class GeoCoreCodec<P extends GeoCorePayload> {
     private final Class<P> payloadType;
     private final
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id;
     private final BiConsumer<P, FriendlyByteBuf> encoder;
     private final Function<FriendlyByteBuf, P> decoder;
 
     private GeoCoreCodec(Class<P> payloadType,
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id, BiConsumer<P, FriendlyByteBuf> encoder,
             Function<FriendlyByteBuf, P> decoder) {
         this.payloadType = payloadType;
@@ -47,10 +47,10 @@ public final class GeoCoreCodec<P extends GeoCorePayload> {
 
     public static <P extends GeoCorePayload> GeoCoreCodec<P> of(Class<P> payloadType,
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id,
             BiConsumer<P, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, P> decoder) {
         return new GeoCoreCodec<>(payloadType, id, encoder, decoder);
@@ -64,17 +64,17 @@ public final class GeoCoreCodec<P extends GeoCorePayload> {
      */
     public static <P extends GeoCorePayload> GeoCoreCodec<P> ofRegistry(Class<P> payloadType,
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id,
             //? if >=1.20.5 {
-            BiConsumer<P, net.minecraft.network.RegistryFriendlyByteBuf> encoder,
+            /*BiConsumer<P, net.minecraft.network.RegistryFriendlyByteBuf> encoder,
             Function<net.minecraft.network.RegistryFriendlyByteBuf, P> decoder) {
-            //?} else {
-            /*BiConsumer<P, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, P> decoder) {
-            *///?}
+            *///?} else {
+            BiConsumer<P, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, P> decoder) {
+            //?}
         return new GeoCoreCodec<>(payloadType, id, (payload, buffer) -> encoder.accept(payload, GeoCoreBuffers.registry(buffer)),
                 buffer -> decoder.apply(GeoCoreBuffers.registry(buffer)));
     }
@@ -86,10 +86,10 @@ public final class GeoCoreCodec<P extends GeoCorePayload> {
 
     public
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             id() {
         return id;
     }
@@ -103,14 +103,14 @@ public final class GeoCoreCodec<P extends GeoCorePayload> {
     }
 
     //? if >=1.20.5 {
-    /** The vanilla payload type paired with this codec's stable channel id. */
+    /*/^* The vanilla payload type paired with this codec's stable channel id. ^/
     public net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type<P> type() {
         return new net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type<>(id);
     }
 
-    /** Adapts this codec to the vanilla payload API without a second serializer declaration. */
+    /^* Adapts this codec to the vanilla payload API without a second serializer declaration. ^/
     public <B extends FriendlyByteBuf> StreamCodec<B, P> streamCodec() {
         return StreamCodec.of((buffer, payload) -> encode(payload, buffer), this::decode);
     }
-    //?}
+    *///?}
 }

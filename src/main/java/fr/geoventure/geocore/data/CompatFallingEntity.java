@@ -6,15 +6,15 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 
 //? if >=1.21.1 {
-import net.minecraft.network.syncher.SynchedEntityData;
-//?}
+/*import net.minecraft.network.syncher.SynchedEntityData;
+*///?}
 
 //? if >=26.1 {
-import net.minecraft.world.level.storage.ValueInput;
+/*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-//?} else {
-/*import net.minecraft.nbt.CompoundTag;
-*///?}
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+//?}
 
 /**
  * Data/save bridge for custom entities that must retain FallingBlockEntity's vanilla renderer contract. Vanilla's own
@@ -41,21 +41,21 @@ public abstract class CompatFallingEntity extends FallingBlockEntity {
     protected void saveData(DataOut output) {}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     protected final void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         defineData(builder::define);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected final void defineSynchedData() {
         super.defineSynchedData();
         defineData(entityData::define);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
         loadData(new ValueDataIn(input));
@@ -66,8 +66,8 @@ public abstract class CompatFallingEntity extends FallingBlockEntity {
         super.addAdditionalSaveData(output);
         saveData(new ValueDataOut(output));
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         loadData(new TagDataIn(tag, level().registryAccess()));
@@ -78,19 +78,19 @@ public abstract class CompatFallingEntity extends FallingBlockEntity {
         super.addAdditionalSaveData(tag);
         saveData(new TagDataOut(tag, level().registryAccess()));
     }
-    *///?}
+    //?}
 
     /** 26.1 {@code applyEffectsFromBlocks}; {@code checkInsideBlocks} before 1.21.2 (protected there, hence the facade). */
     protected final void compatApplyEffectsFromBlocks() {
         //? if >=26.1 {
-        applyEffectsFromBlocks();
-        //?} else {
-        /*checkInsideBlocks();
-        *///?}
+        /*applyEffectsFromBlocks();
+        *///?} else {
+        checkInsideBlocks();
+        //?}
     }
 
     //? if <26.1 {
-    /*public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.item.ItemStack stack) {
+    public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.item.ItemStack stack) {
         return super.spawnAtLocation(stack);
     }
 
@@ -101,30 +101,30 @@ public abstract class CompatFallingEntity extends FallingBlockEntity {
     public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.level.ItemLike item) {
         return super.spawnAtLocation(item);
     }
-    *///?}
+    //?}
 
     /** 1.21.1 {@code applyGravity}; the falling block's hand-rolled -0.04 before it. */
     protected final void compatApplyGravity() {
         //? if >=1.21.1 {
-        applyGravity();
-        //?} else {
-        /*if (!isNoGravity()) setDeltaMovement(getDeltaMovement().add(0.0D, -0.04D, 0.0D));
-        *///?}
+        /*applyGravity();
+        *///?} else {
+        if (!isNoGravity()) setDeltaMovement(getDeltaMovement().add(0.0D, -0.04D, 0.0D));
+        //?}
     }
 
     /** Portal handling is part of an entity's own tick from 1.21.1 on; 1.20.1's falling block had none. */
     protected final void compatHandlePortal() {
         //? if >=1.21.1 {
-        handlePortal();
-        //?}
+        /*handlePortal();
+        *///?}
     }
 
     /** 1.21.1 {@code forceTickAfterTeleportToDuplicate}: a falling block ticking once more after a portal duplicate. */
     protected final boolean compatForceTickAfterTeleportToDuplicate() {
         //? if >=1.21.1 {
-        return forceTickAfterTeleportToDuplicate;
-        //?} else {
-        /*return false;
-        *///?}
+        /*return forceTickAfterTeleportToDuplicate;
+        *///?} else {
+        return false;
+        //?}
     }
 }

@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 
 /**
  * The posed cubes of a living entity's main model, in the entity's own space; legacy HBM's
@@ -52,10 +52,10 @@ public final class EntityMeshes {
      */
     public record Mesh(
             //? if >=26.1 {
-            Identifier texture,
-            //?} else {
-            /*ResourceLocation texture,
-            *///?}
+            /*Identifier texture,
+            *///?} else {
+            ResourceLocation texture,
+            //?}
             List<float[]> cubes) {}
 
     /** The entity's posed main model, or {@code null} when its renderer is not a living-entity renderer. */
@@ -67,18 +67,18 @@ public final class EntityMeshes {
         Recorder recorder = new Recorder();
         PoseStack pose = new PoseStack();
         //? if >=26.1 {
-        net.minecraft.client.renderer.entity.state.LivingEntityRenderState state =
+        /*net.minecraft.client.renderer.entity.state.LivingEntityRenderState state =
                 (net.minecraft.client.renderer.entity.state.LivingEntityRenderState) living.createRenderState(entity, partialTick);
         Collector collector = new Collector(living.getModel(), recorder);
         living.submit(state, pose, collector, new net.minecraft.client.renderer.state.level.CameraRenderState());
         Identifier texture = living.getTextureLocation(state);
-        //?} else {
-        /*float yaw = net.minecraft.util.Mth.lerp(partialTick, entity.yRotO, entity.getYRot());
+        *///?} else {
+        float yaw = net.minecraft.util.Mth.lerp(partialTick, entity.yRotO, entity.getYRot());
         int light = minecraft.getEntityRenderDispatcher().getPackedLightCoords(entity, partialTick);
         ResourceLocation texture = living.getTextureLocation(entity);
         Buffers buffers = new Buffers(recorder, texture);
         living.render(entity, yaw, partialTick, pose, buffers, light);
-        *///?}
+        //?}
         return new Mesh(texture, recorder.cubes());
     }
 
@@ -144,14 +144,14 @@ public final class EntityMeshes {
         }
 
         //? if >=1.21 {
-        @Override public VertexConsumer addVertex(float x, float y, float z) { return begin(x, y, z); }
+        /*@Override public VertexConsumer addVertex(float x, float y, float z) { return begin(x, y, z); }
         @Override public VertexConsumer setColor(int r, int g, int b, int a) { return this; }
         @Override public VertexConsumer setUv(float u, float v) { this.u = u; this.v = v; return this; }
         @Override public VertexConsumer setUv1(int u, int v) { return this; }
         @Override public VertexConsumer setUv2(int u, int v) { return this; }
         @Override public VertexConsumer setNormal(float x, float y, float z) { return this; }
-        //?} else {
-        /*@Override public VertexConsumer vertex(double x, double y, double z) { return begin((float) x, (float) y, (float) z); }
+        *///?} else {
+        @Override public VertexConsumer vertex(double x, double y, double z) { return begin((float) x, (float) y, (float) z); }
         @Override public VertexConsumer color(int r, int g, int b, int a) { return this; }
         @Override public VertexConsumer uv(float u, float v) { this.u = u; this.v = v; return this; }
         @Override public VertexConsumer overlayCoords(int u, int v) { return this; }
@@ -160,24 +160,24 @@ public final class EntityMeshes {
         @Override public void endVertex() { close(); }
         @Override public void defaultColor(int r, int g, int b, int a) {}
         @Override public void unsetDefaultColor() {}
-        *///?}
-        //? if >=26.1 {
-        @Override public VertexConsumer setColor(int color) { return this; }
-        @Override public VertexConsumer setLineWidth(float width) { return this; }
         //?}
+        //? if >=26.1 {
+        /*@Override public VertexConsumer setColor(int color) { return this; }
+        @Override public VertexConsumer setLineWidth(float width) { return this; }
+        *///?}
     }
 
     /** Discards whatever a renderer draws besides its model (layers, name tags, outlines). */
     private static final VertexConsumer SINK = new VertexConsumer() {
         //? if >=1.21 {
-        @Override public VertexConsumer addVertex(float x, float y, float z) { return this; }
+        /*@Override public VertexConsumer addVertex(float x, float y, float z) { return this; }
         @Override public VertexConsumer setColor(int r, int g, int b, int a) { return this; }
         @Override public VertexConsumer setUv(float u, float v) { return this; }
         @Override public VertexConsumer setUv1(int u, int v) { return this; }
         @Override public VertexConsumer setUv2(int u, int v) { return this; }
         @Override public VertexConsumer setNormal(float x, float y, float z) { return this; }
-        //?} else {
-        /*@Override public VertexConsumer vertex(double x, double y, double z) { return this; }
+        *///?} else {
+        @Override public VertexConsumer vertex(double x, double y, double z) { return this; }
         @Override public VertexConsumer color(int r, int g, int b, int a) { return this; }
         @Override public VertexConsumer uv(float u, float v) { return this; }
         @Override public VertexConsumer overlayCoords(int u, int v) { return this; }
@@ -186,18 +186,18 @@ public final class EntityMeshes {
         @Override public void endVertex() {}
         @Override public void defaultColor(int r, int g, int b, int a) {}
         @Override public void unsetDefaultColor() {}
-        *///?}
-        //? if >=26.1 {
-        @Override public VertexConsumer setColor(int color) { return this; }
-        @Override public VertexConsumer setLineWidth(float width) { return this; }
         //?}
+        //? if >=26.1 {
+        /*@Override public VertexConsumer setColor(int color) { return this; }
+        @Override public VertexConsumer setLineWidth(float width) { return this; }
+        *///?}
     };
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * Records the renderer's main-model submission. The model is posed and drawn at once, exactly as the feature
      * renderer would draw it later ({@code setupAnim} then {@code renderToBuffer}).
-     */
+     ^/
     @SuppressWarnings({"rawtypes", "unchecked"})
     private static final class Collector implements net.minecraft.client.renderer.SubmitNodeCollector {
         private final Object model;
@@ -264,14 +264,14 @@ public final class EntityMeshes {
                                                    CustomGeometryRenderer customGeometryRenderer) {}
         @Override public void submitParticleGroup(ParticleGroupRenderer particleGroupRenderer) {}
     }
-    //?} else {
-    /*/^*
+    *///?} else {
+    /**
      * Hands the model's buffer to the recorder and every other one to the sink. The model's buffer is the first one
      * whose render type uses the entity's own texture: every type {@code LivingEntityRenderer.getRenderType} picks
      * (cutout, translucent, outline when glowing) names it, while armor, held items and most layers use other
      * textures. A skipped body (invisible mob) or a {@code RenderLivingEvent.Pre} listener that draws first is
      * therefore not taken for the model, as in 26.1's model-identity match.
-     ^/
+     */
     private static final class Buffers implements net.minecraft.client.renderer.MultiBufferSource {
         private final Recorder recorder;
         private final String texture;
@@ -289,5 +289,5 @@ public final class EntityMeshes {
             return recorder;
         }
     }
-    *///?}
+    //?}
 }

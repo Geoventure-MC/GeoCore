@@ -2,16 +2,16 @@ package fr.geoventure.geocore.world;
 
 import fr.geoventure.geocore.Ids;
 //? if >=1.21 {
-import net.minecraft.core.component.DataComponents;
-//?}
+/*import net.minecraft.core.component.DataComponents;
+*///?}
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 //? if >=26.1 {
-import net.minecraft.world.item.equipment.EquipmentAssets;
-//?}
+/*import net.minecraft.world.item.equipment.EquipmentAssets;
+*///?}
 //? if >=26.1 {
-import net.minecraft.world.item.equipment.Equippable;
-//?}
+/*import net.minecraft.world.item.equipment.Equippable;
+*///?}
 
 import net.minecraft.world.item.ItemStack;
 
@@ -33,7 +33,7 @@ public final class Armors {
         if (stack == null || stack.isEmpty()) return null;
         if (stack.getItem() instanceof CompatArmorItem armor) return armor.armorSlot();
         //? if >=26.1 {
-        net.minecraft.world.item.equipment.Equippable equippable =
+        /*net.minecraft.world.item.equipment.Equippable equippable =
                 stack.get(net.minecraft.core.component.DataComponents.EQUIPPABLE);
         if (equippable == null) return null;
         ArmorSlot slot = switch (equippable.slot()) {
@@ -54,8 +54,8 @@ public final class Armors {
             }
         }
         return null;
-        //?} else {
-        /*if (!(stack.getItem() instanceof net.minecraft.world.item.ArmorItem armor)) return null;
+        *///?} else {
+        if (!(stack.getItem() instanceof net.minecraft.world.item.ArmorItem armor)) return null;
         return switch (armor.getType()) {
             case HELMET -> ArmorSlot.HELMET;
             case CHESTPLATE -> ArmorSlot.CHESTPLATE;
@@ -63,23 +63,23 @@ public final class Armors {
             case BOOTS -> ArmorSlot.BOOTS;
             default -> null;
         };
-        *///?}
+        //?}
     }
 
     /** 26.1's equipment component of a {@link Wearable}; not dispensable: dispensers before 26.1 drop it. */
     public static Item.Properties equippable(
             Item.Properties properties, ArmorSlot slot, String asset) {
         //? if >=26.1 {
-        return properties.component(DataComponents.EQUIPPABLE,
+        /*return properties.component(DataComponents.EQUIPPABLE,
                 Equippable.builder(equipmentSlot(slot))
                         .setAsset(ResourceKey.create(
                                 EquipmentAssets.ROOT_ID,
                                 Ids.parse(asset)))
                         .setDispensable(false)
                         .build());
-        //?} else {
-        /*return properties;
-        *///?}
+        *///?} else {
+        return properties;
+        //?}
     }
 
     /** Whether {@code stack} is armour of any kind (see {@link #slotOf}). */

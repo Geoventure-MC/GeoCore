@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.emi;
 
 //? if emi {
-/*import com.google.gson.JsonElement;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.emi.emi.EmiUtil;
 import dev.emi.emi.api.render.EmiRender;
@@ -24,10 +24,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
-/^*
+/**
  * A fluid drawn and described as a mod's {@link FluidIcons} icon. It equals EMI's own stack of the same fluid, so
  * other mods' recipes with that fluid and this one find each other.
- ^/
+ */
 final class IconFluidStack extends FluidEmiStack {
 
     private final Fluid fluid;
@@ -40,7 +40,7 @@ final class IconFluidStack extends FluidEmiStack {
         setAmount(amount);
     }
 
-    /^* The icon stack as an EMI fluid stack, or null when it stands for no fluid. ^/
+    /** The icon stack as an EMI fluid stack, or null when it stands for no fluid. */
     static IconFluidStack fromIcon(ItemStack stack) {
         FluidIcons.Amount amount = FluidIcons.fluidOf(stack);
         if (amount == null) return null;
@@ -71,10 +71,10 @@ final class IconFluidStack extends FluidEmiStack {
         return Screen.getTooltipFromItem(Minecraft.getInstance(), icon);
     }
 
-    /^*
+    /**
      * The icon's own lines, which carry the amount, then the fluid's mod name once. EMI already ends every item tooltip
      * with the item's mod name (its {@code ItemStackMixin}), which this replaces.
-     ^/
+     */
     @Override
     public List<ClientTooltipComponent> getTooltip() {
         List<Component> lines = new ArrayList<>(getTooltipText());
@@ -86,7 +86,7 @@ final class IconFluidStack extends FluidEmiStack {
         return tooltip;
     }
 
-    /^* Favourites and the recipe tree save the fluid and the icon, so the icon comes back with them. ^/
+    /** Favourites and the recipe tree save the fluid and the icon, so the icon comes back with them. */
     static final class Serializer implements EmiIngredientSerializer<IconFluidStack> {
         @Override
         public String getType() {
@@ -113,4 +113,4 @@ final class IconFluidStack extends FluidEmiStack {
         }
     }
 }
-*///?}
+//?}

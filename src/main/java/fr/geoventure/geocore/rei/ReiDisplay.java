@@ -155,7 +155,7 @@ public final class ReiDisplay<T> implements Display {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public java.util.Optional<net.minecraft.resources.Identifier> getDisplayLocation() {
         return java.util.Optional.empty();
     }
@@ -164,6 +164,6 @@ public final class ReiDisplay<T> implements Display {
     public me.shedaniel.rei.api.common.display.DisplaySerializer<? extends Display> getSerializer() {
         return null;
     }
-    //?}
+    *///?}
 }
 //?}

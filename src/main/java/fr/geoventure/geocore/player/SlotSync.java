@@ -49,10 +49,10 @@ public final class SlotSync {
     public static void forgetSelected(ServerPlayer player) {
         Inventory inventory = player.getInventory();
         //? if >=26.1 {
-        int selected = inventory.getSelectedSlot();
-        //?} else {
-        /*int selected = inventory.selected;
-        *///?}
+        /*int selected = inventory.getSelectedSlot();
+        *///?} else {
+        int selected = inventory.selected;
+        //?}
         AbstractContainerMenu menu = player.containerMenu;
         menu.findSlot(inventory, selected).ifPresent(slot -> forget(menu, slot));
     }

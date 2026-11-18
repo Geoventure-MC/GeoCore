@@ -31,16 +31,16 @@ public abstract class CompatBiomeSource extends BiomeSource {
     protected abstract MapCodec<? extends BiomeSource> mapCodec();
 
     //? if >=1.20.5 {
-    @Override
+    /*@Override
     protected final MapCodec<? extends BiomeSource> codec() {
         return mapCodec();
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected final com.mojang.serialization.Codec<? extends BiomeSource> codec() {
         return Dimensions.legacyCodec(mapCodec());
     }
-    *///?}
+    //?}
 
     /**
      * Gives this biome source the level seed. Called by its {@link CompatChunkGenerator}; a source built outside a level

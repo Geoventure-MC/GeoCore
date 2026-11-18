@@ -23,28 +23,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class MixinBlockUse {
     //? if >=1.20.5 {
-    @Inject(method = "useWithoutItem", at = @At("RETURN"))
+    /*@Inject(method = "useWithoutItem", at = @At("RETURN"))
     private void geocore$acceptedBlockUse(Level level, Player player, BlockHitResult hit,
                                        CallbackInfoReturnable<InteractionResult> callback) {
-    //?} else {
-    /*@Inject(method = "use", at = @At("RETURN"))
+    *///?} else {
+    @Inject(method = "use", at = @At("RETURN"))
     private void geocore$acceptedBlockUse(Level level, Player player, InteractionHand hand, BlockHitResult hit,
                                        CallbackInfoReturnable<InteractionResult> callback) {
-    *///?}
+    //?}
         if (callback.getReturnValue().consumesAction() && !BlockUses.AFTER.isEmpty()) {
             BlockUses.accepted(level, hit.getBlockPos(), (BlockState) (Object) this, player);
         }
     }
 
     //? if >=1.21.2 {
-    @Inject(method = "useItemOn", at = @At("RETURN"))
+    /*@Inject(method = "useItemOn", at = @At("RETURN"))
     private void geocore$acceptedItemUse(ItemStack stack, Level level, Player player, InteractionHand hand,
                                       BlockHitResult hit, CallbackInfoReturnable<InteractionResult> callback) {
         if (callback.getReturnValue().consumesAction() && !BlockUses.AFTER.isEmpty()) {
             BlockUses.accepted(level, hit.getBlockPos(), (BlockState) (Object) this, player);
         }
     }
-    //?} elif >=1.20.5 {
+    *///?} elif >=1.20.5 {
     /*@Inject(method = "useItemOn", at = @At("RETURN"))
     private void geocore$acceptedItemUse(ItemStack stack, Level level, Player player, InteractionHand hand,
                                       BlockHitResult hit, CallbackInfoReturnable<net.minecraft.world.ItemInteractionResult> callback) {

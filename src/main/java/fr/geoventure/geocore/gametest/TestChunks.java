@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 //? if >=26.1 {
-import fr.geoventure.geocore.GeoCore;
+/*import fr.geoventure.geocore.GeoCore;
 import fr.geoventure.geocore.registry.DeferredRegister;
 import fr.geoventure.geocore.registry.RegistryObject;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import net.minecraft.gametest.framework.GameTestRunner;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.block.entity.TestInstanceBlockEntity;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-//?} else {
-/*import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+*///?} else {
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
-*///?}
+//?}
 
 /**
  * Keeps GameTest plots entity-ticking: the plot of every 26.1 test before it starts, and any chunks a test asks for
@@ -74,9 +74,9 @@ public final class TestChunks {
         Range range = new Range(level, minX, maxX, minZ, maxZ);
         range.take();
         //? if >=26.1 {
-        Hold owner = BY_ORIGIN.get(origin);
+        /*Hold owner = BY_ORIGIN.get(origin);
         if (owner != null) owner.extras.add(range);
-        //?}
+        *///?}
         return range::release;
     }
 
@@ -91,8 +91,8 @@ public final class TestChunks {
             for (int cz = minZ; cz <= maxZ; cz++) {
                 if (!level.isPositionEntityTicking(new BlockPos(cx << 4, 0, cz << 4))) return false;
                 //? if >=26.1 {
-                if (!level.areEntitiesActuallyLoadedAndTicking(new ChunkPos(cx, cz))) return false;
-                //?}
+                /*if (!level.areEntitiesActuallyLoadedAndTicking(new ChunkPos(cx, cz))) return false;
+                *///?}
             }
         }
         return true;
@@ -150,13 +150,13 @@ public final class TestChunks {
     }
 
     //? if >=26.1 {
-    /** Ticket radius 2: level {@code 33 - 2 = 31}, entity-ticking, as {@code ChunkMap.FORCED_TICKET_LEVEL}. */
+    /*/^* Ticket radius 2: level {@code 33 - 2 = 31}, entity-ticking, as {@code ChunkMap.FORCED_TICKET_LEVEL}. ^/
     private static final int TICKET_RADIUS = 2;
 
-    /** Level ticks a test is held at the most; past it, it starts anyway with one WARN (a hold must never hang a run). */
+    /^* Level ticks a test is held at the most; past it, it starts anyway with one WARN (a hold must never hang a run). ^/
     private static final int MAX_HOLD_TICKS = 600;
 
-    /** Loads, simulates and keeps the level active (a level with no player stops ticking entities otherwise); no timeout, never saved. */
+    /^* Loads, simulates and keeps the level active (a level with no player stops ticking entities otherwise); no timeout, never saved. ^/
     private static RegistryObject<TicketType> ticketType;
 
     private static final Map<GameTestInfo, Hold> HOLDS = new WeakHashMap<>();
@@ -174,7 +174,7 @@ public final class TestChunks {
         level.getChunkSource().removeTicketWithRadius(ticketType.get(), new ChunkPos(cx, cz), TICKET_RADIUS);
     }
 
-    /** Called by {@link GameTests#function} while mods declare their tests, so the ticket type is registered with them. */
+    /^* Called by {@link GameTests#function} while mods declare their tests, so the ticket type is registered with them. ^/
     static synchronized void declare() {
         if (ticketType != null) return;
         DeferredRegister<TicketType> register = DeferredRegister.create(Registries.TICKET_TYPE, GeoCore.MOD_ID);
@@ -182,11 +182,11 @@ public final class TestChunks {
                 TicketType.FLAG_LOADING | TicketType.FLAG_SIMULATION | TicketType.FLAG_KEEP_DIMENSION_ACTIVE));
     }
 
-    /**
+    /^*
      * Whether {@code info} must skip this tick: called at the head of {@code GameTestInfo.tick} (MixinGameTestChunks).
      * Only for tests declared through {@link GameTests}, only before the test has started, and never once it is done
      * or has failed (vanilla's own tick then reports the failure).
-     */
+     ^/
     public static boolean holdStart(GameTestInfo info) {
         if (info.hasStarted() || info.isDone() || info.hasFailed() || ticketType == null) return false;
         Hold hold = HOLDS.get(info);
@@ -228,7 +228,7 @@ public final class TestChunks {
         return true;
     }
 
-    /** One test's plot; also the listener that releases it, and the extra chunks the test held, when the test ends. */
+    /^* One test's plot; also the listener that releases it, and the extra chunks the test held, when the test ends. ^/
     private static final class Hold extends Range implements GameTestListener {
 
         final List<Range> extras = new ArrayList<>();
@@ -260,8 +260,8 @@ public final class TestChunks {
         @Override public void testFailed(GameTestInfo info, GameTestRunner runner) { end(info); }
         @Override public void testAddedForRerun(GameTestInfo original, GameTestInfo copy, GameTestRunner runner) {}
     }
-    //?} else {
-    /*/^* Chunks this class forced (a chunk forced already, by the runner or anyone else, is never unforced here). ^/
+    *///?} else {
+    /** Chunks this class forced (a chunk forced already, by the runner or anyone else, is never unforced here). */
     private static final Map<ServerLevel, LongSet> OWNED = new WeakHashMap<>();
 
     private static void acquire(ServerLevel level, int cx, int cz) {
@@ -272,5 +272,5 @@ public final class TestChunks {
         LongSet owned = OWNED.get(level);
         if (owned != null && owned.remove(key(cx, cz))) level.setChunkForced(cx, cz, false);
     }
-    *///?}
+    //?}
 }

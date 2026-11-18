@@ -18,10 +18,10 @@ public final class Codecs {
     public static <K, E> Codec<E> dispatch(Codec<K> keyCodec, String key, Function<? super E, ? extends K> type,
                                            Function<? super K, ? extends MapCodec<? extends E>> codec) {
         //? if >=1.20.5 {
-        return keyCodec.dispatch(key, type, codec);
-        //?} else {
-        /*return keyCodec.dispatch(key, type, k -> codec.apply(k).codec());
-        *///?}
+        /*return keyCodec.dispatch(key, type, codec);
+        *///?} else {
+        return keyCodec.dispatch(key, type, k -> codec.apply(k).codec());
+        //?}
     }
 
     /**
@@ -32,10 +32,10 @@ public final class Codecs {
                                                   Function<? super E, ? extends DataResult<? extends K>> type,
                                                   Function<? super K, ? extends DataResult<? extends MapCodec<? extends E>>> codec) {
         //? if >=1.20.5 {
-        return keyCodec.partialDispatch(key, type, codec);
-        //?} else {
-        /*return keyCodec.partialDispatch(key, type, k -> codec.apply(k).map(MapCodec::codec));
-        *///?}
+        /*return keyCodec.partialDispatch(key, type, codec);
+        *///?} else {
+        return keyCodec.partialDispatch(key, type, k -> codec.apply(k).map(MapCodec::codec));
+        //?}
     }
 
     /**
@@ -44,9 +44,9 @@ public final class Codecs {
      */
     public static <A> MapCodec<Optional<A>> strictOptionalField(Codec<A> codec, String name) {
         //? if >=1.20.5 {
-        return codec.optionalFieldOf(name);
-        //?} else {
-        /*return new MapCodec<>() {
+        /*return codec.optionalFieldOf(name);
+        *///?} else {
+        return new MapCodec<>() {
             @Override
             public <T> com.mojang.serialization.RecordBuilder<T> encode(Optional<A> input,
                     com.mojang.serialization.DynamicOps<T> ops, com.mojang.serialization.RecordBuilder<T> prefix) {
@@ -65,6 +65,6 @@ public final class Codecs {
                 return java.util.stream.Stream.of(ops.createString(name));
             }
         };
-        *///?}
+        //?}
     }
 }

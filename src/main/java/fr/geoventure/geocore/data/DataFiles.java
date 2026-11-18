@@ -62,10 +62,10 @@ public final class DataFiles {
      */
     public static String recipeFolder() {
         //? if >=1.21 {
-        return "recipe";
-        //?} else {
-        /*return "recipes";
-        *///?}
+        /*return "recipe";
+        *///?} else {
+        return "recipes";
+        //?}
     }
 
     /** Declares {@code folder}: {@code apply} receives its files after every load. Call at mod construction. */
@@ -218,10 +218,10 @@ public final class DataFiles {
         @Override
         public
                 //? if >=26.1 {
-                net.minecraft.resources.Identifier
-                //?} else {
-                /*net.minecraft.resources.ResourceLocation
-                *///?}
+                /*net.minecraft.resources.Identifier
+                *///?} else {
+                net.minecraft.resources.ResourceLocation
+                //?}
                 id() {
             return CODEC.id();
         }

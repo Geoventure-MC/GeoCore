@@ -1,11 +1,11 @@
 package fr.geoventure.geocore.fluid;
 
 //? if forge {
-/*import net.minecraftforge.common.ForgeMod;
-*///?}
-//? if neoforge {
-import net.neoforged.neoforge.common.NeoForgeMod;
+import net.minecraftforge.common.ForgeMod;
 //?}
+//? if neoforge {
+/*import net.neoforged.neoforge.common.NeoForgeMod;
+*///?}
 
 import fr.geoventure.geocore.registry.DeferredRegister;
 import fr.geoventure.geocore.registry.RegistryObject;
@@ -50,10 +50,10 @@ public final class WorldFluids {
     /** Enables the loader's milk fluid and milk-bucket handler; call during construction before fluid registration. */
     public static void enableMilk() {
         //? if neoforge {
-        NeoForgeMod.enableMilkFluid();
-        //?} elif forge {
-        /*ForgeMod.enableMilkFluid();
-        *///?}
+        /*NeoForgeMod.enableMilkFluid();
+        *///?} elif forge {
+        ForgeMod.enableMilkFluid();
+        //?}
     }
 
     private WorldFluids() {}
@@ -192,10 +192,10 @@ public final class WorldFluids {
         final Supplier<? extends Block> block;
         final @Nullable Supplier<? extends Item> bucket;
         //? if neoforge {
-        RegistryObject<net.neoforged.neoforge.fluids.FluidType> type;
-        //?} elif forge {
-        /*RegistryObject<net.minecraftforge.fluids.FluidType> type;
-        *///?}
+        /*RegistryObject<net.neoforged.neoforge.fluids.FluidType> type;
+        *///?} elif forge {
+        RegistryObject<net.minecraftforge.fluids.FluidType> type;
+        //?}
 
         private Handle(String namespace, Spec spec, Supplier<? extends Block> block,
                        @Nullable Supplier<? extends Item> bucket, RegistryObject<WorldFluid> source,
@@ -219,10 +219,10 @@ public final class WorldFluids {
     private static final List<Handle> DECLARED = new ArrayList<>();
     private static final Map<String, DeferredRegister<Fluid>> FLUIDS = new HashMap<>();
     //? if neoforge {
-    private static final Map<String, DeferredRegister<net.neoforged.neoforge.fluids.FluidType>> TYPES = new HashMap<>();
-    //?} elif forge {
-    /*private static final Map<String, DeferredRegister<net.minecraftforge.fluids.FluidType>> TYPES = new HashMap<>();
-    *///?}
+    /*private static final Map<String, DeferredRegister<net.neoforged.neoforge.fluids.FluidType>> TYPES = new HashMap<>();
+    *///?} elif forge {
+    private static final Map<String, DeferredRegister<net.minecraftforge.fluids.FluidType>> TYPES = new HashMap<>();
+    //?}
 
     /**
      * Declares {@code spec} under {@code namespace}. {@code block} is the mod's {@link FluidBlock} for it and
@@ -240,14 +240,14 @@ public final class WorldFluids {
         Handle handle = new Handle(namespace, spec, block, bucket, source, flowing);
         self[0] = handle;
         //? if neoforge {
-        handle.type = TYPES.computeIfAbsent(namespace, ns -> DeferredRegister.create(
+        /*handle.type = TYPES.computeIfAbsent(namespace, ns -> DeferredRegister.create(
                 () -> net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.FLUID_TYPES, ns))
                 .register(spec.name, () -> new WorldFluidType(handle));
-        //?} elif forge {
-        /*handle.type = TYPES.computeIfAbsent(namespace, ns -> DeferredRegister.create(
+        *///?} elif forge {
+        handle.type = TYPES.computeIfAbsent(namespace, ns -> DeferredRegister.create(
                 () -> net.minecraftforge.registries.ForgeRegistries.Keys.FLUID_TYPES, ns))
                 .register(spec.name, () -> new WorldFluidType(handle));
-        *///?}
+        //?}
         // 1.7's Material.water / Material.lava, as the vanilla tag every loader reads (Fabric moves entities by it).
         String tag = switch (spec.physics) {
             case WATER -> "water";
@@ -266,10 +266,10 @@ public final class WorldFluids {
     public static BucketItem bucket(Handle fluid, Item.Properties properties) {
         // Forge 1.20.1 registers items before fluids: there the bucket has to take its fluid lazily.
         //? if forge {
-        /*return new BucketItem(fluid::source, properties);
-        *///?} else {
-        return new BucketItem(fluid.source(), properties);
-        //?}
+        return new BucketItem(fluid::source, properties);
+        //?} else {
+        /*return new BucketItem(fluid.source(), properties);
+        *///?}
     }
 
     static synchronized List<Handle> declared() {

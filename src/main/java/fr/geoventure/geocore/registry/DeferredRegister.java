@@ -234,12 +234,12 @@ public class DeferredRegister<T> {
     public static void flushAllToVanilla() {
         flushAll((registryKey, entryKey, value) -> {
             //? if >=26.1 {
-            Registry<Object> registry = (Registry<Object>) (Registry<?>)
-                    BuiltInRegistries.REGISTRY.getValueOrThrow((ResourceKey) registryKey);
-            //?} else {
             /*Registry<Object> registry = (Registry<Object>) (Registry<?>)
+                    BuiltInRegistries.REGISTRY.getValueOrThrow((ResourceKey) registryKey);
+            *///?} else {
+            Registry<Object> registry = (Registry<Object>) (Registry<?>)
                     BuiltInRegistries.REGISTRY.get(registryKey.location());
-            *///?}
+            //?}
             Registry.register(registry, (ResourceKey<Object>) (ResourceKey<?>) entryKey, value.get());
         });
     }
@@ -272,12 +272,12 @@ public class DeferredRegister<T> {
             // The factory is resolved as the entry is built, so a substitution declared before then is honoured.
             String id = namespace + ":" + name;
             //? if >=26.1 {
-            return register(name, key -> Substitutions.resolve(Substitutions.ITEM, id, factory)
-                    .apply(properties.apply(new Item.Properties()).setId(key)));
-            //?} else {
             /*return register(name, key -> Substitutions.resolve(Substitutions.ITEM, id, factory)
+                    .apply(properties.apply(new Item.Properties()).setId(key)));
+            *///?} else {
+            return register(name, key -> Substitutions.resolve(Substitutions.ITEM, id, factory)
                     .apply(properties.apply(new Item.Properties())));
-            *///?}
+            //?}
         }
 
         public <I extends Item> RegistryObject<I> registerItem(String name, Function<Item.Properties, ? extends I> factory) {
@@ -298,12 +298,12 @@ public class DeferredRegister<T> {
             // to its block, which is the same key only while the item is named like its block, so
             // Compat.blockDescription marks the properties for CompatBlockItem to answer 26.1's key.
             //? if >=26.1 {
-            return registerItem(name, props -> new fr.geoventure.geocore.world.CompatBlockItem(block.get(), props),
-                    p -> properties.apply(p).useBlockDescriptionPrefix());
-            //?} else {
             /*return registerItem(name, props -> new fr.geoventure.geocore.world.CompatBlockItem(block.get(), props),
+                    p -> properties.apply(p).useBlockDescriptionPrefix());
+            *///?} else {
+            return registerItem(name, props -> new fr.geoventure.geocore.world.CompatBlockItem(block.get(), props),
                     p -> fr.geoventure.geocore.world.Compat.blockDescription(properties.apply(p)));
-            *///?}
+            //?}
         }
 
         public RegistryObject<BlockItem> registerBlockItem(String name, Supplier<? extends Block> block) {
@@ -337,12 +337,12 @@ public class DeferredRegister<T> {
         public <B extends Block> RegistryObject<B> registerBlock(String name, Function<BlockBehaviour.Properties, ? extends B> factory, UnaryOperator<BlockBehaviour.Properties> properties) {
             String id = namespace + ":" + name;
             //? if >=26.1 {
-            return register(name, key -> Substitutions.resolve(Substitutions.BLOCK, id, factory)
-                    .apply(properties.apply(initial(name)).setId(key)));
-            //?} else {
             /*return register(name, key -> Substitutions.resolve(Substitutions.BLOCK, id, factory)
+                    .apply(properties.apply(initial(name)).setId(key)));
+            *///?} else {
+            return register(name, key -> Substitutions.resolve(Substitutions.BLOCK, id, factory)
                     .apply(properties.apply(initial(name))));
-            *///?}
+            //?}
         }
 
         public <B extends Block> RegistryObject<B> registerBlock(String name, Function<BlockBehaviour.Properties, ? extends B> factory) {

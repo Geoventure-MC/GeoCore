@@ -7,16 +7,16 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.item.ItemStack;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.SubmitNodeCollector;
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-//?} else {
-/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?} else {
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-*///?}
+//?}
 
 /**
  * A humanoid render layer written once against 26.1's submit shape, on every version.
@@ -76,10 +76,10 @@ public abstract class CompatHumanoidLayer extends RenderLayer {
     }
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * Bridges vanilla's submit signature. The stacks come straight off the render state. 26.1 snapshots
      * them during extraction, so there is no entity to consult and no attachment API needed.
-     */
+     ^/
     @Override
     public void submit(PoseStack pose, SubmitNodeCollector collector, int lightCoords,
             EntityRenderState state, float yRot, float xRot) {
@@ -100,20 +100,20 @@ public abstract class CompatHumanoidLayer extends RenderLayer {
                         net.minecraft.client.Minecraft.getInstance().gameRenderer.getMainCamera().rotation()));
     }
 
-    /**
+    /^*
      * 26.1 splits "invisible" in two: the entity is invisible, and it is invisible <i>to the viewer</i>
      * (spectators still see teammates). {@code LivingEntityRenderState} keeps only the second as a
      * field; the first is expressed by the state's model being skipped upstream, so this is the flag a
      * layer can actually read.
-     */
+     ^/
     private static boolean isInvisible(LivingEntityRenderState state) {
         return state.isInvisibleToPlayer;
     }
-    //?} else {
-    /*/^*
+    *///?} else {
+    /**
      * Vanilla's single-pass entry point. Reads the worn stacks off the live entity, runs the neutral
      * submit, then flushes the recorded submissions into the buffer source the engine handed us.
-     ^/
+     */
     @Override
     public void render(PoseStack pose, MultiBufferSource bufferSource, int packedLight, Entity entity,
             float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
@@ -140,5 +140,5 @@ public abstract class CompatHumanoidLayer extends RenderLayer {
                 new CameraInfo(camera.getPosition(), camera.getYRot(), camera.rotation()));
         sink.flush(bufferSource, living.level());
     }
-    *///?}
+    //?}
 }

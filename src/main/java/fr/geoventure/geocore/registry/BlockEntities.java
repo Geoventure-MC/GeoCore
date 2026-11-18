@@ -55,12 +55,12 @@ public final class BlockEntities {
         /*return net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder
                 .<T>create(factory::create, blocks).build();
         *///?} elif neoforge && >=26.1 {
-        return new BlockEntityType<>(factory::create, java.util.Set.of(blocks));
-        //?} elif neoforge {
+        /*return new BlockEntityType<>(factory::create, java.util.Set.of(blocks));
+        *///?} elif neoforge {
         /*return new BlockEntityType<T>(factory::create, java.util.Set.of(blocks), null);
         *///?} elif forge {
-        /*return BlockEntityType.Builder.of(factory::create, blocks).build(null);
-        *///?}
+        return BlockEntityType.Builder.of(factory::create, blocks).build(null);
+        //?}
     }
 
     /** A type that ticks on the server only, which is almost every machine. */
@@ -125,56 +125,56 @@ public final class BlockEntities {
     /** Saves a block entity with its type and position without exposing the registry-aware signature split. */
     public static CompoundTag save(BlockEntity blockEntity, HolderLookup.Provider registries) {
         //? if >=1.20.5 {
-        return blockEntity.saveWithFullMetadata(registries);
-        //?} else {
-        /*return blockEntity.saveWithFullMetadata();
-        *///?}
+        /*return blockEntity.saveWithFullMetadata(registries);
+        *///?} else {
+        return blockEntity.saveWithFullMetadata();
+        //?}
     }
 
     /** Recreates a registered block entity from custom data across the loadStatic signature split. */
     public static BlockEntity load(BlockPos pos, BlockState state, CompoundTag tag,
                                    HolderLookup.Provider registries) {
         //? if >=1.20.5 {
-        return BlockEntity.loadStatic(pos, state, tag, registries);
-        //?} else {
-        /*return BlockEntity.loadStatic(pos, state, tag);
-        *///?}
+        /*return BlockEntity.loadStatic(pos, state, tag, registries);
+        *///?} else {
+        return BlockEntity.loadStatic(pos, state, tag);
+        //?}
     }
     /** The block entity's custom data (no id/position), across the ValueOutput rewrite. */
     public static CompoundTag saveWithoutMetadata(BlockEntity blockEntity, HolderLookup.Provider registries) {
         //? if >=26.1 {
-        net.minecraft.world.level.storage.TagValueOutput output = net.minecraft.world.level.storage.TagValueOutput
+        /*net.minecraft.world.level.storage.TagValueOutput output = net.minecraft.world.level.storage.TagValueOutput
                 .createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, registries);
         blockEntity.saveWithoutMetadata(output);
         return output.buildResult();
-        //?} elif >=1.20.5 {
+        *///?} elif >=1.20.5 {
         /*return blockEntity.saveWithoutMetadata(registries);
         *///?} else {
-        /*return blockEntity.saveWithoutMetadata();
-        *///?}
+        return blockEntity.saveWithoutMetadata();
+        //?}
     }
 
     /** Loads custom data plus the carried components into an existing block entity. */
     public static void loadWithComponents(BlockEntity blockEntity, CompoundTag tag, HolderLookup.Provider registries) {
         //? if >=26.1 {
-        blockEntity.loadWithComponents(net.minecraft.world.level.storage.TagValueInput.create(
+        /*blockEntity.loadWithComponents(net.minecraft.world.level.storage.TagValueInput.create(
                 net.minecraft.util.ProblemReporter.DISCARDING, registries, tag));
-        //?} elif >=1.20.5 {
+        *///?} elif >=1.20.5 {
         /*blockEntity.loadWithComponents(tag, registries);
         *///?} else {
-        /*blockEntity.load(tag);
-        *///?}
+        blockEntity.load(tag);
+        //?}
     }
 
     /** Loads custom data only (no components) into an existing block entity. */
     public static void loadCustomOnly(BlockEntity blockEntity, CompoundTag tag, HolderLookup.Provider registries) {
         //? if >=26.1 {
-        blockEntity.loadCustomOnly(net.minecraft.world.level.storage.TagValueInput.create(
+        /*blockEntity.loadCustomOnly(net.minecraft.world.level.storage.TagValueInput.create(
                 net.minecraft.util.ProblemReporter.DISCARDING, registries, tag));
-        //?} elif >=1.20.5 {
+        *///?} elif >=1.20.5 {
         /*blockEntity.loadCustomOnly(tag, registries);
         *///?} else {
-        /*blockEntity.load(tag);
-        *///?}
+        blockEntity.load(tag);
+        //?}
     }
 }

@@ -24,20 +24,20 @@ public final class Chunks {
     public static @Nullable LevelChunk loaded(Level level, int chunkX, int chunkZ) {
         if (level instanceof ServerLevel server) return server.getChunkSource().getChunkNow(chunkX, chunkZ);
         //? if >=1.21 {
-        return (LevelChunk) level.getChunk(chunkX, chunkZ,
-                net.minecraft.world.level.chunk.status.ChunkStatus.FULL, false);
-        //?} else {
         /*return (LevelChunk) level.getChunk(chunkX, chunkZ,
+                net.minecraft.world.level.chunk.status.ChunkStatus.FULL, false);
+        *///?} else {
+        return (LevelChunk) level.getChunk(chunkX, chunkZ,
                 net.minecraft.world.level.chunk.ChunkStatus.FULL, false);
-        *///?}
+        //?}
     }
     /** The lowest buildable y of {@code level} (1.21.2 {@code getMinY}; earlier {@code getMinBuildHeight}). */
     public static int minY(LevelReader level) {
         //? if >=1.21.2 {
-        return level.getMinY();
-        //?} else {
-        /*return level.getMinBuildHeight();
-        *///?}
+        /*return level.getMinY();
+        *///?} else {
+        return level.getMinBuildHeight();
+        //?}
     }
 
     /**
@@ -62,15 +62,15 @@ public final class Chunks {
      * claim that outlives a crash disappears, which is the right failure mode for one.
      */
     //? if >=26.1 {
-    public static final TicketType LOAD_ONLY =
+    /*public static final TicketType LOAD_ONLY =
             new net.minecraft.server.level.TicketType(
                     net.minecraft.server.level.TicketType.NO_TIMEOUT,
                     net.minecraft.server.level.TicketType.FLAG_LOADING);
-    //?} else {
-    /*public static final TicketType<ChunkPos> LOAD_ONLY =
+    *///?} else {
+    public static final TicketType<ChunkPos> LOAD_ONLY =
             net.minecraft.server.level.TicketType.create("geocore_load_only",
                     java.util.Comparator.comparingLong(ChunkPos::toLong));
-    *///?}
+    //?}
 
     /**
      * Holds a chunk in memory, loading or generating it in the background, <b>without making it tick</b>.
@@ -86,10 +86,10 @@ public final class Chunks {
 
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         //? if >=26.1 {
-        level.getChunkSource().addTicketWithRadius(LOAD_ONLY, pos, 0);
-        //?} else {
-        /*level.getChunkSource().addRegionTicket(LOAD_ONLY, pos, 0, pos);
-        *///?}
+        /*level.getChunkSource().addTicketWithRadius(LOAD_ONLY, pos, 0);
+        *///?} else {
+        level.getChunkSource().addRegionTicket(LOAD_ONLY, pos, 0, pos);
+        //?}
     }
 
     /**
@@ -97,12 +97,12 @@ public final class Chunks {
      * chunk, so a holder that removes it takes another holder's forced chunk out of entity ticking.
      */
     //? if >=26.1 {
-    private static final TicketType TICKING = new TicketType(TicketType.NO_TIMEOUT,
+    /*private static final TicketType TICKING = new TicketType(TicketType.NO_TIMEOUT,
             TicketType.FLAG_LOADING | TicketType.FLAG_SIMULATION | TicketType.FLAG_KEEP_DIMENSION_ACTIVE);
-    //?} else {
-    /*private static final TicketType<ChunkPos> TICKING =
+    *///?} else {
+    private static final TicketType<ChunkPos> TICKING =
             TicketType.create("geocore_ticking", Comparator.comparingLong(ChunkPos::toLong));
-    *///?}
+    //?}
 
     /** Radius 2 is ticket level 31 (entity-ticking), the level of a forced chunk. */
     private static final int TICKING_RADIUS = 2;
@@ -114,20 +114,20 @@ public final class Chunks {
     public static void claimTicking(ServerLevel level, int chunkX, int chunkZ) {
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         //? if >=26.1 {
-        level.getChunkSource().addTicketWithRadius(TICKING, pos, TICKING_RADIUS);
-        //?} else {
-        /*level.getChunkSource().addRegionTicket(TICKING, pos, TICKING_RADIUS, pos);
-        *///?}
+        /*level.getChunkSource().addTicketWithRadius(TICKING, pos, TICKING_RADIUS);
+        *///?} else {
+        level.getChunkSource().addRegionTicket(TICKING, pos, TICKING_RADIUS, pos);
+        //?}
     }
 
     /** Drops the claim taken by {@link #claimTicking}. */
     public static void releaseTicking(ServerLevel level, int chunkX, int chunkZ) {
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         //? if >=26.1 {
-        level.getChunkSource().removeTicketWithRadius(TICKING, pos, TICKING_RADIUS);
-        //?} else {
-        /*level.getChunkSource().removeRegionTicket(TICKING, pos, TICKING_RADIUS, pos);
-        *///?}
+        /*level.getChunkSource().removeTicketWithRadius(TICKING, pos, TICKING_RADIUS);
+        *///?} else {
+        level.getChunkSource().removeRegionTicket(TICKING, pos, TICKING_RADIUS, pos);
+        //?}
     }
     /** Waits until a caller-held chunk ticks entities and has read its stored ones; takes and releases no claim. */
     public static void loadEntityTicking(ServerLevel level, int chunkX, int chunkZ) {
@@ -145,21 +145,21 @@ public final class Chunks {
         });
         var result = ticking.join();
         //? if >=1.21.1 {
-        result.orElseThrow(() -> new IllegalStateException("Entity-ticking chunk " + pos + ": " + result.getError()));
-        //?} else {
-        /*result.left().orElseThrow(() -> new IllegalStateException(
+        /*result.orElseThrow(() -> new IllegalStateException("Entity-ticking chunk " + pos + ": " + result.getError()));
+        *///?} else {
+        result.left().orElseThrow(() -> new IllegalStateException(
                 "Entity-ticking chunk " + pos + ": " + result.right().orElseThrow()));
-        *///?}
+        //?}
         //? if >=26.1 {
-        level.waitForEntities(pos, 0);
-        //?} else {
-        /*level.getServer().managedBlock(() -> {
+        /*level.waitForEntities(pos, 0);
+        *///?} else {
+        level.getServer().managedBlock(() -> {
             // the chunk's status change that requests its entities runs on the chunk executor, not the server's
             cache.pollTask();
             ((fr.geoventure.geocore.mixin.EntitySectionsAccess) level.entityManager).geocore$processPendingLoads();
             return level.areEntitiesLoaded(pack(chunkX, chunkZ));
         });
-        *///?}
+        //?}
     }
 
     /** Waits for a caller-held chunk's native send dependencies, including lighting, before a player send. */
@@ -168,7 +168,7 @@ public final class Chunks {
         var cache = level.getChunkSource();
         var holder = cache.getVisibleChunkIfPresent(pack(chunkX, chunkZ));
         //? if >=1.21.1 {
-        level.getServer().managedBlock(() -> {
+        /*level.getServer().managedBlock(() -> {
             var sending = holder.getSendSyncFuture();
             if (sending.isDone()) {
                 sending.join();
@@ -178,9 +178,9 @@ public final class Chunks {
             return false;
         });
         return holder.getChunkToSend();
-        //?} else {
-        /*return holder.getTickingChunk();
-        *///?}
+        *///?} else {
+        return holder.getTickingChunk();
+        //?}
     }
 
     /**
@@ -189,12 +189,12 @@ public final class Chunks {
      */
     public static LevelChunk loadNow(ServerLevel level, int chunkX, int chunkZ) {
         //? if >=1.21 {
-        net.minecraft.world.level.chunk.ChunkAccess chunk = level.getChunkSource().getChunk(chunkX, chunkZ,
-                net.minecraft.world.level.chunk.status.ChunkStatus.FULL, true);
-        //?} else {
         /*net.minecraft.world.level.chunk.ChunkAccess chunk = level.getChunkSource().getChunk(chunkX, chunkZ,
+                net.minecraft.world.level.chunk.status.ChunkStatus.FULL, true);
+        *///?} else {
+        net.minecraft.world.level.chunk.ChunkAccess chunk = level.getChunkSource().getChunk(chunkX, chunkZ,
                 net.minecraft.world.level.chunk.ChunkStatus.FULL, true);
-        *///?}
+        //?}
         return chunk instanceof LevelChunk full ? full : null;
     }
 
@@ -216,10 +216,10 @@ public final class Chunks {
 
         ChunkPos pos = new ChunkPos(chunkX, chunkZ);
         //? if >=26.1 {
-        level.getChunkSource().removeTicketWithRadius(LOAD_ONLY, pos, 0);
-        //?} else {
-        /*level.getChunkSource().removeRegionTicket(LOAD_ONLY, pos, 0, pos);
-        *///?}
+        /*level.getChunkSource().removeTicketWithRadius(LOAD_ONLY, pos, 0);
+        *///?} else {
+        level.getChunkSource().removeRegionTicket(LOAD_ONLY, pos, 0, pos);
+        //?}
     }
 
     /**
@@ -275,10 +275,10 @@ public final class Chunks {
     public static java.util.concurrent.CompletableFuture<int @org.jspecify.annotations.Nullable []> readSavedHeights(
             ServerLevel level, int chunkX, int chunkZ, net.minecraft.world.level.levelgen.Heightmap.Types heightmap) {
         //? if >=1.21.2 {
-        int minY = level.getMinY();
-        //?} else {
-        /*int minY = level.getMinBuildHeight();
-        *///?}
+        /*int minY = level.getMinY();
+        *///?} else {
+        int minY = level.getMinBuildHeight();
+        //?}
         int height = level.getHeight();
         return level.getChunkSource().chunkMap.read(new ChunkPos(chunkX, chunkZ)).handle((stored, error) -> {
             if (error != null || stored == null || stored.isEmpty()) return null;
@@ -289,14 +289,14 @@ public final class Chunks {
     private static int @org.jspecify.annotations.Nullable [] savedHeights(net.minecraft.nbt.CompoundTag chunk, String key,
                                                                           int minY, int height) {
         //? if >=26.1 {
-        String status = chunk.getStringOr("Status", "");
+        /*String status = chunk.getStringOr("Status", "");
         net.minecraft.nbt.CompoundTag maps = chunk.getCompoundOrEmpty("Heightmaps");
         long[] data = maps.getLongArray(key).orElse(null);
-        //?} else {
-        /*String status = chunk.getString("Status");
+        *///?} else {
+        String status = chunk.getString("Status");
         net.minecraft.nbt.CompoundTag maps = chunk.getCompound("Heightmaps");
         long[] data = maps.contains(key, 12) ? maps.getLongArray(key) : null;
-        *///?}
+        //?}
         if (!status.equals("minecraft:full") && !status.equals("full")) return null;
         if (data == null) return null;
         int bits = net.minecraft.util.Mth.ceillog2(height + 1);

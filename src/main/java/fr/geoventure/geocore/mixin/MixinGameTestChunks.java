@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.gametest.TestChunks;
+/*import fr.geoventure.geocore.gametest.TestChunks;
 import net.minecraft.gametest.framework.GameTestInfo;
 import net.minecraft.gametest.framework.GameTestRunner;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * {@link TestChunks}: a 26.1 GameTest declared through {@code GameTests} does not tick until every chunk of its plot
  * (structure box plus padding, at least 16 blocks) is entity-ticking, not only the chunk of its 1x1x1 structure.
  *
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * the tick. One cancellable HEAD {@code @Inject} on {@code tick} cancels only before the test has started, only for
  * a GeoCore test, and only while its chunks are not entity-ticking, as vanilla's check does for the structure chunk.
  * Listed on the 26.1 nodes only ({@code gametest_mixins}); below 26.1 the padded templates are the whole plot.
- */
+ ^/
 @Mixin(GameTestInfo.class)
 public abstract class MixinGameTestChunks {
 
@@ -32,4 +32,4 @@ public abstract class MixinGameTestChunks {
         if (TestChunks.holdStart((GameTestInfo) (Object) this)) ci.cancel();
     }
 }
-//?}
+*///?}

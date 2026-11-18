@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if <26.1 {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
  import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.Font;
 import net.minecraft.util.FormattedCharSequence;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/^*
+/**
  * {@link SubmitSink} for versions without the submit pipeline: records submissions during the pass and
  * draws them into a {@code MultiBufferSource} at the end.
  *
@@ -22,7 +22,7 @@ import java.util.List;
  *
  * <p>The pose is <b>copied</b> at submit time. {@link PoseStack#last()} returns the live top {@code Pose} and
  * the transform methods mutate it in place, and callers keep transforming and popping before the flush.
- ^/
+ */
 public final class RecordingSubmitSink implements SubmitSink {
 
     private sealed interface Entry permits GeometryEntry, ItemEntry, TextEntry, BlockEntry, MovingBlockEntry,
@@ -54,7 +54,7 @@ public final class RecordingSubmitSink implements SubmitSink {
         this.order = order;
     }
 
-    /^* A view tagging submissions with a different order, sharing this sink's entry list. ^/
+    /** A view tagging submissions with a different order, sharing this sink's entry list. */
     private RecordingSubmitSink(int order, RecordingSubmitSink parent) {
         this.order = order;
         // Deliberately aliases the parent's list rather than copying, so one flush drains everything
@@ -128,7 +128,7 @@ public final class RecordingSubmitSink implements SubmitSink {
         return new RecordingSubmitSink(newOrder, this);
     }
 
-    /^* Draws everything recorded, lowest order first, then clears. ^/
+    /** Draws everything recorded, lowest order first, then clears. */
     public void flush(MultiBufferSource bufferSource, net.minecraft.world.level.@org.jspecify.annotations.Nullable Level level) {
         List<Entry> all = sink();
         RecordingSubmitSink root = rootSink();
@@ -178,4 +178,4 @@ public final class RecordingSubmitSink implements SubmitSink {
         }
     }
 }
-*///?}
+//?}

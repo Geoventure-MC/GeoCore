@@ -20,10 +20,10 @@ public abstract class MixinLevelChunkBlockChanges {
     @Inject(method = "setBlockState", at = @At("RETURN"))
     private void geocore$blockChanged(BlockPos pos, BlockState state,
             //? if >=26.1 {
-            int flags,
-            //?} else {
-            /*boolean movedByPiston,
-            *///?}
+            /*int flags,
+            *///?} else {
+            boolean movedByPiston,
+            //?}
             CallbackInfoReturnable<BlockState> callback) {
         var before = callback.getReturnValue();
         if (before == null || BlockChanges.HANDLERS.isEmpty()) return;

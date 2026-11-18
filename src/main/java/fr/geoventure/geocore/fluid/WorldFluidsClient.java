@@ -21,7 +21,7 @@ final class WorldFluidsClient {
 
     static void install() {
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterFluidModelsEvent event) -> {
                     for (WorldFluids.Handle handle : WorldFluids.declared()) {
                         WorldFluids.Spec spec = handle.spec();
@@ -31,7 +31,7 @@ final class WorldFluidsClient {
                                 null, tint), handle.source(), handle.flowing());
                     }
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent event) -> {
                     for (WorldFluids.Handle handle : WorldFluids.declared()) {
@@ -41,9 +41,9 @@ final class WorldFluidsClient {
         fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) -> event.enqueueWork(WorldFluidsClient::layers));
         *///?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) -> event.enqueueWork(WorldFluidsClient::layers));
-        *///?} elif fabric && >=26.1 {
+        //?} elif fabric && >=26.1 {
         /*for (WorldFluids.Handle handle : WorldFluids.declared()) {
             WorldFluids.Spec spec = handle.spec();
             net.minecraft.client.color.block.BlockTintSource tint = spec.tint() == UNTINTED ? null : state -> spec.tint();
@@ -69,20 +69,20 @@ final class WorldFluidsClient {
     }
 
     //? if >=26.1 {
-    private static net.minecraft.client.resources.model.sprite.Material material(String sprite, boolean translucent) {
+    /*private static net.minecraft.client.resources.model.sprite.Material material(String sprite, boolean translucent) {
         return new net.minecraft.client.resources.model.sprite.Material(Ids.parse(sprite), translucent);
     }
-    //?}
+    *///?}
 
     //? if forgelike && <26.1 {
-    /*private static void layers() {
+    private static void layers() {
         for (WorldFluids.Handle handle : WorldFluids.declared()) {
             if (!handle.spec().translucent()) continue;
             net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(handle.source(), net.minecraft.client.renderer.RenderType.translucent());
             net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(handle.flowing(), net.minecraft.client.renderer.RenderType.translucent());
         }
     }
-    *///?}
+    //?}
 
     //? if neoforge && <26.1 {
     /*static net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions extensions(java.util.function.Supplier<WorldFluids.Spec> spec) {
@@ -93,12 +93,12 @@ final class WorldFluidsClient {
         };
     }
     *///?} elif forge {
-    /*static net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions extensions(java.util.function.Supplier<WorldFluids.Spec> spec) {
+    static net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions extensions(java.util.function.Supplier<WorldFluids.Spec> spec) {
         return new net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions() {
             @Override public net.minecraft.resources.ResourceLocation getStillTexture() { return Ids.parse(spec.get().stillSprite()); }
             @Override public net.minecraft.resources.ResourceLocation getFlowingTexture() { return Ids.parse(spec.get().flowingSprite()); }
             @Override public int getTintColor() { return spec.get().tint(); }
         };
     }
-    *///?}
+    //?}
 }

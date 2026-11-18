@@ -2,7 +2,7 @@ package fr.geoventure.geocore.kubejs;
 
 //? if kubejs && <1.20.5 {
 
-/*import com.google.gson.JsonElement;
+import com.google.gson.JsonElement;
 import fr.geoventure.geocore.Ids;
 import fr.geoventure.geocore.world.RecipeFields.Field;
 import fr.geoventure.geocore.world.RecipeTables;
@@ -14,11 +14,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/^*
+/**
  * KubeJS 6's spelling of {@link TableSchemas}: the same schema per table (required fields first, then optional ones,
  * each in stated order) built from {@link LegacyFieldComponent}s. KubeJS 6 names a builder method after each of a
  * key's names, so a field's aliases are its alternative names ({@code .inputItems(...)} and {@code .input_items(...)}).
- ^/
+ */
 final class LegacyTableSchemas {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("GeoCore scripts");
@@ -64,4 +64,4 @@ final class LegacyTableSchemas {
         return key;
     }
 }
-*///?}
+//?}

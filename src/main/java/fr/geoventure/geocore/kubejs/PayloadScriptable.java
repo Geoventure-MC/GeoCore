@@ -21,10 +21,10 @@ final class PayloadScriptable extends NativeJavaObject {
 
     PayloadScriptable(Context cx, Scriptable scope, Object payload, Map<String, Object> properties) {
         //? if >=1.20.5 {
-        super(scope, payload, dev.latvian.mods.rhino.type.TypeInfo.of(payload.getClass()), cx);
-        //?} else {
-        /*super(scope, payload, payload.getClass(), cx);
-        *///?}
+        /*super(scope, payload, dev.latvian.mods.rhino.type.TypeInfo.of(payload.getClass()), cx);
+        *///?} else {
+        super(scope, payload, payload.getClass(), cx);
+        //?}
         this.properties = properties;
     }
 
@@ -37,10 +37,10 @@ final class PayloadScriptable extends NativeJavaObject {
     public Object get(Context cx, String name, Scriptable start) {
         if (properties.containsKey(name)) {
             //? if >=1.20.5 {
-            return cx.javaToJS(properties.get(name), start);
-            //?} else {
-            /*return Context.javaToJS(cx, properties.get(name), start);
-            *///?}
+            /*return cx.javaToJS(properties.get(name), start);
+            *///?} else {
+            return Context.javaToJS(cx, properties.get(name), start);
+            //?}
         }
         return super.get(cx, name, start);
     }

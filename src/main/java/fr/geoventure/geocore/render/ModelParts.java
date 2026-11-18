@@ -6,10 +6,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+/*import net.minecraft.client.renderer.rendertype.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 /**
  * Draws baked {@link ModelPart} trees through a {@link SubmitSink}.

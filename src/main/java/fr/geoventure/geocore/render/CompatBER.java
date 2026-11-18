@@ -5,12 +5,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.SubmitNodeCollector;
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.jspecify.annotations.Nullable;
-//?}
+*///?}
 
 /**
  * A block-entity renderer written once against 26.1's extract/submit shape.
@@ -33,14 +33,14 @@ import org.jspecify.annotations.Nullable;
  */
 public interface CompatBER<T extends BlockEntity, S extends CompatRenderState>
         //? if >=26.1 {
-        extends BlockEntityRenderer<T, S>
-        //?}
+        /*extends BlockEntityRenderer<T, S>
+        *///?}
 {
 
     /** Creates a fresh, empty render state. Called once per renderer instance by the engine. */
     //? if >=26.1 {
-    @Override
-    //?}
+    /*@Override
+    *///?}
     S createRenderState();
 
     /**
@@ -62,7 +62,7 @@ public interface CompatBER<T extends BlockEntity, S extends CompatRenderState>
     }
 
     //? if <26.1 {
-    /*// On 26.1 these come from the vanilla interface this extends. Below it there is no such
+    // On 26.1 these come from the vanilla interface this extends. Below it there is no such
     // interface, so they are declared here, otherwise every renderer that overrides one fails with
     // "does not override or implement a method from a supertype". LegacyBERAdapter forwards vanilla's
     // calls to them, including mapping the no-arg shouldRenderOffScreen onto vanilla's 1-arg form.
@@ -77,10 +77,10 @@ public interface CompatBER<T extends BlockEntity, S extends CompatRenderState>
     default boolean shouldRender(T blockEntity, Vec3 cameraPosition) {
         return Vec3.atCenterOf(blockEntity.getBlockPos()).closerThan(cameraPosition, getViewDistance());
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    /** Bridges vanilla's extract signature to {@link #extract}, after running the base extraction. */
+    /*/^* Bridges vanilla's extract signature to {@link #extract}, after running the base extraction. ^/
     @Override
     default void extractRenderState(
             T blockEntity, S state, float partialTicks, Vec3 cameraPosition,
@@ -89,33 +89,33 @@ public interface CompatBER<T extends BlockEntity, S extends CompatRenderState>
         extract(blockEntity, state, partialTicks, cameraPosition);
     }
 
-    /** Bridges vanilla's submit signature to {@link #submit}. */
+    /^* Bridges vanilla's submit signature to {@link #submit}. ^/
     @Override
     default void submit(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         submit(state, poseStack, new VanillaSubmitSink(collector),
                 new CameraInfo(camera.pos, camera.yRot, camera.orientation));
     }
 
-    /** Forwards vanilla's view-distance hook to {@link #viewDistance}. */
+    /^* Forwards vanilla's view-distance hook to {@link #viewDistance}. ^/
     @Override
     default int getViewDistance() {
         return viewDistance();
     }
 
     //? if neoforge {
-    /**
+    /^/^¹*
      * Forwards the render bounding box NeoForge asks for. Vanilla culls a block-entity renderer against its
      * own block's box, so a renderer that draws outside it vanishes once the block leaves the frustum.
      *
      * <p>A renderer declaring {@link #shouldRenderOffScreen} gets NeoForge's "never cull me" value; anything
      * else keeps the single-block box.
-     */
+     ¹^/
     @Override
     default net.minecraft.world.phys.AABB getRenderBoundingBox(T blockEntity) {
         return shouldRenderOffScreen()
                 ? net.minecraft.world.phys.AABB.INFINITE
                 : new net.minecraft.world.phys.AABB(blockEntity.getBlockPos());
     }
-    //?}
-    //?}
+    ^///?}
+    *///?}
 }

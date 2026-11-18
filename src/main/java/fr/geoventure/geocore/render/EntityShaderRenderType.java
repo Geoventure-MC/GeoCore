@@ -4,18 +4,18 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.DepthStencilState;
+/*import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.Minecraft;
+*///?} else {
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,7 @@ public final class EntityShaderRenderType {
     private static final Map<String, RenderType> TYPES = new HashMap<>();
 
     //? if >=26.1 {
-    private static final Map<String, RenderPipeline> PIPELINES = new HashMap<>();
+    /*private static final Map<String, RenderPipeline> PIPELINES = new HashMap<>();
 
     public static RenderType cutoutCull(String shaderId, Identifier texture, Identifier extra) {
         return TYPES.computeIfAbsent(shaderId + "\n" + texture + "\n" + extra, key -> {
@@ -62,8 +62,8 @@ public final class EntityShaderRenderType {
                     .createRenderSetup());
         });
     }
-    //?} else {
-    /*private static final Map<String, ShaderInstance> SHADERS = new HashMap<>();
+    *///?} else {
+    private static final Map<String, ShaderInstance> SHADERS = new HashMap<>();
     private static boolean reloadRegistered;
 
     public static RenderType cutoutCull(String shaderId, ResourceLocation texture, ResourceLocation extra) {
@@ -92,7 +92,7 @@ public final class EntityShaderRenderType {
     private static final class Factory extends RenderType {
         private Factory() { super(null, null, null, 0, false, false, null, null); }
 
-        /^* The base texture on unit 0 as any entity type, the extra one on unit 3. ^/
+        /** The base texture on unit 0 as any entity type, the extra one on unit 3. */
         private static final class Textures extends TextureStateShard {
             private final ResourceLocation extra;
 
@@ -121,5 +121,5 @@ public final class EntityShaderRenderType {
                     true, false, state);
         }
     }
-    *///?}
+    //?}
 }

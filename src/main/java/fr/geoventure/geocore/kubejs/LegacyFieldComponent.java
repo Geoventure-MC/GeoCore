@@ -2,7 +2,7 @@ package fr.geoventure.geocore.kubejs;
 
 //? if kubejs && <1.20.5 {
 
-/*import com.google.gson.JsonArray;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
@@ -32,7 +32,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-/^*
+/**
  * KubeJS 6's spelling of {@link FieldComponent}: one {@link RecipeFields.Field} of a recipe table as a recipe component
  * whose value is the field's row JSON. KubeJS 6 has no codecs here; a component reads from either the recipe file's
  * JSON (kept unchanged) or a script value, and states its role itself. Script values become neutral values the KubeJS 6
@@ -41,7 +41,7 @@ import net.minecraft.world.item.crafting.Ingredient;
  *
  * <p>Fluid amounts: KubeJS 6 counts in its loader's units (Fabric: droplets, 81,000 a bucket; Forge: mB); a neutral
  * {@link FluidAmount} is always mB, so the amount is scaled by the platform's bucket ({@code FluidStack.bucketAmount()}).
- ^/
+ */
 final class LegacyFieldComponent implements RecipeComponent<JsonElement> {
 
     private final String table;
@@ -159,7 +159,7 @@ final class LegacyFieldComponent implements RecipeComponent<JsonElement> {
         return counted;
     }
 
-    /^* A KubeJS 6 fluid amount (the platform's units) in mB. ^/
+    /** A KubeJS 6 fluid amount (the platform's units) in mB. */
     private static int toMb(long amount) {
         long bucket = dev.architectury.fluid.FluidStack.bucketAmount();
         return (int) Math.min(Integer.MAX_VALUE, amount * 1000L / bucket);
@@ -263,4 +263,4 @@ final class LegacyFieldComponent implements RecipeComponent<JsonElement> {
         return "geocore:table_field[" + describe() + "]";
     }
 }
-*///?}
+//?}

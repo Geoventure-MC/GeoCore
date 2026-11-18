@@ -16,10 +16,10 @@ public final class Redstone {
         int value = level.getSignal(pos, direction);
         if (state.hasAnalogOutputSignal()) {
             //? if >=26.1 {
-            value = state.getAnalogOutputSignal(level, pos, direction);
-            //?} else {
-            /*value = state.getAnalogOutputSignal(level, pos);
-            *///?}
+            /*value = state.getAnalogOutputSignal(level, pos, direction);
+            *///?} else {
+            value = state.getAnalogOutputSignal(level, pos);
+            //?}
         }
         return Mth.clamp(value, 0, 15);
     }

@@ -6,10 +6,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.player.Player;
 
 //? if >=26.1 {
-import net.minecraft.client.model.player.PlayerModel;
-//?} else {
-/*import net.minecraft.client.model.PlayerModel;
-*///?}
+/*import net.minecraft.client.model.player.PlayerModel;
+*///?} else {
+import net.minecraft.client.model.PlayerModel;
+//?}
 
 /**
  * The posed skeleton of the humanoid a layer is drawing on, for renderers that supply their own

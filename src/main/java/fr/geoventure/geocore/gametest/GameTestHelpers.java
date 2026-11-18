@@ -14,8 +14,8 @@ import net.minecraft.gametest.framework.GameTestInfo;
 import net.minecraft.gametest.framework.GameTestListener;
 import fr.geoventure.geocore.net.GeoCoreNetwork;
 //? if >=1.21.1 {
-import net.minecraft.gametest.framework.GameTestRunner;
-//?}
+/*import net.minecraft.gametest.framework.GameTestRunner;
+*///?}
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -36,12 +36,12 @@ import java.util.Map;
 import java.util.UUID;
 
 //? if >=1.21 {
-import net.minecraft.server.network.CommonListenerCookie;
-//?}
+/*import net.minecraft.server.network.CommonListenerCookie;
+*///?}
 
 //? if <26.1 {
-/*import net.minecraft.gametest.framework.GameTestAssertException;
-*///?}
+import net.minecraft.gametest.framework.GameTestAssertException;
+//?}
 
 /**
  * {@code GameTestHelper} calls whose shape changed between the two test frameworks.
@@ -57,12 +57,12 @@ public final class GameTestHelpers {
     public static AABB bounds(GameTestHelper helper) {
         var bounds = helper.testInfo.getStructureBounds();
         //? if <1.21.1 {
-        /*// 1.20.1 exposes the inclusive last block as AABB.max, making an authored 24-cube report size 23.
+        // 1.20.1 exposes the inclusive last block as AABB.max, making an authored 24-cube report size 23.
         return new AABB(bounds.minX, bounds.minY, bounds.minZ,
                 bounds.maxX + 1, bounds.maxY + 1, bounds.maxZ + 1);
-        *///?} else {
-        return bounds;
-        //?}
+        //?} else {
+        /*return bounds;
+        *///?}
     }
 
     /** Runs cleanup against the actual outcome, including a timeout or a failure in a scheduled callback. */
@@ -70,13 +70,13 @@ public final class GameTestHelpers {
         helper.testInfo.addListener(new GameTestListener() {
             @Override public void testStructureLoaded(GameTestInfo info) {}
             //? if >=1.21.1 {
-            @Override public void testPassed(GameTestInfo info, GameTestRunner runner) { passed.run(); }
+            /*@Override public void testPassed(GameTestInfo info, GameTestRunner runner) { passed.run(); }
             @Override public void testFailed(GameTestInfo info, GameTestRunner runner) { failed.run(); }
             @Override public void testAddedForRerun(GameTestInfo original, GameTestInfo copy, GameTestRunner runner) {}
-            //?} else {
-            /*@Override public void testPassed(GameTestInfo info) { passed.run(); }
+            *///?} else {
+            @Override public void testPassed(GameTestInfo info) { passed.run(); }
             @Override public void testFailed(GameTestInfo info) { failed.run(); }
-            *///?}
+            //?}
         });
     }
 
@@ -89,23 +89,23 @@ public final class GameTestHelpers {
      */
     public static <T extends BlockEntity> T blockEntity(GameTestHelper helper, BlockPos pos, Class<T> type) {
         //? if >=26.1 {
-        return helper.getBlockEntity(pos, type);
-        //?} else {
-        /*BlockEntity be = helper.getBlockEntity(pos);
+        /*return helper.getBlockEntity(pos, type);
+        *///?} else {
+        BlockEntity be = helper.getBlockEntity(pos);
         if (!type.isInstance(be)) {
             throw new GameTestAssertException("Expected " + type.getSimpleName() + " at " + pos
                     + " but found " + (be == null ? "nothing" : be.getClass().getSimpleName()));
         }
         return type.cast(be);
-        *///?}
+        //?}
     }
 
     /** Creates the test player despite the GameTest helper's era-specific overload. */
     public static Player mockPlayer(GameTestHelper helper, GameType gameType) {
         //? if >=1.21 {
-        return helper.makeMockPlayer(gameType);
-        //?} else {
-        /*// This era's helper has no game-type overload and always answers creative; the requested mode
+        /*return helper.makeMockPlayer(gameType);
+        *///?} else {
+        // This era's helper has no game-type overload and always answers creative; the requested mode
         // is what 1.21's makeMockPlayer(GameType) reports, so it is reproduced here.
         boolean creative = gameType == GameType.CREATIVE;
         boolean spectator = gameType == GameType.SPECTATOR;
@@ -122,7 +122,7 @@ public final class GameTestHelpers {
             @Override public boolean isCreative() { return creative; }
             @Override public boolean isLocalPlayer() { return true; }
             //? if fabric {
-            // Vanilla's Player.drop only builds the item entity; ServerPlayer is what puts it in the
+            /*// Vanilla's Player.drop only builds the item entity; ServerPlayer is what puts it in the
             // level (Forge's toss hook does it for every player, so only Fabric needs this).
             @Override public net.minecraft.world.entity.item.ItemEntity drop(net.minecraft.world.item.ItemStack stack, boolean dropAround,
                                                                             boolean includeThrower) {
@@ -130,13 +130,13 @@ public final class GameTestHelpers {
                 if (dropped != null && !level().isClientSide()) level().addFreshEntity(dropped);
                 return dropped;
             }
-            //?}
+            *///?}
         }
         Player player = new MockPlayer();
         player.getAbilities().instabuild = creative;
         player.getAbilities().invulnerable = creative;
         return player;
-        *///?}
+        //?}
     }
 
     /** Copies the complete persisted block-entity payload without exposing era-specific save/load methods. */
@@ -187,13 +187,13 @@ public final class GameTestHelpers {
         try {
             if (readVarInt(buffer) != fr.geoventure.geocore.net.GeoCoreWire.packetId()) return null;
             //? if >=26.1 {
-            return new FriendlyByteBuf(buffer).readIdentifier().toString();
-            //?} elif forge {
-            /*var reader = new FriendlyByteBuf(buffer);
+            /*return new FriendlyByteBuf(buffer).readIdentifier().toString();
+            *///?} elif forge {
+            var reader = new FriendlyByteBuf(buffer);
             var channel = reader.readResourceLocation();
             if (!channel.equals(GeoCoreNetwork.forgeChannel())) return channel.toString();
             return GeoCoreNetwork.forgePayloadId(reader.readByte() & 0xff);
-            *///?} else {
+            //?} else {
             /*return new FriendlyByteBuf(buffer).readResourceLocation().toString();
             *///?}
         } catch (RuntimeException malformed) {
@@ -211,13 +211,13 @@ public final class GameTestHelpers {
         readVarInt(buffer);
         FriendlyByteBuf reader = new FriendlyByteBuf(buffer);
         //? if >=26.1 {
-        reader.readIdentifier();
-        //?} else {
-        /*reader.readResourceLocation();
-        *///?}
+        /*reader.readIdentifier();
+        *///?} else {
+        reader.readResourceLocation();
+        //?}
         //? if forge && <1.20.5 {
-        /*reader.readByte();
-        *///?}
+        reader.readByte();
+        //?}
         return codec.decode(reader);
     }
 
@@ -235,19 +235,19 @@ public final class GameTestHelpers {
 
     private static boolean isGolemPayload(Packet<?> packet, String channelId) {
         //? if >=1.20.5 {
-        return packet instanceof net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket custom
+        /*return packet instanceof net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket custom
                 && custom.payload().type().id().toString().equals(channelId);
-        //?} elif fabric {
+        *///?} elif fabric {
         /*return packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket custom
                 && custom.getIdentifier().toString().equals(channelId);
         *///?} else {
-        /*if (!(packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket custom)) return false;
+        if (!(packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket custom)) return false;
         if (!custom.getIdentifier().equals(fr.geoventure.geocore.net.GeoCoreNetwork.forgeChannel()))
             return custom.getIdentifier().toString().equals(channelId);
         // the SimpleChannel index byte before the body names the payload, as in readChannel
         io.netty.buffer.ByteBuf data = custom.getData();
         return channelId.equals(fr.geoventure.geocore.net.GeoCoreNetwork.forgePayloadId(data.getByte(data.readerIndex()) & 0xff));
-        *///?}
+        //?}
     }
 
     /** What a mock player's channel received: encoded packets, and finished wire buffers. */
@@ -262,7 +262,7 @@ public final class GameTestHelpers {
     public static boolean resourceExists(Class<?> owner, String path) {
         String resolved = path;
         //? if <1.21 {
-        /*resolved = resolved
+        resolved = resolved
                 .replaceFirst("^(data/\\w+/)recipe/", "$1recipes/")
                 .replaceFirst("^(data/\\w+/)loot_table/", "$1loot_tables/")
                 .replaceFirst("^(data/\\w+/)advancement/", "$1advancements/")
@@ -272,7 +272,7 @@ public final class GameTestHelpers {
                 .replaceFirst("^(data/\\w+/tags/)fluid/", "$1fluids/")
                 .replaceFirst("^(data/\\w+/tags/)entity_type/", "$1entity_types/")
                 .replaceFirst("^(data/\\w+/tags/)game_event/", "$1game_events/");
-        *///?}
+        //?}
         // The owner's loader: on Forge each mod is its own module, and this class cannot see the mod's data.
         return owner.getClassLoader().getResource(resolved) != null;
     }
@@ -301,21 +301,21 @@ public final class GameTestHelpers {
     public static ServerPlayer detachedServerPlayer(GameTestHelper helper, GameProfile profile) {
         ServerLevel level = helper.getLevel();
         //? if >=1.21 {
-        return new ServerPlayer(level.getServer(), level, profile,
+        /*return new ServerPlayer(level.getServer(), level, profile,
                 net.minecraft.server.level.ClientInformation.createDefault());
-        //?} else {
-        /*return new ServerPlayer(level.getServer(), level, profile);
-        *///?}
+        *///?} else {
+        return new ServerPlayer(level.getServer(), level, profile);
+        //?}
     }
 
     /** Makes {@code player} a server operator, or removes it; ops are saved, so a test removes what it adds. */
     public static void setOp(ServerPlayer player, boolean op) {
         PlayerList players = player.level().getServer().getPlayerList();
         //? if >=26.1 {
-        net.minecraft.server.players.NameAndId id = new net.minecraft.server.players.NameAndId(player.getGameProfile());
-        //?} else {
-        /*GameProfile id = player.getGameProfile();
-        *///?}
+        /*net.minecraft.server.players.NameAndId id = new net.minecraft.server.players.NameAndId(player.getGameProfile());
+        *///?} else {
+        GameProfile id = player.getGameProfile();
+        //?}
         if (op) players.op(id);
         else players.deop(id);
     }
@@ -329,7 +329,7 @@ public final class GameTestHelpers {
     public static ServerPlayer serverPlayerInLevel(GameTestHelper helper, GameType gameType) {
         ServerLevel level = helper.getLevel();
         //? if >=1.21 {
-        CommonListenerCookie cookie = CommonListenerCookie.createInitial(
+        /*CommonListenerCookie cookie = CommonListenerCookie.createInitial(
                 new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "test-mock-player"), false);
         final class SurvivalPlayer extends ServerPlayer {
             SurvivalPlayer() {
@@ -343,8 +343,8 @@ public final class GameTestHelpers {
         Connection connection = new Connection(PacketFlow.SERVERBOUND);
         new EmbeddedChannel(connection);
         level.getServer().getPlayerList().placeNewPlayer(connection, player, cookie);
-        //?} else {
-        /*final class SurvivalPlayer extends ServerPlayer {
+        *///?} else {
+        final class SurvivalPlayer extends ServerPlayer {
             SurvivalPlayer() {
                 super(level.getServer(), level,
                         new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "test-mock-player"));
@@ -357,7 +357,7 @@ public final class GameTestHelpers {
         Connection connection = new Connection(PacketFlow.SERVERBOUND);
         new EmbeddedChannel(connection);
         level.getServer().getPlayerList().placeNewPlayer(connection, player);
-        *///?}
+        //?}
         player.setGameMode(gameType);
         long[] seen = {level.getGameTime()};
         synchronized (SURVIVAL_PLAYERS) {
@@ -406,12 +406,12 @@ public final class GameTestHelpers {
 
     private static MenuOpening decodeMenuOpening(Packet<?> packet) {
         //? if neoforge {
-        if (packet instanceof net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket custom
+        /*if (packet instanceof net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket custom
                 && custom.payload() instanceof net.neoforged.neoforge.network.payload.AdvancedOpenScreenPayload opening) {
             BlockPos position = decodeBlockPos(opening.additionalData());
             return position == null ? null : new MenuOpening(opening.menuType(), opening.windowId(), position);
         }
-        //?} elif fabric && >=26.1 {
+        *///?} elif fabric && >=26.1 {
         /*if (packet instanceof net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket custom
                 && custom.payload() instanceof net.fabricmc.fabric.impl.menu.Networking.OpenScreenPayload<?> opening) {
             if (!(opening.data() instanceof BlockPos position)) return null;
@@ -443,7 +443,7 @@ public final class GameTestHelpers {
             }
         }
         *///?} elif forge {
-        /*if (packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket custom
+        if (packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket custom
                 && custom.getIdentifier().equals(new net.minecraft.resources.ResourceLocation("fml", "play"))) {
             FriendlyByteBuf data = custom.getData();
             int readerIndex = data.readerIndex();
@@ -461,7 +461,7 @@ public final class GameTestHelpers {
                 data.readerIndex(readerIndex);
             }
         }
-        *///?}
+        //?}
         return null;
     }
 
@@ -492,16 +492,16 @@ public final class GameTestHelpers {
             connection = new Connection(PacketFlow.SERVERBOUND);
             channel = new EmbeddedChannel(connection);
             //? if neoforge {
-            net.neoforged.neoforge.network.registration.NetworkRegistry.configureMockConnection(connection);
-            //?}
+            /*net.neoforged.neoforge.network.registration.NetworkRegistry.configureMockConnection(connection);
+            *///?}
             // No send override: Connection writes the actual outbound packet to
             // EmbeddedChannel, including NeoForge's advanced_open_screen payload.
             //? if >=1.21 {
-            player.connection = new ServerGamePacketListenerImpl(helper.getLevel().getServer(), connection, player,
+            /*player.connection = new ServerGamePacketListenerImpl(helper.getLevel().getServer(), connection, player,
                     CommonListenerCookie.createInitial(player.getGameProfile(), false));
-            //?} else {
-            /*player.connection = new ServerGamePacketListenerImpl(helper.getLevel().getServer(), connection, player);
-            *///?}
+            *///?} else {
+            player.connection = new ServerGamePacketListenerImpl(helper.getLevel().getServer(), connection, player);
+            //?}
         }
 
         public ServerPlayer player() {

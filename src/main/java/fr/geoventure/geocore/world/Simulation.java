@@ -13,9 +13,9 @@ public final class Simulation {
      */
     public static boolean runsNormally(MinecraftServer server) {
         //? if >=1.20.5 {
-        return server.tickRateManager().runsNormally();
-        //?} else {
-        /*return true;
-        *///?}
+        /*return server.tickRateManager().runsNormally();
+        *///?} else {
+        return true;
+        //?}
     }
 }

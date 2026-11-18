@@ -1,8 +1,8 @@
 package fr.geoventure.geocore.platform;
 
 //? if >=1.20.5 {
-import fr.geoventure.geocore.registry.ComponentPatches;
-//?}
+/*import fr.geoventure.geocore.registry.ComponentPatches;
+*///?}
 //? if fabric && >=1.21 {
 /*import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 *///?}
@@ -45,7 +45,7 @@ public final class ModEntries {
         /*throw new IllegalStateException("On Fabric, list " + entry.getClass().getName() + " under the \""
                 + FABRIC_ENTRYPOINT + "\" entrypoint instead of calling ModEntries.start");
         *///?} else if forge {
-        /*String modId = net.minecraftforge.fml.ModLoadingContext.get().getActiveNamespace();
+        String modId = net.minecraftforge.fml.ModLoadingContext.get().getActiveNamespace();
         awaitGolemDependencies(modId);
         try {
             entry.substitute();
@@ -54,11 +54,11 @@ public final class ModEntries {
             DECLARED.computeIfAbsent(modId, id -> new java.util.concurrent.CountDownLatch(1)).countDown();
         }
         addStarted(entry);
-        *///?} else {
-        entry.substitute();
+        //?} else {
+        /*entry.substitute();
         entry.declare();
         addStarted(entry);
-        //?}
+        *///?}
     }
 
     /**
@@ -73,13 +73,13 @@ public final class ModEntries {
         //? if fabric {
         /*FabricEntrypoint.initialize();
         *///?} else if forge {
-        /*String waiter = net.minecraftforge.fml.ModLoadingContext.get().getActiveNamespace();
+        String waiter = net.minecraftforge.fml.ModLoadingContext.get().getActiveNamespace();
         for (var mod : net.minecraftforge.fml.ModList.get().getMods()) {
             String id = mod.getModId();
             if (id.equals(GeoCore.MOD_ID) || id.equals(waiter) || !isGolemBased(id)) continue;
             awaitDeclared(waiter, id);
         }
-        *///?}
+        //?}
     }
 
     private static void addStarted(ModEntry entry) {
@@ -92,7 +92,7 @@ public final class ModEntries {
     }
 
     //? if forge {
-    /*/^*
+    /**
      * Forge 1.20.1 constructs mods in parallel on its loading pool ({@code modloading-worker-N}); a mod's
      * {@code ordering = "AFTER"} only sorts the list it starts from. NeoForge constructs a mod after its
      * dependencies, which is what every GeoCore-based mod is written for: an addon's declarations add to its parent's
@@ -100,7 +100,7 @@ public final class ModEntries {
      * for the started declarations of every GeoCore-based mod it orders itself AFTER, so Forge declares in NeoForge's
      * order. Each mod counts down its latch even when its declarations throw, so a dependant fails on that error
      * rather than hanging; a dependency that never starts (its constructor threw first) times out.
-     ^/
+     */
     private static final java.util.Map<String, java.util.concurrent.CountDownLatch> DECLARED =
             new java.util.concurrent.ConcurrentHashMap<>();
 
@@ -115,7 +115,7 @@ public final class ModEntries {
         }
     }
 
-    /^* Blocks {@code modId}'s loading worker until {@code other} has run its declarations. ^/
+    /** Blocks {@code modId}'s loading worker until {@code other} has run its declarations. */
     private static void awaitDeclared(String modId, String other) {
         {
             java.util.concurrent.CountDownLatch latch =
@@ -147,7 +147,7 @@ public final class ModEntries {
         }
     }
 
-    /^* Whether {@code modId} is loaded and built on GeoCore (it depends on it), so it calls {@link #start}. ^/
+    /** Whether {@code modId} is loaded and built on GeoCore (it depends on it), so it calls {@link #start}. */
     private static boolean isGolemBased(String modId) {
         var container = net.minecraftforge.fml.ModList.get().getModContainerById(modId);
         if (container.isEmpty()) return false;
@@ -156,7 +156,7 @@ public final class ModEntries {
         }
         return false;
     }
-    *///?}
+    //?}
 
     /** GeoCore's common setup on NeoForge and Forge: every started entry's {@link ModEntry#registered}. */
     static void runRegistered() {

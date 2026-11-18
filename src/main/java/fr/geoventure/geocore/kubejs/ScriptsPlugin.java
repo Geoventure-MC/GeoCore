@@ -2,7 +2,7 @@ package fr.geoventure.geocore.kubejs;
 
 //? if kubejs && >=1.20.5 {
 
-import fr.geoventure.geocore.platform.ModEntries;
+/*import fr.geoventure.geocore.platform.ModEntries;
 import fr.geoventure.geocore.script.Scripts;
 import dev.latvian.mods.kubejs.event.EventGroupRegistry;
 import dev.latvian.mods.kubejs.plugin.KubeJSPlugin;
@@ -10,7 +10,7 @@ import dev.latvian.mods.kubejs.recipe.component.RecipeComponentTypeRegistry;
 import dev.latvian.mods.kubejs.recipe.schema.RecipeSchemaRegistry;
 import dev.latvian.mods.kubejs.script.BindingRegistry;
 
-/**
+/^*
  * GeoCore's KubeJS plugin (listed in {@code kubejs.plugins.txt}): serves every GeoCore-based mod's script surface
  * with no KubeJS code in the mod. Recipe tables become recipe schemas ({@link TableSchemas}), {@link Scripts}' groups
  * become event groups and its bindings script globals ({@link Events}).
@@ -18,7 +18,7 @@ import dev.latvian.mods.kubejs.script.BindingRegistry;
  * <p>KubeJS 7/8 order (both {@code KubeJS} constructors): plugins' {@code init}, startup scripts, client scripts, then
  * plugins' {@code initStartup} ("after startup scripts have been loaded, but before any registry stuff"), which is
  * where {@link Scripts#startupScriptsLoaded()} runs.
- */
+ ^/
 public final class ScriptsPlugin implements KubeJSPlugin {
 
     @Override
@@ -45,10 +45,10 @@ public final class ScriptsPlugin implements KubeJSPlugin {
     @Override
     public void registerRecipeComponents(RecipeComponentTypeRegistry registry) {
         //? if >=1.21.2 {
-        registry.register(FieldComponent.TYPE, FieldComponent.MAP_CODEC);
-        //?} else {
-        /*registry.register(FieldComponent.TYPE);
-        *///?}
+        /^registry.register(FieldComponent.TYPE, FieldComponent.MAP_CODEC);
+        ^///?} else {
+        registry.register(FieldComponent.TYPE);
+        //?}
     }
 
     @Override
@@ -56,8 +56,8 @@ public final class ScriptsPlugin implements KubeJSPlugin {
         TableSchemas.register(registry);
     }
 }
-//?} elif kubejs {
-/*import fr.geoventure.geocore.platform.ModEntries;
+*///?} elif kubejs {
+import fr.geoventure.geocore.platform.ModEntries;
 import fr.geoventure.geocore.script.Scripts;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
@@ -96,4 +96,4 @@ public final class ScriptsPlugin extends KubeJSPlugin {
         LegacyTableSchemas.register(event);
     }
 }
-*///?}
+//?}

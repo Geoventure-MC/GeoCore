@@ -95,7 +95,7 @@ public final class GeoCoreWire {
     }
 
     //? if >=26.1 {
-    private static Integer probePacketId() {
+    /*private static Integer probePacketId() {
         int[] found = {-1};
         net.minecraft.network.protocol.game.GameProtocols.CLIENTBOUND_TEMPLATE.details().listPackets(
                 (type, networkId) -> {
@@ -105,7 +105,7 @@ public final class GeoCoreWire {
                 });
         return found[0] < 0 ? null : found[0];
     }
-    //?} elif >=1.20.5 {
+    *///?} elif >=1.20.5 {
     /*private static Integer probePacketId() {
         int[] found = {-1};
         net.minecraft.network.protocol.game.GameProtocols.CLIENTBOUND_TEMPLATE.listPackets(
@@ -117,7 +117,7 @@ public final class GeoCoreWire {
         return found[0] < 0 ? null : found[0];
     }
     *///?} else {
-    /*private static Integer probePacketId() {
+    private static Integer probePacketId() {
         ByteBuf empty = Unpooled.buffer(0);
         try {
             net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket probe =
@@ -130,7 +130,7 @@ public final class GeoCoreWire {
             empty.release();
         }
     }
-    *///?}
+    //?}
 
     /**
      * Compiles one payload into a wire buffer the caller owns. Returns null when acceleration is not
@@ -257,11 +257,11 @@ public final class GeoCoreWire {
         try {
             FriendlyByteBuf writer = new FriendlyByteBuf(scratch);
             //? if >=26.1 {
-            writer.writeIdentifier(codec.id());
-            //?} elif forge && <1.20.5 {
-            /*writer.writeResourceLocation(GeoCoreNetwork.forgeChannel());
+            /*writer.writeIdentifier(codec.id());
+            *///?} elif forge && <1.20.5 {
+            writer.writeResourceLocation(GeoCoreNetwork.forgeChannel());
             scratch.writeByte(GeoCoreNetwork.forgeDiscriminator(codec) & 0xff);
-            *///?} else {
+            //?} else {
             /*writer.writeResourceLocation(codec.id());
             *///?}
             byte[] prefix = new byte[scratch.readableBytes()];

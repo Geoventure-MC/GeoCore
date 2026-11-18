@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import java.util.function.Function;
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -13,12 +13,12 @@ import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
-//?} else {
-/*import net.minecraft.Util;
+*///?} else {
+import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /** Exact render state for the old Torex flare, and for a flare drawn inside {@code glDisable(GL_FOG)}. */
 final class TorexFlareRenderType {
@@ -26,7 +26,7 @@ final class TorexFlareRenderType {
     private TorexFlareRenderType() {}
 
     //? if >=26.1 {
-    private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(
+    /*private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(
                     RenderPipelines.MATRICES_PROJECTION_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
             .withLocation(fr.geoventure.geocore.Ids.parse("geocore:pipeline/geocore_torex_flare"))
             .withVertexShader(fr.geoventure.geocore.Ids.parse("geocore:core/geocore_torex_flare"))
@@ -52,8 +52,8 @@ final class TorexFlareRenderType {
     static RenderType fogless(Identifier texture) {
         return BY_TEXTURE.apply(texture);
     }
-    //?} else {
-    /*static RenderType of(ResourceLocation texture) {
+    *///?} else {
+    static RenderType of(ResourceLocation texture) {
         return RenderType.energySwirl(texture, 0F, 0F);
     }
 
@@ -109,5 +109,5 @@ final class TorexFlareRenderType {
                             .createCompositeState(false));
         }
     }
-    *///?}
+    //?}
 }

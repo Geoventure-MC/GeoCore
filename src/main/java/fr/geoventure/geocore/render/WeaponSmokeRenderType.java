@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -10,18 +10,18 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+*///?} else {
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
-*///?}
+//?}
 
 /** Textureless SRC_ALPHA/ONE_MINUS_SRC_ALPHA smoke ribbons, with depth writes disabled. */
 public final class WeaponSmokeRenderType {
     private WeaponSmokeRenderType() {}
 
     //? if >=26.1 {
-    private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
+    /*private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
             .withLocation("pipeline/geocore_weapon_smoke")
             .withVertexShader("core/rendertype_lightning")
             .withFragmentShader("core/rendertype_lightning")
@@ -33,8 +33,8 @@ public final class WeaponSmokeRenderType {
 
     private static final RenderType TYPE = RenderType.create("geocore_weapon_smoke",
             RenderSetup.builder(PIPELINE).createRenderSetup());
-    //?} else {
-    /*private static final RenderType TYPE = Factory.smoke();
+    *///?} else {
+    private static final RenderType TYPE = Factory.smoke();
 
     private static final class Factory extends RenderType {
         private Factory() { super(null, null, null, 0, false, false, null, null); }
@@ -49,7 +49,7 @@ public final class WeaponSmokeRenderType {
                             .createCompositeState(false));
         }
     }
-    *///?}
+    //?}
 
     public static RenderType get() {
         return TYPE;

@@ -1,14 +1,14 @@
 package fr.geoventure.geocore.mixin;
 
 //? if <26.1 {
-/*import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import fr.geoventure.geocore.world.Skies;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/^*
+/**
  * The pre-26.1 client half of {@link Skies.Modifier}: sky colour, cloud colour, star brightness and the sky's light
  * map factor are read from these four {@code ClientLevel} getters, 1.7's {@code WorldProvider.getSkyColor},
  * {@code drawClouds}, {@code getStarBrightness} and {@code getSunBrightness}.
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * {@code MixinOverworldFogColor}); (3) widening cannot change a computed return value. Four MixinExtras
  * {@code @ModifyReturnValue}s that only act when a modifier is active; unlike a cancellable RETURN inject they chain
  * with sky and shader mods' own hooks on these getters instead of returning past them.
- ^/
+ */
 @Mixin(ClientLevel.class)
 public abstract class MixinClientLevelSky {
 
@@ -46,9 +46,9 @@ public abstract class MixinClientLevelSky {
         return Skies.active(self) ? Skies.skyLight(self, light) : light;
     }
 }
-*///?} else {
-public final class MixinClientLevelSky {
+//?} else {
+/*public final class MixinClientLevelSky {
     // Empty on 26.1: the sky values are environment attributes there, see MixinEnvironmentSkyLayers.
     private MixinClientLevelSky() {}
 }
-//?}
+*///?}

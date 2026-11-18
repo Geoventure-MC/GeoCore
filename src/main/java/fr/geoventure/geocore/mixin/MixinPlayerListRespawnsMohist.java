@@ -3,7 +3,7 @@ package fr.geoventure.geocore.mixin;
 import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;
 //? if <1.21 && forge {
-/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
-*///?}
+//?}
 
 /**
  * Variante Mohist 1.20.1 de {@link MixinPlayerListRespawns} (activee uniquement lorsque
@@ -39,7 +39,7 @@ import java.util.Optional;
 @Mixin(PlayerList.class)
 public abstract class MixinPlayerListRespawnsMohist {
     //? if <1.21 && forge {
-    /*@Inject(method = "respawn(Lnet/minecraft/server/level/ServerPlayer;Z)Lnet/minecraft/server/level/ServerPlayer;",
+    @Inject(method = "respawn(Lnet/minecraft/server/level/ServerPlayer;Z)Lnet/minecraft/server/level/ServerPlayer;",
             at = @At("HEAD"))
     private void geocore$chooseRespawn(ServerPlayer player, boolean keepEverything,
             CallbackInfoReturnable<ServerPlayer> result,
@@ -112,5 +112,5 @@ public abstract class MixinPlayerListRespawnsMohist {
         replacement.setYRot(replacement.serverLevel().getSharedSpawnAngle());
         replacement.setXRot(0F);
     }
-    *///?}
+    //?}
 }

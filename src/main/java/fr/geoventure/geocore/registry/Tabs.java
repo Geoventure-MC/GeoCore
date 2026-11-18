@@ -1,11 +1,11 @@
 package fr.geoventure.geocore.registry;
 
 //? if neoforge {
-import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
-//?}
+/*import fr.geoventure.geocore.platform.NeoForgeEntrypoint;
+*///?}
 //? if neoforge {
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-//?}
+/*import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+*///?}
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -47,19 +47,19 @@ public final class Tabs {
         net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents.modifyEntriesEvent(tab)
                 .register(output -> contents.accept(output::accept));
         *///?} elif neoforge {
-        // GeoCore's own mod bus, the same one Tints subscribes to. The event is dispatched to every
+        /*// GeoCore's own mod bus, the same one Tints subscribes to. The event is dispatched to every
         // container and carries the tab key, so listening from here reaches all tabs; only the
         // attribution differs, and nothing reads that.
         fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent event) -> {
                     if (event.getTabKey().equals(tab)) contents.accept(event::accept);
                 });
-        //?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        *///?} elif forge {
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.event.BuildCreativeModeTabContentsEvent event) -> {
                     if (event.getTabKey().equals(tab)) contents.accept(event::accept);
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -70,7 +70,7 @@ public final class Tabs {
     public static void insertBefore(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> anchor,
             Supplier<List<ItemStack>> stacks) {
         //? if neoforge {
-        // GeoCore's own mod bus, the same one Tints subscribes to.
+        /*// GeoCore's own mod bus, the same one Tints subscribes to.
         NeoForgeEntrypoint.modBus().addListener(
                 (BuildCreativeModeTabContentsEvent event) -> {
                     if (!event.getTabKey().equals(tab)) return;
@@ -83,7 +83,7 @@ public final class Tabs {
                                 CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                     }
                 });
-        //?} elif fabric && >=26.1 {
+        *///?} elif fabric && >=26.1 {
         /*net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents.modifyOutputEvent(tab)
                 .register(output -> {
                     var moved = stacks.get();
@@ -92,7 +92,7 @@ public final class Tabs {
                     output.insertBefore(anchor.get(), moved);
                 });
         *///?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.event.BuildCreativeModeTabContentsEvent event) -> {
                     if (!event.getTabKey().equals(tab)) return;
                     var entries = event.getEntries();
@@ -102,7 +102,7 @@ public final class Tabs {
                         entries.putBefore(before, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                     }
         });
-        *///?} else {
+        //?} else {
         /*net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents.modifyEntriesEvent(tab)
                 .register(output -> {
                     var moved = stacks.get();

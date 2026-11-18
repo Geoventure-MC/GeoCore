@@ -36,10 +36,10 @@ public final class CraftingMachines {
     /** False on 1.20.1 Forge, whose capabilities hang off block entities. */
     public static boolean reachesBlocksWithoutBlockEntity() {
         //? if forge {
-        /*return false;
-        *///?} else {
-        return true;
-        //?}
+        return false;
+        //?} else {
+        /*return true;
+        *///?}
     }
 
     /** Whether AE2's own lookup finds a machine here. For tests. */

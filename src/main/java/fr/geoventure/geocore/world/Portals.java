@@ -13,15 +13,15 @@ public final class Portals {
     public static boolean tryCreate(ServerLevel level, BlockPos pos, Direction.Axis axis) {
         var portal = PortalShape.findEmptyPortalShape(level, pos, axis);
         //? if neoforge {
-        portal = net.neoforged.neoforge.event.EventHooks.onTrySpawnPortal(level, pos, portal);
-        //?} elif forge {
-        /*portal = net.minecraftforge.event.ForgeEventFactory.onTrySpawnPortal(level, pos, portal);
-         *///?}
+        /*portal = net.neoforged.neoforge.event.EventHooks.onTrySpawnPortal(level, pos, portal);
+        *///?} elif forge {
+        portal = net.minecraftforge.event.ForgeEventFactory.onTrySpawnPortal(level, pos, portal);
+         //?}
         //? if >=26.1 {
-        portal.ifPresent(shape -> shape.createPortalBlocks(level));
-        //?} else {
-        /*portal.ifPresent(PortalShape::createPortalBlocks);
-         *///?}
+        /*portal.ifPresent(shape -> shape.createPortalBlocks(level));
+        *///?} else {
+        portal.ifPresent(PortalShape::createPortalBlocks);
+         //?}
         return portal.isPresent();
     }
 }

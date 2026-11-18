@@ -9,10 +9,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 //? if >=26.1 {
-import net.minecraft.world.attribute.BedRule;
+/*import net.minecraft.world.attribute.BedRule;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.attribute.EnvironmentAttributes;
-//?}
+*///?}
 
 /**
  * Live world rules. Each rule gets vanilla's answer at the block and returns the one to use. On 26.1 they are
@@ -75,7 +75,7 @@ public final class WorldAttributes {
                     if (allowed != (problem == null)) event.setContinueSleeping(allowed);
                 });
         *///?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.SleepingTimeCheckEvent event) -> {
                     var player = event.getEntity();
                     var level = player.level();
@@ -87,7 +87,7 @@ public final class WorldAttributes {
                     if (allowed != current) event.setResult(allowed
                             ? net.minecraftforge.eventbus.api.Event.Result.ALLOW : net.minecraftforge.eventbus.api.Event.Result.DENY);
                 });
-        *///?}
+        //?}
     }
 
     private static Hook<Rule> rules() {
@@ -98,7 +98,7 @@ public final class WorldAttributes {
     }
 
     //? if >=26.1 {
-    public static final Hook<BiConsumer<Level, EnvironmentAttributeSystem.Builder>> LAYERS = Hook.notifying();
+    /*public static final Hook<BiConsumer<Level, EnvironmentAttributeSystem.Builder>> LAYERS = Hook.notifying();
 
     public static void apply(Level level, EnvironmentAttributeSystem.Builder attributes) {
         attributes.addPositionalLayer(EnvironmentAttributes.MONSTERS_BURN,
@@ -114,5 +114,5 @@ public final class WorldAttributes {
         });
         for (var listener : LAYERS) listener.accept(level, attributes);
     }
-    //?}
+    *///?}
 }

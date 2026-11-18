@@ -1,22 +1,22 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-*///?}
+//?}
 
 /**
  * The particle layers of {@link CompatParticle#keepFaintFragments()}: blended over the particle atlas, depth tested but
@@ -35,7 +35,7 @@ final class FaintParticleLayers {
     private FaintParticleLayers() {}
 
     //? if >=26.1 {
-    private static final RenderPipeline TRANSLUCENT_PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.PARTICLE_SNIPPET)
+    /*private static final RenderPipeline TRANSLUCENT_PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.PARTICLE_SNIPPET)
             .withLocation("pipeline/geocore_particle_faint")
             .withFragmentShader(fr.geoventure.geocore.Ids.parse("geocore:core/particle_faint"))
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
@@ -61,8 +61,8 @@ final class FaintParticleLayers {
             new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_PARTICLES, ADDITIVE_PIPELINE);
     static final SingleQuadParticle.Layer FOGLESS_ADDITIVE =
             new SingleQuadParticle.Layer(true, TextureAtlas.LOCATION_PARTICLES, FOGLESS_ADDITIVE_PIPELINE);
-    //?} else {
-    /*private static final String[] SHADERS = {"geocore:particle_faint", "geocore:particle_faint",
+    *///?} else {
+    private static final String[] SHADERS = {"geocore:particle_faint", "geocore:particle_faint",
             "geocore:particle_fogless"};
     private static final ShaderInstance[] LOADED = new ShaderInstance[SHADERS.length];
     private static boolean reloadRegistered;
@@ -109,14 +109,14 @@ final class FaintParticleLayers {
     private static ParticleRenderType layer(int variant) {
         return new ParticleRenderType() {
             //? if >=1.21 {
-            @Override
+            /*@Override
             public com.mojang.blaze3d.vertex.BufferBuilder begin(com.mojang.blaze3d.vertex.Tesselator tesselator,
                     net.minecraft.client.renderer.texture.TextureManager textureManager) {
                 setup();
                 return tesselator.begin(com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
             }
-            //?} else {
-            /^@Override
+            *///?} else {
+            @Override
             public void begin(com.mojang.blaze3d.vertex.BufferBuilder buffer,
                     net.minecraft.client.renderer.texture.TextureManager textureManager) {
                 setup();
@@ -130,7 +130,7 @@ final class FaintParticleLayers {
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
             }
-            ^///?}
+            //?}
 
             private void setup() {
                 ShaderInstance shader = shader(variant);
@@ -147,5 +147,5 @@ final class FaintParticleLayers {
             }
         };
     }
-    *///?}
+    //?}
 }

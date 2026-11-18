@@ -7,14 +7,14 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-//?} else {
-/*import com.mojang.blaze3d.platform.Lighting;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
+*///?} else {
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.geoventure.geocore.render.RecordingSubmitSink;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-*///?}
+//?}
 
 /**
  * Draws a small 3D scene (blocks, block-entity models, items) inside a screen, the way a 1.7
@@ -58,23 +58,23 @@ public final class GuiScenes {
     static final CameraInfo CAMERA = new CameraInfo(Vec3.ZERO, 0F, new Quaternionf());
 
     //? if <26.1 {
-    /*/^* Where the legacy scene sits in the GUI's depth range; the 1.7 screens used 400. ^/
+    /** Where the legacy scene sits in the GUI's depth range; the 1.7 screens used 400. */
     private static final float LEGACY_Z = 400F;
-    *///?}
+    //?}
 
     /** Draws {@code scene} into the screen rectangle {@code (x0, y0)–(x1, y1)}, GUI pixels. */
     public static void draw(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int x0, int y0, int x1, int y1, Scene scene) {
         if (x1 <= x0 || y1 <= y0) return;
         //? if >=26.1 {
-        GuiSceneRenderer.submit(graphics, x0, y0, x1, y1, scene);
-        //?} else {
-        /*Minecraft minecraft = Minecraft.getInstance();
+        /*GuiSceneRenderer.submit(graphics, x0, y0, x1, y1, scene);
+        *///?} else {
+        Minecraft minecraft = Minecraft.getInstance();
         graphics.flush();
         graphics.enableScissor(x0, y0, x1, y1);
         PoseStack pose = graphics.pose();
@@ -92,7 +92,7 @@ public final class GuiScenes {
         // scene's own depth would still occlude later GUI elements drawn at a lower Z; clearing it gives the
         // same "later submission wins" order.
         RenderSystem.clear(org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
-        *///?}
+        //?}
     }
 
     /**
@@ -101,7 +101,7 @@ public final class GuiScenes {
      */
     public static void bootstrap() {
         //? if >=26.1 {
-        GuiSceneRenderer.register();
-        //?}
+        /*GuiSceneRenderer.register();
+        *///?}
     }
 }

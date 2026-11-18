@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinMobFinalizeSpawnCheck {
 
     //? if >=26.1 {
-    @Inject(method = "finalizeSpawn", at = @At("HEAD"))
+    /*@Inject(method = "finalizeSpawn", at = @At("HEAD"))
     private void geocore$worldSpawnerCheck(ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
                                          net.minecraft.world.entity.EntitySpawnReason reason,
                                          net.minecraft.world.entity.SpawnGroupData data,
@@ -33,7 +33,7 @@ public abstract class MixinMobFinalizeSpawnCheck {
         Mob mob = (Mob) (Object) this;
         Spawns.finalizing(mob, level, Spawns.worldSpawnerReason(mob, reason));
     }
-    //?} else if >=1.20.5 {
+    *///?} else if >=1.20.5 {
     /*@Inject(method = "finalizeSpawn", at = @At("HEAD"))
     private void geocore$worldSpawnerCheck(ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
                                          net.minecraft.world.entity.MobSpawnType reason,
@@ -43,7 +43,7 @@ public abstract class MixinMobFinalizeSpawnCheck {
         Spawns.finalizing(mob, level, Spawns.worldSpawnerReason(mob, reason));
     }
     *///?} else {
-    /*@Inject(method = "finalizeSpawn", at = @At("HEAD"))
+    @Inject(method = "finalizeSpawn", at = @At("HEAD"))
     private void geocore$worldSpawnerCheck(ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
                                          net.minecraft.world.entity.MobSpawnType reason,
                                          net.minecraft.world.entity.SpawnGroupData data,
@@ -52,5 +52,5 @@ public abstract class MixinMobFinalizeSpawnCheck {
         Mob mob = (Mob) (Object) this;
         Spawns.finalizing(mob, level, Spawns.worldSpawnerReason(mob, reason));
     }
-    *///?}
+    //?}
 }

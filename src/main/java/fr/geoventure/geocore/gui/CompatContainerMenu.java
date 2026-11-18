@@ -24,10 +24,10 @@ public abstract class CompatContainerMenu extends AbstractContainerMenu {
     @Override
     public final void clicked(int slotId, int button,
                               //? if >=26.1 {
-                              net.minecraft.world.inventory.ContainerInput
-                              //?} else {
-                              /*net.minecraft.world.inventory.ClickType
-                              *///?}
+                              /*net.minecraft.world.inventory.ContainerInput
+                              *///?} else {
+                              net.minecraft.world.inventory.ClickType
+                              //?}
                               input, Player player) {
         ClickAction action = ClickAction.valueOf(input.name());
         if (!handleClick(slotId, button, action, player)) {

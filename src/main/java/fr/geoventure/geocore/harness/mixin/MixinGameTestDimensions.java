@@ -22,9 +22,9 @@ public abstract class MixinGameTestDimensions {
         if (!Boolean.getBoolean("geocore.gametest.datapackDimensions") || original.key() != Registries.LEVEL_STEM)
             return original;
         //? if >=26.1 {
-        return context.datapackDimensions().lookupOrThrow(Registries.LEVEL_STEM);
-        //?} else {
-        /*return context.datapackDimensions().registryOrThrow(Registries.LEVEL_STEM);
-         *///?}
+        /*return context.datapackDimensions().lookupOrThrow(Registries.LEVEL_STEM);
+        *///?} else {
+        return context.datapackDimensions().registryOrThrow(Registries.LEVEL_STEM);
+         //?}
     }
 }

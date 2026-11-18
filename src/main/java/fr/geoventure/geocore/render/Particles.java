@@ -14,10 +14,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 
 /** Particle factories and sprite lookups use the 26.1 contract across client backends. */
 public final class Particles {
@@ -35,18 +35,18 @@ public final class Particles {
                                            double motionX, double motionY, double motionZ, RandomSource random);
 
         //? if >=26.1 {
-        @Override
+        /*@Override
         public final Particle createParticle(T options, ClientLevel level, double x, double y, double z,
                                              double motionX, double motionY, double motionZ, RandomSource random) {
             return create(options, level, x, y, z, motionX, motionY, motionZ, random);
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public final Particle createParticle(T options, ClientLevel level, double x, double y, double z,
                                              double motionX, double motionY, double motionZ) {
             return create(options, level, x, y, z, motionX, motionY, motionZ, level.getRandom());
         }
-        *///?}
+        //?}
     }
 
     public static Vec3 position(Particle particle) {
@@ -63,10 +63,10 @@ public final class Particles {
         engine.particlesToAdd.forEach(action);
         for (var group : engine.particles.values()) {
             //? if >=26.1 {
-            group.getAll().forEach(action);
-            //?} else {
-            /*group.forEach(action);
-            *///?}
+            /*group.getAll().forEach(action);
+            *///?} else {
+            group.forEach(action);
+            //?}
         }
     }
 
@@ -86,21 +86,21 @@ public final class Particles {
     /** Applies a particle tint across the particle-class hierarchy used by each era. */
     public static void color(Particle particle, float red, float green, float blue) {
         //? if >=26.1 {
-        if (particle instanceof net.minecraft.client.particle.SingleQuadParticle quad) {
+        /*if (particle instanceof net.minecraft.client.particle.SingleQuadParticle quad) {
             quad.setColor(red, green, blue);
         }
-        //?} else {
-        /*particle.setColor(red, green, blue);
-        *///?}
+        *///?} else {
+        particle.setColor(red, green, blue);
+        //?}
     }
 
     /** The user's particle-density setting, whose vanilla enum moved packages in 26.1. */
     public static Quality quality() {
         //? if >=26.1 {
-        net.minecraft.server.level.ParticleStatus status = Minecraft.getInstance().options.particles().get();
-        //?} else {
-        /*net.minecraft.client.ParticleStatus status = Minecraft.getInstance().options.particles().get();
-        *///?}
+        /*net.minecraft.server.level.ParticleStatus status = Minecraft.getInstance().options.particles().get();
+        *///?} else {
+        net.minecraft.client.ParticleStatus status = Minecraft.getInstance().options.particles().get();
+        //?}
         return switch (status) {
             case ALL -> Quality.ALL;
             case DECREASED -> Quality.DECREASED;
@@ -124,13 +124,13 @@ public final class Particles {
      */
     public static TextureAtlasSprite sprite(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        // The SpriteId's first field is the atlas TEXTURE location
+        /*// The SpriteId's first field is the atlas TEXTURE location
         // (minecraft:textures/atlas/particles.png), not the atlas definition id (minecraft:particles).
         // AtlasManager keeps two maps and get() consults the by-texture one; handing it the definition
         // id throws "Invalid atlas texture id". getAtlasOrThrow is the method that takes the other one.
@@ -138,12 +138,12 @@ public final class Particles {
                 .getAtlasManager()
                 .get(new net.minecraft.client.resources.model.sprite.SpriteId(
                         net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_PARTICLES, texture));
-        //?} else {
-        /*return ((net.minecraft.client.renderer.texture.TextureAtlas) Minecraft.getInstance()
+        *///?} else {
+        return ((net.minecraft.client.renderer.texture.TextureAtlas) Minecraft.getInstance()
                 .getTextureManager()
                 .getTexture(net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_PARTICLES))
                 .getSprite(texture);
-        *///?}
+        //?}
     }
 
     /** Creates a requested particle without a second density or distance lottery; null without a provider. */
@@ -159,11 +159,11 @@ public final class Particles {
                 | ((int) (Math.max(0F, Math.min(1F, green)) * 255F) << 8)
                 | (int) (Math.max(0F, Math.min(1F, blue)) * 255F);
         //? if >=26.1 {
-        var particle = spawn(new DustParticleOptions(color, size), x, y, z, motionX, motionY, motionZ);
-        //?} else {
-        /*var particle = spawn(new DustParticleOptions(
+        /*var particle = spawn(new DustParticleOptions(color, size), x, y, z, motionX, motionY, motionZ);
+        *///?} else {
+        var particle = spawn(new DustParticleOptions(
                         new org.joml.Vector3f(red, green, blue), size), x, y, z, motionX, motionY, motionZ);
-        *///?}
+        //?}
         if (particle != null) particle.setParticleSpeed(motionX, motionY, motionZ);
     }
 }

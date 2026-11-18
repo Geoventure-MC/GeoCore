@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.client.Lightmaps;
+/*import fr.geoventure.geocore.client.Lightmaps;
 import net.minecraft.client.renderer.Lightmap;
 import net.minecraft.client.renderer.state.LightmapRenderState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * {@link Lightmaps}: a mod's additions to the light map, the stand-in for 1.7's provider light-map hooks.
  *
  * <p>Why a mixin (AGENTS.md section 7): (1) vanilla offers no light-map hook - on 26.1 the map is one GPU pass from
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * cannot run code at that moment. One TAIL {@code @Inject} on {@code Lightmap.render} that draws a second, additive pass
  * only when vanilla updated the map this frame and a modifier is active. The same pass draws
  * {@link Lightmaps#useClassicFormula}'s pre-26.1 cells over vanilla's for a registered level (no second hook).
- */
+ ^/
 @Mixin(Lightmap.class)
 public abstract class MixinLightmapTint {
 
@@ -28,8 +28,8 @@ public abstract class MixinLightmapTint {
         if (renderState.needsUpdate) Lightmaps.apply(((Lightmap) (Object) this).getTextureView(), renderState);
     }
 }
-//?} else {
-/*import com.mojang.blaze3d.platform.NativeImage;
+*///?} else {
+import com.mojang.blaze3d.platform.NativeImage;
 import fr.geoventure.geocore.client.Lightmaps;
 import net.minecraft.client.renderer.LightTexture;
 import org.spongepowered.asm.mixin.Final;
@@ -39,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/^*
+/**
  * {@link Lightmaps}: a mod's additions to the light map, the stand-in for 1.7's provider light-map hooks.
  *
  * <p>Why a mixin (AGENTS.md section 7): (1) vanilla offers no light-map hook; (2) NeoForge's and Forge's
@@ -47,7 +47,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * whoever registers it) and Fabric has none; (3) widening the pixel field would still need code at the moment the map
  * is uploaded. One {@code @Inject} before the light map's {@code DynamicTexture.upload()} in
  * {@code updateLightTexture}, which edits the pixels only while a modifier is active.
- ^/
+ */
 @Mixin(LightTexture.class)
 public abstract class MixinLightmapTint {
 
@@ -59,4 +59,4 @@ public abstract class MixinLightmapTint {
         Lightmaps.apply(this.lightPixels);
     }
 }
-*///?}
+//?}

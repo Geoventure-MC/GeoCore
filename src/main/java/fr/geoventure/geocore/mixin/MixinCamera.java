@@ -34,43 +34,43 @@ public abstract class MixinCamera {
     /*@Invoker("move")
     protected abstract void geocore$move(float x, float y, float z);
     *///?} else if <1.21.1 {
-    /*@Invoker("move")
+    @Invoker("move")
     protected abstract void geocore$move(double x, double y, double z);
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @org.spongepowered.asm.mixin.injection.ModifyArg(method = "alignWithEntity",
+    /*@org.spongepowered.asm.mixin.injection.ModifyArg(method = "alignWithEntity",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(F)F"))
     private float geocore$thirdPersonDistance(float distance) {
         return CameraHooks.thirdPersonDistance(((net.minecraft.client.Camera) (Object) this).entity(), distance);
     }
-    //?} elif >=1.21.1 {
+    *///?} elif >=1.21.1 {
     /*@org.spongepowered.asm.mixin.injection.ModifyArg(method = "setup",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(F)F"))
     private float geocore$thirdPersonDistance(float distance) {
         return CameraHooks.thirdPersonDistance(((net.minecraft.client.Camera) (Object) this).getEntity(), distance);
     }
     *///?} else {
-    /*@org.spongepowered.asm.mixin.injection.ModifyArg(method = "setup",
+    @org.spongepowered.asm.mixin.injection.ModifyArg(method = "setup",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(D)D"))
     private double geocore$thirdPersonDistance(double distance) {
         return CameraHooks.thirdPersonDistance(((net.minecraft.client.Camera) (Object) this).getEntity(), (float) distance);
     }
-    *///?}
+    //?}
 
     @org.spongepowered.asm.mixin.Shadow
     protected abstract void setRotation(float yRot, float xRot);
 
     //? if >=26.1 {
-    @Inject(method = "alignWithEntity", at = @At("TAIL"))
+    /*@Inject(method = "alignWithEntity", at = @At("TAIL"))
     private void geocore$pitchOffset(float partialTick, CallbackInfo ci) {
         net.minecraft.client.Camera camera = (net.minecraft.client.Camera) (Object) this;
         float pitch = CameraHooks.pitchOffset(camera.entity());
         float yaw = CameraHooks.yawOffset(camera.entity());
         if (pitch != 0F || yaw != 0F) setRotation(camera.yRot() + yaw, camera.xRot() + pitch);
     }
-    //?} else {
-    /*@Inject(method = "setup", at = @At("TAIL"))
+    *///?} else {
+    @Inject(method = "setup", at = @At("TAIL"))
     private void geocore$pitchOffset(net.minecraft.world.level.BlockGetter level, Entity entity, boolean detached,
             boolean mirror, float partialTick, CallbackInfo ci) {
         net.minecraft.client.Camera camera = (net.minecraft.client.Camera) (Object) this;
@@ -78,10 +78,10 @@ public abstract class MixinCamera {
         float yaw = CameraHooks.yawOffset(entity);
         if (pitch != 0F || yaw != 0F) setRotation(camera.getYRot() + yaw, camera.getXRot() + pitch);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Inject(method = "extractRenderState", at = @At("TAIL"))
+    /*@Inject(method = "extractRenderState", at = @At("TAIL"))
     private void geocore$adjustRenderState(net.minecraft.client.renderer.state.level.CameraRenderState state,
             float partialTick, CallbackInfo ci) {
         net.minecraft.client.Camera camera = (net.minecraft.client.Camera) (Object) this;
@@ -90,18 +90,18 @@ public abstract class MixinCamera {
             state.pos = state.pos.add(0D, -1.22D, 0D);
         }
     }
-    //?} else {
-    /*
+    *///?} else {
+    
     @Inject(method = "setup", at = @At("TAIL"))
     private void geocore$adjustThirdPerson(net.minecraft.world.level.BlockGetter level, Entity entity,
             boolean detached, boolean mirror, float partialTick, CallbackInfo ci) {
         if (detached && entity instanceof Player player && CameraHooks.lowerThirdPersonCamera(player)) {
             //? if >=1.21.1 {
-            geocore$move(0F, -1.22F, 0F);
-            //?} else {
-            /^geocore$move(0D, -1.22D, 0D);^/
+            /*geocore$move(0F, -1.22F, 0F);
+            *///?} else {
+            geocore$move(0D, -1.22D, 0D);
             //?}
         }
     }
-    *///?}
+    //?}
 }

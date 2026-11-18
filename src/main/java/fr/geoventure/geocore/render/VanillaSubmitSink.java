@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.vertex.PoseStack;
+/*import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -12,23 +12,23 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.util.FormattedCharSequence;
 import org.jspecify.annotations.Nullable;
 
-/**
+/^*
  * {@link SubmitSink} backed by vanilla's collector, for versions that have the submit pipeline
  * natively. Geometry passes straight through; the engine owns batching and draw ordering.
  *
  * <p>Two collector references are kept. Geometry goes to {@code target}, which may be an ordered view produced by
  * {@link #order}. Items need the <i>root</i> collector: {@code ItemStackRenderState#submit} accepts only the full
  * {@code SubmitNodeCollector}, so item draws ignore the current order on 26.1 (a vanilla limitation).
- */
+ ^/
 public final class VanillaSubmitSink implements SubmitSink {
 
     private final OrderedSubmitNodeCollector target;
     private final SubmitNodeCollector root;
     private final PassState passState;
-    /** The camera of the pass, which only entity renderers receive; block-entity submission needs it. */
+    /^* The camera of the pass, which only entity renderers receive; block-entity submission needs it. ^/
     private final @Nullable CameraRenderState camera;
 
-    /** Scoped to one root renderer submission, never to vanilla's collector which is reused per frame. */
+    /^* Scoped to one root renderer submission, never to vanilla's collector which is reused per frame. ^/
     private static final class PassState {
         private boolean sceneCaptured;
     }
@@ -98,4 +98,4 @@ public final class VanillaSubmitSink implements SubmitSink {
         return new VanillaSubmitSink(root.order(order), root, passState, camera);
     }
 }
-//?}
+*///?}

@@ -14,12 +14,12 @@ import net.minecraft.world.level.material.FluidState;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.block.BlockAndTintGetter;
+/*import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.CardinalLighting;
-//?} else {
-/*import net.minecraft.core.Direction;
+*///?} else {
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
-*///?}
+//?}
 
 /**
  * A scoop of the world held outside it: a cube of block states with its own lighting and biome
@@ -214,10 +214,10 @@ public final class WorldInAJar implements BlockAndTintGetter {
     @Override
     public LevelLightEngine getLightEngine() {
         //? if >=26.1 {
-        return LevelLightEngine.EMPTY;
-        //?} else {
-        /*return null;
-        *///?}
+        /*return LevelLightEngine.EMPTY;
+        *///?} else {
+        return null;
+        //?}
     }
 
     @Override
@@ -228,7 +228,7 @@ public final class WorldInAJar implements BlockAndTintGetter {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public int getMinY() {
         return 0;
     }
@@ -237,8 +237,8 @@ public final class WorldInAJar implements BlockAndTintGetter {
     public CardinalLighting cardinalLighting() {
         return CardinalLighting.DEFAULT;
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public int getMinBuildHeight() {
         return 0;
     }
@@ -253,5 +253,5 @@ public final class WorldInAJar implements BlockAndTintGetter {
             default -> 1F;
         };
     }
-    *///?}
+    //?}
 }

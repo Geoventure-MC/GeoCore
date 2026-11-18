@@ -58,19 +58,19 @@ public final class Deaths {
         /*net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DEATH.register(
                 (entity, source, amount) -> allow(entity, source));
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 net.neoforged.bus.api.EventPriority.HIGHEST,
                 (net.neoforged.neoforge.event.entity.living.LivingDeathEvent event) -> {
                     if (event.isCanceled()) return;
                     if (!allow(event.getEntity(), event.getSource())) event.setCanceled(true);
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 net.minecraftforge.eventbus.api.EventPriority.HIGHEST,
                 (net.minecraftforge.event.entity.living.LivingDeathEvent event) -> {
                     if (event.isCanceled()) return;
                     if (!allow(event.getEntity(), event.getSource())) event.setCanceled(true);
                 });
-        *///?}
+        //?}
     }
 }

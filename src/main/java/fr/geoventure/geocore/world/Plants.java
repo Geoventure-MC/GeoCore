@@ -13,9 +13,9 @@ public final class Plants {
     public static boolean isValidBonemealTarget(BonemealableBlock block, Level level,
                                                  BlockPos pos, BlockState state) {
         //? if >=1.21.1 {
-        return block.isValidBonemealTarget(level, pos, state);
-        //?} else {
-        /*return block.isValidBonemealTarget(level, pos, state, false);
-        *///?}
+        /*return block.isValidBonemealTarget(level, pos, state);
+        *///?} else {
+        return block.isValidBonemealTarget(level, pos, state, false);
+        //?}
     }
 }

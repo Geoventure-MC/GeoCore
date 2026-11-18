@@ -9,20 +9,20 @@ import net.minecraft.client.multiplayer.PlayerInfo;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import java.util.function.Supplier;
+/*import java.util.function.Supplier;
 import net.minecraft.core.ClientAsset;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.PlayerSkin;
-//?} elif >=1.21 {
+*///?} elif >=1.21 {
 /*import java.util.function.Supplier;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 *///?} else {
-/*import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * Mod-supplied player capes: legacy {@code AbstractClientPlayer.func_152121_a(Type.CAPE, texture)} (1.7) and
@@ -59,10 +59,10 @@ public final class Capes {
     @FunctionalInterface
     public interface Provider {
         //? if >=26.1 {
-        @Nullable Identifier cape(UUID id, String name);
-        //?} else {
-        /*@Nullable ResourceLocation cape(UUID id, String name);
-        *///?}
+        /*@Nullable Identifier cape(UUID id, String name);
+        *///?} else {
+        @Nullable ResourceLocation cape(UUID id, String name);
+        //?}
     }
 
     /** Every listener, in phase order; register through the {@code on...} method or directly, with a phase. */
@@ -76,14 +76,14 @@ public final class Capes {
      * a worn elytra is drawn with the cape as vanilla does for a Mojang cape. Undeclared capes get the default elytra.
      */
     //? if >=26.1 {
-    public static void declareElytraArt(Identifier cape) {
+    /*public static void declareElytraArt(Identifier cape) {
         ELYTRA_ART.add(cape);
     }
-    //?} else {
-    /*public static void declareElytraArt(ResourceLocation cape) {
+    *///?} else {
+    public static void declareElytraArt(ResourceLocation cape) {
         ELYTRA_ART.add(cape);
     }
-    *///?}
+    //?}
 
     /** Declares a cape provider. Call during client initialization. */
     public static synchronized void register(Provider provider) {
@@ -96,37 +96,37 @@ public final class Capes {
 
     /** The first cape any provider names for this player. */
     //? if >=26.1 {
-    public static @Nullable Identifier capeFor(UUID id, String name) {
+    /*public static @Nullable Identifier capeFor(UUID id, String name) {
         for (Provider provider : PROVIDERS) {
             Identifier cape = provider.cape(id, name);
             if (cape != null) return cape;
         }
         return null;
     }
-    //?} else {
-    /*public static @Nullable ResourceLocation capeFor(UUID id, String name) {
+    *///?} else {
+    public static @Nullable ResourceLocation capeFor(UUID id, String name) {
         for (Provider provider : PROVIDERS) {
             ResourceLocation cape = provider.cape(id, name);
             if (cape != null) return cape;
         }
         return null;
     }
-    *///?}
+    //?}
 
     private static void apply() {
         ClientPacketListener connection = Minecraft.getInstance().getConnection();
         if (connection == null) return;
         for (PlayerInfo info : connection.getOnlinePlayers()) {
             //? if >=26.1 {
-            install(info, capeFor(info.getProfile().id(), info.getProfile().name()));
-            //?} else {
-            /*install(info, capeFor(info.getProfile().getId(), info.getProfile().getName()));
-            *///?}
+            /*install(info, capeFor(info.getProfile().id(), info.getProfile().name()));
+            *///?} else {
+            install(info, capeFor(info.getProfile().getId(), info.getProfile().getName()));
+            //?}
         }
     }
 
     //? if >=26.1 {
-    private static void install(PlayerInfo info, @Nullable Identifier cape) {
+    /*private static void install(PlayerInfo info, @Nullable Identifier cape) {
         Supplier<PlayerSkin> current = info.skinLookup;
         if (cape == null) {
             if (current instanceof Caped caped) info.skinLookup = caped.base;
@@ -141,12 +141,12 @@ public final class Capes {
         info.skinLookup = new Caped(current instanceof Caped caped ? caped.base : current, cape);
     }
 
-    /** The {@code minecraft:elytra} equipment asset's wings texture, what {@code WingsLayer} draws without a cape. */
+    /^* The {@code minecraft:elytra} equipment asset's wings texture, what {@code WingsLayer} draws without a cape. ^/
     private static final ClientAsset.Texture DEFAULT_ELYTRA = new ClientAsset.ResourceTexture(
             Identifier.withDefaultNamespace("elytra"),
             Identifier.withDefaultNamespace("textures/entity/equipment/wings/elytra.png"));
 
-    /** The entry's own lookup, with the cape replaced. The last record is kept so a frame does not allocate. */
+    /^* The entry's own lookup, with the cape replaced. The last record is kept so a frame does not allocate. ^/
     private static final class Caped implements Supplier<PlayerSkin> {
         final Supplier<PlayerSkin> base;
         final Identifier cape;
@@ -173,7 +173,7 @@ public final class Capes {
             return lastCaped;
         }
     }
-    //?} elif >=1.21 {
+    *///?} elif >=1.21 {
     /*private static void install(PlayerInfo info, @Nullable ResourceLocation cape) {
         Supplier<PlayerSkin> current = info.skinLookup;
         if (cape == null) {
@@ -214,8 +214,8 @@ public final class Capes {
         }
     }
     *///?} else {
-    /*private static final Map<PlayerInfo, ResourceLocation> INSTALLED = new WeakHashMap<>();
-    /^* {@code ElytraLayer}'s {@code WINGS_LOCATION}, what it draws without a cape. ^/
+    private static final Map<PlayerInfo, ResourceLocation> INSTALLED = new WeakHashMap<>();
+    /** {@code ElytraLayer}'s {@code WINGS_LOCATION}, what it draws without a cape. */
     private static final ResourceLocation DEFAULT_ELYTRA = new ResourceLocation("textures/entity/elytra.png");
 
     private static void install(PlayerInfo info, @Nullable ResourceLocation cape) {
@@ -239,5 +239,5 @@ public final class Capes {
             textures.put(MinecraftProfileTexture.Type.ELYTRA, DEFAULT_ELYTRA);
         }
     }
-    *///?}
+    //?}
 }

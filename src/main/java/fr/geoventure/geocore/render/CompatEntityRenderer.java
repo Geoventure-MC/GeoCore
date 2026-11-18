@@ -6,14 +6,14 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.SubmitNodeCollector;
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-//?} else {
-/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?} else {
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-*///?}
+//?}
 
 /**
  * An entity renderer written once against 26.1's extract/submit shape, on every version.
@@ -33,10 +33,10 @@ import net.minecraft.world.phys.Vec3;
  */
 public abstract class CompatEntityRenderer<T extends Entity, S extends CompatEntityRenderState>
         //? if >=26.1 {
-        extends EntityRenderer<T, S>
-        //?} else {
-        /*extends EntityRenderer<T>
-        *///?}
+        /*extends EntityRenderer<T, S>
+        *///?} else {
+        extends EntityRenderer<T>
+        //?}
 {
 
     protected CompatEntityRenderer(EntityRendererProvider.Context context) {
@@ -45,8 +45,8 @@ public abstract class CompatEntityRenderer<T extends Entity, S extends CompatEnt
 
     /** Creates the per-frame state object. Called by the engine on 26.1, and by this class below it. */
     //? if >=26.1 {
-    @Override
-    //?}
+    /*@Override
+    *///?}
     public abstract S createRenderState();
 
     /** Snapshots what {@link #submit} will need. Runs once per frame, before submission. */
@@ -64,14 +64,14 @@ public abstract class CompatEntityRenderer<T extends Entity, S extends CompatEnt
     }
 
     //? if >=26.1 {
-    /** Bridges vanilla's extract signature to {@link #extract}. */
+    /*/^* Bridges vanilla's extract signature to {@link #extract}. ^/
     @Override
     public void extractRenderState(T entity, S state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
         extract(entity, state, partialTicks);
     }
 
-    /** Bridges vanilla's submit signature to {@link #submit}. */
+    /^* Bridges vanilla's submit signature to {@link #submit}. ^/
     @Override
     public void submit(S state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
         super.submit(state, poseStack, collector, camera);
@@ -79,19 +79,19 @@ public abstract class CompatEntityRenderer<T extends Entity, S extends CompatEnt
                 new CameraInfo(camera.pos, camera.yRot, camera.orientation));
     }
 
-    /** Forwards vanilla's culling opt-out to {@link #culled}. */
+    /^* Forwards vanilla's culling opt-out to {@link #culled}. ^/
     @Override
     protected boolean affectedByCulling(T entity) {
         return culled(entity);
     }
-    //?} else {
-    /*/^*
+    *///?} else {
+    /**
      * Vanilla's single-pass entry point. Runs both halves of the 26.1 shape in order and flushes the
      * recorded submissions into the buffer source the engine handed us.
      *
      * <p>The camera is rebuilt from the render dispatcher rather than passed in, because this era gives
      * a renderer no camera argument — the dispatcher is where vanilla itself keeps it.
-     ^/
+     */
     @Override
     public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLight) {
@@ -112,22 +112,22 @@ public abstract class CompatEntityRenderer<T extends Entity, S extends CompatEnt
         sink.flush(bufferSource, entity.level());
     }
 
-    /^*
+    /**
      * This era culls through {@code shouldRender}; {@link #culled} answering false means "always draw",
      * which is what 26.1's affectedByCulling opt-out amounts to.
-     ^/
+     */
     @Override
     public boolean shouldRender(T entity, Frustum frustum, double camX, double camY, double camZ) {
         return !culled(entity) || super.shouldRender(entity, frustum, camX, camY, camZ);
     }
 
-    /^*
+    /**
      * Required by this era's abstract contract and unused by these renderers, which bind their own
      * textures through render types. 26.1 dropped it entirely.
-     ^/
+     */
     @Override
     public ResourceLocation getTextureLocation(T entity) {
         return net.minecraft.client.renderer.texture.MissingTextureAtlasSprite.getLocation();
     }
-    *///?}
+    //?}
 }

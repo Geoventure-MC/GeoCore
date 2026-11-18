@@ -79,8 +79,8 @@ public final class TimeOfDay {
                 if (level == null) continue;
                 set(level, entry.getValue());
                 //? if >=26.1 {
-                server.clockManager().setPaused(level.dimensionType().defaultClock().orElseThrow(), true);
-                //?}
+                /*server.clockManager().setPaused(level.dimensionType().defaultClock().orElseThrow(), true);
+                *///?}
             }
         });
         Lifecycle.onEntityLoad((entity, level) -> {
@@ -91,12 +91,12 @@ public final class TimeOfDay {
     /** Uses the dimension type's own native world clock; Minecraft saves, ticks and synchronizes it. */
     public static synchronized void nativeClock(ResourceKey<Level> dimension) {
         //? if >=26.1 {
-        if (OWN.contains(dimension)) throw new IllegalStateException(dimension + " already uses a saved time-of-day counter");
+        /*if (OWN.contains(dimension)) throw new IllegalStateException(dimension + " already uses a saved time-of-day counter");
         NATIVE.add(dimension);
         hook();
-        //?} else {
-        /*throw new UnsupportedOperationException("Native world clocks require Minecraft 26.1");
-        *///?}
+        *///?} else {
+        throw new UnsupportedOperationException("Native world clocks require Minecraft 26.1");
+        //?}
     }
 
     /** Whether {@code level} keeps its own time of day ({@link #ownClock} or {@link #nativeClock}). */
@@ -107,10 +107,10 @@ public final class TimeOfDay {
     /** {@link #nativeClock} on 26.1, else {@link #ownClock}; call at mod construction on both sides. */
     public static synchronized void autoClock(ResourceKey<Level> dimension) {
         //? if >=26.1 {
-        nativeClock(dimension);
-        //?} else {
-        /*ownClock(dimension);
-        *///?}
+        /*nativeClock(dimension);
+        *///?} else {
+        ownClock(dimension);
+        //?}
     }
 
     /** Gives the dimension a constant own-clock time, including its first client frame. */
@@ -121,10 +121,10 @@ public final class TimeOfDay {
     /** Whether {@code level} runs on its dimension type's native world clock (false on every node below 26.1). */
     public static boolean isNative(Level level) {
         //? if >=26.1 {
-        return NATIVE.contains(level.dimension());
-        //?} else {
-        /*return false;
-        *///?}
+        /*return NATIVE.contains(level.dimension());
+        *///?} else {
+        return false;
+        //?}
     }
 
     /** Whether the dimension {@code dimension} keeps its own time of day ({@link #ownClock}). */
@@ -148,10 +148,10 @@ public final class TimeOfDay {
         var fixed = FIXED.get(level.dimension());
         if (fixed != null) return fixed;
         //? if >=26.1 {
-        if (NATIVE.contains(level.dimension())) {
+        /*if (NATIVE.contains(level.dimension())) {
             return level.clockManager().getTotalTicks(level.dimensionType().defaultClock().orElseThrow());
         }
-        //?}
+        *///?}
         if (OWN.contains(level.dimension())) {
             if (level instanceof ServerLevel server) return data(server).time;
             long[] state = CLIENT.get(level.dimension());
@@ -168,11 +168,11 @@ public final class TimeOfDay {
     public static void set(ServerLevel level, long time) {
         long value = FIXED.getOrDefault(level.dimension(), time);
         //? if >=26.1 {
-        if (NATIVE.contains(level.dimension())) {
+        /*if (NATIVE.contains(level.dimension())) {
             level.getServer().clockManager().setTotalTicks(level.dimensionType().defaultClock().orElseThrow(), value);
             return;
         }
-        //?}
+        *///?}
         if (OWN.contains(level.dimension())) {
             Data data = data(level);
             data.time = value;
@@ -181,30 +181,30 @@ public final class TimeOfDay {
             return;
         }
         //? if >=26.1 {
-        level.dimensionType().defaultClock()
+        /*level.dimensionType().defaultClock()
              .ifPresent(clock -> level.getServer().clockManager().setTotalTicks(clock, value));
-        //?} else {
-        /*level.setDayTime(value);
-        *///?}
+        *///?} else {
+        level.setDayTime(value);
+        //?}
     }
 
     /** Vanilla's day time for {@code level}, ignoring any own clock. */
     public static long vanilla(Level level) {
         //? if >=26.1 {
-        return level.getDefaultClockTime();
-        //?} else {
-        /*return level.getDayTime();
-        *///?}
+        /*return level.getDefaultClockTime();
+        *///?} else {
+        return level.getDayTime();
+        //?}
     }
 
     /** Whether the daylight cycle game rule lets time of day advance in {@code level}. */
     public static boolean advancing(ServerLevel level) {
         if (FIXED.containsKey(level.dimension())) return false;
         //? if >=26.1 {
-        return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.ADVANCE_TIME);
-        //?} else {
-        /*return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DAYLIGHT);
-        *///?}
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.ADVANCE_TIME);
+        *///?} else {
+        return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DAYLIGHT);
+        //?}
     }
 
     private static void tick(MinecraftServer server) {
@@ -270,10 +270,10 @@ public final class TimeOfDay {
         @Override
         public
                 //? if >=26.1 {
-                net.minecraft.resources.Identifier
-                //?} else {
-                /*net.minecraft.resources.ResourceLocation
-                *///?}
+                /*net.minecraft.resources.Identifier
+                *///?} else {
+                net.minecraft.resources.ResourceLocation
+                //?}
                 id() {
             return CODEC.id();
         }

@@ -11,14 +11,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.item.BlockItem;
 import org.jspecify.annotations.Nullable;
 //? if >=1.20.5 {
-import net.minecraft.core.component.DataComponents;
-//?}
+/*import net.minecraft.core.component.DataComponents;
+*///?}
 
 //? if >=1.20.5 {
-import net.minecraft.network.RegistryFriendlyByteBuf;
-//?} else {
-/*import net.minecraft.network.FriendlyByteBuf;
-*///?}
+/*import net.minecraft.network.RegistryFriendlyByteBuf;
+*///?} else {
+import net.minecraft.network.FriendlyByteBuf;
+//?}
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -34,28 +34,28 @@ public final class ItemStacks {
     private ItemStacks() {}
     public static boolean hasUseRemainder(ItemStack stack) {
         //? if >=1.21.2 {
-        return stack.has(DataComponents.USE_REMAINDER);
-        //?} else {
-        /*return false;
-         *///?}
+        /*return stack.has(DataComponents.USE_REMAINDER);
+        *///?} else {
+        return false;
+         //?}
     }
 
     /** Stored block-entity data belongs only to its registered type. */
     public static @Nullable CompoundTag blockEntityData(ItemStack stack, BlockEntityType<?> type) {
         //? if >=26.1 {
-        var data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+        /*var data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
         return data == null || data.type() != type ? null : data.getUnsafe();
-        //?} elif >=1.20.5 {
+        *///?} elif >=1.20.5 {
         /*var data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
         if (data == null) return null;
         var tag = data.getUnsafe();
         return Tags.getStringOr(tag, "id", "").equals(
                 BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(type).toString()) ? tag : null;
         *///?} else {
-        /*var tag = BlockItem.getBlockEntityData(stack);
+        var tag = BlockItem.getBlockEntityData(stack);
         return tag != null && Tags.getStringOr(tag, "id", "").equals(
                 BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(type).toString()) ? tag : null;
-        *///?}
+        //?}
     }
 
     /**
@@ -66,10 +66,10 @@ public final class ItemStacks {
      */
     public static com.mojang.serialization.Codec<ItemStack> optionalCodec() {
         //? if >=1.20.5 {
-        return ItemStack.OPTIONAL_CODEC;
-        //?} else {
-        /*return ItemStack.CODEC;
-        *///?}
+        /*return ItemStack.OPTIONAL_CODEC;
+        *///?} else {
+        return ItemStack.CODEC;
+        //?}
     }
 
     /**
@@ -85,13 +85,13 @@ public final class ItemStacks {
     public static java.util.Optional<ItemStack> withComponents(ItemStack template, com.google.gson.JsonObject components,
             com.mojang.serialization.DynamicOps<com.google.gson.JsonElement> ops) {
         //? if >=1.20.5 {
-        com.google.gson.JsonObject stack = new com.google.gson.JsonObject();
+        /*com.google.gson.JsonObject stack = new com.google.gson.JsonObject();
         stack.addProperty("id", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(template.getItem()).toString());
         stack.addProperty("count", template.getCount());
         stack.add("components", components);
         return ItemStack.OPTIONAL_CODEC.parse(ops, stack).result();
-        //?} else {
-        /*ItemStack copy = template.copy();
+        *///?} else {
+        ItemStack copy = template.copy();
         for (java.util.Map.Entry<String, com.google.gson.JsonElement> component : components.entrySet()) {
             String key = component.getKey();
             if (key.equals("minecraft:damage")) {
@@ -103,7 +103,7 @@ public final class ItemStacks {
             }
         }
         return java.util.Optional.of(copy);
-        *///?}
+        //?}
     }
 
     /**
@@ -124,7 +124,7 @@ public final class ItemStacks {
             if (!net.minecraft.core.registries.BuiltInRegistries.ITEM.containsKey(Ids.parse(node))) {
                 return com.mojang.serialization.DataResult.error(() -> "Unknown item: " + id);
             }
-            return com.mojang.serialization.DataResult.success(net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Ids.parse(node)));
+            return com.mojang.serialization.DataResult.success(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(Ids.parse(node)));
         }, item -> Ids.canonicalItemId(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString()));
     }
 
@@ -140,12 +140,12 @@ public final class ItemStacks {
         if (stack.isEmpty()) return out;
         java.util.TreeMap<String, com.google.gson.JsonElement> components = new java.util.TreeMap<>();
         //? if >=1.20.5 {
-        com.google.gson.JsonElement encoded = ItemStack.OPTIONAL_CODEC.encodeStart(ops, stack).result().orElse(null);
+        /*com.google.gson.JsonElement encoded = ItemStack.OPTIONAL_CODEC.encodeStart(ops, stack).result().orElse(null);
         if (encoded != null && encoded.isJsonObject() && encoded.getAsJsonObject().get("components") instanceof com.google.gson.JsonObject patch) {
             for (var entry : patch.entrySet()) components.put(entry.getKey(), entry.getValue());
         }
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag tag = stack.getTag();
+        *///?} else {
+        net.minecraft.nbt.CompoundTag tag = stack.getTag();
         if (tag != null) {
             for (String key : tag.getAllKeys()) {
                 if (key.equals("Damage")) continue;
@@ -154,7 +154,7 @@ public final class ItemStacks {
             }
         }
         if (stack.getDamageValue() != 0) components.put("minecraft:damage", new com.google.gson.JsonPrimitive(stack.getDamageValue()));
-        *///?}
+        //?}
         out.addProperty("id", Ids.canonicalItemId(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString()));
         out.addProperty("count", stack.getCount());
         if (!components.isEmpty()) {
@@ -168,10 +168,10 @@ public final class ItemStacks {
     /** Returns whether both stacks have the same item and item data, ignoring their counts. */
     public static boolean sameItemAndData(ItemStack first, ItemStack second) {
         //? if >=1.20.5 {
-        return ItemStack.isSameItemSameComponents(first, second);
-        //?} else {
-        /*return ItemStack.isSameItemSameTags(first, second);
-        *///?}
+        /*return ItemStack.isSameItemSameComponents(first, second);
+        *///?} else {
+        return ItemStack.isSameItemSameTags(first, second);
+        //?}
     }
 
     /**
@@ -181,22 +181,22 @@ public final class ItemStacks {
     public static int hashItemAndData(ItemStack stack) {
         if (stack.isEmpty()) return 0;
         //? if >=1.21.1 {
-        return ItemStack.hashItemAndComponents(stack);
-        //?} else {
-        /*return java.util.Objects.hash(stack.getItem(), stack.getTag());
-        *///?}
+        /*return ItemStack.hashItemAndComponents(stack);
+        *///?} else {
+        return java.util.Objects.hash(stack.getItem(), stack.getTag());
+        //?}
     }
 
     /** Compares item data while ignoring durability, matching the old wildcard filter. */
     public static boolean sameItemAndDataIgnoringDamage(ItemStack first, ItemStack second) {
         //? if >=1.20.5 {
-        ItemStack firstCopy = first.copy();
+        /*ItemStack firstCopy = first.copy();
         ItemStack secondCopy = second.copy();
         firstCopy.remove(net.minecraft.core.component.DataComponents.DAMAGE);
         secondCopy.remove(net.minecraft.core.component.DataComponents.DAMAGE);
         return ItemStack.isSameItemSameComponents(firstCopy, secondCopy);
-        //?} else {
-        /*// Damage is an NBT tag here; isSameItemSameTags would compare it, so it is stripped from copies.
+        *///?} else {
+        // Damage is an NBT tag here; isSameItemSameTags would compare it, so it is stripped from copies.
         ItemStack firstCopy = first.copy();
         ItemStack secondCopy = second.copy();
         if (firstCopy.hasTag()) firstCopy.getTag().remove("Damage");
@@ -205,7 +205,7 @@ public final class ItemStacks {
         if (secondCopy.hasTag() && secondCopy.getTag().isEmpty()) secondCopy.setTag(null);
         return ItemStack.isSameItem(firstCopy, secondCopy)
                 && ItemStack.isSameItemSameTags(firstCopy, secondCopy);
-        *///?}
+        //?}
     }
 
     /**
@@ -214,7 +214,7 @@ public final class ItemStacks {
      */
     public static boolean hasOnlyVariantAndDamage(ItemStack stack, GeoCoreComponent<?>... allowed) {
         //? if >=1.20.5 {
-        outer:
+        /*outer:
         for (var component : stack.getComponentsPatch().entrySet()) {
             if (component.getKey() == net.minecraft.core.component.DataComponents.DAMAGE) continue;
             for (GeoCoreComponent<?> variant : allowed) {
@@ -223,8 +223,8 @@ public final class ItemStacks {
             return false;
         }
         return true;
-        //?} else {
-        /*var tag = stack.getTag();
+        *///?} else {
+        var tag = stack.getTag();
         if (tag == null) return true;
         outer:
         for (String name : tag.getAllKeys()) {
@@ -235,24 +235,24 @@ public final class ItemStacks {
             return false;
         }
         return true;
-        *///?}
+        //?}
     }
 
     /** Tests an item registry id without exposing the registry lookup spelling to consumers. */
     public static boolean matchesItemId(ItemStack stack, String id) {
         if (stack == null || stack.isEmpty()) return false;
-        return stack.is(net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Ids.parse(id)));
+        return stack.is(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(Ids.parse(id)));
     }
 
     /** Tests one integer component, or its namespaced legacy NBT representation on 1.20.1. */
     public static boolean matchesIntComponent(ItemStack stack, String key, int value) {
         //? if >=1.21.1 {
-        net.minecraft.core.component.DataComponentType<?> type =
-                net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(Ids.parse(key));
+        /*net.minecraft.core.component.DataComponentType<?> type =
+                net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.get(Ids.parse(key));
         return type != null && stack.has(type) && Integer.valueOf(value).equals(stack.get(type));
-        //?} else {
-        /*return stack.hasTag() && stack.getTag().contains(key, 3) && stack.getTag().getInt(key) == value;
-        *///?}
+        *///?} else {
+        return stack.hasTag() && stack.getTag().contains(key, 3) && stack.getTag().getInt(key) == value;
+        //?}
     }
 
     /**
@@ -263,39 +263,39 @@ public final class ItemStacks {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static boolean matchesStringComponent(ItemStack stack, String key, String value) {
         //? if >=1.21.1 {
-        net.minecraft.core.component.DataComponentType type =
-                net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(Ids.parse(key));
+        /*net.minecraft.core.component.DataComponentType type =
+                net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.get(Ids.parse(key));
         if (type == null || !stack.has(type) || type.codec() == null) return false;
         Object held = stack.get(type);
         java.util.Optional<com.google.gson.JsonElement> json = ((com.mojang.serialization.Codec<Object>) type.codec())
                 .encodeStart(com.mojang.serialization.JsonOps.INSTANCE, held).result();
         return json.isPresent() && json.get() instanceof com.google.gson.JsonPrimitive primitive && primitive.isString()
                 && value.equals(primitive.getAsString());
-        //?} else {
-        /*return stack.hasTag() && stack.getTag().contains(key, 8) && stack.getTag().getString(key).equals(value);
-        *///?}
+        *///?} else {
+        return stack.hasTag() && stack.getTag().contains(key, 8) && stack.getTag().getString(key).equals(value);
+        //?}
     }
 
     /** Tests that a named item component is absent on the stack. */
     public static boolean matchesAbsentComponent(ItemStack stack, String key) {
         //? if >=1.21.1 {
-        net.minecraft.core.component.DataComponentType<?> type =
-                net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.getValue(Ids.parse(key));
+        /*net.minecraft.core.component.DataComponentType<?> type =
+                net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.get(Ids.parse(key));
         return type != null && !stack.has(type);
-        //?} else {
-        /*return !stack.hasTag() || !stack.getTag().contains(key);
-        *///?}
+        *///?} else {
+        return !stack.hasTag() || !stack.getTag().contains(key);
+        //?}
     }
 
     /** Copies a stack while replacing its count. */
     public static ItemStack copyWithCount(ItemStack stack, int count) {
         //? if >=1.20.5 {
-        return stack.copyWithCount(count);
-        //?} else {
-        /*ItemStack copy = stack.copy();
+        /*return stack.copyWithCount(count);
+        *///?} else {
+        ItemStack copy = stack.copy();
         copy.setCount(count);
         return copy;
-        *///?}
+        //?}
     }
 
     /**
@@ -305,14 +305,14 @@ public final class ItemStacks {
     public static boolean hasAttackDamageModifier(ItemStack stack) {
         if (stack.isEmpty()) return false;
         //? if >=1.21 {
-        return stack.getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS,
+        /*return stack.getOrDefault(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS,
                         net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY).modifiers().stream()
                 .anyMatch(entry -> entry.attribute().value()
                         == net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE.value());
-        //?} else {
-        /*return stack.getAttributeModifiers(EquipmentSlot.MAINHAND)
+        *///?} else {
+        return stack.getAttributeModifiers(EquipmentSlot.MAINHAND)
                 .containsKey(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
-        *///?}
+        //?}
     }
 
     /**
@@ -325,32 +325,32 @@ public final class ItemStacks {
     public static void suppressAttributeModifiers(ItemStack stack, boolean suppressed) {
         if (stack.isEmpty()) return;
         //? if >=1.20.5 {
-        var type = net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
+        /*var type = net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
         if (suppressed) {
             stack.set(type, net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY);
         } else {
             var def = stack.getItem().components().get(type);
             if (def != null) stack.set(type, def); else stack.remove(type);
         }
-        //?} else {
-        /*if (suppressed) {
+        *///?} else {
+        if (suppressed) {
             stack.getOrCreateTag().put("AttributeModifiers", new net.minecraft.nbt.ListTag());
         } else if (stack.getTag() != null) {
             stack.getTag().remove("AttributeModifiers");
         }
-        *///?}
+        //?}
     }
 
     /** Whether {@link #suppressAttributeModifiers} currently holds this stack's modifiers off. */
     public static boolean attributeModifiersSuppressed(ItemStack stack) {
         //? if >=1.20.5 {
-        var value = stack.get(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS);
+        /*var value = stack.get(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS);
         return value != null && value.modifiers().isEmpty()
                 && !value.equals(stack.getItem().components().get(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS));
-        //?} else {
-        /*return stack.getTag() != null && stack.getTag().contains("AttributeModifiers", 9)
+        *///?} else {
+        return stack.getTag() != null && stack.getTag().contains("AttributeModifiers", 9)
                 && stack.getTag().getList("AttributeModifiers", 10).isEmpty();
-        *///?}
+        //?}
     }
 
     /**
@@ -364,49 +364,49 @@ public final class ItemStacks {
         // >=1.21.1, not the >=1.20.5 of the component's other users: it follows Tools.attributes, whose
         // id-keyed AttributeModifier is 1.21; 1.20.5-1.21.0 would need a third (UUID + component) branch.
         //? if >=1.21.1 {
-        stack.set(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS,
+        /*stack.set(net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS,
                 Tools.attributes(attackDamage, attackSpeed, movement));
-        //?} else {
-        /*if (stack.getTag() != null) stack.getTag().remove("AttributeModifiers");
+        *///?} else {
+        if (stack.getTag() != null) stack.getTag().remove("AttributeModifiers");
         Tools.legacyAttributes(java.util.UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF"),
                 java.util.UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3"), attackDamage, attackSpeed, movement)
                 .forEach((attribute, modifier) -> stack.addAttributeModifier(attribute, modifier, EquipmentSlot.MAINHAND));
-        *///?}
+        //?}
     }
 
     /** Damages a held item and broadcasts its break animation across the callback signature change. */
     public static void hurtAndBreak(ItemStack stack, int amount, Player player, InteractionHand hand) {
         //? if >=1.21.1 {
-        stack.hurtAndBreak(amount, player,
+        /*stack.hurtAndBreak(amount, player,
                 hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
-        //?} else {
-        /*stack.hurtAndBreak(amount, player, owner -> owner.broadcastBreakEvent(hand));
-        *///?}
+        *///?} else {
+        stack.hurtAndBreak(amount, player, owner -> owner.broadcastBreakEvent(hand));
+        //?}
     }
 
     /** Copies the source stack's mutable custom state onto an already-configured output stack. */
     public static void copyCustomState(ItemStack source, ItemStack output) {
         //? if >=1.20.5 {
-        output.applyComponents(source.getComponentsPatch());
-        //?} else {
-        /*if (source.hasTag()) output.getOrCreateTag().merge(source.getTag().copy());
-        *///?}
+        /*output.applyComponents(source.getComponentsPatch());
+        *///?} else {
+        if (source.hasTag()) output.getOrCreateTag().merge(source.getTag().copy());
+        //?}
     }
 
     /** Copies only the user-assigned display name between transformed container items. */
     public static void copyCustomName(ItemStack source, ItemStack output) {
         //? if >=1.20.5 {
-        net.minecraft.network.chat.Component name = source.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME);
+        /*net.minecraft.network.chat.Component name = source.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME);
         if (name != null) output.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, name);
-        //?} else {
-        /*if (source.hasCustomHoverName()) output.setHoverName(source.getHoverName());
-        *///?}
+        *///?} else {
+        if (source.hasCustomHoverName()) output.setHoverName(source.getHoverName());
+        //?}
     }
 
     /** Applies the vanilla custom name and lore used by machines that print a message stack. */
     public static void setNameAndLore(ItemStack stack, String name, List<String> lines) {
         //? if >=1.20.5 {
-        stack.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,
+        /*stack.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,
                 net.minecraft.network.chat.Component.literal(name));
         stack.set(net.minecraft.core.component.DataComponents.LORE,
                 new net.minecraft.world.item.component.ItemLore(lines.stream()
@@ -414,8 +414,8 @@ public final class ItemStacks {
                                 net.minecraft.network.chat.Component.literal(line)
                                         .withStyle(net.minecraft.ChatFormatting.GRAY))
                         .toList()));
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag display = stack.getOrCreateTagElement("display");
+        *///?} else {
+        net.minecraft.nbt.CompoundTag display = stack.getOrCreateTagElement("display");
         net.minecraft.nbt.ListTag lore = new net.minecraft.nbt.ListTag();
         // 1.20.1 lore entries are JSON components, exactly as the LORE component holds them later.
         for (String line : lines) {
@@ -424,18 +424,18 @@ public final class ItemStacks {
         }
         display.put("Lore", lore);
         stack.setHoverName(net.minecraft.network.chat.Component.literal(name));
-        *///?}
+        //?}
     }
 
     /** Returns the plain text of vanilla lore lines, regardless of component or legacy NBT storage. */
     public static List<String> loreLines(ItemStack stack) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.ItemLore lore =
+        /*net.minecraft.world.item.component.ItemLore lore =
                 stack.get(net.minecraft.core.component.DataComponents.LORE);
         return lore == null ? List.of() : lore.lines().stream()
                 .map(net.minecraft.network.chat.Component::getString).toList();
-        //?} else {
-        /*if (!stack.hasTag()) return List.of();
+        *///?} else {
+        if (!stack.hasTag()) return List.of();
         net.minecraft.nbt.CompoundTag display = stack.getTag().getCompound("display");
         if (!display.contains("Lore", 9)) return List.of();
         net.minecraft.nbt.ListTag lore = display.getList("Lore", 8);
@@ -446,21 +446,21 @@ public final class ItemStacks {
             lines.add(line == null ? lore.getString(i) : line.getString());
         }
         return List.copyOf(lines);
-        *///?}
+        //?}
     }
 
     /** Reads one slot from block-entity state carried by an item. */
     public static ItemStack carriedItem(ItemStack carrier, String legacyInventoryKey, int slotCount, int slot) {
         if (slot < 0 || slot >= slotCount) return ItemStack.EMPTY;
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.ItemContainerContents contents =
+        /*net.minecraft.world.item.component.ItemContainerContents contents =
                 carrier.get(net.minecraft.core.component.DataComponents.CONTAINER);
         if (contents == null) return ItemStack.EMPTY;
         NonNullList<ItemStack> items = NonNullList.withSize(slotCount, ItemStack.EMPTY);
         contents.copyInto(items);
         return items.get(slot).copy();
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag data = legacyCarriedData(carrier);
+        *///?} else {
+        net.minecraft.nbt.CompoundTag data = legacyCarriedData(carrier);
         if (data.contains(legacyInventoryKey, 10)) {
             NonNullList<ItemStack> items = NonNullList.withSize(slotCount, ItemStack.EMPTY);
             net.minecraft.world.ContainerHelper.loadAllItems(data.getCompound(legacyInventoryKey), items);
@@ -468,29 +468,29 @@ public final class ItemStacks {
         }
         String directSlot = "slot" + slot;
         return data.contains(directSlot, 10) ? ItemStack.of(data.getCompound(directSlot)) : ItemStack.EMPTY;
-        *///?}
+        //?}
     }
 
     /** Reads an integer from an item's carried block custom data. */
     public static int carriedInt(ItemStack carrier, String key) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         return data == null ? 0 : fr.geoventure.geocore.data.Tags.getIntOr(data.copyTag(), key, 0);
-        //?} else {
-        /*return legacyCarriedData(carrier).getInt(key);
-        *///?}
+        *///?} else {
+        return legacyCarriedData(carrier).getInt(key);
+        //?}
     }
 
     /** Reads a string from an item's carried block custom data; empty when absent or not a string. */
     public static String carriedString(ItemStack carrier, String key) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         return data == null ? "" : fr.geoventure.geocore.data.Tags.getStringOr(data.copyTag(), key, "");
-        //?} else {
-        /*return fr.geoventure.geocore.data.Tags.getStringOr(legacyCarriedData(carrier), key, "");
-        *///?}
+        *///?} else {
+        return fr.geoventure.geocore.data.Tags.getStringOr(legacyCarriedData(carrier), key, "");
+        //?}
     }
 
     /** Writes a boolean into an item's carried block custom data, where {@link #carriedBoolean} reads it; false removes it. */
@@ -500,46 +500,46 @@ public final class ItemStacks {
             return;
         }
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         net.minecraft.nbt.CompoundTag tag = data == null ? new net.minecraft.nbt.CompoundTag() : data.copyTag();
         tag.putBoolean(key, true);
         carrier.set(net.minecraft.core.component.DataComponents.CUSTOM_DATA,
                 net.minecraft.world.item.component.CustomData.of(tag));
-        //?} else {
-        /*carrier.getOrCreateTagElement("BlockEntityTag").putBoolean(key, true);
-        *///?}
+        *///?} else {
+        carrier.getOrCreateTagElement("BlockEntityTag").putBoolean(key, true);
+        //?}
     }
 
     /** Writes a long into an item's carried block custom data, where {@link #carriedLong} reads it. */
     public static void setCarriedLong(ItemStack carrier, String key, long value) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         net.minecraft.nbt.CompoundTag tag = data == null ? new net.minecraft.nbt.CompoundTag() : data.copyTag();
         tag.putLong(key, value);
         carrier.set(net.minecraft.core.component.DataComponents.CUSTOM_DATA,
                 net.minecraft.world.item.component.CustomData.of(tag));
-        //?} else {
-        /*carrier.getOrCreateTagElement("BlockEntityTag").putLong(key, value);
-        *///?}
+        *///?} else {
+        carrier.getOrCreateTagElement("BlockEntityTag").putLong(key, value);
+        //?}
     }
 
     /** Reads a long from an item's carried block custom data. */
     public static long carriedLong(ItemStack carrier, String key) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         return data == null ? 0L : fr.geoventure.geocore.data.Tags.getLongOr(data.copyTag(), key, 0L);
-        //?} else {
-        /*return legacyCarriedData(carrier).getLong(key);
-        *///?}
+        *///?} else {
+        return legacyCarriedData(carrier).getLong(key);
+        //?}
     }
 
     /** Removes a key from an item's carried block custom data, and the data itself once it is empty. */
     public static void removeCarried(ItemStack carrier, String key) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         if (data == null) return;
         net.minecraft.nbt.CompoundTag tag = data.copyTag();
@@ -547,38 +547,38 @@ public final class ItemStacks {
         if (tag.isEmpty()) carrier.remove(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         else carrier.set(net.minecraft.core.component.DataComponents.CUSTOM_DATA,
                 net.minecraft.world.item.component.CustomData.of(tag));
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag root = carrier.getTag();
+        *///?} else {
+        net.minecraft.nbt.CompoundTag root = carrier.getTag();
         if (root == null) return;
         net.minecraft.nbt.CompoundTag data = root.getCompound("BlockEntityTag");
         data.remove(key);
         data.getCompound(fr.geoventure.geocore.data.CompatBlockEntity.LEGACY_CARRIED_KEY).remove(key);
         dropEmptyCarriedData(carrier);
-        *///?}
+        //?}
     }
 
     /** Whether a stack differs from a fresh stack of its item (any component patch; any tag before 1.20.5). */
     public static boolean isPlain(ItemStack stack) {
         //? if >=1.20.5 {
-        return stack.getComponentsPatch().isEmpty();
-        //?} else {
-        /*return !stack.hasTag();
-        *///?}
+        /*return stack.getComponentsPatch().isEmpty();
+        *///?} else {
+        return !stack.hasTag();
+        //?}
     }
 
     /** Reads a boolean from an item's carried block custom data. */
     public static boolean carriedBoolean(ItemStack carrier, String key) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.CustomData data =
+        /*net.minecraft.world.item.component.CustomData data =
                 carrier.get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
         return data != null && fr.geoventure.geocore.data.Tags.getBooleanOr(data.copyTag(), key, false);
-        //?} else {
-        /*return legacyCarriedData(carrier).getBoolean(key);
-        *///?}
+        *///?} else {
+        return legacyCarriedData(carrier).getBoolean(key);
+        //?}
     }
 
     //? if <1.20.5 {
-    /*private static net.minecraft.nbt.CompoundTag legacyCarriedData(ItemStack carrier) {
+    private static net.minecraft.nbt.CompoundTag legacyCarriedData(ItemStack carrier) {
         net.minecraft.nbt.CompoundTag root = carrier.getTag();
         if (root == null) return new net.minecraft.nbt.CompoundTag();
         if (!root.contains("BlockEntityTag", 10)) return root;
@@ -588,7 +588,7 @@ public final class ItemStacks {
         return data.contains(carried, 10) ? data.copy().merge(data.getCompound(carried)) : data;
     }
 
-    /^* Drops carried-data compounds left empty, and the tag itself, so the stack stacks with a fresh one again. ^/
+    /** Drops carried-data compounds left empty, and the tag itself, so the stack stacks with a fresh one again. */
     private static void dropEmptyCarriedData(ItemStack carrier) {
         net.minecraft.nbt.CompoundTag root = carrier.getTag();
         if (root == null) return;
@@ -600,54 +600,54 @@ public final class ItemStacks {
         }
         if (root.isEmpty()) carrier.setTag(null);
     }
-    *///?}
+    //?}
 
     /** Runs the vanilla crafted-item callback despite its level parameter changing across versions. */
     public static void onCraftedBy(ItemStack stack, Player player, int count) {
         //? if >=26.1 {
-        stack.onCraftedBy(player, count);
-        //?} else {
-        /*stack.onCraftedBy(player.level(), player, count);
-        *///?}
+        /*stack.onCraftedBy(player, count);
+        *///?} else {
+        stack.onCraftedBy(player.level(), player, count);
+        //?}
     }
 
     /** Encodes a possibly-empty stack using the native format for the target version. */
     public static void writeOptional(
             //? if >=1.20.5 {
-            RegistryFriendlyByteBuf
-            //?} else {
-            /*FriendlyByteBuf
-            *///?}
+            /*RegistryFriendlyByteBuf
+            *///?} else {
+            FriendlyByteBuf
+            //?}
             buffer, ItemStack stack) {
         //? if >=1.20.5 {
-        ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
-        //?} else {
-        /*buffer.writeItem(stack);
-        *///?}
+        /*ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
+        *///?} else {
+        buffer.writeItem(stack);
+        //?}
     }
 
     /** Decodes a stack written by {@link #writeOptional}. */
     public static ItemStack readOptional(
             //? if >=1.20.5 {
-            RegistryFriendlyByteBuf
-            //?} else {
-            /*FriendlyByteBuf
-            *///?}
+            /*RegistryFriendlyByteBuf
+            *///?} else {
+            FriendlyByteBuf
+            //?}
             buffer) {
         //? if >=1.20.5 {
-        return ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
-        //?} else {
-        /*return buffer.readItem();
-        *///?}
+        /*return ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
+        *///?} else {
+        return buffer.readItem();
+        //?}
     }
 
     /** Returns the food properties attached to this stack's item, or {@code null} when it is not food. */
     public static FoodProperties foodProperties(ItemStack stack) {
         //? if >=1.21 {
-        return stack.get(net.minecraft.core.component.DataComponents.FOOD);
-        //?} else {
-        /*return stack.getItem().getFoodProperties();
-        *///?}
+        /*return stack.get(net.minecraft.core.component.DataComponents.FOOD);
+        *///?} else {
+        return stack.getItem().getFoodProperties();
+        //?}
     }
 
     /** Creates food properties despite the builder's saturation method rename. */
@@ -658,38 +658,38 @@ public final class ItemStacks {
     /** Creates food properties, optionally allowing consumption at a full hunger bar. */
     public static FoodProperties food(int nutrition, float saturationModifier, boolean alwaysEdible) {
         //? if >=1.20.5 {
-        FoodProperties.Builder builder = new FoodProperties.Builder().nutrition(nutrition)
+        /*FoodProperties.Builder builder = new FoodProperties.Builder().nutrition(nutrition)
                 .saturationModifier(saturationModifier);
         //? if >=1.21.1 {
-        if (alwaysEdible) builder.alwaysEdible();
-        //?} else {
-        /*if (alwaysEdible) builder.alwaysEat();
-        *///?}
+        /^if (alwaysEdible) builder.alwaysEdible();
+        ^///?} else {
+        if (alwaysEdible) builder.alwaysEat();
+        //?}
         return builder.build();
-        //?} else {
-        /*FoodProperties.Builder builder = new FoodProperties.Builder().nutrition(nutrition)
+        *///?} else {
+        FoodProperties.Builder builder = new FoodProperties.Builder().nutrition(nutrition)
                 .saturationMod(saturationModifier);
         if (alwaysEdible) builder.alwaysEat();
         return builder.build();
-        *///?}
+        //?}
     }
 
     /** Returns the nutrition value across the pre-record and record-shaped food APIs. */
     public static int foodNutrition(FoodProperties food) {
         //? if >=1.21 {
-        return food.nutrition();
-        //?} else {
-        /*return food.getNutrition();
-        *///?}
+        /*return food.nutrition();
+        *///?} else {
+        return food.getNutrition();
+        //?}
     }
 
     /** Returns the constructor-level saturation modifier, not the computed saturation amount. */
     public static float foodSaturationModifier(FoodProperties food) {
         //? if >=1.21 {
-        return food.nutrition() == 0 ? 0F : food.saturation() / (food.nutrition() * 2F);
-        //?} else {
-        /*return food.getSaturationModifier();
-        *///?}
+        /*return food.nutrition() == 0 ? 0F : food.saturation() / (food.nutrition() * 2F);
+        *///?} else {
+        return food.getSaturationModifier();
+        //?}
     }
 
     /**
@@ -701,7 +701,7 @@ public final class ItemStacks {
      */
     public static void applyComponents(BlockEntity blockEntity, ItemStack stack) {
         //? if >=1.20.5 {
-        var properties = stack.get(DataComponents.BLOCK_STATE);
+        /*var properties = stack.get(DataComponents.BLOCK_STATE);
         if (properties != null) {
             var current = blockEntity.getBlockState();
             var state = properties.apply(current);
@@ -716,8 +716,8 @@ public final class ItemStacks {
             }
         }
         blockEntity.applyComponentsFromItemStack(stack);
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag data = net.minecraft.world.item.BlockItem.getBlockEntityData(stack);
+        *///?} else {
+        net.minecraft.nbt.CompoundTag data = net.minecraft.world.item.BlockItem.getBlockEntityData(stack);
         if (data == null) return;
         net.minecraft.nbt.CompoundTag current = blockEntity.saveWithoutMetadata();
         net.minecraft.nbt.CompoundTag before = current.copy();
@@ -726,7 +726,7 @@ public final class ItemStacks {
             blockEntity.load(current);
             blockEntity.setChanged();
         }
-        *///?}
+        //?}
     }
 
     /**
@@ -735,55 +735,55 @@ public final class ItemStacks {
      */
     public static void consume(ItemStack stack, int count, net.minecraft.world.entity.@org.jspecify.annotations.Nullable LivingEntity player) {
         //? if >=1.21 {
-        stack.consume(count, player);
-        //?} else {
-        /*if (player == null || !(player instanceof net.minecraft.world.entity.player.Player p && p.getAbilities().instabuild)) {
+        /*stack.consume(count, player);
+        *///?} else {
+        if (player == null || !(player instanceof net.minecraft.world.entity.player.Player p && p.getAbilities().instabuild)) {
             stack.shrink(count);
         }
-        *///?}
+        //?}
     }
 
     /** Every slot carried by an item (the CONTAINER component; the legacy block-entity "Items" list before 1.20.5). */
     public static NonNullList<ItemStack> carriedItems(ItemStack carrier, int slotCount) {
         NonNullList<ItemStack> items = NonNullList.withSize(slotCount, ItemStack.EMPTY);
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.ItemContainerContents contents =
+        /*net.minecraft.world.item.component.ItemContainerContents contents =
                 carrier.get(net.minecraft.core.component.DataComponents.CONTAINER);
         if (contents != null) contents.copyInto(items);
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag data = legacyCarriedData(carrier);
+        *///?} else {
+        net.minecraft.nbt.CompoundTag data = legacyCarriedData(carrier);
         if (data.contains("Items", 9)) net.minecraft.world.ContainerHelper.loadAllItems(data, items);
-        *///?}
+        //?}
         return items;
     }
 
     /** Packs {@code items} onto the carrier the way {@link #carriedItems} reads them. */
     public static void setCarriedItems(ItemStack carrier, List<ItemStack> items) {
         //? if >=1.20.5 {
-        carrier.set(net.minecraft.core.component.DataComponents.CONTAINER,
+        /*carrier.set(net.minecraft.core.component.DataComponents.CONTAINER,
                 net.minecraft.world.item.component.ItemContainerContents.fromItems(items));
-        //?} else {
-        /*NonNullList<ItemStack> list = NonNullList.withSize(items.size(), ItemStack.EMPTY);
+        *///?} else {
+        NonNullList<ItemStack> list = NonNullList.withSize(items.size(), ItemStack.EMPTY);
         for (int i = 0; i < items.size(); i++) list.set(i, items.get(i));
         net.minecraft.nbt.CompoundTag data = carrier.getOrCreateTagElement("BlockEntityTag");
         net.minecraft.world.ContainerHelper.saveAllItems(data, list);
-        *///?}
+        //?}
     }
 
     /** Whether {@code stack} may go into an item store: vanilla's shulker-box rule, and nothing that carries items. */
     public static boolean fitsInContainerItem(ItemStack stack) {
         if (!stack.getItem().canFitInsideContainerItems()) return false;
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.BundleContents bundle =
+        /*net.minecraft.world.item.component.BundleContents bundle =
                 stack.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
         return (bundle == null || bundle.isEmpty())
                 && stack.getOrDefault(net.minecraft.core.component.DataComponents.CONTAINER,
                         net.minecraft.world.item.component.ItemContainerContents.EMPTY)
                         .equals(net.minecraft.world.item.component.ItemContainerContents.EMPTY);
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag tag = stack.getTag();
+        *///?} else {
+        net.minecraft.nbt.CompoundTag tag = stack.getTag();
         return tag == null || !tag.contains("Items", 9) && !legacyCarriedData(stack).contains("Items", 9);
-        *///?}
+        //?}
     }
 
     /**
@@ -793,15 +793,15 @@ public final class ItemStacks {
      */
     public static NonNullList<ItemStack> carriedItems(ItemStack carrier, String legacyInventoryKey, int slotCount) {
         //? if >=1.20.5 {
-        return carriedItems(carrier, slotCount);
-        //?} else {
-        /*NonNullList<ItemStack> items = NonNullList.withSize(slotCount, ItemStack.EMPTY);
+        /*return carriedItems(carrier, slotCount);
+        *///?} else {
+        NonNullList<ItemStack> items = NonNullList.withSize(slotCount, ItemStack.EMPTY);
         net.minecraft.nbt.CompoundTag data = legacyCarriedData(carrier);
         if (data.contains(legacyInventoryKey, 10)) {
             net.minecraft.world.ContainerHelper.loadAllItems(data.getCompound(legacyInventoryKey), items);
         }
         return items;
-        *///?}
+        //?}
     }
 
     /**
@@ -811,7 +811,7 @@ public final class ItemStacks {
     public static void setCarriedItems(ItemStack carrier, String legacyInventoryKey, List<ItemStack> items) {
         boolean empty = items.stream().allMatch(ItemStack::isEmpty);
         //? if >=1.20.5 {
-        if (!empty) {
+        /*if (!empty) {
             setCarriedItems(carrier, items);
         } else if (carrier.getItem().components().has(net.minecraft.core.component.DataComponents.CONTAINER)) {
             carrier.set(net.minecraft.core.component.DataComponents.CONTAINER,
@@ -819,8 +819,8 @@ public final class ItemStacks {
         } else {
             carrier.remove(net.minecraft.core.component.DataComponents.CONTAINER);
         }
-        //?} else {
-        /*if (empty) {
+        *///?} else {
+        if (empty) {
             net.minecraft.nbt.CompoundTag root = carrier.getTag();
             if (root == null) return;
             root.getCompound("BlockEntityTag").remove(legacyInventoryKey);
@@ -833,22 +833,22 @@ public final class ItemStacks {
         net.minecraft.nbt.CompoundTag inventory = new net.minecraft.nbt.CompoundTag();
         net.minecraft.world.ContainerHelper.saveAllItems(inventory, list, true);
         data.put(legacyInventoryKey, inventory);
-        *///?}
+        //?}
     }
 
     /** A book and quill holding {@code pages} (WRITABLE_BOOK_CONTENT from 1.20.5, the "pages" string list before). */
     public static ItemStack writableBook(List<String> pages) {
         ItemStack book = new ItemStack(net.minecraft.world.item.Items.WRITABLE_BOOK);
         //? if >=1.20.5 {
-        List<net.minecraft.server.network.Filterable<String>> list = new java.util.ArrayList<>();
+        /*List<net.minecraft.server.network.Filterable<String>> list = new java.util.ArrayList<>();
         for (String page : pages) list.add(net.minecraft.server.network.Filterable.passThrough(page));
         book.set(net.minecraft.core.component.DataComponents.WRITABLE_BOOK_CONTENT,
                 new net.minecraft.world.item.component.WritableBookContent(list));
-        //?} else {
-        /*net.minecraft.nbt.ListTag list = new net.minecraft.nbt.ListTag();
+        *///?} else {
+        net.minecraft.nbt.ListTag list = new net.minecraft.nbt.ListTag();
         for (String page : pages) list.add(net.minecraft.nbt.StringTag.valueOf(page));
         book.getOrCreateTag().put("pages", list);
-        *///?}
+        //?}
         return book;
     }
 
@@ -856,39 +856,39 @@ public final class ItemStacks {
     public static List<String> writableBookPages(ItemStack book) {
         List<String> out = new java.util.ArrayList<>();
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.WritableBookContent content =
+        /*net.minecraft.world.item.component.WritableBookContent content =
                 book.get(net.minecraft.core.component.DataComponents.WRITABLE_BOOK_CONTENT);
         if (content != null) content.pages().forEach(page -> out.add(page.raw()));
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag tag = book.getTag();
+        *///?} else {
+        net.minecraft.nbt.CompoundTag tag = book.getTag();
         if (tag != null) {
             net.minecraft.nbt.ListTag list = tag.getList("pages", 8);
             for (int i = 0; i < list.size(); i++) out.add(list.getString(i));
         }
-        *///?}
+        //?}
         return out;
     }
 
     /** Sets the stack's display name (CUSTOM_NAME component / legacy display tag). */
     public static void setCustomName(ItemStack stack, net.minecraft.network.chat.Component name) {
         //? if >=1.20.5 {
-        stack.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, name);
-        //?} else {
-        /*stack.setHoverName(name);
-        *///?}
+        /*stack.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, name);
+        *///?} else {
+        stack.setHoverName(name);
+        //?}
     }
 
     /** The compressed NBT size of a stack, for 1.7-style "too big to drop" guards. */
     public static int compressedSize(ItemStack stack, net.minecraft.core.HolderLookup.Provider registries) {
         try {
             //? if >=1.20.5 {
-            net.minecraft.nbt.Tag encoded = ItemStack.CODEC.encodeStart(
+            /*net.minecraft.nbt.Tag encoded = ItemStack.CODEC.encodeStart(
                     net.minecraft.resources.RegistryOps.create(net.minecraft.nbt.NbtOps.INSTANCE, registries), stack)
                     .result().orElse(null);
             if (!(encoded instanceof net.minecraft.nbt.CompoundTag tag)) return 0;
-            //?} else {
-            /*net.minecraft.nbt.CompoundTag tag = stack.save(new net.minecraft.nbt.CompoundTag());
-            *///?}
+            *///?} else {
+            net.minecraft.nbt.CompoundTag tag = stack.save(new net.minecraft.nbt.CompoundTag());
+            //?}
             java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
             net.minecraft.nbt.NbtIo.writeCompressed(tag, out);
             return out.size();
@@ -900,10 +900,10 @@ public final class ItemStacks {
     /** The stack's custom display name, or null (CUSTOM_NAME component / legacy display tag). */
     public static net.minecraft.network.chat.@org.jspecify.annotations.Nullable Component customName(ItemStack stack) {
         //? if >=1.20.5 {
-        return stack.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME);
-        //?} else {
-        /*return stack.hasCustomHoverName() ? stack.getHoverName() : null;
-        *///?}
+        /*return stack.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME);
+        *///?} else {
+        return stack.hasCustomHoverName() ? stack.getHoverName() : null;
+        //?}
     }
 
     /**
@@ -917,10 +917,10 @@ public final class ItemStacks {
      */
     public static void setMaxStackSize(ItemStack stack, int size) {
         //? if >=1.20.5 {
-        stack.set(net.minecraft.core.component.DataComponents.MAX_STACK_SIZE, size);
-        //?} else {
-        /*stack.getOrCreateTag().putInt(LEGACY_MAX_STACK_SIZE, size);
-        *///?}
+        /*stack.set(net.minecraft.core.component.DataComponents.MAX_STACK_SIZE, size);
+        *///?} else {
+        stack.getOrCreateTag().putInt(LEGACY_MAX_STACK_SIZE, size);
+        //?}
     }
 
     /** The tag key {@link #setMaxStackSize} writes below 1.20.5; unused (and never written) from 1.20.5 on. */
@@ -933,12 +933,12 @@ public final class ItemStacks {
      */
     public static int legacyMaxStackSize(ItemStack stack, int fallback) {
         //? if >=1.20.5 {
-        return stack.getMaxStackSize();
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag tag = stack.getTag();
+        /*return stack.getMaxStackSize();
+        *///?} else {
+        net.minecraft.nbt.CompoundTag tag = stack.getTag();
         return tag != null && tag.contains(LEGACY_MAX_STACK_SIZE, net.minecraft.nbt.Tag.TAG_INT)
                 ? tag.getInt(LEGACY_MAX_STACK_SIZE) : fallback;
-        *///?}
+        //?}
     }
 
     /** Caps the stack at {@code max} (1.20.5 {@code limitSize}). */
@@ -950,14 +950,14 @@ public final class ItemStacks {
     public static ItemStack playerHead(Player player) {
         ItemStack head = new ItemStack(net.minecraft.world.item.Items.PLAYER_HEAD);
         //? if >=26.1 {
-        head.set(net.minecraft.core.component.DataComponents.PROFILE,
+        /*head.set(net.minecraft.core.component.DataComponents.PROFILE,
                 net.minecraft.world.item.component.ResolvableProfile.createResolved(player.getGameProfile()));
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*head.set(net.minecraft.core.component.DataComponents.PROFILE,
                 new net.minecraft.world.item.component.ResolvableProfile(player.getGameProfile()));
         *///?} else {
-        /*head.getOrCreateTag().putString("SkullOwner", player.getGameProfile().getName());
-        *///?}
+        head.getOrCreateTag().putString("SkullOwner", player.getGameProfile().getName());
+        //?}
         return head;
     }
 }

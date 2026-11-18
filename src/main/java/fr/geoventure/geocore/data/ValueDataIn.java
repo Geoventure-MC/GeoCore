@@ -1,14 +1,14 @@
 package fr.geoventure.geocore.data;
 
 //? if >=26.1 {
-import com.mojang.serialization.Codec;
+/*import com.mojang.serialization.Codec;
 import net.minecraft.world.level.storage.ValueInput;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/** {@link DataIn} backed by 26.1's {@code ValueInput}. Pure delegation — the shapes already match. */
+/^* {@link DataIn} backed by 26.1's {@code ValueInput}. Pure delegation — the shapes already match. ^/
 public record ValueDataIn(ValueInput delegate) implements DataIn {
 
     @Override
@@ -82,4 +82,4 @@ public record ValueDataIn(ValueInput delegate) implements DataIn {
         return out;
     }
 }
-//?}
+*///?}

@@ -290,7 +290,7 @@ public final class StaticMeshes {
         }
 
         //? if >=26.1 {
-        @Override public VertexConsumer addVertex(float x, float y, float z) { start(x, y, z); return this; }
+        /*@Override public VertexConsumer addVertex(float x, float y, float z) { start(x, y, z); return this; }
         @Override public VertexConsumer setColor(int r, int g, int b, int a) { putColour(argb(r, g, b, a)); return this; }
         @Override public VertexConsumer setColor(int argb) { putColour(argb); return this; }
         @Override public VertexConsumer setUv(float u, float v) { putUv(u, v); return this; }
@@ -301,7 +301,7 @@ public final class StaticMeshes {
         @Override public VertexConsumer addVertex(PoseStack.Pose pose, float x, float y, float z) { start(x, y, z); return this; }
         @Override public VertexConsumer addVertex(org.joml.Matrix4fc pose, float x, float y, float z) { start(x, y, z); return this; }
         @Override public VertexConsumer setNormal(PoseStack.Pose pose, float x, float y, float z) { putNormal(x, y, z); return this; }
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*@Override public VertexConsumer addVertex(float x, float y, float z) { start(x, y, z); return this; }
         @Override public VertexConsumer setColor(int r, int g, int b, int a) { putColour(argb(r, g, b, a)); return this; }
         @Override public VertexConsumer setUv(float u, float v) { putUv(u, v); return this; }
@@ -312,7 +312,7 @@ public final class StaticMeshes {
         @Override public VertexConsumer addVertex(org.joml.Matrix4f pose, float x, float y, float z) { start(x, y, z); return this; }
         @Override public VertexConsumer setNormal(PoseStack.Pose pose, float x, float y, float z) { putNormal(x, y, z); return this; }
         *///?} else {
-        /*@Override public VertexConsumer vertex(double x, double y, double z) { start((float) x, (float) y, (float) z); return this; }
+        @Override public VertexConsumer vertex(double x, double y, double z) { start((float) x, (float) y, (float) z); return this; }
         @Override public VertexConsumer color(int r, int g, int b, int a) { putColour(argb(r, g, b, a)); return this; }
         @Override public VertexConsumer uv(float u, float v) { putUv(u, v); return this; }
         @Override public VertexConsumer overlayCoords(int u, int v) { putOverlay(u, v); return this; }
@@ -323,7 +323,7 @@ public final class StaticMeshes {
         @Override public void unsetDefaultColor() {}
         @Override public VertexConsumer vertex(org.joml.Matrix4f pose, float x, float y, float z) { start(x, y, z); return this; }
         @Override public VertexConsumer normal(org.joml.Matrix3f matrix, float x, float y, float z) { putNormal(x, y, z); return this; }
-        *///?}
+        //?}
     }
 
     // Harness
@@ -367,7 +367,7 @@ public final class StaticMeshes {
         final int vertices;
         long lastUsed;
         //? if >=26.1 {
-        final com.mojang.blaze3d.buffers.GpuBuffer buffer;
+        /*final com.mojang.blaze3d.buffers.GpuBuffer buffer;
 
         Mesh(com.mojang.blaze3d.buffers.GpuBuffer buffer, int vertices) {
             this.buffer = buffer;
@@ -377,8 +377,8 @@ public final class StaticMeshes {
         void close() {
             buffer.close();
         }
-        //?} else {
-        /*final com.mojang.blaze3d.vertex.VertexBuffer buffer;
+        *///?} else {
+        final com.mojang.blaze3d.vertex.VertexBuffer buffer;
 
         Mesh(com.mojang.blaze3d.vertex.VertexBuffer buffer, int vertices) {
             this.buffer = buffer;
@@ -388,7 +388,7 @@ public final class StaticMeshes {
         void close() {
             buffer.close();
         }
-        *///?}
+        //?}
     }
 
     /** The era-specific upload and draw. */
@@ -416,14 +416,14 @@ public final class StaticMeshes {
          */
         private static boolean normalises(PoseStack.Pose pose) {
             //? if >=1.21 {
-            return Float.isNaN(pose.transformNormal(0F, 0F, 0F, new org.joml.Vector3f()).x);
-            //?} else {
-            /*return false; // 1.20.1 VertexConsumer.normal(Matrix3f, ...) never normalises
-            *///?}
+            /*return Float.isNaN(pose.transformNormal(0F, 0F, 0F, new org.joml.Vector3f()).x);
+            *///?} else {
+            return false; // 1.20.1 VertexConsumer.normal(Matrix3f, ...) never normalises
+            //?}
         }
 
         //? if >=26.1 {
-        static final String NAME = "gpu-buffer";
+        /*static final String NAME = "gpu-buffer";
         private static final int BLOCK_BYTES = 176;
         private static final int RING_SLOTS = 256;
         private static com.mojang.blaze3d.vertex.@Nullable VertexFormat format;
@@ -458,10 +458,10 @@ public final class StaticMeshes {
             return format;
         }
 
-        /**
+        /^*
          * {@code RenderPipelines.ENTITY_CUTOUT_CULL} with only the vertex shader, its input format and the one extra
          * uniform block changed, checked against the live vanilla pipeline so a patched one is never imitated.
-         */
+         ^/
         private static com.mojang.blaze3d.pipeline.RenderPipeline pipeline() throws IOException {
             if (pipeline == null) {
                 com.mojang.blaze3d.pipeline.RenderPipeline vanilla = net.minecraft.client.renderer.RenderPipelines.ENTITY_CUTOUT_CULL;
@@ -539,7 +539,7 @@ public final class StaticMeshes {
             return slice;
         }
 
-        /** {@code RenderType.draw} for {@code entity_cutout_cull}, with the resident mesh as the vertex buffer. */
+        /^* {@code RenderType.draw} for {@code entity_cutout_cull}, with the resident mesh as the vertex buffer. ^/
         static void draw(PoseStack.Pose pose, Mesh mesh, Surface surface, int light, int overlay, int color)
                 throws IOException {
             com.mojang.blaze3d.pipeline.RenderPipeline pipeline = pipeline();
@@ -587,15 +587,15 @@ public final class StaticMeshes {
             // 26.1 recompiles pipelines itself after a shader reload; a resource pack may change GemRender's patch
             gemRenderLights = null;
         }
-        //?} else {
-        /*static final String NAME = "vertex-buffer";
+        *///?} else {
+        static final String NAME = "vertex-buffer";
         private static com.mojang.blaze3d.vertex.@Nullable VertexFormat format;
         private static net.minecraft.client.renderer.@Nullable ShaderInstance shader;
 
         private static com.mojang.blaze3d.vertex.VertexFormat format() {
             if (format == null) {
                 //? if >=1.21 {
-                int id = 31;
+                /*int id = 31;
                 while (id >= 0 && com.mojang.blaze3d.vertex.VertexFormatElement.byId(id) != null) id--;
                 if (id < 0) throw new IllegalStateException("No free vertex format element id");
                 com.mojang.blaze3d.vertex.VertexFormatElement normal = com.mojang.blaze3d.vertex.VertexFormatElement.register(
@@ -606,15 +606,15 @@ public final class StaticMeshes {
                         .add("UV0", com.mojang.blaze3d.vertex.VertexFormatElement.UV0)
                         .add("Normal", normal)
                         .build();
-                //?} else {
-                /^com.mojang.blaze3d.vertex.VertexFormatElement normal = new com.mojang.blaze3d.vertex.VertexFormatElement(
+                *///?} else {
+                com.mojang.blaze3d.vertex.VertexFormatElement normal = new com.mojang.blaze3d.vertex.VertexFormatElement(
                         0, com.mojang.blaze3d.vertex.VertexFormatElement.Type.FLOAT,
                         com.mojang.blaze3d.vertex.VertexFormatElement.Usage.GENERIC, 3);
                 format = new com.mojang.blaze3d.vertex.VertexFormat(com.google.common.collect.ImmutableMap.of(
                         "Position", com.mojang.blaze3d.vertex.DefaultVertexFormat.ELEMENT_POSITION,
                         "UV0", com.mojang.blaze3d.vertex.DefaultVertexFormat.ELEMENT_UV0,
                         "Normal", normal));
-                ^///?}
+                //?}
             }
             return format;
         }
@@ -622,10 +622,10 @@ public final class StaticMeshes {
         private static net.minecraft.client.renderer.ShaderInstance shader() throws IOException {
             if (shader == null) {
                 //? if >=1.21 {
-                String name = "static_mesh_legacy";
-                //?} else {
-                /^String name = "static_mesh_legacy120";
-                ^///?}
+                /*String name = "static_mesh_legacy";
+                *///?} else {
+                String name = "static_mesh_legacy120";
+                //?}
                 net.minecraft.server.packs.resources.ResourceManager resources =
                         net.minecraft.client.Minecraft.getInstance().getResourceManager();
                 net.minecraft.server.packs.resources.ResourceProvider provider = !gemRenderLights() ? resources
@@ -657,7 +657,7 @@ public final class StaticMeshes {
             com.mojang.blaze3d.vertex.VertexBuffer buffer =
                     new com.mojang.blaze3d.vertex.VertexBuffer(com.mojang.blaze3d.vertex.VertexBuffer.Usage.STATIC);
             //? if >=1.21 {
-            try (com.mojang.blaze3d.vertex.ByteBufferBuilder bytes = new com.mojang.blaze3d.vertex.ByteBufferBuilder(data.length * 4)) {
+            /*try (com.mojang.blaze3d.vertex.ByteBufferBuilder bytes = new com.mojang.blaze3d.vertex.ByteBufferBuilder(data.length * 4)) {
                 long pointer = bytes.reserve(data.length * 4);
                 for (int i = 0; i < data.length; i++) org.lwjgl.system.MemoryUtil.memPutFloat(pointer + 4L * i, data[i]);
                 try (com.mojang.blaze3d.vertex.MeshData mesh = new com.mojang.blaze3d.vertex.MeshData(bytes.build(),
@@ -669,8 +669,8 @@ public final class StaticMeshes {
                     com.mojang.blaze3d.vertex.VertexBuffer.unbind();
                 }
             }
-            //?} else {
-            /^com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder();
+            *///?} else {
+            com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder();
             if (builder.building()) throw new IllegalStateException("the tesselator is in use");
             builder.begin(com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS, format());
             for (int at = 0; at < data.length; at += Capture.FLOATS) {
@@ -685,7 +685,7 @@ public final class StaticMeshes {
             buffer.bind();
             buffer.upload(builder.end());
             com.mojang.blaze3d.vertex.VertexBuffer.unbind();
-            ^///?}
+            //?}
             return new Mesh(buffer, vertices);
         }
 
@@ -725,6 +725,6 @@ public final class StaticMeshes {
             if (shader != null) shader.close();
             shader = null;
         }
-        *///?}
+        //?}
     }
 }

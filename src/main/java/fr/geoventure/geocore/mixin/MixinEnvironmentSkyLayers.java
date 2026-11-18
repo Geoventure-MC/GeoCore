@@ -3,7 +3,7 @@ package fr.geoventure.geocore.mixin;
 import fr.geoventure.geocore.client.Clouds;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.world.Skies;
+/*import fr.geoventure.geocore.world.Skies;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.Level;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * 26.1's half of {@link Skies#addModifier}: one time-based layer per sky attribute, appended after the level's
  * default layers (dimension, biome, timelines, weather) on both the server and the client level.
  *
@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * selects GeoCore's {@code CustomCloudsRenderer}. A shared dimension type cannot carry that NeoForge-only attribute
  * (Fabric rejects the file), so a layer is the only place to set it. Both return their input for every other level.
  * {@link fr.geoventure.geocore.client.Precipitation} and {@code neoforge:visual/custom_weather_effects} work the same way.
- */
+ ^/
 @Mixin(EnvironmentAttributeSystem.class)
 public abstract class MixinEnvironmentSkyLayers {
 
@@ -65,7 +65,7 @@ public abstract class MixinEnvironmentSkyLayers {
         builder.addTimeBasedLayer(EnvironmentAttributes.CLOUD_COLOR, (value, tick) ->
                 fr.geoventure.geocore.client.Clouds.cloudColorAttribute(level, value));
         //? if neoforge {
-        builder.addTimeBasedLayer(net.neoforged.neoforge.common.world.NeoForgeEnvironmentAttributes.CUSTOM_CLOUDS,
+        /^builder.addTimeBasedLayer(net.neoforged.neoforge.common.world.NeoForgeEnvironmentAttributes.CUSTOM_CLOUDS,
                 (value, tick) -> Clouds.replaces(level)
                         ? fr.geoventure.geocore.Ids.of(fr.geoventure.geocore.client.Clouds.NAMESPACE, fr.geoventure.geocore.client.Clouds.PATH)
                         : value);
@@ -75,12 +75,12 @@ public abstract class MixinEnvironmentSkyLayers {
                         ? fr.geoventure.geocore.Ids.of(fr.geoventure.geocore.render.PrecipitationRendering.NAMESPACE,
                                 fr.geoventure.geocore.render.PrecipitationRendering.PATH)
                         : value);
-        //?}
+        ^///?}
     }
 }
-//?} else {
-/*public final class MixinEnvironmentSkyLayers {
+*///?} else {
+public final class MixinEnvironmentSkyLayers {
     // Empty below 26.1, where there are no environment attributes; see MixinLevelSkyDarken and MixinClientLevelSky.
     private MixinEnvironmentSkyLayers() {}
 }
-*///?}
+//?}

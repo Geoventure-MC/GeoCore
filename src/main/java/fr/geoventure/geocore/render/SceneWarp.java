@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.ColorTargetState;
+/*import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -14,14 +14,14 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import com.mojang.blaze3d.systems.RenderSystem;
+*///?} else {
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import java.io.IOException;
-*///?}
+//?}
 
 /**
  * A render type whose consumer-supplied shader reads the already-rendered scene and draws over its own geometry
@@ -88,22 +88,22 @@ public final class SceneWarp {
             float u, float v, int uv1U, int uv1V, int uv2U, int uv2V, float normalX, float normalY, float normalZ) {
         int a = argb >>> 24, r = (argb >> 16) & 0xFF, g = (argb >> 8) & 0xFF, b = argb & 0xFF;
         //? if >=1.21 {
-        buffer.addVertex(pose, x, y, z).setColor(r, g, b, a).setUv(u, v).setUv1(uv1U, uv1V).setUv2(uv2U, uv2V)
+        /*buffer.addVertex(pose, x, y, z).setColor(r, g, b, a).setUv(u, v).setUv1(uv1U, uv1V).setUv2(uv2U, uv2V)
                 .setNormal(normalX, normalY, normalZ);
-        //?} else {
-        /*buffer.vertex(pose.pose(), x, y, z).color(r, g, b, a).uv(u, v).overlayCoords(uv1U, uv1V).uv2(uv2U, uv2V)
+        *///?} else {
+        buffer.vertex(pose.pose(), x, y, z).color(r, g, b, a).uv(u, v).overlayCoords(uv1U, uv1V).uv2(uv2U, uv2V)
                 .normal(normalX, normalY, normalZ).endVertex();
-        *///?}
+        //?}
     }
 
     //? if >=26.1 {
-    private static final java.util.Map<Identifier, RenderType> TYPES = new java.util.HashMap<>();
+    /*private static final java.util.Map<Identifier, RenderType> TYPES = new java.util.HashMap<>();
 
-    /**
+    /^*
      * The entity format's elements in a format of its own. Iris extends a buffer whose format {@code ==}
      * {@code DefaultVertexFormat.ENTITY} and overwrites each quad's normals with its face normal, which would
      * destroy the parameter carried in Normal; it does not touch any other format instance.
-     */
+     ^/
     private static final com.mojang.blaze3d.vertex.VertexFormat FORMAT = com.mojang.blaze3d.vertex.VertexFormat.builder()
             .add("Position", com.mojang.blaze3d.vertex.VertexFormatElement.POSITION)
             .add("Color", com.mojang.blaze3d.vertex.VertexFormatElement.COLOR)
@@ -129,7 +129,7 @@ public final class SceneWarp {
         return base.substring(0, separator + 1) + "core/" + base.substring(separator + 1);
     }
 
-    /** The render type with {@code texture} as Sampler1 (nearest, clamped). */
+    /^* The render type with {@code texture} as Sampler1 (nearest, clamped). ^/
     public static RenderType renderType(Identifier texture) {
         return TYPES.computeIfAbsent(texture, SceneWarp::create);
     }
@@ -165,8 +165,8 @@ public final class SceneWarp {
                         () -> RenderSystem.getSamplerCache().getClampToEdge(FilterMode.NEAREST))
                 .createRenderSetup());
     }
-    //?} else {
-    /*private static final java.util.Map<ResourceLocation, RenderType> TYPES = new java.util.HashMap<>();
+    *///?} else {
+    private static final java.util.Map<ResourceLocation, RenderType> TYPES = new java.util.HashMap<>();
     private static ShaderInstance shader;
 
     private static void reset() {
@@ -179,7 +179,7 @@ public final class SceneWarp {
         return renderType != null && TYPES.containsValue(renderType);
     }
 
-    /^* The render type with {@code texture} as Sampler1. ^/
+    /** The render type with {@code texture} as Sampler1. */
     public static RenderType renderType(ResourceLocation texture) {
         return TYPES.computeIfAbsent(texture, Factory::create);
     }
@@ -241,5 +241,5 @@ public final class SceneWarp {
                             .createCompositeState(false));
         }
     }
-    *///?}
+    //?}
 }

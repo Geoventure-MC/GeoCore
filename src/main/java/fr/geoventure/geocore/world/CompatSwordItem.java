@@ -26,61 +26,61 @@ import net.minecraft.world.level.Level;
  */
 public class CompatSwordItem extends
         //? if >=26.1 {
-        net.minecraft.world.item.Item
-        //?} else {
-        /*net.minecraft.world.item.SwordItem
-        *///?}
+        /*net.minecraft.world.item.Item
+        *///?} else {
+        net.minecraft.world.item.SwordItem
+        //?}
 {
     private final boolean wearsOnHit;
 
     //? if forge {
-    /*@Override
+    @Override
     public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
         fr.geoventure.geocore.render.ForgeItemRenderers.initialize(consumer);
     }
-    *///?}
+    //?}
 
     // SwingReceiver dispatch through the loader's own item hook (Fabric: MixinLivingEntitySwing).
     //? if neoforge {
-    @Override
+    /*@Override
     public boolean onEntitySwing(net.minecraft.world.item.ItemStack stack, net.minecraft.world.entity.LivingEntity entity,
                                  net.minecraft.world.InteractionHand hand) {
         return SwingReceiver.dispatch(stack, entity, hand);
     }
-    //?} elif forge {
-    /*@Override
+    *///?} elif forge {
+    @Override
     public boolean onEntitySwing(net.minecraft.world.item.ItemStack stack, net.minecraft.world.entity.LivingEntity entity) {
         return SwingReceiver.dispatch(stack, entity, SwingReceiver.handOf(stack, entity));
     }
-    *///?}
+    //?}
 
     //? if <1.21.1 {
-    /*private final boolean absoluteAttributes;
+    private final boolean absoluteAttributes;
     private final float legacyDamage;
     private final float legacySpeed;
     private final double legacyMovement;
-    *///?}
+    //?}
 
     public CompatSwordItem(net.minecraft.world.item.Item.Properties properties,
                            int durability, float attackDamage, float attackSpeed,
                            net.minecraft.tags.TagKey<net.minecraft.world.item.Item> repairTag) {
         //? if >=26.1 {
-        super(properties.sword(steelMaterial(durability, repairTag), attackDamage, attackSpeed)
+        /*super(properties.sword(steelMaterial(durability, repairTag), attackDamage, attackSpeed)
                 .durability(durability)
                 .repairable(repairTag));
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*super(steelTier(durability, repairTag),
                 properties.durability(durability).attributes(
                         net.minecraft.world.item.SwordItem.createAttributes(
                                 steelTier(durability, repairTag), (int) attackDamage, attackSpeed)));
         *///?} else {
-        /*super(steelTier(durability, repairTag), (int) attackDamage, attackSpeed,
+        super(steelTier(durability, repairTag), (int) attackDamage, attackSpeed,
                 properties.durability(durability));
         this.absoluteAttributes = false;
         this.legacyDamage = 0F;
         this.legacySpeed = 0F;
         this.legacyMovement = 0D;
-        *///?}
+        //?}
         this.wearsOnHit = true;
     }
 
@@ -97,22 +97,22 @@ public class CompatSwordItem extends
     public CompatSwordItem(net.minecraft.world.item.Item.Properties properties, ToolTier tier,
                            float attackDamage, float attackSpeed, double movement, boolean wearsOnHit) {
         //? if >=26.1 {
-        super(modernSword(properties, tier, attackDamage, attackSpeed, movement, wearsOnHit));
-        //?} else if >=1.21.1 {
+        /*super(modernSword(properties, tier, attackDamage, attackSpeed, movement, wearsOnHit));
+        *///?} else if >=1.21.1 {
         /*super(Tools.vanillaTier(tier), Tools.unbreakableIfWorn(properties, tier)
                 .attributes(Tools.attributes(attackDamage, attackSpeed, movement)));
         *///?} else {
-        /*super(Tools.vanillaTier(tier), 0, attackSpeed, properties);
+        super(Tools.vanillaTier(tier), 0, attackSpeed, properties);
         this.absoluteAttributes = true;
         this.legacyDamage = attackDamage;
         this.legacySpeed = attackSpeed;
         this.legacyMovement = movement;
-        *///?}
+        //?}
         this.wearsOnHit = wearsOnHit;
     }
 
     //? if >=26.1 {
-    private static Item.Properties modernSword(Item.Properties properties, ToolTier tier, float attackDamage,
+    /*private static Item.Properties modernSword(Item.Properties properties, ToolTier tier, float attackDamage,
                                                float attackSpeed, double movement, boolean wearsOnHit) {
         net.minecraft.core.HolderGetter<net.minecraft.world.level.block.Block> blocks =
                 net.minecraft.core.registries.BuiltInRegistries.acquireBootstrapRegistrationLookup(
@@ -136,27 +136,27 @@ public class CompatSwordItem extends
         return properties.attributes(Tools.attributes(attackDamage, attackSpeed, movement));
     }
 
-    /** The 1.7 steel tool material: level 3, 750 uses, speed 8, damage bonus 2, ench 10. */
+    /^* The 1.7 steel tool material: level 3, 750 uses, speed 8, damage bonus 2, ench 10. ^/
     private static net.minecraft.world.item.ToolMaterial steelMaterial(
             int durability, net.minecraft.tags.TagKey<net.minecraft.world.item.Item> repairTag) {
         return new net.minecraft.world.item.ToolMaterial(
                 net.minecraft.tags.BlockTags.INCORRECT_FOR_DIAMOND_TOOL,
                 durability, 8.0F, 2.0F, 10, repairTag);
     }
-    //?} else {
-    /*private static net.minecraft.world.item.Tier steelTier(
+    *///?} else {
+    private static net.minecraft.world.item.Tier steelTier(
             int durability, net.minecraft.tags.TagKey<net.minecraft.world.item.Item> repairTag) {
         return new net.minecraft.world.item.Tier() {
             @Override public int getUses() { return durability; }
             @Override public float getSpeed() { return 8.0F; }
             @Override public float getAttackDamageBonus() { return 2.0F; }
             //? if >=1.21.1 {
-            @Override public net.minecraft.tags.TagKey<net.minecraft.world.level.block.Block>
+            /*@Override public net.minecraft.tags.TagKey<net.minecraft.world.level.block.Block>
                     getIncorrectBlocksForDrops() {
                 return net.minecraft.tags.BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
             }
-            //?} else {
-            /^@Override public int getLevel() { return 3; }^/
+            *///?} else {
+            @Override public int getLevel() { return 3; }
             //?}
             @Override public int getEnchantmentValue() { return 10; }
             @Override public net.minecraft.world.item.crafting.Ingredient getRepairIngredient() {
@@ -164,7 +164,7 @@ public class CompatSwordItem extends
             }
         };
     }
-    *///?}
+    //?}
 
     /** Receives the successful melee-hit hook; the sword loses one durability as vanilla does. */
     protected void compatHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -186,7 +186,7 @@ public class CompatSwordItem extends
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         compatHurtEnemy(stack, target, attacker);
     }
@@ -215,30 +215,30 @@ public class CompatSwordItem extends
         compatInventoryTick(stack, level, owner, slot,
                 slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         compatHurtEnemy(stack, target, attacker);
         //? if >=1.21.1 {
-        return super.hurtEnemy(stack, target, attacker);
-        //?} else {
-        /^return wearsOnHit ? super.hurtEnemy(stack, target, attacker) : true;
-        ^///?}
+        /*return super.hurtEnemy(stack, target, attacker);
+        *///?} else {
+        return wearsOnHit ? super.hurtEnemy(stack, target, attacker) : true;
+        //?}
     }
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (wearsOnHit) super.postHurtEnemy(stack, target, attacker);
     }
-    //?}
+    *///?}
 
     @Override
     public void appendHoverText(ItemStack stack,
                                 //? if >=1.21.1 {
-                                Item.TooltipContext context,
-                                //?} else {
-                                /^Level context,^/
+                                /*Item.TooltipContext context,
+                                *///?} else {
+                                Level context,
                                 //?}
                                 List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
@@ -260,10 +260,10 @@ public class CompatSwordItem extends
             compatInventoryTick(stack, serverLevel, owner, null, selected);
         }
     }
-    *///?}
+    //?}
 
     //? if <1.21.1 {
-    /*@Override
+    @Override
     public com.google.common.collect.Multimap<net.minecraft.world.entity.ai.attributes.Attribute,
             net.minecraft.world.entity.ai.attributes.AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
         if (absoluteAttributes && slot == EquipmentSlot.MAINHAND) {
@@ -272,5 +272,5 @@ public class CompatSwordItem extends
         }
         return super.getDefaultAttributeModifiers(slot);
     }
-    *///?}
+    //?}
 }

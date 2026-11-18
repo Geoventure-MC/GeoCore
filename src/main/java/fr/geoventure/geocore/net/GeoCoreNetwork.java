@@ -25,15 +25,15 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 *///?} elif forge {
-/*import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraft.resources.ResourceLocation;
-*///?} elif neoforge {
-import net.neoforged.neoforge.network.PacketDistributor;
+//?} elif neoforge {
+/*import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-//?}
+*///?}
 
 /** Loader-neutral play-payload declarations and routing. */
 public final class GeoCoreNetwork {
@@ -198,12 +198,12 @@ public final class GeoCoreNetwork {
     }
 
     private static <P extends GeoCorePayload> void registerFabricClientCodec(GeoCoreCodec<P> codec) {
-        PayloadTypeRegistry.clientboundPlay().register(codec.type(), codec.streamCodec());
+        PayloadTypeRegistry.playS2C().register(codec.type(), codec.streamCodec());
     }
 
     private static <P extends GeoCorePayload> void registerFabricServer(ServerRegistration<P> registration) {
         var type = registration.codec().type();
-        PayloadTypeRegistry.serverboundPlay().register(type, registration.codec().streamCodec());
+        PayloadTypeRegistry.playC2S().register(type, registration.codec().streamCodec());
         boolean offThread = isOffThread(registration.codec());
         ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
             if (offThread) registration.handler().accept(payload, context.player());
@@ -290,7 +290,7 @@ public final class GeoCoreNetwork {
         GeoCoreClientNetwork.sendToServer(codec, payload);
     }
     *///?} elif forge {
-    /*private static final ResourceLocation FORGE_CHANNEL = new ResourceLocation("geocore", "play");
+    private static final ResourceLocation FORGE_CHANNEL = new ResourceLocation("geocore", "play");
     private static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
             .named(FORGE_CHANNEL)
             .networkProtocolVersion(() -> "1")
@@ -385,13 +385,13 @@ public final class GeoCoreNetwork {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), payload);
     }
 
-    /^*
+    /**
      * Whether {@code player}'s connection has negotiated the channel for {@code codec}, so a send will
      * reach it rather than fail. A player without the mod (or a test's bare in-level mock player, whose
      * connection never ran a handshake) answers false. This loader writes such a send anyway and the
      * client ignores it; only NeoForge throws, and its sendToPlayer skips them, so no caller needs this
      * check before a send.
-     ^/
+     */
     public static boolean canSendToPlayer(ServerPlayer player, GeoCoreCodec<?> codec) {
         // isRemotePresent reads attributes off connection.channel(), which a channel-less mock connection lacks.
         if (player.connection == null || player.connection.connection.channel() == null) return false;
@@ -405,11 +405,11 @@ public final class GeoCoreNetwork {
     public static <P extends GeoCorePayload> void sendToServer(GeoCoreCodec<P> codec, P payload) {
         CHANNEL.sendToServer(payload);
     }
-    *///?} elif neoforge {
-    public static void flushRegistrations(RegisterPayloadHandlersEvent event) {
+    //?} elif neoforge {
+    /*public static void flushRegistrations(RegisterPayloadHandlersEvent event) {
         //? if >=1.20.5 {
-        Configurations.flushNeoForge(event);
-        //?}
+        /^Configurations.flushNeoForge(event);
+        ^///?}
         CLIENT_DECLARATIONS.forEach(registration -> registerNeoForgeClient(event, registration));
         SERVER_REGISTRATIONS.forEach(registration -> registerNeoForgeServer(event, registration));
         CLIENT_DECLARATIONS.clear();
@@ -458,24 +458,24 @@ public final class GeoCoreNetwork {
                 });
     }
 
-    /**
+    /^*
      * Sends to one player. A connection that never negotiated this channel (a client without the mod,
      * or a GameTest's bare in-level mock player, which {@code level.players()} sweeps include) is
      * skipped: NeoForge alone refuses such a send with an exception ("Payload … may not be sent to the
      * client"), where Fabric and Forge write it and the client ignores it. Skipping here gives every
      * loader the same never-throws contract, so callers need no {@link #canSendToPlayer} check.
-     */
+     ^/
     public static <P extends GeoCorePayload> void sendToPlayer(ServerPlayer player, GeoCoreCodec<P> codec, P payload) {
         if (!canSendToPlayer(player, codec)) return;
         PacketDistributor.sendToPlayer(player, payload);
     }
 
-    /**
+    /^*
      * Whether {@code player}'s connection has negotiated the channel for {@code codec}, so a send will
      * reach it rather than fail. A player without the mod (or a test's bare in-level mock player, whose
      * connection never ran a handshake) answers false. {@link #sendToPlayer} and {@link #sendToTracking}
      * already skip those; this is for callers that want to know before building a payload.
-     */
+     ^/
     public static boolean canSendToPlayer(ServerPlayer player, GeoCoreCodec<?> codec) {
         return player.connection.hasChannel(codec.type());
     }
@@ -495,5 +495,5 @@ public final class GeoCoreNetwork {
     public static <P extends GeoCorePayload> void sendToServer(GeoCoreCodec<P> codec, P payload) {
         GeoCoreClientNetwork.sendToServer(codec, payload);
     }
-    //?}
+    *///?}
 }

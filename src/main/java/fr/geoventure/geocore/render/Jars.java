@@ -8,11 +8,11 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
+/*import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 /**
  * Draws a {@link WorldInAJar} into the world-effects pass.
@@ -29,9 +29,9 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 public final class Jars {
 
     //? if >=26.1 {
-    private static net.minecraft.client.renderer.block.@org.jspecify.annotations.Nullable ModelBlockRenderer blocks;
+    /*private static net.minecraft.client.renderer.block.@org.jspecify.annotations.Nullable ModelBlockRenderer blocks;
     private static boolean blocksLit;
-    //?}
+    *///?}
 
     private Jars() {}
 
@@ -57,17 +57,17 @@ public final class Jars {
 
     private static RenderType layer() {
         //? if >=26.1 {
-        return RenderTypes.cutoutMovingBlock();
-        //?} else {
-        /*return RenderType.cutoutMipped();
-        *///?}
+        /*return RenderTypes.cutoutMovingBlock();
+        *///?} else {
+        return RenderType.cutoutMipped();
+        //?}
     }
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * The block tesselator, kept between frames because building one allocates a lighter. Rebuilt when
      * the ambient-occlusion setting changes, which is the only thing about it that can.
-     */
+     ^/
     private static net.minecraft.client.renderer.block.ModelBlockRenderer blocks() {
         boolean lit = Minecraft.getInstance().options.ambientOcclusion().get();
         if (blocks == null || blocksLit != lit) {
@@ -77,7 +77,7 @@ public final class Jars {
         }
         return blocks;
     }
-    //?}
+    *///?}
 
     private static void draw(WorldInAJar jar, PoseStack.Pose last, VertexConsumer buffer) {
         PoseStack pose = new PoseStack();
@@ -89,7 +89,7 @@ public final class Jars {
         // the jar fits in one section.
         boolean fluids = jar.sizeX <= 16 && jar.sizeY <= 16 && jar.sizeZ <= 16;
         //? if >=26.1 {
-        var models = Minecraft.getInstance().getModelManager().getBlockStateModelSet();
+        /*var models = Minecraft.getInstance().getModelManager().getBlockStateModelSet();
         var renderer = blocks();
         net.minecraft.client.renderer.block.BlockQuadOutput output = (x, y, z, quad, instance) -> {
             pose.pushPose();
@@ -97,9 +97,9 @@ public final class Jars {
             buffer.putBakedQuad(pose.last(), quad, instance);
             pose.popPose();
         };
-        //?} else {
-        /*var dispatcher = Minecraft.getInstance().getBlockRenderer();
-        *///?}
+        *///?} else {
+        var dispatcher = Minecraft.getInstance().getBlockRenderer();
+        //?}
 
         for (int x = 0; x < jar.sizeX; x++) {
             for (int y = 0; y < jar.sizeY; y++) {
@@ -110,27 +110,27 @@ public final class Jars {
                     if (fluids && !state.getFluidState().isEmpty()) liquid(jar, cursor, state, last, buffer);
                     if (state.getRenderShape() != RenderShape.MODEL) continue;
                     //? if >=26.1 {
-                    pose.pushPose();
+                    /*pose.pushPose();
                     pose.translate(x, y, z);
                     renderer.tesselateBlock(output, 0F, 0F, 0F, jar, cursor, state,
                             models.get(state), state.getSeed(cursor));
                     pose.popPose();
-                    //?} else {
-                    /*pose.pushPose();
+                    *///?} else {
+                    pose.pushPose();
                     pose.translate(x, y, z);
                     dispatcher.renderBatched(state, cursor, jar, pose, buffer, true,
                             net.minecraft.util.RandomSource.create(state.getSeed(cursor)));
                     pose.popPose();
-                    *///?}
+                    //?}
                 }
             }
         }
     }
 
     //? if >=26.1 {
-    private static net.minecraft.client.renderer.block.@org.jspecify.annotations.Nullable FluidRenderer fluidRenderer;
+    /*private static net.minecraft.client.renderer.block.@org.jspecify.annotations.Nullable FluidRenderer fluidRenderer;
     private static net.minecraft.client.renderer.block.@org.jspecify.annotations.Nullable FluidStateModelSet fluidModels;
-    //?}
+    *///?}
 
     /**
      * A still or flowing fluid in a cell, drawn by the game's own fluid tesselator with the jar as its level
@@ -140,15 +140,15 @@ public final class Jars {
     private static void liquid(WorldInAJar jar, BlockPos pos, BlockState state, PoseStack.Pose pose, VertexConsumer buffer) {
         VertexConsumer posed = new PosedConsumer(buffer, pose);
         //? if >=26.1 {
-        var models = Minecraft.getInstance().getModelManager().getFluidStateModelSet();
+        /*var models = Minecraft.getInstance().getModelManager().getFluidStateModelSet();
         if (fluidRenderer == null || fluidModels != models) {
             fluidRenderer = new net.minecraft.client.renderer.block.FluidRenderer(models);
             fluidModels = models;
         }
         fluidRenderer.tesselate(jar, pos, layer -> posed, state, state.getFluidState());
-        //?} else {
-        /*Minecraft.getInstance().getBlockRenderer().renderLiquid(pos, jar, posed, state, state.getFluidState());
-        *///?}
+        *///?} else {
+        Minecraft.getInstance().getBlockRenderer().renderLiquid(pos, jar, posed, state, state.getFluidState());
+        //?}
     }
 
     /** Passes vertices through, moving positions and normals by a pose. */
@@ -166,7 +166,7 @@ public final class Jars {
         }
 
         //? if >=1.21 {
-        @Override
+        /*@Override
         public VertexConsumer addVertex(float x, float y, float z) {
             pose.transformPosition(x, y, z, scratch);
             out.addVertex(scratch.x, scratch.y, scratch.z);
@@ -203,8 +203,8 @@ public final class Jars {
             out.setNormal(scratch.x, scratch.y, scratch.z);
             return this;
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public VertexConsumer vertex(double x, double y, double z) {
             pose.transformPosition((float) x, (float) y, (float) z, scratch);
             out.vertex(scratch.x, scratch.y, scratch.z);
@@ -256,10 +256,10 @@ public final class Jars {
         public void unsetDefaultColor() {
             out.unsetDefaultColor();
         }
-        *///?}
+        //?}
 
         //? if >=26.1 {
-        @Override
+        /*@Override
         public VertexConsumer setColor(int color) {
             out.setColor(color);
             return this;
@@ -270,6 +270,6 @@ public final class Jars {
             out.setLineWidth(width);
             return this;
         }
-        //?}
+        *///?}
     }
 }

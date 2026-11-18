@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.data;
 
 //? if <26.1 {
-/*import com.mojang.serialization.Codec;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/^*
+/**
  * {@link DataIn} backed by a {@code CompoundTag}, for versions before {@code ValueInput} existed.
  *
  * <p>The {@code *Or} accessors are the interesting part. Pre-26.1 {@code CompoundTag.getInt} returns
@@ -24,7 +24,7 @@ import java.util.Optional;
  * zero where the caller asked for a different default. Each accessor therefore checks {@code contains}
  * with the expected tag type first and only then reads, falling back to the caller's default,
  * reproducing 26.1's semantics rather than the old API's.
- ^/
+ */
 public final class TagDataIn implements DataIn {
 
     // Tag type ids, as used by CompoundTag.contains(String, int).
@@ -47,12 +47,12 @@ public final class TagDataIn implements DataIn {
         this.registries = registries;
     }
 
-    /^* The underlying tag, for vanilla helpers that take one directly. ^/
+    /** The underlying tag, for vanilla helpers that take one directly. */
     public CompoundTag tag() {
         return tag;
     }
 
-    /^* The registry provider, needed by pre-26.1 vanilla helpers that resolve item components. ^/
+    /** The registry provider, needed by pre-26.1 vanilla helpers that resolve item components. */
     public HolderLookup.@Nullable Provider registries() {
         return registries;
     }
@@ -137,4 +137,4 @@ public final class TagDataIn implements DataIn {
         return registries != null ? RegistryOps.create(NbtOps.INSTANCE, registries) : NbtOps.INSTANCE;
     }
 }
-*///?}
+//?}

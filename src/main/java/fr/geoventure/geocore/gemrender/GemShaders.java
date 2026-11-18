@@ -22,24 +22,24 @@ public final class GemShaders {
     public enum Patch { NONE, MIRRORED, UNKNOWN }
 
     //? if >=26.1 {
-    private static final String NAME = "core/entity";
+    /*private static final String NAME = "core/entity";
     private static final String FILE = "entity";
     private static final List<String> VERTEX = List.of(
             "_grl_lm(sample_lightmap(Sampler2, UV2), clamp(float((UV2).y) / 240.0, 0.0, 1.0))",
             "_grl_pos = (Position);", "_grl_normal = Normal;");
-    //?} elif >=1.21 {
+    *///?} elif >=1.21 {
     /*private static final String NAME = "rendertype_entity_cutout";
     private static final String FILE = NAME;
     private static final List<String> VERTEX = List.of(
             "_grl_lm(texelFetch(Sampler2, UV2 / 16, 0), clamp(float((UV2 / 16).y) / 15.0, 0.0, 1.0))",
             "_grl_pos = (Position);", "_grl_normal = Normal;");
     *///?} else {
-    /*private static final String NAME = "rendertype_entity_cutout";
+    private static final String NAME = "rendertype_entity_cutout";
     private static final String FILE = NAME;
     private static final List<String> VERTEX = List.of(
             "_grl_lm(texelFetch(Sampler2, UV2 / 16, 0), clamp(float((UV2 / 16).y) / 15.0, 0.0, 1.0))",
             "_grl_pos = IViewRotMat * (Position);", "_grl_normal = IViewRotMat * Normal;");
-    *///?}
+    //?}
     private static final List<String> LIGHTMAP = List.of("_grl_lmColor = c;", "_grl_sky = sky;",
             "return max(c, vec4(1.0 / 255.0));", "_grl_lmColor = vec4(1.0);", "_grl_sky = 0.0;");
     private static final Set<String> INPUTS = Set.of("vec3 _grl_pos", "vec3 _grl_normal", "vec4 _grl_lmColor",

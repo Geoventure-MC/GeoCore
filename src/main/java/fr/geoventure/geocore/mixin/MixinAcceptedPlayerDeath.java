@@ -15,14 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayer.class)
 public abstract class MixinAcceptedPlayerDeath {
     //? if >=26.1 {
-    @Inject(method = "die", at = @At(value = "FIELD", target =
+    /*@Inject(method = "die", at = @At(value = "FIELD", target =
             "Lnet/minecraft/world/level/gamerules/GameRules;SHOW_DEATH_MESSAGES:Lnet/minecraft/world/level/gamerules/GameRule;",
             opcode = Opcodes.GETSTATIC))
-    //?} else {
-    /*@Inject(method = "die", at = @At(value = "FIELD", target =
+    *///?} else {
+    @Inject(method = "die", at = @At(value = "FIELD", target =
             "Lnet/minecraft/world/level/GameRules;RULE_SHOWDEATHMESSAGES:Lnet/minecraft/world/level/GameRules$Key;",
             opcode = Opcodes.GETSTATIC))
-    *///?}
+    //?}
     private void geocore$acceptedPlayerDeath(DamageSource source, CallbackInfo ci) {
         Deaths.accepted((LivingEntity) (Object) this, source);
     }

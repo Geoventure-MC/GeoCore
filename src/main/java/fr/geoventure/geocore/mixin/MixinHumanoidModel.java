@@ -13,16 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(HumanoidModel.class)
 public class MixinHumanoidModel {
     //? if >=26.1 {
-    @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At("TAIL"))
+    /*@Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At("TAIL"))
     private void geocore$pose(net.minecraft.client.renderer.entity.state.HumanoidRenderState state, CallbackInfo ci) {
         PlayerRenderHooks.applyModel(PlayerRenderHooks.playerForState(state), (HumanoidModel<?>) (Object) this);
     }
-    //?} else {
-    /*@Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
+    *///?} else {
+    @Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
     private void geocore$pose(net.minecraft.world.entity.LivingEntity entity, float limbSwing, float limbAmount,
             float age, float headYaw, float headPitch, CallbackInfo ci) {
         if (entity instanceof net.minecraft.world.entity.player.Player player)
             PlayerRenderHooks.applyModel(player, (HumanoidModel<?>) (Object) this);
     }
-    *///?}
+    //?}
 }

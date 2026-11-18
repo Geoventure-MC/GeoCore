@@ -2,7 +2,7 @@ package fr.geoventure.geocore.mixin;
 
 //? if <26.1 {
 
-/*import fr.geoventure.geocore.render.ItemRenderContext;
+import fr.geoventure.geocore.render.ItemRenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/^*
+/**
  * Carries vanilla's held-item entity through the ownerless legacy item-render callback.
  *
  * <p>Vanilla has no callback at this boundary, and neither the NeoForge BEWLR nor Fabric builtin
  * item-renderer hook exposes the enclosing entity. An access widener can only change visibility; it
  * cannot carry this method-local argument. This is therefore the smallest remaining hook: two void
  * injections around vanilla's public owner-aware overload, with no rendering or fallback behavior.
- ^/
+ */
 @Mixin(net.minecraft.client.renderer.entity.ItemRenderer.class)
 public class MixinItemRenderer {
 
@@ -39,4 +39,4 @@ public class MixinItemRenderer {
         ItemRenderContext.pop();
     }
 }
-*///?}
+//?}

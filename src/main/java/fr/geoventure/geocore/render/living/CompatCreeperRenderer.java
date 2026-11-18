@@ -11,14 +11,14 @@ import net.minecraft.client.renderer.entity.layers.CreeperPowerLayer;
 import org.jspecify.annotations.Nullable;
 
 //? if >=26.1 {
-import net.minecraft.client.model.monster.creeper.CreeperModel;
+/*import net.minecraft.client.model.monster.creeper.CreeperModel;
 import net.minecraft.client.renderer.entity.state.CreeperRenderState;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.model.CreeperModel;
+*///?} else {
+import net.minecraft.client.model.CreeperModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Creeper;
-*///?}
+//?}
 
 /**
  * Vanilla's creeper renderer with a different skin and an exaggerated swell, for creeper variants.
@@ -32,35 +32,35 @@ public class CompatCreeperRenderer extends CreeperRenderer {
 
     private final
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture;
     private final float swellMultiplier;
 
     public CompatCreeperRenderer(EntityRendererProvider.Context context,
                                  //? if >=26.1 {
-                                 Identifier
-                                 //?} else {
-                                 /*ResourceLocation
-                                 *///?}
+                                 /*Identifier
+                                 *///?} else {
+                                 ResourceLocation
+                                 //?}
                                  texture, float swellMultiplier) {
         this(context, texture, swellMultiplier, null);
     }
 
     public CompatCreeperRenderer(EntityRendererProvider.Context context,
                                  //? if >=26.1 {
-                                 Identifier
-                                 //?} else {
-                                 /*ResourceLocation
-                                 *///?}
+                                 /*Identifier
+                                 *///?} else {
+                                 ResourceLocation
+                                 //?}
                                  texture, float swellMultiplier,
                                  //? if >=26.1 {
-                                 @Nullable Identifier
-                                 //?} else {
-                                 /*@Nullable ResourceLocation
-                                 *///?}
+                                 /*@Nullable Identifier
+                                 *///?} else {
+                                 @Nullable ResourceLocation
+                                 //?}
                                  chargedOverlay) {
         super(context);
         this.texture = texture;
@@ -73,7 +73,7 @@ public class CompatCreeperRenderer extends CreeperRenderer {
 
     /** Vanilla's power swirl on a different sheet. */
     //? if >=26.1 {
-    private static final class Overlay extends CreeperPowerLayer {
+    /*private static final class Overlay extends CreeperPowerLayer {
         private final Identifier texture;
 
         Overlay(RenderLayerParent<CreeperRenderState, CreeperModel> parent, EntityModelSet models, Identifier texture) {
@@ -86,8 +86,8 @@ public class CompatCreeperRenderer extends CreeperRenderer {
             return texture;
         }
     }
-    //?} else {
-    /*private static final class Overlay extends CreeperPowerLayer {
+    *///?} else {
+    private static final class Overlay extends CreeperPowerLayer {
         private final ResourceLocation texture;
 
         Overlay(RenderLayerParent<Creeper, CreeperModel<Creeper>> parent, EntityModelSet models, ResourceLocation texture) {
@@ -100,7 +100,7 @@ public class CompatCreeperRenderer extends CreeperRenderer {
             return texture;
         }
     }
-    *///?}
+    //?}
 
     /** Vanilla's swell scale with the multiplier folded in after the {@code s^4} curve. */
     private void swell(float swelling, PoseStack poseStack) {
@@ -114,7 +114,7 @@ public class CompatCreeperRenderer extends CreeperRenderer {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void scale(CreeperRenderState state, PoseStack poseStack) {
         swell(state.swelling, poseStack);
     }
@@ -123,8 +123,8 @@ public class CompatCreeperRenderer extends CreeperRenderer {
     public Identifier getTextureLocation(CreeperRenderState state) {
         return texture;
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected void scale(Creeper entity, PoseStack poseStack, float partialTicks) {
         swell(entity.getSwelling(partialTicks), poseStack);
     }
@@ -133,5 +133,5 @@ public class CompatCreeperRenderer extends CreeperRenderer {
     public ResourceLocation getTextureLocation(Creeper entity) {
         return texture;
     }
-    *///?}
+    //?}
 }

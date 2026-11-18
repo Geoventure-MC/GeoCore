@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class TokenFluid extends Fluid {
 
     //? if neoforge {
-    private final Supplier<? extends net.neoforged.neoforge.fluids.FluidType> type;
+    /*private final Supplier<? extends net.neoforged.neoforge.fluids.FluidType> type;
 
     TokenFluid(Supplier<? extends net.neoforged.neoforge.fluids.FluidType> type) {
         this.type = type;
@@ -37,8 +37,8 @@ public class TokenFluid extends Fluid {
     public net.neoforged.neoforge.fluids.FluidType getFluidType() {
         return type.get();
     }
-    //?} elif forge {
-    /*private final Supplier<? extends net.minecraftforge.fluids.FluidType> type;
+    *///?} elif forge {
+    private final Supplier<? extends net.minecraftforge.fluids.FluidType> type;
 
     TokenFluid(Supplier<? extends net.minecraftforge.fluids.FluidType> type) {
         this.type = type;
@@ -48,7 +48,7 @@ public class TokenFluid extends Fluid {
     public net.minecraftforge.fluids.FluidType getFluidType() {
         return type.get();
     }
-    *///?} else {
+    //?} else {
     /*TokenFluid() {}
     *///?}
 

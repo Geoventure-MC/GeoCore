@@ -25,12 +25,12 @@ public final class SpawnEggs {
     public static Item create(Supplier<? extends EntityType<? extends Mob>> type, int primary, int secondary,
                               Item.Properties properties) {
         //? if >=26.1 {
-        return new net.minecraft.world.item.SpawnEggItem(properties.spawnEgg(type.get()));
-        //?} elif neoforge {
+        /*return new net.minecraft.world.item.SpawnEggItem(properties.spawnEgg(type.get()));
+        *///?} elif neoforge {
         /*return new net.neoforged.neoforge.common.DeferredSpawnEggItem(type, primary, secondary, properties);
         *///?} elif forge {
-        /*return new net.minecraftforge.common.ForgeSpawnEggItem(type, primary, secondary, properties);
-        *///?} else {
+        return new net.minecraftforge.common.ForgeSpawnEggItem(type, primary, secondary, properties);
+        //?} else {
         /*return new net.minecraft.world.item.SpawnEggItem(type.get(), primary, secondary, properties);
         *///?}
     }
@@ -39,11 +39,11 @@ public final class SpawnEggs {
     public static net.minecraft.world.entity.EntityType<?> typeOf(net.minecraft.world.item.ItemStack stack) {
         if (!(stack.getItem() instanceof net.minecraft.world.item.SpawnEggItem egg)) return null;
         //? if >=26.1 {
-        return net.minecraft.world.item.SpawnEggItem.getType(stack);
-        //?} elif >=1.20.5 {
+        /*return net.minecraft.world.item.SpawnEggItem.getType(stack);
+        *///?} elif >=1.20.5 {
         /*return egg.getType(stack);
         *///?} else {
-        /*return egg.getType(stack.getTag());
-        *///?}
+        return egg.getType(stack.getTag());
+        //?}
     }
 }

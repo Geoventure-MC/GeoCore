@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+/*import com.mojang.blaze3d.pipeline.RenderPipeline;
 import fr.geoventure.geocore.GeoCore;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -9,11 +9,11 @@ import java.lang.invoke.MethodType;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
+/^*
  * Core pipelines that draw into the level's own target during the level pass. Under a shader pack they draw into its
  * gbuffer instead, as its composite passes paint over the main target. Private-target pipelines are never added.
  * One added with the vanilla pipeline it imitates draws with that pipeline's pack programs; others keep their shaders.
- */
+ ^/
 public final class WorldPipelines {
     // RenderPipeline keeps Object's equals, so membership is by identity.
     private static final Set<RenderPipeline> PIPELINES = ConcurrentHashMap.newKeySet();
@@ -60,4 +60,4 @@ public final class WorldPipelines {
         }
     }
 }
-//?}
+*///?}

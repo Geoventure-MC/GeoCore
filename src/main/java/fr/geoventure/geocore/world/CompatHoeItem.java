@@ -16,14 +16,14 @@ public class CompatHoeItem extends HoeItem {
 
     public CompatHoeItem(Item.Properties properties, ToolTier tier, float attackDamage, float attackSpeed) {
         //? if >=26.1 {
-        super(Tools.material(tier), attackDamage - tier.attackDamageBonus(), attackSpeed,
+        /*super(Tools.material(tier), attackDamage - tier.attackDamageBonus(), attackSpeed,
                 Tools.unbreakableIfWorn(properties, tier));
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*super(Tools.vanillaTier(tier), Tools.unbreakableIfWorn(properties, tier).attributes(
                 HoeItem.createAttributes(Tools.vanillaTier(tier), attackDamage - tier.attackDamageBonus(), attackSpeed)));
         *///?} else {
-        /*super(Tools.vanillaTier(tier), Math.round(attackDamage - tier.attackDamageBonus()), attackSpeed, properties);
-        *///?}
+        super(Tools.vanillaTier(tier), Math.round(attackDamage - tier.attackDamageBonus()), attackSpeed, properties);
+        //?}
         this.toolTier = tier;
     }
 

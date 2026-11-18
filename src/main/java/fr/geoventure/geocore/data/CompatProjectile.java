@@ -7,15 +7,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.projectile.Projectile;
 
 //? if >=1.21.1 {
-import net.minecraft.network.syncher.SynchedEntityData;
-//?}
+/*import net.minecraft.network.syncher.SynchedEntityData;
+*///?}
 
 //? if >=26.1 {
-import net.minecraft.world.level.storage.ValueInput;
+/*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-//?} else {
-/*import net.minecraft.nbt.CompoundTag;
-*///?}
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+//?}
 
 /**
  * Facade for custom {@code Projectile} subclasses.
@@ -41,19 +41,19 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
     protected void saveData(DataOut out) {}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     protected final void defineSynchedData(SynchedEntityData.Builder builder) {
         defineData(builder::define);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected final void defineSynchedData() {
         defineData(entityData::define);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected final void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
         loadData(new ValueDataIn(input));
@@ -64,8 +64,8 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
         super.addAdditionalSaveData(output);
         saveData(new ValueDataOut(output));
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public final void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         loadData(new TagDataIn(tag, level().registryAccess()));
@@ -76,10 +76,10 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
         super.addAdditionalSaveData(tag);
         saveData(new TagDataOut(tag, level().registryAccess()));
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*// 26.1 spelling of the server damage path. Below 26.1 vanilla only has {@code hurt}, which runs on
+    // 26.1 spelling of the server damage path. Below 26.1 vanilla only has {@code hurt}, which runs on
     // both sides; the client half is kept vanilla so only the server call reaches the 26.1-shaped hook.
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         return super.hurt(source, amount);
@@ -90,10 +90,10 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
         if (!(level() instanceof ServerLevel server)) return super.hurt(source, amount);
         return hurtServer(server, source, amount);
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*public boolean causeFallDamage(double fallDistance, float damageModifier, DamageSource damageSource) {
+    public boolean causeFallDamage(double fallDistance, float damageModifier, DamageSource damageSource) {
         return super.causeFallDamage((float) fallDistance, damageModifier, damageSource);
     }
 
@@ -101,10 +101,10 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
     public final boolean causeFallDamage(float fallDistance, float damageModifier, DamageSource damageSource) {
         return causeFallDamage((double) fallDistance, damageModifier, damageSource);
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*public void lerpMotion(net.minecraft.world.phys.Vec3 movement) {
+    public void lerpMotion(net.minecraft.world.phys.Vec3 movement) {
         super.lerpMotion(movement.x, movement.y, movement.z);
     }
 
@@ -112,10 +112,10 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
     public final void lerpMotion(double x, double y, double z) {
         lerpMotion(new net.minecraft.world.phys.Vec3(x, y, z));
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.item.ItemStack stack) {
+    public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.item.ItemStack stack) {
         return super.spawnAtLocation(stack);
     }
 
@@ -126,10 +126,10 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
     public net.minecraft.world.entity.item.ItemEntity spawnAtLocation(ServerLevel level, net.minecraft.world.level.ItemLike item) {
         return super.spawnAtLocation(item);
     }
-    *///?}
+    //?}
 
     //? if <1.21.1 {
-    /*protected net.minecraft.world.entity.EntityDimensions getDefaultDimensions(net.minecraft.world.entity.Pose pose) {
+    protected net.minecraft.world.entity.EntityDimensions getDefaultDimensions(net.minecraft.world.entity.Pose pose) {
         return super.getDimensions(pose);
     }
 
@@ -137,10 +137,10 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
     public net.minecraft.world.entity.EntityDimensions getDimensions(net.minecraft.world.entity.Pose pose) {
         return getDefaultDimensions(pose);
     }
-    *///?}
+    //?}
 
     //? if <26.1 {
-    /*public net.minecraft.world.InteractionResult interact(net.minecraft.world.entity.player.Player player,
+    public net.minecraft.world.InteractionResult interact(net.minecraft.world.entity.player.Player player,
             net.minecraft.world.InteractionHand hand, net.minecraft.world.phys.Vec3 location) {
         return super.interact(player, hand);
     }
@@ -150,7 +150,7 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
             net.minecraft.world.InteractionHand hand) {
         return interact(player, hand, position());
     }
-    *///?}
+    //?}
 
     /**
      * Client interpolation for this entity, or null for none (vanilla's default for a plain entity). An
@@ -162,12 +162,12 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public final net.minecraft.world.entity.@org.jspecify.annotations.Nullable InterpolationHandler getInterpolation() {
         fr.geoventure.geocore.world.EntityInterpolation interpolation = interpolation();
         return interpolation == null ? null : interpolation.handler();
     }
-    //?} elif >=1.21.1 {
+    *///?} elif >=1.21.1 {
     /*@Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
         fr.geoventure.geocore.world.EntityInterpolation interpolation = interpolation();
@@ -175,11 +175,11 @@ public abstract class CompatProjectile extends net.minecraft.world.entity.projec
         else interpolation.interpolateTo(new net.minecraft.world.phys.Vec3(x, y, z), yRot, xRot);
     }
     *///?} else {
-    /*@Override
+    @Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps, boolean teleport) {
         fr.geoventure.geocore.world.EntityInterpolation interpolation = interpolation();
         if (interpolation == null) super.lerpTo(x, y, z, yRot, xRot, steps, teleport);
         else interpolation.interpolateTo(new net.minecraft.world.phys.Vec3(x, y, z), yRot, xRot);
     }
-    *///?}
+    //?}
 }

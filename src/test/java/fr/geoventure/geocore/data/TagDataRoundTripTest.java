@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.data;
 
 //? if <26.1 {
-/*import com.mojang.serialization.Codec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/^*
+/**
  * Behaviour tests for the pre-26.1 persistence backend.
  *
  * <p>This part of the compat layer has real translation logic rather than delegation, and it is reachable
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * the two where the pre-26.1 {@code CompoundTag} API and 26.1's {@code ValueInput} disagree: a missing key and a
  * wrong-typed key. The old API silently yields zero/empty for both; a backport that inherits that would corrupt
  * data in a way no compiler or GameTest would catch.
- ^/
+ */
 class TagDataRoundTripTest {
 
     private static DataOut out(CompoundTag tag) {
@@ -61,10 +61,10 @@ class TagDataRoundTripTest {
         assertEquals(3, i.getIntArray("ints").get().length);
     }
 
-    /^*
+    /**
      * The regression this backend exists to prevent. Old {@code CompoundTag.getInt} returns 0 for an
      * absent key, so a naive implementation would hand back 0 instead of the caller's default.
-     ^/
+     */
     @Test
     void missingKeysYieldTheCallersDefaultNotZero() {
         DataIn i = in(new CompoundTag());
@@ -79,7 +79,7 @@ class TagDataRoundTripTest {
         assertTrue(i.getIntArray("nope").isEmpty());
     }
 
-    /^* Same trap via a different route: a key that exists but holds the wrong tag type. ^/
+    /** Same trap via a different route: a key that exists but holds the wrong tag type. */
     @Test
     void wrongTypedKeysYieldTheCallersDefault() {
         CompoundTag tag = new CompoundTag();
@@ -167,10 +167,10 @@ class TagDataRoundTripTest {
         assertTrue(in(tag).read("pair", PAIR_CODEC).isEmpty());
     }
 
-    /^*
+    /**
      * A malformed value must not blow up the read. 26.1's {@code ValueInput.read} reports and returns
      * empty; throwing here would abort a block entity's whole load.
-     ^/
+     */
     @Test
     void malformedCodecValueReturnsEmptyRatherThanThrowing() {
         CompoundTag tag = new CompoundTag();
@@ -181,4 +181,4 @@ class TagDataRoundTripTest {
         assertFalse(read.isPresent());
     }
 }
-*///?}
+//?}

@@ -29,12 +29,12 @@ public final class FluidExposure {
     /** Exposes every face {@code ports} answers for, on the blocks {@code carriers} accepts. */
     public static void exposeBlocks(FluidPorts ports, Predicate<Block> carriers) {
         //? if neoforge && >=26.1 {
-        NeoTransferFluids.exposeBlocks(ports, carriers);
-        //?} elif neoforge {
+        /*NeoTransferFluids.exposeBlocks(ports, carriers);
+        *///?} elif neoforge {
         /*NeoLegacyFluids.exposeBlocks(ports, carriers);
         *///?} elif forge {
-        /*ForgeFluids.exposeBlocks(ports, carriers);
-        *///?} else {
+        ForgeFluids.exposeBlocks(ports, carriers);
+        //?} else {
         /*FabricTransferFluids.exposeBlocks(ports, carriers);
         *///?}
     }
@@ -42,12 +42,12 @@ public final class FluidExposure {
     /** Exposes {@code contract} on the items {@code carriers} accepts. */
     public static void exposeItems(FluidContainer contract, Predicate<Item> carriers) {
         //? if neoforge && >=26.1 {
-        NeoTransferFluids.exposeItems(contract, carriers);
-        //?} elif neoforge {
+        /*NeoTransferFluids.exposeItems(contract, carriers);
+        *///?} elif neoforge {
         /*NeoLegacyFluids.exposeItems(contract, carriers);
         *///?} elif forge {
-        /*ForgeFluids.exposeItems(contract, carriers);
-        *///?} else {
+        ForgeFluids.exposeItems(contract, carriers);
+        //?} else {
         /*FabricTransferFluids.exposeItems(contract, carriers);
         *///?}
     }

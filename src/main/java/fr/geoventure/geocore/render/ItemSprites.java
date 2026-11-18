@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 
 /**
  * A sprite drawn the way vanilla's {@code item/generated} draws it: the front face at {@code z = 8.5/16}, the back
@@ -45,10 +45,10 @@ public final class ItemSprites {
     /** Draws {@code texture} as a generated item over the unit square of the pose's space. */
     public static void submit(PoseStack pose, SubmitSink sink,
                               //? if >=26.1 {
-                              Identifier texture,
-                              //?} else {
-                              /*ResourceLocation texture,
-                              *///?}
+                              /*Identifier texture,
+                              *///?} else {
+                              ResourceLocation texture,
+                              //?}
                               int light, int overlay) {
         boolean[][] opaque = OPAQUE.computeIfAbsent(texture, key -> read(texture));
         sink.submitCustomGeometry(pose, CompatRenderTypes.entityCutoutNoCull(texture),
@@ -57,10 +57,10 @@ public final class ItemSprites {
 
     private static boolean[][] read(
             //? if >=26.1 {
-            Identifier texture) {
-            //?} else {
-            /*ResourceLocation texture) {
-            *///?}
+            /*Identifier texture) {
+            *///?} else {
+            ResourceLocation texture) {
+            //?}
         try (InputStream in = Minecraft.getInstance().getResourceManager().open(texture)) {
             BufferedImage image = javax.imageio.ImageIO.read(in);
             int w = image.getWidth();

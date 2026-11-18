@@ -57,10 +57,10 @@ public final class Dimensions {
                     ns -> DeferredRegister.create(() -> (ResourceKey) Registries.CHUNK_GENERATOR, ns));
         }
         //? if >=1.20.5 {
-        RegistryObject<?> handle = register.register(name, (Supplier) codec);
-        //?} else {
-        /*RegistryObject<?> handle = register.register(name, (Supplier) () -> legacyCodec(codec.get()));
-        *///?}
+        /*RegistryObject<?> handle = register.register(name, (Supplier) codec);
+        *///?} else {
+        RegistryObject<?> handle = register.register(name, (Supplier) () -> legacyCodec(codec.get()));
+        //?}
         return new GeneratorType(namespace, name, handle);
     }
 
@@ -78,10 +78,10 @@ public final class Dimensions {
                     ns -> DeferredRegister.create(() -> (ResourceKey) Registries.BIOME_SOURCE, ns));
         }
         //? if >=1.20.5 {
-        RegistryObject<?> handle = register.register(name, (Supplier) codec);
-        //?} else {
-        /*RegistryObject<?> handle = register.register(name, (Supplier) () -> legacyCodec(codec.get()));
-        *///?}
+        /*RegistryObject<?> handle = register.register(name, (Supplier) codec);
+        *///?} else {
+        RegistryObject<?> handle = register.register(name, (Supplier) () -> legacyCodec(codec.get()));
+        //?}
         return new BiomeSourceType(namespace, name, handle);
     }
 

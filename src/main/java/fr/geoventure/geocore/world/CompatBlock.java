@@ -13,8 +13,8 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.server.level.ServerLevel;
 import java.util.function.BiConsumer;
 //? if >=26.1 {
-import net.minecraft.world.level.ScheduledTickAccess;
-//?}
+/*import net.minecraft.world.level.ScheduledTickAccess;
+*///?}
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -108,15 +108,15 @@ public class CompatBlock extends Block {
     public final void forwardExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion,
                                           BiConsumer<ItemStack, BlockPos> onHit) {
         //? if >=26.1 {
-        onExplosionHit(state, level, pos, explosion, onHit);
-        //?} else {
-        /*// Vanilla's 26.1 default in this era's spelling: a hook that answers false loses the block with
+        /*onExplosionHit(state, level, pos, explosion, onHit);
+        *///?} else {
+        // Vanilla's 26.1 default in this era's spelling: a hook that answers false loses the block with
         // its explosion drops, then wasExploded runs on the empty cell as it always did.
         if (!onExplosion(state, level, pos, explosion, (stack, dropPos) -> {})) {
             level.destroyBlock(pos, dropFromExplosion(explosion));
             wasExploded(level, pos, explosion);
         }
-        *///?}
+        //?}
     }
 
     /**
@@ -135,50 +135,50 @@ public class CompatBlock extends Block {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         return onPickBlock(level, pos, state);
     }
-    //?} elif >=1.21.1 {
+    *///?} elif >=1.21.1 {
     /*@Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         return onPickBlock(level, pos, state);
     }
     *///?} else {
-    /*@Override
+    @Override
     public ItemStack getCloneItemStack(net.minecraft.world.level.BlockGetter level, BlockPos pos, BlockState state) {
         return onPickBlock(level, pos, state);
     }
-    *///?}
+    //?}
 
     /** Whether vanilla will suppress the normal block drop for this player. */
     protected static boolean playerPreventsBlockDrops(Player player) {
         //? if >=26.1 {
-        return player.preventsBlockDrops();
-        //?} else {
-        /*return player.getAbilities().instabuild;
-        *///?}
+        /*return player.preventsBlockDrops();
+        *///?} else {
+        return player.getAbilities().instabuild;
+        //?}
     }
 
     //? if <1.21.1 {
-    /*@Override
+    @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         onPlayerWillDestroy(level, pos, state, player);
         super.playerWillDestroy(level, pos, state, player);
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         onPlayerWillDestroy(level, pos, state, player);
         return super.playerWillDestroy(level, pos, state, player);
     }
 
-    //?}
+    *///?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void onExplosionHit(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion,
                                   BiConsumer<ItemStack, BlockPos> onHit) {
         // a trigger-only blast (a wind charge) removes nothing, so the removal hook is not asked
@@ -205,7 +205,7 @@ public class CompatBlock extends Block {
                                                BlockHitResult hit) {
         return onUseWithoutItem(state, level, pos, player, hit);
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*@Override
     protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level,
                                                                     BlockPos pos, Player player,
@@ -225,24 +225,24 @@ public class CompatBlock extends Block {
         return onUseWithoutItem(state, level, pos, player, hit);
     }
     *///?} else {
-    /*@Override
+    @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
                                   InteractionHand hand, BlockHitResult hit) {
          ItemStack stack = player.getItemInHand(hand);
          InteractionResult result = onUseItem(state, level, pos, player, hand, stack, hit);
          return result == InteractionResult.PASS ? onUseWithoutItem(state, level, pos, player, hit) : result;
     }
-    *///?}
+    //?}
 
     @Override
     //? if >=26.1 {
-    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+    /*protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
         Compat.preRemoveSideEffects(level, pos, state);
         onBlockRemoved(state, level, pos, movedByPiston);
         super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
-    //?} else {
-    /*public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+    *///?} else {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         // Only when the block is actually going away, not on a state change that keeps it; otherwise a
          // machine would drop its inventory every time one of its blockstate properties flipped.
          if (!state.is(newState.getBlock())) {
@@ -251,7 +251,7 @@ public class CompatBlock extends Block {
          }
          super.onRemove(state, level, pos, newState, movedByPiston);
     }
-    *///?}
+    //?}
 
     //? if >=1.21 && <26.1 {
     /*/^*
@@ -269,10 +269,10 @@ public class CompatBlock extends Block {
         super.onExplosionHit(state, level, pos, explosion, onHit);
     }
     *///?} elif forge {
-    /*/^*
+    /**
      * Forge's pre-removal hook carries the state; vanilla's {@code wasExploded} runs after the block is
      * already air, which is why the GEONTM hook is routed from here on Forge 1.20.1.
-     ^/
+     */
     @Override
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
         // Same contract as 26.1 onExplosionHit: a hook that answers true owns the block's removal.
@@ -282,7 +282,7 @@ public class CompatBlock extends Block {
         }
         super.onBlockExploded(state, level, pos, explosion);
     }
-    *///?} elif fabric {
+    //?} elif fabric {
     /*/^*
      * Fabric 1.20.1 has no pre-removal hook at all, vanilla calls {@code wasExploded} after the block
      * is air, so {@code MixinExplosionBlockHook} calls this from the explosion's block loop instead.
@@ -294,7 +294,7 @@ public class CompatBlock extends Block {
     *///?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.Entity entity,
                                 net.minecraft.world.entity.InsideBlockEffectApplier effects, boolean precise) {
         super.entityInside(state, level, pos, entity, effects, precise);
@@ -319,8 +319,8 @@ public class CompatBlock extends Block {
                                         net.minecraft.core.Direction direction) {
         return onAnalogOutputSignal(state, level, pos);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.Entity entity) {
         super.entityInside(state, level, pos, entity);
         onEntityInside(state, level, pos, entity);
@@ -343,7 +343,7 @@ public class CompatBlock extends Block {
     public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         return onAnalogOutputSignal(state, level, pos);
     }
-    *///?}
+    //?}
 
     /**
      * An entity landed on this block after falling {@code fallDistance} blocks (the old {@code onFallenUpon}).
@@ -360,25 +360,25 @@ public class CompatBlock extends Block {
     protected final void defaultFallOn(Level level, BlockState state, BlockPos pos,
                                        net.minecraft.world.entity.Entity entity, double fallDistance) {
         //? if >=26.1 {
-        super.fallOn(level, state, pos, entity, fallDistance);
-        //?} else {
-        /*super.fallOn(level, state, pos, entity, (float) fallDistance);
-        *///?}
+        /*super.fallOn(level, state, pos, entity, fallDistance);
+        *///?} else {
+        super.fallOn(level, state, pos, entity, (float) fallDistance);
+        //?}
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void fallOn(Level level, BlockState state, BlockPos pos, net.minecraft.world.entity.Entity entity,
                        double fallDistance) {
         onFallOn(level, state, pos, entity, fallDistance);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, net.minecraft.world.entity.Entity entity,
                        float fallDistance) {
         onFallOn(level, state, pos, entity, fallDistance);
     }
-    *///?}
+    //?}
 
     // Soil (1.7 canSustainPlant)
 
@@ -402,7 +402,7 @@ public class CompatBlock extends Block {
     }
 
     //? if neoforge && >=26.1 {
-    @Override
+    /*@Override
     public net.minecraft.util.TriState canSustainPlant(BlockState state,
             net.minecraft.world.level.BlockGetter level, BlockPos soilPosition, net.minecraft.core.Direction facing,
             BlockState plant) {
@@ -412,7 +412,7 @@ public class CompatBlock extends Block {
             case PASS -> super.canSustainPlant(state, level, soilPosition, facing, plant);
         };
     }
-    //?} elif neoforge {
+    *///?} elif neoforge {
     /*@Override
     public net.neoforged.neoforge.common.util.TriState canSustainPlant(BlockState state,
             net.minecraft.world.level.BlockGetter level, BlockPos soilPosition, net.minecraft.core.Direction facing,
@@ -424,14 +424,14 @@ public class CompatBlock extends Block {
         };
     }
     *///?} elif forge {
-    /*@Override
+    @Override
     public boolean canSustainPlant(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos,
             net.minecraft.core.Direction facing, net.minecraftforge.common.IPlantable plantable) {
         fr.geoventure.geocore.hook.Verdict verdict = onSustainPlant(level, pos, state, plantable.getPlant(level, pos.relative(facing)));
         return verdict == fr.geoventure.geocore.hook.Verdict.PASS ? super.canSustainPlant(state, level, pos, facing, plantable)
                 : verdict == fr.geoventure.geocore.hook.Verdict.ALLOW;
     }
-    *///?}
+    //?}
 
     // Light opacity 0 (1.7 lightOpacity)
 
@@ -446,7 +446,7 @@ public class CompatBlock extends Block {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected boolean propagatesSkylightDown(BlockState state) {
         return isLightTransparent(state) && state.getFluidState().isEmpty() || super.propagatesSkylightDown(state);
     }
@@ -455,7 +455,7 @@ public class CompatBlock extends Block {
     protected int getLightDampening(BlockState state) {
         return isLightTransparent(state) && state.getFluidState().isEmpty() ? 0 : super.getLightDampening(state);
     }
-    //?} elif >=1.21.1 {
+    *///?} elif >=1.21.1 {
     /*@Override
     protected boolean propagatesSkylightDown(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
         return isLightTransparent(state) && state.getFluidState().isEmpty() || super.propagatesSkylightDown(state, level, pos);
@@ -466,7 +466,7 @@ public class CompatBlock extends Block {
         return isLightTransparent(state) && state.getFluidState().isEmpty() ? 0 : super.getLightBlock(state, level, pos);
     }
     *///?} else {
-    /*@Override
+    @Override
     public boolean propagatesSkylightDown(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
         return isLightTransparent(state) && state.getFluidState().isEmpty() || super.propagatesSkylightDown(state, level, pos);
     }
@@ -476,7 +476,7 @@ public class CompatBlock extends Block {
     public int getLightBlock(BlockState state, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
         return isLightTransparent(state) && state.getFluidState().isEmpty() ? 0 : super.getLightBlock(state, level, pos);
     }
-    *///?}
+    //?}
 
     //? if forgelike {
     /**

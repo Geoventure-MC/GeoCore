@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 public abstract class MixinLivingTravel {
 
     //? if >=26.1 {
-    @ModifyExpressionValue(method = "getEffectiveGravity", at = @At(value = "INVOKE",
+    /*@ModifyExpressionValue(method = "getEffectiveGravity", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/LivingEntity;getGravity()D"))
     private double geocore$effectiveGravity(double gravity) {
         return Physics.effectiveGravity((LivingEntity) (Object) this, gravity);
@@ -29,15 +29,15 @@ public abstract class MixinLivingTravel {
     private float geocore$verticalAirDrag(float vertical, @Local(ordinal = 1) float horizontal) {
         return (float) Physics.verticalAirDrag((LivingEntity) (Object) this, vertical, horizontal);
     }
-    //?} else {
-    /*//? if >=1.20.5 {
-    @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE",
+    *///?} else {
+    //? if >=1.20.5 {
+    /*@ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/LivingEntity;getGravity()D"))
     private double geocore$effectiveGravity(double gravity) {
         return Physics.effectiveGravity((LivingEntity) (Object) this, gravity);
     }
-    //?} elif forge {
-    /^* Forge 1.20.1 reads its gravity attribute after installing its Slow Falling modifier. ^/
+    *///?} elif forge {
+    /** Forge 1.20.1 reads its gravity attribute after installing its Slow Falling modifier. */
     @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;getValue()D", ordinal = 0))
     private double geocore$effectiveGravity(double gravity) {
@@ -54,5 +54,5 @@ public abstract class MixinLivingTravel {
     ) {
         return Physics.verticalAirDrag((LivingEntity) (Object) this, vertical, horizontal);
     }
-    *///?}
+    //?}
 }

@@ -38,10 +38,10 @@ public final class BlockStates {
         List<Block> blocks = new ArrayList<>();
         for (Block block : BuiltInRegistries.BLOCK) {
             //? if >=26.1 {
-            net.minecraft.resources.Identifier id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
-            //?} else {
-            /*net.minecraft.resources.ResourceLocation id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
-            *///?}
+            /*net.minecraft.resources.Identifier id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
+            *///?} else {
+            net.minecraft.resources.ResourceLocation id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
+            //?}
             if (id != null && id.getNamespace().equals(namespace)) {
                 blocks.add(block);
             }
@@ -51,10 +51,10 @@ public final class BlockStates {
 
     public static Block block(String id) {
         //? if >=26.1 {
-        Block block = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getValue(fr.geoventure.geocore.Ids.parse(id));
-        //?} else {
-        /*Block block = net.minecraft.core.registries.BuiltInRegistries.BLOCK.get(fr.geoventure.geocore.Ids.parse(id));
-        *///?}
+        /*Block block = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getValue(fr.geoventure.geocore.Ids.parse(id));
+        *///?} else {
+        Block block = net.minecraft.core.registries.BuiltInRegistries.BLOCK.get(fr.geoventure.geocore.Ids.parse(id));
+        //?}
         return block == null || block == net.minecraft.world.level.block.Blocks.AIR ? null : block;
     }
 

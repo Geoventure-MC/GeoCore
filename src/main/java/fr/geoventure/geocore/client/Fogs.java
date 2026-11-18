@@ -2,10 +2,10 @@ package fr.geoventure.geocore.client;
 
 import net.minecraft.client.Minecraft;
 //? if >=26.1 {
-import net.minecraft.client.renderer.fog.FogData;
-//?} else {
-/*import net.minecraft.client.renderer.FogRenderer;
-*///?}
+/*import net.minecraft.client.renderer.fog.FogData;
+*///?} else {
+import net.minecraft.client.renderer.FogRenderer;
+//?}
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.material.FogType;
 
@@ -59,7 +59,7 @@ public final class Fogs {
         if (hooked) return;
         hooked = true;
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOW,
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOW,
                 (net.neoforged.neoforge.client.event.ViewportEvent.ComputeFogColor event) -> {
                     Entity camera = net.minecraft.client.Minecraft.getInstance().getCameraEntity();
                     if (!active(camera)) return;
@@ -71,24 +71,24 @@ public final class Fogs {
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOW,
                 (net.neoforged.neoforge.client.event.ViewportEvent.RenderFog event) -> {
                     //? if >=26.1 {
-                    float blocks = event.getFogData().renderDistanceEnd;
-                    //?} else {
-                    /*float blocks = legacyFogDistance(event.getMode() == FogRenderer.FogMode.FOG_TERRAIN);
-                    *///?}
+                    /^float blocks = event.getFogData().renderDistanceEnd;
+                    ^///?} else {
+                    float blocks = legacyFogDistance(event.getMode() == FogRenderer.FogMode.FOG_TERRAIN);
+                    //?}
                     Entity camera = net.minecraft.client.Minecraft.getInstance().getCameraEntity();
                     float far = far(camera, blocks);
                     if (Float.isNaN(far)) return;
                     //? if >=26.1 {
-                    applyDistances(event.getFogData(), camera, blocks);
-                    //?} else {
-                    /*event.setNearPlaneDistance(0.0F);
+                    /^applyDistances(event.getFogData(), camera, blocks);
+                    ^///?} else {
+                    event.setNearPlaneDistance(0.0F);
                     event.setFarPlaneDistance(far);
                     event.setFogShape(com.mojang.blaze3d.shaders.FogShape.SPHERE);
                     event.setCanceled(true);
-                    *///?}
+                    //?}
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.LOW,
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.LOW,
                 (net.minecraftforge.client.event.ViewportEvent.ComputeFogColor event) -> {
                     Entity camera = net.minecraft.client.Minecraft.getInstance().getCameraEntity();
                     if (!active(camera)) return;
@@ -108,7 +108,7 @@ public final class Fogs {
                     event.setFogShape(com.mojang.blaze3d.shaders.FogShape.SPHERE);
                     event.setCanceled(true);
                 });
-        *///?}
+        //?}
     }
 
     /** The render distance in blocks, as the fog code reads it ({@code options.renderDistance * 16}). */
@@ -122,7 +122,7 @@ public final class Fogs {
     }
 
     //? if >=26.1 {
-    /** Writes the active modifiers' distances using this invocation's caller distance, in blocks. */
+    /*/^* Writes the active modifiers' distances using this invocation's caller distance, in blocks. ^/
     public static void applyDistances(FogData data, Entity camera,
                                       float renderDistanceBlocks) {
         float far = far(camera, renderDistanceBlocks);
@@ -132,17 +132,17 @@ public final class Fogs {
         data.skyEnd = Math.min(data.skyEnd, far);
         data.cloudEnd = Math.min(data.cloudEnd, far);
     }
-    //?}
+    *///?}
 
     /** Whether the client's camera sits in water (26.1 fluid-in-camera; earlier the camera entity's eye). */
     public static boolean cameraInWater() {
         //? if >=26.1 {
-        return Minecraft.getInstance().gameRenderer.getMainCamera().getFluidInCamera()
+        /*return Minecraft.getInstance().gameRenderer.getMainCamera().getFluidInCamera()
                 == FogType.WATER;
-        //?} else {
-        /*var camera = Minecraft.getInstance().getCameraEntity();
+        *///?} else {
+        var camera = Minecraft.getInstance().getCameraEntity();
         return camera != null && camera.isEyeInFluid(FluidTags.WATER);
-        *///?}
+        //?}
     }
 
     public static boolean active(Entity camera) {

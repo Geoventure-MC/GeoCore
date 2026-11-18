@@ -4,7 +4,7 @@ package fr.geoventure.geocore.net;
 /*import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
 *///?}
 //? if fabric && >=1.21 {
-/*import net.fabricmc.fabric.api.networking.v1.FabricServerConfigurationPacketListenerImpl;
+/*import net.fabricmc.fabric.api.networking.v1.FabricServerConfigurationNetworkHandler;
 *///?}
 //? if fabric && >=1.21 {
 /*import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -18,29 +18,29 @@ package fr.geoventure.geocore.net;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 //? if >=1.21 {
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
-//?}
+/*import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+*///?}
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?}
+/*import net.minecraft.resources.Identifier;
+*///?}
 //? if <26.1 {
-/*import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+//?}
+//? if >=1.21 {
+/*import net.minecraft.server.network.ConfigurationTask;
 *///?}
 //? if >=1.21 {
-import net.minecraft.server.network.ConfigurationTask;
-//?}
-//? if >=1.21 {
-import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
-//?}
+/*import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
+*///?}
 //? if neoforge {
-import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
-//?}
+/*import net.neoforged.neoforge.network.event.RegisterConfigurationTasksEvent;
+*///?}
 //? if neoforge {
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-//?}
+/*import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+*///?}
 //? if neoforge {
-import net.neoforged.neoforge.network.registration.HandlerThread;
-//?}
+/*import net.neoforged.neoforge.network.registration.HandlerThread;
+*///?}
 
 import fr.geoventure.geocore.Ids;
 import fr.geoventure.geocore.hook.Hook;
@@ -93,16 +93,16 @@ public final class Configurations {
     }
 
     //? if >=1.20.5 {
-    private record Ack(String task) implements GeoCorePayload {
+    /*private record Ack(String task) implements GeoCorePayload {
         static final GeoCoreCodec<Ack> CODEC = GeoCoreCodec.of(Ack.class, Ids.of("geocore", "configuration_ack"),
                 (payload, buffer) -> buffer.writeUtf(payload.task()), buffer -> new Ack(buffer.readUtf()));
         @Override
         public
                 //? if >=26.1 {
-                Identifier
-                //?} else {
-                /*ResourceLocation
-                *///?}
+                /^Identifier
+                ^///?} else {
+                ResourceLocation
+                //?}
                 id() { return CODEC.id(); }
     }
 
@@ -117,10 +117,10 @@ public final class Configurations {
             return new ConfigurationTask.Type(codec.id().toString());
         }
     }
-    //?}
+    *///?}
 
     //? if neoforge && >=1.20.5 {
-    static void flushNeoForge(RegisterPayloadHandlersEvent event) {
+    /*static void flushNeoForge(RegisterPayloadHandlersEvent event) {
         event.registrar("geocore").executesOn(HandlerThread.NETWORK)
                 .configurationToServer(Ack.CODEC.type(), Ack.CODEC.streamCodec(), (payload, context) ->
                         context.enqueueWork(() -> context.finishCurrentTask(
@@ -153,7 +153,7 @@ public final class Configurations {
             RegisterConfigurationTasksEvent event, TaskRegistration<P> task) {
         event.register(new Task<>(task.codec(), task.snapshot()));
     }
-    //?}
+    *///?}
 
     //? if fabric && >=1.20.5 {
     /*private static boolean fabricInstalled;
@@ -162,11 +162,11 @@ public final class Configurations {
     static synchronized void flushFabric() {
         if (fabricInstalled) return;
         fabricInstalled = true;
-        PayloadTypeRegistry.serverboundConfiguration()
+        PayloadTypeRegistry.configurationC2S()
                 .register(Ack.CODEC.type(), Ack.CODEC.streamCodec());
         ServerConfigurationNetworking.registerGlobalReceiver(Ack.CODEC.type(),
                 (payload, configurationContext) -> configurationContext.server().execute(() ->
-                        ((FabricServerConfigurationPacketListenerImpl) (Object) configurationContext.packetListener())
+                        ((FabricServerConfigurationNetworkHandler) (Object) configurationContext.networkHandler())
                                 .completeTask(new ConfigurationTask.Type(payload.task()))));
         for (var task : TASKS) registerFabric(task);
         ServerConfigurationConnectionEvents.CONFIGURE.register((listener, server) -> {
@@ -182,13 +182,13 @@ public final class Configurations {
     }
 
     private static <P extends GeoCorePayload> void registerFabric(TaskRegistration<P> task) {
-        PayloadTypeRegistry.clientboundConfiguration()
+        PayloadTypeRegistry.configurationS2C()
                 .register(task.codec().type(), task.codec().streamCodec());
     }
 
     private static <P extends GeoCorePayload> void addFabricTask(
             ServerConfigurationPacketListenerImpl listener, TaskRegistration<P> task) {
-        ((FabricServerConfigurationPacketListenerImpl) (Object) listener)
+        ((FabricServerConfigurationNetworkHandler) (Object) listener)
                 .addTask(new Task<>(task.codec(), task.snapshot()));
     }
 
@@ -202,7 +202,7 @@ public final class Configurations {
         var codec = task.codec();
         ClientConfigurationNetworking.registerGlobalReceiver(codec.type(),
                 (payload, configurationContext) -> {
-                    var session = ClientSessions.forListener(configurationContext.packetListener());
+                    var session = ClientSessions.forListener(configurationContext.networkHandler());
                     if (apply(codec, payload, session)) configurationContext.responseSender().sendPacket(new Ack(codec.id().toString()));
                 });
     }

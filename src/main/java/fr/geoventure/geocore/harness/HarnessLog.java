@@ -35,11 +35,11 @@ final class HarnessLog {
                     .withPattern("%d{HH:mm:ss.SSS} [%t/%level] [%logger{1}]: %msg")
                     .build();
             //? if >=1.21 {
-            AbstractAppender appender = new AbstractAppender("GeoCoreHarness", null, layout, true, new Property[0]) {
-            //?} else {
-            /*// 1.20.1 ships a Log4j without the Property[] constructor.
+            /*AbstractAppender appender = new AbstractAppender("GeoCoreHarness", null, layout, true, new Property[0]) {
+            *///?} else {
+            // 1.20.1 ships a Log4j without the Property[] constructor.
             AbstractAppender appender = new AbstractAppender("GeoCoreHarness", null, layout, true) {
-            *///?}
+            //?}
                 @Override
                 public void append(LogEvent event) {
                     // INFO and above only. Fabric's dev launch runs the root logger at DEBUG, where benign loader

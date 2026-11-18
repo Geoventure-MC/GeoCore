@@ -79,22 +79,22 @@ final class ProfilerClient {
             return 0;
         }
         //? if >=26.1 {
-        net.minecraft.util.Util.getPlatform().openPath(dir);
-        //?} elif >=1.21 {
+        /*net.minecraft.util.Util.getPlatform().openPath(dir);
+        *///?} elif >=1.21 {
         /*net.minecraft.Util.getPlatform().openPath(dir);
         *///?} else {
-        /*net.minecraft.Util.getPlatform().openFile(dir.toFile());
-        *///?}
+        net.minecraft.Util.getPlatform().openFile(dir.toFile());
+        //?}
         return 1;
     }
 
     private static MutableComponent fileLink(Path report) {
         String name = report.getFileName().toString();
         //? if >=1.21.5 {
-        ClickEvent click = new ClickEvent.OpenFile(report.toAbsolutePath());
-        //?} else {
-        /*ClickEvent click = new ClickEvent(ClickEvent.Action.OPEN_FILE, report.toAbsolutePath().toString());
-        *///?}
+        /*ClickEvent click = new ClickEvent.OpenFile(report.toAbsolutePath());
+        *///?} else {
+        ClickEvent click = new ClickEvent(ClickEvent.Action.OPEN_FILE, report.toAbsolutePath().toString());
+        //?}
         return Component.literal(name).withStyle(style -> style.withClickEvent(click)
                 .withUnderlined(true).withColor(ChatFormatting.AQUA));
     }

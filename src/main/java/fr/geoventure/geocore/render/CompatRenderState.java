@@ -1,10 +1,10 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-//?} else {
-/*import net.minecraft.core.BlockPos;
-*///?}
+/*import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+*///?} else {
+import net.minecraft.core.BlockPos;
+//?}
 
 /**
  * Base class for block-entity render states.
@@ -22,11 +22,11 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
  */
 public class CompatRenderState
         //? if >=26.1 {
-        extends BlockEntityRenderState
-        //?}
+        /*extends BlockEntityRenderState
+        *///?}
 {
     //? if <26.1 {
-    /*public BlockPos blockPos = BlockPos.ZERO;
+    public BlockPos blockPos = BlockPos.ZERO;
     public int lightCoords;
-    *///?}
+    //?}
 }

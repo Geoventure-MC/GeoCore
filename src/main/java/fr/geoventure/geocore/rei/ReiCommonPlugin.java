@@ -18,10 +18,10 @@ import fr.geoventure.geocore.viewer.Subtypes;
  */
 public abstract class ReiCommonPlugin implements
         //? if >=26.1 {
-        me.shedaniel.rei.api.common.plugins.REICommonPlugin {
-        //?} else {
-        /*me.shedaniel.rei.api.common.plugins.REIServerPlugin {
-        *///?}
+        /*me.shedaniel.rei.api.common.plugins.REICommonPlugin {
+        *///?} else {
+        me.shedaniel.rei.api.common.plugins.REIServerPlugin {
+        //?}
 
     private final Subtypes.Declarations subtypes;
 
@@ -36,10 +36,10 @@ public abstract class ReiCommonPlugin implements
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void registerItemComparators(me.shedaniel.rei.api.common.entry.comparison.ItemComparatorRegistry registry) {
         Rei.comparators(registry, subtypes);
     }
-    //?}
+    *///?}
 }
 //?}

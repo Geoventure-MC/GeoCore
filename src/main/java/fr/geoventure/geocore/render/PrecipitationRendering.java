@@ -40,7 +40,7 @@ public final class PrecipitationRendering {
         if (hooked) return;
         hooked = true;
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterCustomEnvironmentEffectRendererEvent event) ->
                         event.registerWeatherEffectRenderer(fr.geoventure.geocore.Ids.of(NAMESPACE, PATH),
                                 new net.neoforged.neoforge.client.CustomWeatherEffectRenderer() {
@@ -52,7 +52,7 @@ public final class PrecipitationRendering {
                                         return render(camera);
                                     }
                                 }));
-        //?}
+        *///?}
     }
 
     /** NeoForge 26.1's custom weather renderer id for GeoCore's ({@code geocore:weather}). */
@@ -60,7 +60,7 @@ public final class PrecipitationRendering {
     public static final String PATH = "weather";
 
     //? if >=26.1 {
-    private static final java.util.Map<Boolean, com.mojang.blaze3d.pipeline.RenderPipeline> PIPELINES = new java.util.HashMap<>();
+    /*private static final java.util.Map<Boolean, com.mojang.blaze3d.pipeline.RenderPipeline> PIPELINES = new java.util.HashMap<>();
 
     private static com.mojang.blaze3d.pipeline.RenderPipeline pipeline(boolean depthWrite) {
         return PIPELINES.computeIfAbsent(depthWrite, write -> {
@@ -81,10 +81,10 @@ public final class PrecipitationRendering {
         });
     }
 
-    /**
+    /^*
      * 26.1: draws the client level's weather in place of vanilla's (inside vanilla's weather pass). False (vanilla draws)
      * when the level is not registered with {@link Precipitation}.
-     */
+     ^/
     public static boolean render(Vec3 camera) {
         ClientLevel level = Minecraft.getInstance().level;
         if (!Precipitation.has(level)) return false;
@@ -150,8 +150,8 @@ public final class PrecipitationRendering {
         Precipitation.countDrawn(quads);
         return true;
     }
-    //?} else {
-    /*private static net.minecraft.client.renderer.ShaderInstance shader;
+    *///?} else {
+    private static net.minecraft.client.renderer.ShaderInstance shader;
 
     private static net.minecraft.client.renderer.ShaderInstance shader() {
         if (shader == null) {
@@ -165,7 +165,7 @@ public final class PrecipitationRendering {
         return shader;
     }
 
-    /^* 1.7's {@code OpenGlHelper.glBlendFunc(770, 771, 1, 0)}, set again after every {@code apply()} (the 1.20.1 trap). ^/
+    /** 1.7's {@code OpenGlHelper.glBlendFunc(770, 771, 1, 0)}, set again after every {@code apply()} (the 1.20.1 trap). */
     private static void blend() {
         com.mojang.blaze3d.systems.RenderSystem.enableBlend();
         com.mojang.blaze3d.systems.RenderSystem.blendFuncSeparate(com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA,
@@ -173,10 +173,10 @@ public final class PrecipitationRendering {
                 com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE, com.mojang.blaze3d.platform.GlStateManager.DestFactor.ZERO);
     }
 
-    /^*
+    /**
      * 1.21.1 / 1.20.1: draws the client level's weather in place of vanilla's {@code renderSnowAndRain} (called where it
      * is, in its target and depth-mask state). False (vanilla draws) when the level is not registered.
-     ^/
+     */
     public static boolean renderLegacy(net.minecraft.client.renderer.LightTexture lightTexture, float partialTick, double camX,
                                        double camY, double camZ) {
         ClientLevel level = Minecraft.getInstance().level;
@@ -197,7 +197,7 @@ public final class PrecipitationRendering {
             int count = v.length / 40;
             com.mojang.blaze3d.systems.RenderSystem.setShaderTexture(0, fr.geoventure.geocore.Ids.parse(batch.texture()));
             //? if >=1.21 {
-            com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().begin(
+            /*com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().begin(
                     com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS, com.mojang.blaze3d.vertex.DefaultVertexFormat.PARTICLE);
             for (int i = 0; i < count * 4; i++) {
                 int o = i * 10;
@@ -206,8 +206,8 @@ public final class PrecipitationRendering {
             }
             com.mojang.blaze3d.vertex.MeshData mesh = builder.build();
             if (mesh != null) com.mojang.blaze3d.vertex.BufferUploader.drawWithShader(mesh);
-            //?} else {
-            /^com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder();
+            *///?} else {
+            com.mojang.blaze3d.vertex.BufferBuilder builder = com.mojang.blaze3d.vertex.Tesselator.getInstance().getBuilder();
             builder.begin(com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS, com.mojang.blaze3d.vertex.DefaultVertexFormat.PARTICLE);
             for (int i = 0; i < count * 4; i++) {
                 int o = i * 10;
@@ -215,7 +215,7 @@ public final class PrecipitationRendering {
                         .color(v[o + 5], v[o + 6], v[o + 7], v[o + 8]).uv2((int) v[o + 9]).endVertex();
             }
             com.mojang.blaze3d.vertex.BufferUploader.drawWithShader(builder.end());
-            ^///?}
+            //?}
             quads += count;
         }
         com.mojang.blaze3d.systems.RenderSystem.enableCull();
@@ -225,5 +225,5 @@ public final class PrecipitationRendering {
         Precipitation.countDrawn(quads);
         return true;
     }
-    *///?}
+    //?}
 }

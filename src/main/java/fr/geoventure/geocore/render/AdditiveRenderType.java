@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -10,11 +10,11 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+*///?} else {
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
-*///?}
+//?}
 
 /**
  * The untextured additive pass old renderers drew with {@code glDisable(GL_TEXTURE_2D)},
@@ -30,7 +30,7 @@ final class AdditiveRenderType {
     private AdditiveRenderType() {}
 
     //? if >=26.1 {
-    private static final RenderType QUADS = create("geocore_additive", VertexFormat.Mode.QUADS, false, true);
+    /*private static final RenderType QUADS = create("geocore_additive", VertexFormat.Mode.QUADS, false, true);
     private static final RenderType TRIANGLES = create("geocore_additive_triangles", VertexFormat.Mode.TRIANGLES, false, true);
     private static final RenderType QUADS_DEPTH = create("geocore_additive_depth", VertexFormat.Mode.QUADS, true, true);
     private static final RenderType TRIANGLES_FOGLESS =
@@ -51,8 +51,8 @@ final class AdditiveRenderType {
                 .build());
         return RenderType.create(name, RenderSetup.builder(pipeline).createRenderSetup());
     }
-    //?} else {
-    /*private static final RenderType QUADS = Factory.additive("geocore_additive", VertexFormat.Mode.QUADS, false, true);
+    *///?} else {
+    private static final RenderType QUADS = Factory.additive("geocore_additive", VertexFormat.Mode.QUADS, false, true);
     private static final RenderType TRIANGLES = Factory.additive("geocore_additive_triangles", VertexFormat.Mode.TRIANGLES, false, true);
     private static final RenderType QUADS_DEPTH = Factory.additive("geocore_additive_depth", VertexFormat.Mode.QUADS, true, true);
     private static final RenderType TRIANGLES_FOGLESS =
@@ -102,11 +102,11 @@ final class AdditiveRenderType {
         }
 
         //? if <1.21 {
-        /^private static final ShaderStateShard ADDITIVE_SHADER =
+        private static final ShaderStateShard ADDITIVE_SHADER =
                 new ShaderStateShard(() -> additiveShader("rendertype_lightning"));
-        ^///?} else {
-        private static final ShaderStateShard ADDITIVE_SHADER = RENDERTYPE_LIGHTNING_SHADER;
-        //?}
+        //?} else {
+        /*private static final ShaderStateShard ADDITIVE_SHADER = RENDERTYPE_LIGHTNING_SHADER;
+        *///?}
         private static final ShaderStateShard FOGLESS_SHADER = new ShaderStateShard(() -> additiveShader("position_color"));
 
         private static RenderType additive(String name, VertexFormat.Mode mode, boolean depthWrite, boolean fog) {
@@ -119,7 +119,7 @@ final class AdditiveRenderType {
                             .createCompositeState(false));
         }
 
-        /^ 26.1's DRAGON_RAYS: triangles, additive, culled, no depth write. Legacy lightning is quads and writes depth. ^/
+        /* 26.1's DRAGON_RAYS: triangles, additive, culled, no depth write. Legacy lightning is quads and writes depth. */
         private static RenderType legacyDragonRays() {
             return create("geocore_dragon_rays", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES, 1536,
                     false, false, CompositeState.builder()
@@ -133,7 +133,7 @@ final class AdditiveRenderType {
     static RenderType dragonRays() {
         return DRAGON_RAYS;
     }
-    *///?}
+    //?}
 
     static RenderType quads() {
         return QUADS;

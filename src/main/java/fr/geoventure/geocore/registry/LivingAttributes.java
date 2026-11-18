@@ -41,16 +41,16 @@ public final class LivingAttributes {
         if (installed) return;
         installed = true;
         //? if neoforge {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent event) -> {
                     for (Entry entry : ENTRIES) event.put(entry.type().get(), entry.attributes().get().build());
                 });
-        //?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        *///?} elif forge {
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.event.entity.EntityAttributeCreationEvent event) -> {
                     for (Entry entry : ENTRIES) event.put(entry.type().get(), entry.attributes().get().build());
                 });
-        *///?}
+        //?}
     }
 
     /**

@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.data;
 
 //? if <26.1 {
-/*import com.mojang.serialization.Codec;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 import fr.geoventure.geocore.GeoCore;
 
-/^*
+/**
  * {@link DataOut} backed by a {@code CompoundTag}, for versions before {@code ValueOutput} existed.
  *
  * <p>The scalar puts map one-to-one. Two things need real work:
@@ -26,7 +26,7 @@ import fr.geoventure.geocore.GeoCore;
  *       throwing. A codec failure mid-save must not abort the block entity's write and corrupt the
  *       chunk, so failures are logged and the key is skipped.</li>
  * </ul>
- ^/
+ */
 public final class TagDataOut implements DataOut {
 
     private final CompoundTag tag;
@@ -37,12 +37,12 @@ public final class TagDataOut implements DataOut {
         this.registries = registries;
     }
 
-    /^* The underlying tag, for handing back to vanilla's save path. ^/
+    /** The underlying tag, for handing back to vanilla's save path. */
     public CompoundTag tag() {
         return tag;
     }
 
-    /^* The registry provider, needed by pre-26.1 vanilla helpers that resolve item components. ^/
+    /** The registry provider, needed by pre-26.1 vanilla helpers that resolve item components. */
     public HolderLookup.@Nullable Provider registries() {
         return registries;
     }
@@ -135,4 +135,4 @@ public final class TagDataOut implements DataOut {
         return registries != null ? RegistryOps.create(NbtOps.INSTANCE, registries) : NbtOps.INSTANCE;
     }
 }
-*///?}
+//?}

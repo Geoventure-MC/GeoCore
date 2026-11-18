@@ -330,10 +330,10 @@ public final class WorldRules {
         @Override
         public
                 //? if >=26.1 {
-                net.minecraft.resources.Identifier
-                //?} else {
-                /*net.minecraft.resources.ResourceLocation
-                *///?}
+                /*net.minecraft.resources.Identifier
+                *///?} else {
+                net.minecraft.resources.ResourceLocation
+                //?}
                 id() {
             return CODEC.id();
         }

@@ -23,7 +23,7 @@ public final class GeoCore {
     public static final Logger LOG = LoggerFactory.getLogger("GeoCore");
 
     /** The Minecraft version this build targets, injected by Stonecutter from the active node. */
-    public static final String MC_VERSION = /*$ mc_version*/ "26.1";
+    public static final String MC_VERSION = /*$ mc_version*/ "1.20.1";
 
     private GeoCore() {}
 
@@ -32,10 +32,10 @@ public final class GeoCore {
         //? if fabric {
         /*return Loader.FABRIC;
         *///?} elif neoforge {
-        return Loader.NEOFORGE;
-        //?} elif forge {
-        /*return Loader.FORGE;
-        *///?}
+        /*return Loader.NEOFORGE;
+        *///?} elif forge {
+        return Loader.FORGE;
+        //?}
     }
 
     public enum Loader {

@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.gui;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.platform.Lighting;
+/*import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fr.geoventure.geocore.render.VanillaSubmitSink;
 import net.minecraft.client.Minecraft;
@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.jspecify.annotations.Nullable;
 
-/**
+/^*
  * The picture-in-picture renderer behind {@link GuiScenes} on 26.1.
  *
  * <p>It is vanilla's {@code GuiEntityRenderer} without the entity: the offscreen target, the orthographic
@@ -30,10 +30,10 @@ import org.jspecify.annotations.Nullable;
  * frame would both show the last render. Scenes therefore take one of {@link #SLOTS} state classes, each with
  * its own renderer and texture, in draw order. Scenes beyond {@link #SLOTS} in a frame reuse slots and show a
  * later scene's picture.
- */
+ ^/
 final class GuiSceneRenderer extends PictureInPictureRenderer<GuiSceneRenderer.State> {
 
-    /** Distinct scenes one frame can show; each is one more offscreen texture (sized to its scene). */
+    /^* Distinct scenes one frame can show; each is one more offscreen texture (sized to its scene). ^/
     static final int SLOTS = 4;
 
     static sealed class State implements PictureInPictureRenderState permits Slot0, Slot1, Slot2, Slot3 {
@@ -68,7 +68,7 @@ final class GuiSceneRenderer extends PictureInPictureRenderer<GuiSceneRenderer.S
     private static final java.util.List<Class<? extends State>> SLOT_CLASSES =
             java.util.List.of(Slot0.class, Slot1.class, Slot2.class, Slot3.class);
 
-    /** The extractor the last scene was submitted through: a new one means a new frame, so slots restart at 0. */
+    /^* The extractor the last scene was submitted through: a new one means a new frame, so slots restart at 0. ^/
     private static java.lang.ref.WeakReference<GuiGraphicsExtractor> frame = new java.lang.ref.WeakReference<>(null);
     private static int nextSlot;
 
@@ -79,25 +79,25 @@ final class GuiSceneRenderer extends PictureInPictureRenderer<GuiSceneRenderer.S
         this.stateClass = stateClass;
     }
 
-    /** Adds the loader registration, one renderer per slot; the renderer list is built once, with the game renderer. */
+    /^* Adds the loader registration, one renderer per slot; the renderer list is built once, with the game renderer. ^/
     @SuppressWarnings({"unchecked", "rawtypes"})
     static void register() {
         //? if neoforge {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /^fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent event) -> {
                     for (Class<? extends State> slot : SLOT_CLASSES) {
                         event.register((Class) slot, bufferSource -> new GuiSceneRenderer(bufferSource, slot));
                     }
                 });
-        //?} elif fabric {
-        /*for (Class<? extends State> slot : SLOT_CLASSES) {
+        ^///?} elif fabric {
+        /^for (Class<? extends State> slot : SLOT_CLASSES) {
             net.fabricmc.fabric.api.client.rendering.v1.PictureInPictureRendererRegistry.register(
                     context -> new GuiSceneRenderer(context.bufferSource(), slot));
         }
-        *///?}
+        ^///?}
     }
 
-    /** Queues one scene for this frame's picture-in-picture pass, in the next free slot of this frame. */
+    /^* Queues one scene for this frame's picture-in-picture pass, in the next free slot of this frame. ^/
     static void submit(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, GuiScenes.Scene scene) {
         if (frame.get() != graphics) {
             frame = new java.lang.ref.WeakReference<>(graphics);
@@ -113,10 +113,10 @@ final class GuiSceneRenderer extends PictureInPictureRenderer<GuiSceneRenderer.S
         // NeoForge adds a public submit; on Fabric the render state is private in vanilla and Fabric API
         // does not widen it, so geocore.accesswidener does.
         //? if neoforge {
-        graphics.submitPictureInPictureRenderState(state);
-        //?} else {
-        /*graphics.guiRenderState.addPicturesInPictureState(state);
-        *///?}
+        /^graphics.submitPictureInPictureRenderState(state);
+        ^///?} else {
+        graphics.guiRenderState.addPicturesInPictureState(state);
+        //?}
     }
 
     @Override
@@ -136,7 +136,7 @@ final class GuiSceneRenderer extends PictureInPictureRenderer<GuiSceneRenderer.S
         features.renderAllFeatures();
     }
 
-    /** Centred vertically as well as horizontally, like the entity preview. */
+    /^* Centred vertically as well as horizontally, like the entity preview. ^/
     @Override
     protected float getTranslateY(int height, int guiScale) {
         return height / 2.0F;
@@ -147,4 +147,4 @@ final class GuiSceneRenderer extends PictureInPictureRenderer<GuiSceneRenderer.S
         return "geocore scene";
     }
 }
-//?}
+*///?}

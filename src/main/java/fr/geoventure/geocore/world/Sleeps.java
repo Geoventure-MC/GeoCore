@@ -29,14 +29,14 @@ public final class Sleeps {
         if (hooked) return;
         hooked = true;
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent event) ->
                         attempted(event.getEntity(), event.getPos()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.player.PlayerSleepInBedEvent event) ->
                         attempted(event.getEntity(), event.getPos()));
-        *///?} else {
+        //?} else {
         /*net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents.ALLOW_SLEEPING.register((player, pos) -> {
             attempted(player, pos);
             return null;

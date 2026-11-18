@@ -13,16 +13,16 @@ public abstract class CompatMobEffect extends MobEffect {
 
     @Override
     //? if >=26.1 {
-    public final boolean applyEffectTick(net.minecraft.server.level.ServerLevel level, LivingEntity entity, int amplifier) {
-    //?} elif >=1.21 {
+    /*public final boolean applyEffectTick(net.minecraft.server.level.ServerLevel level, LivingEntity entity, int amplifier) {
+    *///?} elif >=1.21 {
     /*public final boolean applyEffectTick(LivingEntity entity, int amplifier) {
     *///?} else {
-    /*public final void applyEffectTick(LivingEntity entity, int amplifier) {
-    *///?}
+    public final void applyEffectTick(LivingEntity entity, int amplifier) {
+    //?}
         boolean applied = applyCompatEffectTick(entity, amplifier);
         //? if >=1.21 {
-        return applied;
-        //?}
+        /*return applied;
+        *///?}
     }
 
     protected abstract boolean applyCompatEffectTick(LivingEntity entity, int amplifier);
@@ -36,18 +36,18 @@ public abstract class CompatMobEffect extends MobEffect {
      */
     protected boolean shouldApplyTick(int duration, int amplifier) {
         //? if >=1.21 {
-        return super.shouldApplyEffectTickThisTick(duration, amplifier);
-        //?} else {
-        /*return super.isDurationEffectTick(duration, amplifier);
-        *///?}
+        /*return super.shouldApplyEffectTickThisTick(duration, amplifier);
+        *///?} else {
+        return super.isDurationEffectTick(duration, amplifier);
+        //?}
     }
 
     @Override
     //? if >=1.21 {
-    public final boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-    //?} else {
-    /*public final boolean isDurationEffectTick(int duration, int amplifier) {
-    *///?}
+    /*public final boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    *///?} else {
+    public final boolean isDurationEffectTick(int duration, int amplifier) {
+    //?}
         return shouldApplyTick(duration, amplifier);
     }
 }

@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.render.CloudRendering;
+/*import fr.geoventure.geocore.render.CloudRendering;
 import fr.geoventure.geocore.client.Clouds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.CloudStatus;
@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * Vanilla exposes no extra-cloud stage. Fabric has no cloud hook; NeoForge's hook precedes the native pass.
  * Widening cannot append a draw, so HEAD handles replacements and RETURN appends registered additions.
- */
+ ^/
 @Mixin(CloudRenderer.class)
 public abstract class MixinCloudRender {
 
@@ -34,9 +34,9 @@ public abstract class MixinCloudRender {
     }
 
 }
-//?} else {
-/*public final class MixinCloudRender {
+*///?} else {
+public final class MixinCloudRender {
     // Empty below 26.1: Fabric uses DimensionRenderingRegistry there, Forge-likes MixinLegacyCloudRender.
     private MixinCloudRender() {}
 }
-*///?}
+//?}

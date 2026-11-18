@@ -7,12 +7,12 @@ import fr.geoventure.geocore.platform.Platform;
 import java.util.Locale;
 import net.minecraft.client.Minecraft;
 //? if neoforge {
-import net.neoforged.neoforge.client.event.RenderFrameEvent;
+/*import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.common.NeoForge;
-//?} else if forge {
-/*import net.minecraftforge.common.MinecraftForge;
+*///?} else if forge {
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
-*///?}
+//?}
 
 /**
  * Development-only in-game listener for the visual test harness (CLI: {@code GeoCore/harness}, see its README).
@@ -82,12 +82,12 @@ public final class Harness {
         Lifecycle.onServerStarted(HarnessPacing::serverStarted);
         ClientTicks.onEndTick(Harness::onTick);
         //? if neoforge {
-        NeoForge.EVENT_BUS.addListener((RenderFrameEvent.Post event) -> completedFrame());
-        //?} else if forge {
-        /*MinecraftForge.EVENT_BUS.addListener((TickEvent.RenderTickEvent event) -> {
+        /*NeoForge.EVENT_BUS.addListener((RenderFrameEvent.Post event) -> completedFrame());
+        *///?} else if forge {
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.RenderTickEvent event) -> {
             if (event.phase == TickEvent.Phase.END) completedFrame();
         });
-        *///?}
+        //?}
         HarnessServer.start(port);
     }
 

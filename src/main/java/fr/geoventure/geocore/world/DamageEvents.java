@@ -92,7 +92,7 @@ public final class DamageEvents {
                     return false;
                 });
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent event) -> {
                     if (event.isCanceled()) return;
                     DamageEvent damage = event(event.getEntity(), event.getSource(), event.getAmount());
@@ -113,8 +113,8 @@ public final class DamageEvents {
                                 (container, reduction) -> reduction * (1F - damage.piercingResistance()));
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.living.LivingAttackEvent event) -> {
                     DamageEvent damage = event(event.getEntity(), event.getSource(), event.getAmount());
                     dispatchAttack(damage);
@@ -132,7 +132,7 @@ public final class DamageEvents {
                     compensateArmorForPiercing(damage);
                     event.setAmount(damage.amount());
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -151,10 +151,10 @@ public final class DamageEvents {
                 (entity, amount, source, armor, toughness) ->
                         net.minecraft.world.damagesource.CombatRules.getDamageAfterAbsorb(amount, armor, toughness));
         *///?} elif forge {
-        /*compensate(damage,
+        compensate(damage,
                 (entity, amount, source, armor, toughness) ->
                         net.minecraft.world.damagesource.CombatRules.getDamageAfterAbsorb(amount, armor, toughness));
-        *///?}
+        //?}
     }
 
     private static void compensate(DamageEvent damage, ArmorFormula formula) {

@@ -17,40 +17,40 @@ public final class Lookups {
 
     public static void exposeMachines(CraftingMachinePorts ports, Predicate<Block> carriers) {
         //? if neoforge {
-        NeoLookups.exposeMachines(ports, carriers);
-        //?} elif forge {
-        /*ForgeLookups.exposeMachines(ports, carriers);
-        *///?} else {
+        /*NeoLookups.exposeMachines(ports, carriers);
+        *///?} elif forge {
+        ForgeLookups.exposeMachines(ports, carriers);
+        //?} else {
         /*FabricLookups.exposeMachines(ports, carriers);
         *///?}
     }
 
     public static boolean machineExposed(ServerLevel level, BlockPos pos, @Nullable Direction side) {
         //? if neoforge {
-        return NeoLookups.machineExposed(level, pos, side);
-        //?} elif forge {
-        /*return ForgeLookups.machineExposed(level, pos, side);
-        *///?} else {
+        /*return NeoLookups.machineExposed(level, pos, side);
+        *///?} elif forge {
+        return ForgeLookups.machineExposed(level, pos, side);
+        //?} else {
         /*return FabricLookups.machineExposed(level, pos, side);
         *///?}
     }
 
     public static void exposeStores(ItemStorePorts ports, Predicate<Block> carriers) {
         //? if neoforge {
-        NeoLookups.exposeStores(ports, carriers);
-        //?} elif forge {
-        /*ForgeLookups.exposeStores(ports, carriers);
-        *///?} else {
+        /*NeoLookups.exposeStores(ports, carriers);
+        *///?} elif forge {
+        ForgeLookups.exposeStores(ports, carriers);
+        //?} else {
         /*FabricLookups.exposeStores(ports, carriers);
         *///?}
     }
 
     public static @Nullable ItemStore findStore(ServerLevel level, BlockPos pos, @Nullable Direction side) {
         //? if neoforge {
-        return StoreAdapter.view(NeoLookups.findStore(level, pos, side));
-        //?} elif forge {
-        /*return StoreAdapter.view(ForgeLookups.findStore(level, pos, side));
-        *///?} else {
+        /*return StoreAdapter.view(NeoLookups.findStore(level, pos, side));
+        *///?} elif forge {
+        return StoreAdapter.view(ForgeLookups.findStore(level, pos, side));
+        //?} else {
         /*return StoreAdapter.view(FabricLookups.findStore(level, pos, side));
         *///?}
     }

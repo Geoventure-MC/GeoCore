@@ -9,13 +9,13 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface HarnessKeyboardHandlerAccessor {
 
     //? if >=26.1 {
-    @Invoker("keyPress")
+    /*@Invoker("keyPress")
     void geocore$keyPress(long window, int action, net.minecraft.client.input.KeyEvent event);
 
     @Invoker("charTyped")
     void geocore$charTyped(long window, net.minecraft.client.input.CharacterEvent event);
-    //?} else {
-    /*@Invoker("charTyped")
+    *///?} else {
+    @Invoker("charTyped")
     void geocore$charTyped(long window, int codepoint, int modifiers);
-    *///?}
+    //?}
 }

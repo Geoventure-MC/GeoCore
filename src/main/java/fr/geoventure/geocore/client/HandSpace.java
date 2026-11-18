@@ -30,8 +30,8 @@ public final class HandSpace {
     public static void enterCameraSpace(PoseStack pose) {
         pose.setIdentity();
         //? if >=26.1 {
-        if (!ShaderPacks.inUse()) pose.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());
-        //?} else if >=1.21 {
+        /*if (!ShaderPacks.inUse()) pose.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());
+        *///?} else if >=1.21 {
         /*pose.mulPose(new org.joml.Matrix4f(com.mojang.blaze3d.systems.RenderSystem.getModelViewMatrix()).invert());
         *///?}
     }

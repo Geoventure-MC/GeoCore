@@ -100,15 +100,15 @@ final class GroupedModel implements UnbakedModel {
     }
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> sprites, ModelState state) {
         return bakeWith(base, baker, sprites, state);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public BakedModel bake(ModelBaker baker, Function<Material, TextureAtlasSprite> sprites, ModelState state,
                            ResourceLocation location) {
         return bakeWith(base, baker, sprites, state);
     }
-    *///?}
+    //?}
 }

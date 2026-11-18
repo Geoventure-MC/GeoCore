@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.ae2;
 
 //? if ae2 && neoforge {
-import appeng.api.AECapabilities;
+/*import appeng.api.AECapabilities;
 import appeng.api.implementations.blockentities.ICraftingMachine;
 import appeng.api.storage.MEStorage;
 import fr.geoventure.geocore.autocraft.CraftingMachinePorts;
@@ -49,4 +49,4 @@ final class NeoLookups {
         return level.getCapability(AECapabilities.ME_STORAGE, pos, side);
     }
 }
-//?}
+*///?}

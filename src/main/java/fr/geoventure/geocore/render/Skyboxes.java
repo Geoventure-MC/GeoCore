@@ -93,9 +93,9 @@ public final class Skyboxes {
     /** 26.1: whether vanilla will draw the dark disc after the sun, moon and stars this frame. */
     public static boolean darkDiscFollows() {
         //? if >=26.1 {
-        return Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.skyRenderState.shouldRenderDarkDisc;
-        //?} else {
-        /*return false;
-        *///?}
+        /*return Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.skyRenderState.shouldRenderDarkDisc;
+        *///?} else {
+        return false;
+        //?}
     }
 }

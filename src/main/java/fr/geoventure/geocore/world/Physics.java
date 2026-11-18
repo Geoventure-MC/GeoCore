@@ -56,33 +56,33 @@ public final class Physics {
     /** GeoCore's entrypoints call this first: on 1.20.1 the backported attributes' register must exist early. */
     public static void init() {
         //? if <1.20.5 {
-        /*LegacyPhysics.init();
-        *///?}
+        LegacyPhysics.init();
+        //?}
     }
 
     public static AttributeInstance gravity(LivingEntity entity) {
         //? if >=1.20.5 {
-        return entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.GRAVITY);
-        //?} elif forge {
-        /*return entity.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
-        *///?} else {
+        /*return entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.GRAVITY);
+        *///?} elif forge {
+        return entity.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
+        //?} else {
         /*return entity.getAttribute(LegacyPhysics.GRAVITY.get());
         *///?}
     }
 
     public static AttributeInstance safeFallDistance(LivingEntity entity) {
         //? if >=1.20.5 {
-        return entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.SAFE_FALL_DISTANCE);
-        //?} else {
-        /*return entity.getAttribute(LegacyPhysics.SAFE_FALL_DISTANCE.get());
-        *///?}
+        /*return entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.SAFE_FALL_DISTANCE);
+        *///?} else {
+        return entity.getAttribute(LegacyPhysics.SAFE_FALL_DISTANCE.get());
+        //?}
     }
 
     public static AttributeInstance fallDamageMultiplier(LivingEntity entity) {
         //? if >=1.20.5 {
-        return entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FALL_DAMAGE_MULTIPLIER);
-        //?} else {
-        /*return entity.getAttribute(LegacyPhysics.FALL_DAMAGE_MULTIPLIER.get());
-        *///?}
+        /*return entity.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.FALL_DAMAGE_MULTIPLIER);
+        *///?} else {
+        return entity.getAttribute(LegacyPhysics.FALL_DAMAGE_MULTIPLIER.get());
+        //?}
     }
 }

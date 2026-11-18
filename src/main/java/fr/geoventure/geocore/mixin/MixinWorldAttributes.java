@@ -7,10 +7,10 @@ import fr.geoventure.geocore.world.WorldAttributes;
 import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 //? if >=26.1 {
-import net.minecraft.world.attribute.EnvironmentAttributeSystem;
+/*import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//?}
+*///?}
 
 /**
  * 26.1 builds a level's attribute layers in a private static method that no loader event reaches, so the builder's
@@ -18,23 +18,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * roll, stands where 26.1 reads MONSTERS_BURN. Widening adds neither a layer nor a rule.
  */
 //? if >=26.1 {
-@Mixin(EnvironmentAttributeSystem.Builder.class)
-//?} else {
-/*@Mixin(Mob.class)
- *///?}
+/*@Mixin(EnvironmentAttributeSystem.Builder.class)
+*///?} else {
+@Mixin(Mob.class)
+ //?}
 public abstract class MixinWorldAttributes {
     //? if >=26.1 {
-    @Inject(method = "addDefaultLayers", at = @At("RETURN"))
+    /*@Inject(method = "addDefaultLayers", at = @At("RETURN"))
     private void geocore$worldLayers(Level level, CallbackInfoReturnable<EnvironmentAttributeSystem.Builder> result) {
         WorldAttributes.apply(level, result.getReturnValue());
     }
-    //?} else {
-    /*@ModifyExpressionValue(method = "isSunBurnTick", at = @At(value = "INVOKE",
+    *///?} else {
+    @ModifyExpressionValue(method = "isSunBurnTick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/Level;isDay()Z"))
     private boolean geocore$sunlightBurn(boolean day) {
         var mob = (Mob) (Object) this;
         var level = mob.level();
         return level.isClientSide ? day : WorldAttributes.MONSTERS_BURN.invoker().apply(level, mob.blockPosition(), day);
     }
-    *///?}
+    //?}
 }

@@ -17,10 +17,10 @@ import java.util.Map;
  * <p>KubeJS's own event methods ({@code cancel}, {@code exit}) are not shown: script events are observe-only.
  */
 //? if >=1.20.5 {
-public final class PayloadEvent implements dev.latvian.mods.kubejs.event.KubeEvent, CustomJavaToJsWrapper {
-//?} else {
-/*public final class PayloadEvent extends dev.latvian.mods.kubejs.event.EventJS implements CustomJavaToJsWrapper {
-*///?}
+/*public final class PayloadEvent implements dev.latvian.mods.kubejs.event.KubeEvent, CustomJavaToJsWrapper {
+*///?} else {
+public final class PayloadEvent extends dev.latvian.mods.kubejs.event.EventJS implements CustomJavaToJsWrapper {
+//?}
 
     private final Object payload;
     private final Map<String, Object> properties;
@@ -37,10 +37,10 @@ public final class PayloadEvent implements dev.latvian.mods.kubejs.event.KubeEve
 
     @Override
     //? if >=1.20.5 {
-    public Scriptable convertJavaToJs(Context cx, Scriptable scope, dev.latvian.mods.rhino.type.TypeInfo staticType) {
-    //?} else {
-    /*public Scriptable convertJavaToJs(Context cx, Scriptable scope, Class<?> staticType) {
-    *///?}
+    /*public Scriptable convertJavaToJs(Context cx, Scriptable scope, dev.latvian.mods.rhino.type.TypeInfo staticType) {
+    *///?} else {
+    public Scriptable convertJavaToJs(Context cx, Scriptable scope, Class<?> staticType) {
+    //?}
         return new PayloadScriptable(cx, scope, payload, properties);
     }
 

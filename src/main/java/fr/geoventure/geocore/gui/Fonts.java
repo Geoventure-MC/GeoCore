@@ -15,11 +15,11 @@ public final class Fonts {
     /** {@code text} in the standard galactic alphabet (1.7 {@code Minecraft.standardGalacticFontRenderer}). */
     public static MutableComponent galactic(String text) {
         //? if >=26.1 {
-        Style style = Style.EMPTY.withFont(new net.minecraft.network.chat.FontDescription.Resource(
+        /*Style style = Style.EMPTY.withFont(new net.minecraft.network.chat.FontDescription.Resource(
                 fr.geoventure.geocore.Ids.of("minecraft", "alt")));
-        //?} else {
-        /*Style style = Style.EMPTY.withFont(fr.geoventure.geocore.Ids.of("minecraft", "alt"));
-        *///?}
+        *///?} else {
+        Style style = Style.EMPTY.withFont(fr.geoventure.geocore.Ids.of("minecraft", "alt"));
+        //?}
         return Component.literal(text).withStyle(style);
     }
 }

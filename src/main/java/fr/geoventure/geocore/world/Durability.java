@@ -20,19 +20,19 @@ public final class Durability {
     public static void hurt(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
         if (amount <= 0 || stack.isEmpty()) return;
         //? if >=1.21.1 {
-        stack.hurtAndBreak(amount, entity, slot);
-        //?} else {
-        /*stack.hurtAndBreak(amount, entity, e -> e.broadcastBreakEvent(slot));
-        *///?}
+        /*stack.hurtAndBreak(amount, entity, slot);
+        *///?} else {
+        stack.hurtAndBreak(amount, entity, e -> e.broadcastBreakEvent(slot));
+        //?}
     }
 
     /** Applies Unbreaking at {@code level} (for tests and synthesized stacks). */
     public static void enchantUnbreaking(ServerLevel world, ItemStack stack, int level) {
         //? if >=1.21.1 {
-        stack.enchant(world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
+        /*stack.enchant(world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
                 .getOrThrow(Enchantments.UNBREAKING), level);
-        //?} else {
-        /*stack.enchant(Enchantments.UNBREAKING, level);
-        *///?}
+        *///?} else {
+        stack.enchant(Enchantments.UNBREAKING, level);
+        //?}
     }
 }

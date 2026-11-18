@@ -10,10 +10,10 @@ public final class ConfigFiles {
 
     public static Path serverConfig(MinecraftServer server, String name) {
         //? if >=1.21 {
-        return server.getServerDirectory().resolve("config").resolve(name);
-        //?} else {
-        /*return server.getServerDirectory().toPath().resolve("config").resolve(name);
-        *///?}
+        /*return server.getServerDirectory().resolve("config").resolve(name);
+        *///?} else {
+        return server.getServerDirectory().toPath().resolve("config").resolve(name);
+        //?}
     }
 
     /**
@@ -26,9 +26,9 @@ public final class ConfigFiles {
         //? if fabric {
         /*return net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir();
         *///?} elif neoforge {
-        return net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get();
-        //?} elif forge {
-        /*return net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR.get();
-        *///?}
+        /*return net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get();
+        *///?} elif forge {
+        return net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR.get();
+        //?}
     }
 }

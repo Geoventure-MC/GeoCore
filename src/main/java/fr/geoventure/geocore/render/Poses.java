@@ -28,24 +28,24 @@ public final class Poses {
     public static PoseStack copyOf(PoseStack.Pose pose) {
         PoseStack copy = new PoseStack();
         //? if >=26.1 {
-        copy.last().set(pose);
-        //?} elif >=1.21 {
+        /*copy.last().set(pose);
+        *///?} elif >=1.21 {
         /*copy.mulPose(pose.pose());
         *///?} else {
-        /*copy.last().pose().set(pose.pose());
+        copy.last().pose().set(pose.pose());
         copy.last().normal().set(pose.normal());
-        *///?}
+        //?}
         return copy;
     }
 
     /** Applies an affine model matrix, including its mirrored/nonuniform normal transform. */
     public static void mulPose(PoseStack poseStack, Matrix4f transform) {
         //? if >=1.20.5 {
-        poseStack.mulPose(transform);
-        //?} else {
-        /*poseStack.mulPoseMatrix(transform);
+        /*poseStack.mulPose(transform);
+        *///?} else {
+        poseStack.mulPoseMatrix(transform);
         poseStack.last().normal().mul(new org.joml.Matrix3f(transform).invert().transpose());
-        *///?}
+        //?}
     }
 
     /**
@@ -54,11 +54,11 @@ public final class Poses {
      */
     public static void rotate(PoseStack.Pose pose, Quaternionf rotation) {
         //? if >=26.1 {
-        pose.rotate(rotation);
-        //?} else {
-        /*pose.pose().rotate(rotation);
+        /*pose.rotate(rotation);
+        *///?} else {
+        pose.pose().rotate(rotation);
         pose.normal().rotate(rotation);
-        *///?}
+        //?}
     }
 
     /**
@@ -68,18 +68,18 @@ public final class Poses {
      */
     public static void scale(PoseStack.Pose pose, float x, float y, float z) {
         //? if >=26.1 {
-        pose.scale(x, y, z);
-        //?} else {
-        /*pose.pose().scale(x, y, z);
-        *///?}
+        /*pose.scale(x, y, z);
+        *///?} else {
+        pose.pose().scale(x, y, z);
+        //?}
     }
 
     /** Translates a pose in place. Same split as {@link #scale}; a translation never affects normals. */
     public static void translate(PoseStack.Pose pose, float x, float y, float z) {
         //? if >=26.1 {
-        pose.translate(x, y, z);
-        //?} else {
-        /*pose.pose().translate(x, y, z);
-        *///?}
+        /*pose.translate(x, y, z);
+        *///?} else {
+        pose.pose().translate(x, y, z);
+        //?}
     }
 }

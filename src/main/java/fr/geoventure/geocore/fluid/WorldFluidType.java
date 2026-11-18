@@ -1,17 +1,17 @@
 package fr.geoventure.geocore.fluid;
 
 //? if neoforge {
-import net.minecraft.network.chat.Component;
+/*import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-/**
+/^*
  * The NeoForge half of a {@link WorldFluids} fluid. NeoForge moves entities by {@code FluidType}, not by the
  * vanilla fluid tags Fabric reads, so the type carries the {@link WorldFluids.Physics} itself: water-like
  * (swim, drown, extinguish, current) or lava-like and no-physics with their own movement, since a fluid type
  * that is neither water-like nor moves its entities itself leaves them frozen on 26.1.
- */
+ ^/
 final class WorldFluidType extends net.neoforged.neoforge.fluids.FluidType {
 
     final WorldFluids.Handle handle;
@@ -33,8 +33,8 @@ final class WorldFluidType extends net.neoforged.neoforge.fluids.FluidType {
             case WATER -> p = p.canSwim(true).canDrown(true).canExtinguish(true).canPushEntity(true).supportsBoating(true)
                     .canHydrate(true).fallDistanceModifier(0.0F).motionScale(0.014D)
                     //? if >=26.1 {
-                    .isWaterLike(true)
-                    //?}
+                    /^.isWaterLike(true)
+                    ^///?}
                     .sound(net.neoforged.neoforge.common.SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                     .sound(net.neoforged.neoforge.common.SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY);
             case LAVA -> p = p.canSwim(false).canDrown(false).canExtinguish(false).canPushEntity(true)
@@ -61,24 +61,24 @@ final class WorldFluidType extends net.neoforged.neoforge.fluids.FluidType {
     }
 
     //? if >=26.1 {
-    @Override
+    /^@Override
     public boolean move(LivingEntity entity, Vec3 movementVector, double gravity) {
         return FluidMotion.move(handle.spec.physics(), entity, movementVector, gravity, entity.getFluidTypeHeight(this));
     }
-    //?} else {
-    /*@Override
+    ^///?} else {
+    @Override
     public boolean move(net.minecraft.world.level.material.FluidState state, LivingEntity entity, Vec3 movementVector, double gravity) {
         return FluidMotion.move(handle.spec.physics(), entity, movementVector, gravity, entity.getFluidTypeHeight(this));
     }
-    *///?}
+    //?}
 }
-//?} elif forge {
-/*import net.minecraft.network.chat.Component;
+*///?} elif forge {
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-/^* The Forge half of a {@link WorldFluids} fluid; see the NeoForge spelling of this class. ^/
+/** The Forge half of a {@link WorldFluids} fluid; see the NeoForge spelling of this class. */
 final class WorldFluidType extends net.minecraftforge.fluids.FluidType {
 
     final WorldFluids.Handle handle;
@@ -136,4 +136,4 @@ final class WorldFluidType extends net.minecraftforge.fluids.FluidType {
         consumer.accept(WorldFluidsClient.extensions(() -> this.handle.spec));
     }
 }
-*///?}
+//?}

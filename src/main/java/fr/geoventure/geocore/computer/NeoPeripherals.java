@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.computer;
 
 //? if computercraft && neoforge {
-import dan200.computercraft.api.peripheral.IPeripheral;
+/*import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.PeripheralCapability;
 import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
@@ -32,4 +32,4 @@ final class NeoPeripherals {
         return level.getCapability(PeripheralCapability.get(), pos, side);
     }
 }
-//?}
+*///?}

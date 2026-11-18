@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -21,13 +21,13 @@ import net.minecraft.resources.Identifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
-*///?}
+//?}
 
 /**
  * GEONTM 1.12's screen-space heat distortion ({@code GeoNtmShaderManager2.distort} + {@code heatDistortion()}): geometry
@@ -44,10 +44,10 @@ public final class ScreenDistortion {
     static final ScreenEffects.Layer LAYER = new ScreenEffects.Layer("geocore_distortion_layer");
 
     //? if >=26.1 {
-    private static Identifier noise;
-    //?} else {
-    /*private static ResourceLocation noise;
-    *///?}
+    /*private static Identifier noise;
+    *///?} else {
+    private static ResourceLocation noise;
+    //?}
 
     private ScreenDistortion() {}
 
@@ -58,7 +58,7 @@ public final class ScreenDistortion {
      * {@code noise} is the texture the composite animates the offset with (1.12 bound {@code noise_2}).
      */
     //? if >=26.1 {
-    public static RenderType of(Identifier mask, Identifier noise) {
+    /*public static RenderType of(Identifier mask, Identifier noise) {
         ScreenDistortion.noise = noise;
         return BY_MASK.computeIfAbsent(mask, ScreenDistortion::create);
     }
@@ -113,8 +113,8 @@ public final class ScreenDistortion {
         ScreenEffects.report("distortion", LAYER.target());
         LAYER.clear();
     }
-    //?} else {
-    /*public static RenderType of(ResourceLocation mask, ResourceLocation noise) {
+    *///?} else {
+    public static RenderType of(ResourceLocation mask, ResourceLocation noise) {
         ScreenDistortion.noise = noise;
         return BY_MASK.computeIfAbsent(mask, Factory::distortion);
     }
@@ -190,5 +190,5 @@ public final class ScreenDistortion {
             LAYER.clear();
         }
     }
-    *///?}
+    //?}
 }

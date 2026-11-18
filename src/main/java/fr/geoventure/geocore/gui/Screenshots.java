@@ -20,10 +20,10 @@ public final class Screenshots {
     public static void capture(Consumer<NativeImage> consumer) {
         Minecraft minecraft = Minecraft.getInstance();
         //? if >=26.1 {
-        net.minecraft.client.Screenshot.takeScreenshot(minecraft.getMainRenderTarget(), consumer::accept);
-        //?} else {
-        /*consumer.accept(net.minecraft.client.Screenshot.takeScreenshot(minecraft.getMainRenderTarget()));
-        *///?}
+        /*net.minecraft.client.Screenshot.takeScreenshot(minecraft.getMainRenderTarget(), consumer::accept);
+        *///?} else {
+        consumer.accept(net.minecraft.client.Screenshot.takeScreenshot(minecraft.getMainRenderTarget()));
+        //?}
     }
 
     /** A copy of the rectangle {@code x, y, width, height} of {@code source}. */
@@ -42,11 +42,11 @@ public final class Screenshots {
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
                 //? if >=26.1 {
-                if (image.getPixel(x, y) == argb) image.setPixel(x, y, 0);
-                //?} else {
-                /*int abgr = (argb & 0xFF00FF00) | ((argb >> 16) & 0xFF) | ((argb & 0xFF) << 16);
+                /*if (image.getPixel(x, y) == argb) image.setPixel(x, y, 0);
+                *///?} else {
+                int abgr = (argb & 0xFF00FF00) | ((argb >> 16) & 0xFF) | ((argb & 0xFF) << 16);
                 if (image.getPixelRGBA(x, y) == abgr) image.setPixelRGBA(x, y, 0);
-                *///?}
+                //?}
             }
         }
     }

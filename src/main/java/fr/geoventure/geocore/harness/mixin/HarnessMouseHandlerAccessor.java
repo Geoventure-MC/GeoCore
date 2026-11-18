@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface HarnessMouseHandlerAccessor {
 
     //? if >=26.1 {
-    @Invoker("onButton")
+    /*@Invoker("onButton")
     void geocore$onButton(long window, net.minecraft.client.input.MouseButtonInfo button, int action);
-    //?} else {
-    /*@Invoker("onPress")
+    *///?} else {
+    @Invoker("onPress")
     void geocore$onPress(long window, int button, int action, int modifiers);
-    *///?}
+    //?}
 
     @Invoker("onMove")
     void geocore$onMove(long window, double x, double y);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.registry.DeferredRegister;
+/*import fr.geoventure.geocore.registry.DeferredRegister;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.FunctionGameTestInstance;
@@ -22,17 +22,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 //? if fabric && >=26.1 {
-/*import net.minecraft.core.Registry;
+/^import net.minecraft.core.Registry;
 import net.minecraft.gametest.framework.GameTestInstance;
 import net.minecraft.resources.RegistryLoadTask;
 import net.minecraft.resources.Identifier;
-*///?}
-//?} else {
-/*import net.minecraft.gametest.framework.TestFunction;
+^///?}
+*///?} else {
+import net.minecraft.gametest.framework.TestFunction;
 import net.minecraft.world.level.block.Rotation;
 import java.util.ArrayList;
 import java.util.List;
-*///?}
+//?}
 
 /**
  * GameTests written once, registered on whichever framework the target has.
@@ -138,20 +138,20 @@ public final class GameTests {
     }
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * One test-function register per namespace. 26.1 needs the bodies in a real registry so a test can
      * reference one by {@link ResourceKey}; this era-only detail is why {@link #function} exists rather
      * than callers holding their own register.
-     */
+     ^/
     private static final Map<String, DeferredRegister<Consumer<GameTestHelper>>> REGISTERS = new HashMap<>();
 
-    /** Every declared function, used by loaders whose API provides no registration event. */
+    /^* Every declared function, used by loaders whose API provides no registration event. ^/
     private static final List<Function> FUNCTIONS = new ArrayList<>();
 
-    /** The ids of {@link #FUNCTIONS}: the tests {@link TestChunks} holds until their plot is entity-ticking. */
+    /^* The ids of {@link #FUNCTIONS}: the tests {@link TestChunks} holds until their plot is entity-ticking. ^/
     private static final java.util.Set<String> DECLARED = java.util.concurrent.ConcurrentHashMap.newKeySet();
 
-    /**
+    /^*
      * Environments, one per namespace <b>per registry load</b>, keyed by the event, not held statically.
      *
      * <p>{@code RegisterGameTestsEvent} fires on every {@code RegistryDataLoader.load}, and each load builds
@@ -161,16 +161,16 @@ public final class GameTests {
      * Element … is not valid in current registry set} while the server packs registries for the client.
      *
      * <p>Weak keys so a finished load's entry goes away with the event.
-     */
+     ^/
     private static final Map<Object, Map<String, Holder<TestEnvironmentDefinition<?>>>> ENVIRONMENTS =
             new java.util.WeakHashMap<>();
-    //?} else {
-    /*/^* Tests awaiting pickup by the generator; see {@link GeoCoreTestGenerator}. ^/
+    *///?} else {
+    /** Tests awaiting pickup by the generator; see {@link GeoCoreTestGenerator}. */
     private static final List<TestFunction> PENDING = new ArrayList<>();
 
-    /^* Whether the generator class has been handed to the loader yet. ^/
+    /** Whether the generator class has been handed to the loader yet. */
     private static boolean generatorRegistered;
-    *///?}
+    //?}
 
     /**
      * Declares a test body. Call from a static initialiser, exactly as a registry entry would be
@@ -188,15 +188,15 @@ public final class GameTests {
     public static Function function(String namespace, String name, int timeoutTicks, int padding,
                                     Supplier<Consumer<GameTestHelper>> body) {
         //? if >=26.1 {
-        var structure = "minecraft:" + EMPTY_STRUCTURE;
+        /*var structure = "minecraft:" + EMPTY_STRUCTURE;
         var skyAccess = false;
-        //?} else {
-        /*var structure = namespace + ":" + EMPTY_STRUCTURE;
+        *///?} else {
+        var structure = namespace + ":" + EMPTY_STRUCTURE;
         if (padding > 64) structure += "_184";
         else if (padding > 28) structure += "_152";
         else if (padding > 8) structure += "_80";
         var skyAccess = true;
-        *///?}
+        //?}
         return function(namespace, name, timeoutTicks, padding, structure, skyAccess, body);
     }
 
@@ -210,21 +210,21 @@ public final class GameTests {
                                     Supplier<Consumer<GameTestHelper>> body) {
         var function = new Function(namespace, name, timeoutTicks, padding, structure, skyAccess, environment, body);
         //? if >=26.1 {
-        REGISTERS.computeIfAbsent(namespace, ns -> DeferredRegister.create(Registries.TEST_FUNCTION, ns))
+        /*REGISTERS.computeIfAbsent(namespace, ns -> DeferredRegister.create(Registries.TEST_FUNCTION, ns))
                 .register(name, body);
         FUNCTIONS.add(function);
         DECLARED.add(function.id());
         TestChunks.declare();
-        //?}
+        *///?}
         return function;
     }
 
     //? if >=26.1 {
-    /** Whether {@code id} ({@code namespace:name}) is a test declared here. */
+    /*/^* Whether {@code id} ({@code namespace:name}) is a test declared here. ^/
     static boolean declares(String id) {
         return DECLARED.contains(id);
     }
-    //?}
+    *///?}
 
     /**
      * The middle of the free space a test declared with {@code padding} owns, in the helper's relative
@@ -238,11 +238,11 @@ public final class GameTests {
      */
     public static net.minecraft.core.BlockPos paddedCentre(int padding, int y) {
         //? if >=26.1 {
-        return new net.minecraft.core.BlockPos(0, y, 0);
-        //?} else {
-        /*int width = padding > 64 ? 184 : padding > 28 ? 152 : padding > 8 ? 80 : 24;
+        /*return new net.minecraft.core.BlockPos(0, y, 0);
+        *///?} else {
+        int width = padding > 64 ? 184 : padding > 28 ? 152 : padding > 8 ? 80 : 24;
         return new net.minecraft.core.BlockPos(width / 2, y, width / 2);
-        *///?}
+        //?}
     }
 
     /**
@@ -254,13 +254,13 @@ public final class GameTests {
      */
     public static net.minecraft.core.BlockPos relativePos(GameTestHelper helper, net.minecraft.core.BlockPos absolute) {
         //? if >=26.1 {
-        return helper.relativePos(absolute);
-        //?} else {
-        /*net.minecraft.core.BlockPos origin = helper.absolutePos(net.minecraft.core.BlockPos.ZERO);
+        /*return helper.relativePos(absolute);
+        *///?} else {
+        net.minecraft.core.BlockPos origin = helper.absolutePos(net.minecraft.core.BlockPos.ZERO);
         net.minecraft.core.BlockPos offset = absolute.subtract(origin);
         for (int i = 0; i < 3; i++) offset = helper.absolutePos(offset).subtract(origin);
         return offset;
-        *///?}
+        //?}
     }
 
     /**
@@ -294,14 +294,14 @@ public final class GameTests {
     }
 
     //? if neoforge {
-    /**
+    /*/^*
      * Registers a declared body as a runnable test. Call from NeoForge's {@code RegisterGameTestsEvent}.
-     */
+     ^/
     public static void register(net.neoforged.neoforge.event.RegisterGameTestsEvent event,
                                  Suite suite) {
         for (Function function : suite.functions) {
             //? if >=26.1 {
-            if (!selected(function)) continue;
+            /^if (!selected(function)) continue;
             // Per event: one environment per namespace within THIS registry load. See ENVIRONMENTS.
             Holder<TestEnvironmentDefinition<?>> environment = ENVIRONMENTS
                     .computeIfAbsent(event, e -> new HashMap<>())
@@ -317,8 +317,8 @@ public final class GameTests {
                     ResourceKey.create(Registries.TEST_FUNCTION, fr.geoventure.geocore.Ids.of(function.namespace, function.name));
             event.registerTest(fr.geoventure.geocore.Ids.of(function.namespace, function.name),
                     testData -> new FunctionGameTestInstance(key, testData), data);
-            //?} else {
-            /*// The structure is namespaced to the MOD, not to this library: generated tests are filtered by
+            ^///?} else {
+            // The structure is namespaced to the MOD, not to this library: generated tests are filtered by
         // their structure's namespace when enabledGameTestNamespaces is set, so a geocore structure
         // would see every one of them silently dropped.
         addLegacy(function);
@@ -327,11 +327,11 @@ public final class GameTests {
             generatorRegistered = true;
             event.register(GeoCoreTestGenerator.class);
         }
-            *///?}
+            //?}
         }
     }
-    //?} else if forge {
-    /*public static void register(net.minecraftforge.event.RegisterGameTestsEvent event,
+    *///?} else if forge {
+    public static void register(net.minecraftforge.event.RegisterGameTestsEvent event,
                                   Suite suite) {
         for (Function function : suite.functions) {
             addLegacy(function);
@@ -342,7 +342,7 @@ public final class GameTests {
             }
         }
     }
-        *///?}
+        //?}
 
     //? if fabric && <26.1 {
     /*/^*
@@ -405,13 +405,13 @@ public final class GameTests {
     *///?}
 
     //? if <26.1 {
-    /*/^*
+    /**
      * Padding below 26.1. This framework spaces plots by the structure's own size + 5 and the origin is
      * always the template's corner, so a padded test gets a wider empty template (24 + 2 * padding, see
      * port-tools/gen_empty_structures.py) AND a non-required no-op spacer with the same template placed
      * right before it: the template keeps the next plot away, the spacer keeps the previous one away.
      * The stock 24-wide template with its 5-block gap already covers a padding of 8.
-     ^/
+     */
     private static void addLegacy(Function function) {
         addLegacy(function, PENDING);
     }
@@ -428,7 +428,7 @@ public final class GameTests {
         // field; retain its original constructor and enclosure behavior for that node.
         if (function.padding > 8) {
             //? if >=1.21.1 {
-            into.add(new TestFunction(
+            /*into.add(new TestFunction(
                     batch,
                     function.id() + "_spacer",
                     structure,
@@ -441,8 +441,8 @@ public final class GameTests {
                     1,
                     function.skyAccess,
                     GameTestHelper::succeed));
-            //?} else {
-            /^into.add(new TestFunction(
+            *///?} else {
+            into.add(new TestFunction(
                     batch,
                     function.id() + "_spacer",
                     structure,
@@ -452,10 +452,10 @@ public final class GameTests {
                     false,
                     1,
                     1,
-                    GameTestHelper::succeed));^///?}
+                    GameTestHelper::succeed));//?}
         }
         //? if >=1.21.1 {
-        into.add(new TestFunction(
+        /*into.add(new TestFunction(
                 batch,
                 function.id(),
                 structure,
@@ -468,8 +468,8 @@ public final class GameTests {
                 1,
                 function.skyAccess,
                 function.body.get()));
-        //?} else {
-        /^into.add(new TestFunction(
+        *///?} else {
+        into.add(new TestFunction(
                 batch,
                 function.id(),
                 structure,
@@ -479,12 +479,12 @@ public final class GameTests {
                 true,
                 1,
                 1,
-                function.body.get()));^///?}
+                function.body.get()));//?}
     }
 
-    /^* The tests collected so far, for the generator to hand to the framework. ^/
+    /** The tests collected so far, for the generator to hand to the framework. */
     public static List<TestFunction> pending() {
         return PENDING;
     }
-    *///?}
+    //?}
 }

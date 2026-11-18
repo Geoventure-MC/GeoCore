@@ -14,11 +14,11 @@ public abstract class CompatSavedData<T extends CompatSavedData<T>> extends Save
     public static <T extends CompatSavedData<T>> T get(ServerLevel level, String id, Supplier<T> factory,
                                                           Codec<T> codec) {
         //? if >=26.1 {
-        return level.getDataStorage().computeIfAbsent(new net.minecraft.world.level.saveddata.SavedDataType<>(
+        /*return level.getDataStorage().computeIfAbsent(new net.minecraft.world.level.saveddata.SavedDataType<>(
                 net.minecraft.resources.Identifier.fromNamespaceAndPath(id.substring(0, id.indexOf(':')),
                         id.substring(id.indexOf(':') + 1)), factory, codec,
                 net.minecraft.util.datafix.DataFixTypes.SAVED_DATA_MAP_DATA));
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*return level.getDataStorage().computeIfAbsent(
                 new SavedData.Factory<>(factory,
                         (tag, registries) -> codec.parse(
@@ -26,20 +26,20 @@ public abstract class CompatSavedData<T extends CompatSavedData<T>> extends Save
                                 .result().orElseGet(factory),
                         net.minecraft.util.datafix.DataFixTypes.SAVED_DATA_MAP_DATA), legacyFileId(id));
         *///?} else {
-        /*return level.getDataStorage().computeIfAbsent(
+        return level.getDataStorage().computeIfAbsent(
                 tag -> codec.parse(net.minecraft.nbt.NbtOps.INSTANCE, tag).result().orElseGet(factory), factory, legacyFileId(id));
-        *///?}
+        //?}
     }
 
     /** As {@link #get} but never creates: null when the level has no such data yet. */
     public static <T extends CompatSavedData<T>> @Nullable T getIfPresent(ServerLevel level, String id,
                                                                           Supplier<T> factory, Codec<T> codec) {
         //? if >=26.1 {
-        return level.getDataStorage().get(new net.minecraft.world.level.saveddata.SavedDataType<>(
+        /*return level.getDataStorage().get(new net.minecraft.world.level.saveddata.SavedDataType<>(
                 net.minecraft.resources.Identifier.fromNamespaceAndPath(id.substring(0, id.indexOf(':')),
                         id.substring(id.indexOf(':') + 1)), factory, codec,
                 net.minecraft.util.datafix.DataFixTypes.SAVED_DATA_MAP_DATA));
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*return level.getDataStorage().get(
                 new SavedData.Factory<>(factory,
                         (tag, registries) -> codec.parse(
@@ -47,9 +47,9 @@ public abstract class CompatSavedData<T extends CompatSavedData<T>> extends Save
                                 .result().orElseGet(factory),
                         net.minecraft.util.datafix.DataFixTypes.SAVED_DATA_MAP_DATA), legacyFileId(id));
         *///?} else {
-        /*return level.getDataStorage().get(
+        return level.getDataStorage().get(
                 tag -> codec.parse(net.minecraft.nbt.NbtOps.INSTANCE, tag).result().orElseGet(factory), legacyFileId(id));
-        *///?}
+        //?}
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class CompatSavedData<T extends CompatSavedData<T>> extends Save
     @SuppressWarnings("unchecked")
     private T self() { return (T) this; }
     *///?} elif <1.21 {
-    /*@Override
+    @Override
     public net.minecraft.nbt.CompoundTag save(net.minecraft.nbt.CompoundTag tag) {
         codec().encodeStart(net.minecraft.nbt.NbtOps.INSTANCE, self()).result().ifPresent(encoded -> {
             if (encoded instanceof net.minecraft.nbt.CompoundTag compound) tag.merge(compound);
@@ -86,5 +86,5 @@ public abstract class CompatSavedData<T extends CompatSavedData<T>> extends Save
     private T self() {
         return (T) this;
     }
-    *///?}
+    //?}
 }

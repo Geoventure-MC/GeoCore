@@ -22,9 +22,9 @@ public final class Movement {
     public static void resetFloatingTickCount(ServerPlayer player) {
         if (player == null) return;
         //? if >=26.1 {
-        player.connection.resetFlyingTicks();
-        //?} else {
-        /*if (player.connection instanceof FloatingTickCounter counter) counter.resetFloatingTickCount();
-        *///?}
+        /*player.connection.resetFlyingTicks();
+        *///?} else {
+        if (player.connection instanceof FloatingTickCounter counter) counter.resetFloatingTickCount();
+        //?}
     }
 }

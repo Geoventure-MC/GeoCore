@@ -19,12 +19,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
  * the method. One RETURN/TAIL inject per method; nothing changes unless a {@link Fogs.Modifier} is active.
  */
 //? if >=26.1 {
-@Mixin(net.minecraft.client.renderer.fog.FogRenderer.class)
+/*@Mixin(net.minecraft.client.renderer.fog.FogRenderer.class)
 public abstract class MixinFogRendererModifiers {
 
     //? if fabric {
-    /*@Inject(method = "setupFog", at = @At("RETURN"), order = 900)
-    *///?} else {
+    /^@Inject(method = "setupFog", at = @At("RETURN"), order = 900)
+    ^///?} else {
     @Inject(method = "setupFog", at = @At("RETURN"))
     //?}
     private void geocore$fogs(net.minecraft.client.Camera camera, int renderDistanceInChunks,
@@ -39,8 +39,8 @@ public abstract class MixinFogRendererModifiers {
         Fogs.applyDistances(data, entity, renderDistanceInChunks * 16.0F);
     }
 }
-//?} else {
-/*@Mixin(net.minecraft.client.renderer.FogRenderer.class)
+*///?} else {
+@Mixin(net.minecraft.client.renderer.FogRenderer.class)
 public abstract class MixinFogRendererModifiers {
 
     @org.spongepowered.asm.mixin.Shadow private static float fogRed;
@@ -74,4 +74,4 @@ public abstract class MixinFogRendererModifiers {
         com.mojang.blaze3d.systems.RenderSystem.setShaderFogShape(com.mojang.blaze3d.shaders.FogShape.SPHERE);
     }
 }
-*///?}
+//?}

@@ -26,10 +26,10 @@ import net.minecraft.world.level.Level;
  */
 public class CompatArmorItem extends
     //? if >=26.1 {
-    Item
-    //?} else {
-    /*net.minecraft.world.item.ArmorItem
-    *///?}
+    /*Item
+    *///?} else {
+    net.minecraft.world.item.ArmorItem
+    //?}
 {
 
     private final ArmorSlot armorSlot;
@@ -37,14 +37,14 @@ public class CompatArmorItem extends
     @SuppressWarnings("unchecked")
     public CompatArmorItem(GeoCoreArmorMaterial material, ArmorSlot slot, Item.Properties properties) {
         //? if >=26.1 {
-        super(configure((net.minecraft.world.item.equipment.ArmorMaterial) material.nativeMaterial(), slot,
+        /*super(configure((net.minecraft.world.item.equipment.ArmorMaterial) material.nativeMaterial(), slot,
                 properties, material.enchantmentValue()));
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*super((net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>) material.nativeMaterial(), type(slot),
                 properties.durability(type(slot).getDurability(material.durability())));
         *///?} else {
-        /*super((net.minecraft.world.item.ArmorMaterial) material.nativeMaterial(), type(slot), properties);
-        *///?}
+        super((net.minecraft.world.item.ArmorMaterial) material.nativeMaterial(), type(slot), properties);
+        //?}
         this.armorSlot = slot;
     }
 
@@ -62,16 +62,16 @@ public class CompatArmorItem extends
      */
     public static Item.Properties unbreakable(Item.Properties properties) {
         //? if >=26.1 {
-        return properties.component(net.minecraft.core.component.DataComponents.UNBREAKABLE, net.minecraft.util.Unit.INSTANCE)
+        /*return properties.component(net.minecraft.core.component.DataComponents.UNBREAKABLE, net.minecraft.util.Unit.INSTANCE)
                 .component(net.minecraft.core.component.DataComponents.TOOLTIP_DISPLAY,
                         net.minecraft.world.item.component.TooltipDisplay.DEFAULT
                                 .withHidden(net.minecraft.core.component.DataComponents.UNBREAKABLE, true));
-        //?} else if >=1.21 {
+        *///?} else if >=1.21 {
         /*return properties.component(net.minecraft.core.component.DataComponents.UNBREAKABLE,
                 new net.minecraft.world.item.component.Unbreakable(false));
         *///?} else {
-        /*return properties.durability(-1);
-        *///?}
+        return properties.durability(-1);
+        //?}
     }
 
     /** The equipment slot represented by this item, including on versions without an item-side accessor. */
@@ -80,7 +80,7 @@ public class CompatArmorItem extends
     }
 
     //? if forge {
-    /*/^*
+    /**
      * Forge 1.20.1 asks the ITEM for its custom renderer, so every item base GeoCore offers has to carry
      * this or the item silently loses its icon.
      *
@@ -89,12 +89,12 @@ public class CompatArmorItem extends
      * item's class is irrelevant. Here an item that does not inherit this override is never offered to the
      * renderer, its {@code builtin/entity} model has no geometry of its own, and it draws nothing.
      * Keep this in lockstep with {@link CompatItem} and {@link CompatBlockItem}.
-     ^/
+     */
     @Override
     public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
         fr.geoventure.geocore.render.ForgeItemRenderers.initialize(consumer);
     }
-    *///?}
+    //?}
 
     /** Adds this armour item's custom tooltip lines after vanilla's lines. */
     protected void appendCompatHoverText(ItemStack stack, CompatTooltipContext context,
@@ -107,7 +107,7 @@ public class CompatArmorItem extends
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context,
                                 net.minecraft.world.item.component.TooltipDisplay display,
                                 java.util.function.Consumer<Component> tooltip, TooltipFlag flag) {
@@ -118,7 +118,7 @@ public class CompatArmorItem extends
             @Override public void add(int index, Component component) { tooltip.accept(component); }
         }, flag);
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*@Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip,
                                 TooltipFlag flag) {
@@ -126,21 +126,21 @@ public class CompatArmorItem extends
         appendCompatHoverText(stack, CompatTooltipContext.INSTANCE, tooltip, flag);
     }
     *///?} else {
-    /*@Override
+    @Override
     public void appendHoverText(ItemStack stack, net.minecraft.world.level.Level level, List<Component> tooltip,
                                 TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         appendCompatHoverText(stack, CompatTooltipContext.INSTANCE, tooltip, flag);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return compatUse(level, player, hand);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.world.InteractionResultHolder<ItemStack> use(Level level, Player player,
                                                                         InteractionHand hand) {
         InteractionResult result = compatUse(level, player, hand);
@@ -149,10 +149,10 @@ public class CompatArmorItem extends
                 : result == InteractionResult.CONSUME ? net.minecraft.world.InteractionResultHolder.consume(held)
                 : net.minecraft.world.InteractionResultHolder.pass(held);
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * Applies the material, working around {@code Properties.humanoidArmor}: it calls
      * {@code enchantable(material.enchantmentValue())} unconditionally, and that throws on a value of 0
      * ({@code IllegalArgumentException: Enchantment value must be positive}). Power armour declares 0,
@@ -160,7 +160,7 @@ public class CompatArmorItem extends
      * hand with the enchantable component left off.
      *
      * <p>The failure shows at registry init, not at compile time.
-     */
+     ^/
     private static Item.Properties configure(net.minecraft.world.item.equipment.ArmorMaterial material,
                                              ArmorSlot slot, Item.Properties properties,
                                              int enchantmentValue) {
@@ -183,8 +183,8 @@ public class CompatArmorItem extends
                                 .build())
                 .repairable(material.repairIngredient());
     }
-    //?} else {
-    /*private static net.minecraft.world.item.ArmorItem.Type type(ArmorSlot slot) {
+    *///?} else {
+    private static net.minecraft.world.item.ArmorItem.Type type(ArmorSlot slot) {
         return switch (slot) {
             case HELMET -> net.minecraft.world.item.ArmorItem.Type.HELMET;
             case CHESTPLATE -> net.minecraft.world.item.ArmorItem.Type.CHESTPLATE;
@@ -192,5 +192,5 @@ public class CompatArmorItem extends
             case BOOTS -> net.minecraft.world.item.ArmorItem.Type.BOOTS;
         };
     }
-    *///?}
+    //?}
 }

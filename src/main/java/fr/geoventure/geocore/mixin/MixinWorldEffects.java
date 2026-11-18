@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.render.WorldEffects;
+/*import fr.geoventure.geocore.render.WorldEffects;
 import net.minecraft.client.renderer.LevelRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,4 +35,4 @@ public class MixinWorldEffects {
         WorldEffects.end();
     }
 }
-//?}
+*///?}

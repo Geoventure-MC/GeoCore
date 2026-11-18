@@ -45,8 +45,8 @@ public abstract class GemBER<T extends BlockEntity, S extends CompatRenderState>
 
     protected GemBER() {
         //? if >=26.1 {
-        StaleSections.install();
-        //?}
+        /*StaleSections.install();
+        *///?}
     }
 
     /** States this renderer's model. Runs once, on the render thread, before the first frame. */
@@ -75,8 +75,8 @@ public abstract class GemBER<T extends BlockEntity, S extends CompatRenderState>
         }
         if (tracing) trace(state.blockPos, owned);
         //? if >=26.1 {
-        if (state.blockPos != null && gem().isOffScreen()) StaleSections.asked(state.blockPos);
-        //?}
+        /*if (state.blockPos != null && gem().isOffScreen()) StaleSections.asked(state.blockPos);
+        *///?}
         if (undeclared == null) {
             undeclaredBase = false;
             submitUndeclared(state, poseStack, sink, camera);
@@ -169,8 +169,8 @@ public abstract class GemBER<T extends BlockEntity, S extends CompatRenderState>
         if (!quiet) {
             if (tracing) traceAsked(blockEntity.getBlockPos(), visible);
             //? if >=26.1 {
-            if (gem().isOffScreen()) StaleSections.asked(blockEntity.getBlockPos());
-            //?}
+            /*if (gem().isOffScreen()) StaleSections.asked(blockEntity.getBlockPos());
+            *///?}
         }
         return visible;
     }

@@ -77,14 +77,14 @@ public final class BlockOutlines {
     private static void drawVanilla(MultiBufferSource buffers, PoseStack pose, Level level, BlockPos pos, Vec3 camera,
                                     VoxelShape shape, boolean highContrast) {
         //? if >=26.1 {
-        if (highContrast) {
+        /*if (highContrast) {
             draw(pose, buffers.getBuffer(net.minecraft.client.renderer.rendertype.RenderTypes.secondaryBlockOutline()),
                     level, pos, camera, shape, 0xFF000000, 7F);
         }
         float width = Minecraft.getInstance().gameRenderer.getGameRenderState().windowRenderState.appropriateLineWidth;
-        //?} else {
-        /*float width = 0F; // the render type carries the width before 26.1
-        *///?}
+        *///?} else {
+        float width = 0F; // the render type carries the width before 26.1
+        //?}
         draw(pose, buffers.getBuffer(CompatRenderTypes.lines()), level, pos, camera, shape,
                 highContrast ? HIGH_CONTRAST_COLOR : COLOR, width);
     }
@@ -108,7 +108,7 @@ public final class BlockOutlines {
         if (registered) return;
         registered = true;
         //? if neoforge && >=26.1 {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent event) -> {
                     if (suppressed()) {
                         event.setCanceled(true);
@@ -128,7 +128,7 @@ public final class BlockOutlines {
                         return true;
                     });
                 });
-        //?} elif fabric && >=26.1 {
+        *///?} elif fabric && >=26.1 {
         /*net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents.BEFORE_BLOCK_OUTLINE
                 .register((context, outline) -> !suppressed() && !drawReplacement(context.bufferSource(),
                         context.poseStack(), outline.pos(), context.levelState().cameraRenderState.pos,
@@ -142,14 +142,14 @@ public final class BlockOutlines {
                     }
                 });
         *///?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.RenderHighlightEvent.Block event) -> {
                     if (suppressed() || drawReplacement(event.getMultiBufferSource(), event.getPoseStack(),
                             event.getTarget().getBlockPos(), event.getCamera().getPosition(), false)) {
                         event.setCanceled(true);
                     }
                 });
-        *///?} else {
+        //?} else {
         /*net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.BEFORE_BLOCK_OUTLINE
                 .register((context, hit) -> {
                     if (suppressed()) return false;

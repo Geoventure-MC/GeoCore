@@ -63,16 +63,16 @@ public abstract class WorldFluid extends FlowingFluid {
 
     /** 1.7 {@code BlockFluidClassic} never makes sources. */
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected boolean canConvertToSource(net.minecraft.server.level.ServerLevel level) {
         return false;
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected boolean canConvertToSource(Level level) {
         return false;
     }
-    *///?}
+    //?}
 
     @Override
     protected void beforeDestroyingBlock(LevelAccessor level, BlockPos pos, BlockState state) {
@@ -121,7 +121,7 @@ public abstract class WorldFluid extends FlowingFluid {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void entityInside(Level level, BlockPos pos, Entity entity,
                                 net.minecraft.world.entity.InsideBlockEffectApplier effects) {
         if (handle.spec.physics() == WorldFluids.Physics.WATER) {
@@ -135,27 +135,27 @@ public abstract class WorldFluid extends FlowingFluid {
     public void tick(net.minecraft.server.level.ServerLevel level, BlockPos pos, BlockState blockState, FluidState fluidState) {
         if (blockState.getBlock() instanceof FluidBlock block) block.flowTick(level, pos, blockState, level.getRandom());
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void tick(Level level, BlockPos pos, FluidState fluidState) {
         BlockState blockState = level.getBlockState(pos);
         if (level instanceof net.minecraft.server.level.ServerLevel server && blockState.getBlock() instanceof FluidBlock block) {
             block.flowTick(server, pos, blockState, level.getRandom());
         }
     }
-    *///?}
+    //?}
 
     //? if neoforge {
-    @Override
+    /*@Override
     public net.neoforged.neoforge.fluids.FluidType getFluidType() {
         return handle.type.get();
     }
-    //?} elif forge {
-    /*@Override
+    *///?} elif forge {
+    @Override
     public net.minecraftforge.fluids.FluidType getFluidType() {
         return handle.type.get();
     }
-    *///?}
+    //?}
 
     /** The full block. */
     static final class Source extends WorldFluid {

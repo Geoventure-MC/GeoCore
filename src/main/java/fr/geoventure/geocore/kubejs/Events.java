@@ -8,11 +8,11 @@ import dev.latvian.mods.kubejs.event.EventGroup;
 import dev.latvian.mods.kubejs.event.EventGroupWrapper;
 import dev.latvian.mods.kubejs.event.EventHandler;
 //? if >=1.20.5 {
-import dev.latvian.mods.kubejs.event.EventGroupRegistry;
+/*import dev.latvian.mods.kubejs.event.EventGroupRegistry;
 import dev.latvian.mods.kubejs.script.BindingRegistry;
-//?} else {
-/*import dev.latvian.mods.kubejs.script.BindingsEvent;
-*///?}
+*///?} else {
+import dev.latvian.mods.kubejs.script.BindingsEvent;
+//?}
 import dev.latvian.mods.kubejs.script.ScriptType;
 import dev.latvian.mods.kubejs.script.ScriptTypeHolder;
 import dev.latvian.mods.kubejs.script.ScriptTypePredicate;
@@ -51,14 +51,14 @@ final class Events implements Scripts.Dispatcher {
 
     /** KubeJS's registerEvents: every group declared so far. */
     //? if >=1.20.5 {
-    void register(EventGroupRegistry registry) {
+    /*void register(EventGroupRegistry registry) {
         for (Scripts.Group group : Scripts.groups()) {
             registry.register(group(group));
-    //?} else {
-    /*void register() {
+    *///?} else {
+    void register() {
         for (Scripts.Group group : Scripts.groups()) {
             group(group).register(); // KubeJS 6: a global map that its own plugin binds from
-    *///?}
+    //?}
             early.add("group " + group.name());
         }
         for (Scripts.Binding binding : Scripts.bindings()) early.add("binding " + binding.name());
@@ -67,12 +67,12 @@ final class Events implements Scripts.Dispatcher {
 
     /** KubeJS's registerBindings: every group (including ones declared after {@link #register}) and every binding. */
     //? if >=1.20.5 {
-    void bind(BindingRegistry bindings) {
+    /*void bind(BindingRegistry bindings) {
         ScriptType type = bindings.type();
-    //?} else {
-    /*void bind(BindingsEvent bindings) {
+    *///?} else {
+    void bind(BindingsEvent bindings) {
         ScriptType type = bindings.getType();
-    *///?}
+    //?}
         for (Scripts.Group group : Scripts.groups()) {
             late("group " + group.name());
             bindings.add(group.name(), new EventGroupWrapper(type, group(group)));

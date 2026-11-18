@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 public final class ItemPatch {
 
     //? if >=1.20.5 {
-    public static final String KEY = "components";
+    /*public static final String KEY = "components";
     public static final ItemPatch NONE = new ItemPatch(net.minecraft.core.component.DataComponentPatch.EMPTY);
     public static final Codec<ItemPatch> CODEC = net.minecraft.core.component.DataComponentPatch.CODEC
             .xmap(ItemPatch::new, patch -> patch.data);
@@ -33,13 +33,13 @@ public final class ItemPatch {
         return data.isEmpty();
     }
 
-    /** Writes this data onto {@code stack} over what it holds, and returns it. */
+    /^* Writes this data onto {@code stack} over what it holds, and returns it. ^/
     public ItemStack apply(ItemStack stack) {
         stack.applyComponents(data);
         return stack;
     }
-    //?} else {
-    /*public static final String KEY = "nbt";
+    *///?} else {
+    public static final String KEY = "nbt";
     public static final ItemPatch NONE = new ItemPatch(new net.minecraft.nbt.CompoundTag());
     // SNBT keeps every tag type (a JSON object would turn an int array into a list); an object is read too.
     private static final Codec<net.minecraft.nbt.CompoundTag> SNBT = Codec.STRING.comapFlatMap(ItemPatch::parse,
@@ -70,12 +70,12 @@ public final class ItemPatch {
         return data.isEmpty();
     }
 
-    /^* Writes this data onto {@code stack} over what it holds, and returns it. ^/
+    /** Writes this data onto {@code stack} over what it holds, and returns it. */
     public ItemStack apply(ItemStack stack) {
         if (!data.isEmpty()) stack.getOrCreateTag().merge(data.copy());
         return stack;
     }
-    *///?}
+    //?}
 
     /** This data as {@code ops} spells it under {@link #KEY}. */
     public JsonElement json(DynamicOps<JsonElement> ops) {

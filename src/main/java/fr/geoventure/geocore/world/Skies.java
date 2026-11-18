@@ -3,8 +3,8 @@ package fr.geoventure.geocore.world;
 import java.util.function.UnaryOperator;
 import net.minecraft.server.MinecraftServer;
 //? if >=26.1 {
-import net.minecraft.world.attribute.EnvironmentAttributes;
-//?}
+/*import net.minecraft.world.attribute.EnvironmentAttributes;
+*///?}
 
 import java.util.OptionalDouble;
 import net.minecraft.util.Mth;
@@ -29,30 +29,30 @@ public final class Skies {
 
     public static float celestialAngle(Level level, BlockPos pos) {
         //? if >=26.1 {
-        return level.environmentAttributes()
+        /*return level.environmentAttributes()
                 .getValue(net.minecraft.world.attribute.EnvironmentAttributes.SUN_ANGLE, pos) / 360.0F;
-        //?} else {
-        /*return level.getTimeOfDay(0.0F);
-        *///?}
+        *///?} else {
+        return level.getTimeOfDay(0.0F);
+        //?}
     }
 
     /** The server's sky light factor at a position; empty below 26.1, which has only integer sky darkening. */
     public static OptionalDouble lightInput(Level level, BlockPos pos) {
         //? if >=26.1 {
-        return OptionalDouble.of(level.environmentAttributes()
+        /*return OptionalDouble.of(level.environmentAttributes()
                 .getValue(EnvironmentAttributes.SKY_LIGHT_FACTOR, pos));
-        //?} else {
-        /*return OptionalDouble.empty();
-        *///?}
+        *///?} else {
+        return OptionalDouble.empty();
+        //?}
     }
 
     public static int moonPhase(Level level, BlockPos pos) {
         //? if >=26.1 {
-        return level.environmentAttributes()
+        /*return level.environmentAttributes()
                 .getValue(net.minecraft.world.attribute.EnvironmentAttributes.MOON_PHASE, pos).index();
-        //?} else {
-        /*return level.getMoonPhase();
-        *///?}
+        *///?} else {
+        return level.getMoonPhase();
+        //?}
     }
     // Sky modifiers
 
@@ -182,8 +182,8 @@ public final class Skies {
 
     public static boolean rawSkyLightFactor(Level level) {
         //? if >=26.1 {
-        for (var modifier : MODIFIERS) if (modifier.active(level) && modifier.rawSkyLightFactor(level)) return true;
-        //?}
+        /*for (var modifier : MODIFIERS) if (modifier.active(level) && modifier.rawSkyLightFactor(level)) return true;
+        *///?}
         return false;
     }
 
@@ -239,18 +239,18 @@ public final class Skies {
     /** Drops 26.1's cached environment attributes and sky brightness after a time-rate change; older nodes read live. */
     public static void refreshAfterRateChange(MinecraftServer server) {
         //? if >=26.1 {
-        for (var level : server.getAllLevels()) {
+        /*for (var level : server.getAllLevels()) {
             level.environmentAttributes().invalidateTickCache();
             level.updateSkyBrightness();
         }
-        //?}
+        *///?}
     }
 
     /** One level's half of {@link #refreshAfterRateChange}, for a client told the new rate. No-op below 26.1. */
     public static void invalidateEnvironment(Level level) {
         //? if >=26.1 {
-        level.environmentAttributes().invalidateTickCache();
-        //?}
+        /*level.environmentAttributes().invalidateTickCache();
+        *///?}
     }
 
     public static float @Nullable [] sunriseColor(Level level, float @Nullable [] value) {

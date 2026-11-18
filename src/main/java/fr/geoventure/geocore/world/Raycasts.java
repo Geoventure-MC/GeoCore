@@ -21,10 +21,10 @@ public final class Raycasts {
     public static boolean isObstructed(Level level, Vec3 from, Vec3 to, Entity contextEntity) {
         return level.clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,
                 //? if >=1.20.5 {
-                net.minecraft.world.phys.shapes.CollisionContext.empty()
-                //?} else {
-                /*contextEntity
-                *///?}
+                /*net.minecraft.world.phys.shapes.CollisionContext.empty()
+                *///?} else {
+                contextEntity
+                //?}
                 )).getType() != HitResult.Type.MISS;
     }
 

@@ -2,10 +2,10 @@ package fr.geoventure.geocore.data;
 
 import fr.geoventure.geocore.world.ItemStacks;
 //? if >=1.21.1 {
-import net.minecraft.core.component.DataComponentMap;
+/*import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.BlockItemStateProperties;
-//?}
+*///?}
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -23,22 +23,22 @@ public final class CarriedState {
     public static void writeItemFlag(ItemStack stack, BooleanProperty property, String key, boolean value) {
         if (!value) return;
         //? if >=1.21.1 {
-        var components = DataComponentMap.builder();
+        /*var components = DataComponentMap.builder();
         components.set(DataComponents.BLOCK_STATE,
                 BlockItemStateProperties.EMPTY.with(property, true));
         stack.applyComponents(components.build());
-        //?} else {
-        /*stack.getOrCreateTagElement("BlockEntityTag").putBoolean(key, true);
-        *///?}
+        *///?} else {
+        stack.getOrCreateTagElement("BlockEntityTag").putBoolean(key, true);
+        //?}
     }
 
     /** Whether the item's carried block data has {@code key=true}. */
     public static boolean readItemFlag(ItemStack stack, String key) {
         //? if >=1.21.1 {
-        var properties = stack.get(DataComponents.BLOCK_STATE);
+        /*var properties = stack.get(DataComponents.BLOCK_STATE);
         return properties != null && "true".equals(properties.properties().get(key));
-        //?} else {
-        /*return ItemStacks.carriedBoolean(stack, key);
-        *///?}
+        *///?} else {
+        return ItemStacks.carriedBoolean(stack, key);
+        //?}
     }
 }

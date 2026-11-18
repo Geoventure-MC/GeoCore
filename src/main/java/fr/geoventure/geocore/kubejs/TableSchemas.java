@@ -2,7 +2,7 @@ package fr.geoventure.geocore.kubejs;
 
 //? if kubejs && >=1.20.5 {
 
-import com.google.gson.JsonElement;
+/*import com.google.gson.JsonElement;
 import fr.geoventure.geocore.Ids;
 import fr.geoventure.geocore.world.RecipeFields;
 import fr.geoventure.geocore.world.RecipeFields.Field;
@@ -16,14 +16,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
+/^*
  * Every {@link RecipeTables} table as a KubeJS recipe schema under the table's id, so scripts write
  * {@code event.recipes.<ns>.<table>(required..., optional...)} with the table's {@link RecipeTables.Table#fields()} as
  * positional arguments (required ones first, each group in stated order) and one builder method per field and alias
  * ({@code .duration(200)}). Fields with an input or output role take part in {@code event.remove({input/output: ...})}
  * and {@code replaceInput}/{@code replaceOutput}. A single plain object, where no one-argument form exists, is the whole
  * row ({@code event.recipes.geontm.press({...})}); {@code event.custom({...})} always works.
- */
+ ^/
 final class TableSchemas {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("GeoCore scripts");
@@ -76,4 +76,4 @@ final class TableSchemas {
         };
     }
 }
-//?}
+*///?}

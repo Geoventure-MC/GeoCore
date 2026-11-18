@@ -29,12 +29,12 @@ public final class CameraInfo {
     /** The active world camera, normalized across the supported renderer APIs. */
     public static CameraInfo current() {
         //? if >=26.1 {
-        var state = Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.cameraRenderState;
+        /*var state = Minecraft.getInstance().gameRenderer.getGameRenderState().levelRenderState.cameraRenderState;
         return new CameraInfo(state.pos, state.yRot, state.orientation);
-        //?} else {
-        /*net.minecraft.client.Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        *///?} else {
+        net.minecraft.client.Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         return new CameraInfo(camera.getPosition(), camera.getYRot(), camera.rotation());
-        *///?}
+        //?}
     }
 
     /** Converts a camera-relative world vector to the coordinate space of a world renderer's pose. */
@@ -42,16 +42,16 @@ public final class CameraInfo {
         // 1.20 bakes the view rotation into the world PoseStack; newer renderers keep it in the
         // global shader matrix. InverseViewRotation also includes the loader's camera roll.
         //? if <1.21 {
-        /*vector.mul(new org.joml.Matrix3f(com.mojang.blaze3d.systems.RenderSystem.getInverseViewRotationMatrix()).invert());
-        *///?}
+        vector.mul(new org.joml.Matrix3f(com.mojang.blaze3d.systems.RenderSystem.getInverseViewRotationMatrix()).invert());
+        //?}
         return vector;
     }
 
     /** Inverse of worldToRender, for local equipment attachments retained as world-space history. */
     public org.joml.Vector3f renderToWorld(org.joml.Vector3f vector) {
         //? if <1.21 {
-        /*vector.mul(com.mojang.blaze3d.systems.RenderSystem.getInverseViewRotationMatrix());
-        *///?}
+        vector.mul(com.mojang.blaze3d.systems.RenderSystem.getInverseViewRotationMatrix());
+        //?}
         return vector;
     }
 }

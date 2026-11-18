@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -16,12 +16,12 @@ import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.TextureTransform;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.Minecraft;
+*///?} else {
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,16 +92,16 @@ public final class NoiseDisplacedRenderType {
     public static void vertex(VertexConsumer buffer, PoseStack.Pose pose, float x, float y, float z, float u, float time,
                               int argb) {
         //? if >=1.21 {
-        buffer.addVertex(pose, x, y, z).setUv(u, time).setColor(argb);
-        //?} else {
-        /*buffer.vertex(pose.pose(), x, y, z).uv(u, time).color(argb).endVertex();
-        *///?}
+        /*buffer.addVertex(pose, x, y, z).setUv(u, time).setColor(argb);
+        *///?} else {
+        buffer.vertex(pose.pose(), x, y, z).uv(u, time).color(argb).endVertex();
+        //?}
     }
 
     private static final Map<String, RenderType> TYPES = new HashMap<>();
 
     //? if >=26.1 {
-    private static final TextureTransform[] LOCAL_TRANSFORMS = new TextureTransform[SLOTS];
+    /*private static final TextureTransform[] LOCAL_TRANSFORMS = new TextureTransform[SLOTS];
 
     static {
         for (int i = 0; i < SLOTS; i++) {
@@ -120,27 +120,27 @@ public final class NoiseDisplacedRenderType {
     }
     private static final OutputTarget BLOOM_OUTPUT = new OutputTarget("geocore_bloom_layer", Bloom.LAYER::drawTarget);
 
-    /**
+    /^*
      * The render type for {@code shaderId} ({@code namespace:name}) sampling {@code noise} as GEONTM 1.12 sampled its noise
      * textures ({@link NoiseTextures}: repeat, nearest minification, linear magnification; the shader's
      * {@code texture2DLod(noise, uv, 0)} magnifies, so bilinear); {@code bloom} draws into the bloom layer instead of the
      * main target.
-     */
+     ^/
     public static RenderType of(String shaderId, Identifier noise, boolean bloom) {
         return of(shaderId, noise, bloom, 0);
     }
 
-    /** The three-argument {@code of} reading the local matrix of {@code slot}. */
+    /^* The three-argument {@code of} reading the local matrix of {@code slot}. ^/
     public static RenderType of(String shaderId, Identifier noise, boolean bloom, int slot) {
         String key = shaderId + "\n" + noise + "\n" + bloom + "\n" + slot;
         return TYPES.computeIfAbsent(key, k -> create(shaderId, noise, bloom, slot));
     }
 
-    /**
+    /^*
      * The textured variant for {@code shaderId}: {@code Sampler0} is {@code noise} as {@link #of}, {@code Sampler1} is
      * {@code texture} sampled the same way (1.12 bound its beam textures with the same linear magnification), and
      * {@code TextureMat} is the parameter matrix of {@code slot}.
-     */
+     ^/
     public static RenderType textured(String shaderId, Identifier noise, Identifier texture, int slot) {
         String key = shaderId + "\n" + noise + "\n" + texture + "\n" + slot + "\ntextured";
         return TYPES.computeIfAbsent(key, k -> createTextured(shaderId, noise, texture, slot));
@@ -186,8 +186,8 @@ public final class NoiseDisplacedRenderType {
         else WorldPipelines.add(pipeline);
         return RenderType.create("geocore_noise_displaced", setup.createRenderSetup());
     }
-    //?} else {
-    /*private static final Map<String, ShaderInstance> SHADERS = new HashMap<>();
+    *///?} else {
+    private static final Map<String, ShaderInstance> SHADERS = new HashMap<>();
     private static boolean reloadRegistered;
 
     public static RenderType of(String shaderId, ResourceLocation noise, boolean bloom) {
@@ -259,7 +259,7 @@ public final class NoiseDisplacedRenderType {
             }
         }
 
-        /^* Noise on unit 0, the fragment stage's texture on unit 1, and the whole parameter matrix as {@code LocalMat}. ^/
+        /** Noise on unit 0, the fragment stage's texture on unit 1, and the whole parameter matrix as {@code LocalMat}. */
         private static final class TexturedState extends TextureStateShard {
             private final String shaderId;
             private final int slot;
@@ -313,5 +313,5 @@ public final class NoiseDisplacedRenderType {
             return bloom ? ScreenEffects.skipEmpty(type, true) : type;
         }
     }
-    *///?}
+    //?}
 }

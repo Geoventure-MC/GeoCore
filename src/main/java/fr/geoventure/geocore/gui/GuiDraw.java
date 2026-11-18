@@ -1,13 +1,13 @@
 package fr.geoventure.geocore.gui;
 
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.gui.GuiGraphics;
+*///?} else {
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * Screen drawing operations whose call shape changed across versions.
@@ -23,12 +23,12 @@ import net.minecraft.resources.ResourceLocation;
 public final class GuiDraw {
 
     //? if >=26.1 {
-    private static final com.mojang.blaze3d.pipeline.RenderPipeline GUI_ADDITIVE =
+    /*private static final com.mojang.blaze3d.pipeline.RenderPipeline GUI_ADDITIVE =
             com.mojang.blaze3d.pipeline.RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
                     .withLocation(fr.geoventure.geocore.Ids.of("geocore", "pipeline/gui_additive"))
                     .withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(
                             com.mojang.blaze3d.pipeline.BlendFunction.LIGHTNING)).build();
-    //?}
+    *///?}
 
     private GuiDraw() {}
 
@@ -38,25 +38,25 @@ public final class GuiDraw {
      */
     public static void blit(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
         //? if >=26.1 {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, u, v, width, height, textureWidth, textureHeight);
-        //?} else {
-        /*graphics.blit(texture, x, y, u, v, width, height, textureWidth, textureHeight);
-        *///?}
+        /*graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, u, v, width, height, textureWidth, textureHeight);
+        *///?} else {
+        graphics.blit(texture, x, y, u, v, width, height, textureWidth, textureHeight);
+        //?}
     }
 
     /** Draws a destination rectangle from an arbitrary normalized source rectangle. */
     public static void blitUv(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             int x, int y, int width, int height, float u0, float v0, float u1, float v1,
             int textureWidth, int textureHeight) {
         blitUv(graphics, texture, x, y, width, height, u0, v0, u1, v1, textureWidth, textureHeight, false);
@@ -65,10 +65,10 @@ public final class GuiDraw {
     /** Additive HUD lights retain their black background in the atlas; black contributes no light. */
     public static void blitUv(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             int x, int y, int width, int height, float u0, float v0, float u1, float v1,
             int textureWidth, int textureHeight, boolean additive) {
         blitUv(graphics, texture, x, y, width, height, u0, v0, u1, v1, textureWidth, textureHeight, additive, 0xFFFFFFFF);
@@ -77,19 +77,19 @@ public final class GuiDraw {
     /** {@link #blitUv} tinted by the ARGB {@code color}, as a 1.12 {@code GlStateManager.color} before the draw. */
     public static void blitUv(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             int x, int y, int width, int height, float u0, float v0, float u1, float v1,
             int textureWidth, int textureHeight, boolean additive, int color) {
         int sourceWidth = Math.max(1, Math.round((u1 - u0) * textureWidth));
         int sourceHeight = Math.max(1, Math.round((v1 - v0) * textureHeight));
         //? if >=26.1 {
-        graphics.blit(additive ? GUI_ADDITIVE : RenderPipelines.GUI_TEXTURED, texture, x, y, u0 * textureWidth, v0 * textureHeight,
+        /*graphics.blit(additive ? GUI_ADDITIVE : RenderPipelines.GUI_TEXTURED, texture, x, y, u0 * textureWidth, v0 * textureHeight,
                 width, height, sourceWidth, sourceHeight, textureWidth, textureHeight, color);
-        //?} else {
-        /*com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+        *///?} else {
+        com.mojang.blaze3d.systems.RenderSystem.enableBlend();
         com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
         if (additive) com.mojang.blaze3d.systems.RenderSystem.blendFunc(
                 com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA,
@@ -101,7 +101,7 @@ public final class GuiDraw {
         graphics.setColor(1F, 1F, 1F, 1F);
         com.mojang.blaze3d.systems.RenderSystem.disableBlend();
         com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
-        *///?}
+        //?}
     }
 
     /**
@@ -114,10 +114,10 @@ public final class GuiDraw {
      */
     public static void blitUvFullscreen(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             float u0, float v0, float u1, float v1) {
         float uSpan = u1 - u0;
         float vSpan = v1 - v0;
@@ -144,10 +144,10 @@ public final class GuiDraw {
      */
     public static void blitSprite(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, fr.geoventure.geocore.render.Sprites.Atlas atlas, Identifier sprite,
-            //?} else {
-            /*GuiGraphics graphics, fr.geoventure.geocore.render.Sprites.Atlas atlas, ResourceLocation sprite,
-            *///?}
+            /*GuiGraphicsExtractor graphics, fr.geoventure.geocore.render.Sprites.Atlas atlas, Identifier sprite,
+            *///?} else {
+            GuiGraphics graphics, fr.geoventure.geocore.render.Sprites.Atlas atlas, ResourceLocation sprite,
+            //?}
             int x, int y, int width, int height) {
         var stitched = fr.geoventure.geocore.render.Sprites.sprite(atlas, sprite);
         float u0 = stitched.getU0();
@@ -163,15 +163,15 @@ public final class GuiDraw {
     /** Draws a crosshair with vanilla's inverse-colour blend against the pixels behind it. */
     public static void crosshair(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
         //? if >=26.1 {
-        graphics.blit(RenderPipelines.CROSSHAIR, texture, x, y, u, v, width, height, textureWidth, textureHeight);
-        //?} else {
-        /*com.mojang.blaze3d.systems.RenderSystem.enableBlend();
+        /*graphics.blit(RenderPipelines.CROSSHAIR, texture, x, y, u, v, width, height, textureWidth, textureHeight);
+        *///?} else {
+        com.mojang.blaze3d.systems.RenderSystem.enableBlend();
         com.mojang.blaze3d.systems.RenderSystem.blendFuncSeparate(
                 com.mojang.blaze3d.platform.GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
                 com.mojang.blaze3d.platform.GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
@@ -180,7 +180,7 @@ public final class GuiDraw {
         graphics.blit(texture, x, y, u, v, width, height, textureWidth, textureHeight);
         com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
         com.mojang.blaze3d.systems.RenderSystem.disableBlend();
-        *///?}
+        //?}
     }
 
     /**
@@ -191,10 +191,10 @@ public final class GuiDraw {
      */
     public static void fill(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int x0, int y0, int x1, int y1, int color) {
         graphics.fill(x0, y0, x1, y1, color);
     }
@@ -206,10 +206,10 @@ public final class GuiDraw {
      */
     public static void fillGradient(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int x0, int y0, int x1, int y1, int colorTop, int colorBottom) {
         graphics.fillGradient(x0, y0, x1, y1, colorTop, colorBottom);
     }
@@ -220,16 +220,16 @@ public final class GuiDraw {
      */
     public static void blit(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics, Identifier texture,
-            //?} else {
-            /*GuiGraphics graphics, ResourceLocation texture,
-            *///?}
+            /*GuiGraphicsExtractor graphics, Identifier texture,
+            *///?} else {
+            GuiGraphics graphics, ResourceLocation texture,
+            //?}
             int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight,
             int color) {
         //? if >=26.1 {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, u, v, width, height, textureWidth, textureHeight, color);
-        //?} else {
-        /*float a = ((color >> 24) & 0xFF) / 255F;
+        /*graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, u, v, width, height, textureWidth, textureHeight, color);
+        *///?} else {
+        float a = ((color >> 24) & 0xFF) / 255F;
         float r = ((color >> 16) & 0xFF) / 255F;
         float g = ((color >> 8) & 0xFF) / 255F;
         float b = (color & 0xFF) / 255F;
@@ -251,7 +251,7 @@ public final class GuiDraw {
         graphics.setColor(1F, 1F, 1F, 1F);
         com.mojang.blaze3d.systems.RenderSystem.disableBlend();
         graphics.pose().popPose();
-        *///?}
+        //?}
     }
 
     /**
@@ -278,20 +278,20 @@ public final class GuiDraw {
 
     public static void tooltip(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             net.minecraft.client.gui.Font font,
             java.util.List<net.minecraft.network.chat.Component> lines,
             java.util.Optional<net.minecraft.world.inventory.tooltip.TooltipComponent> image,
             int mouseX, int mouseY) {
         tooltipPass = ownTooltipPass;
         //? if >=26.1 {
-        graphics.setTooltipForNextFrame(font, lines, image, mouseX, mouseY);
-        //?} else {
-        /*graphics.renderTooltip(font, lines, image, mouseX, mouseY);
-        *///?}
+        /*graphics.setTooltipForNextFrame(font, lines, image, mouseX, mouseY);
+        *///?} else {
+        graphics.renderTooltip(font, lines, image, mouseX, mouseY);
+        //?}
     }
 
     /**
@@ -304,16 +304,16 @@ public final class GuiDraw {
      */
     public static void nextStratum(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics
-            //?} else {
-            /*GuiGraphics graphics
-            *///?}
+            /*GuiGraphicsExtractor graphics
+            *///?} else {
+            GuiGraphics graphics
+            //?}
             ) {
         //? if >=26.1 {
-        graphics.nextStratum();
-        //?} else {
-        /*graphics.pose().translate(0.0F, 0.0F, 200.0F);
-        *///?}
+        /*graphics.nextStratum();
+        *///?} else {
+        graphics.pose().translate(0.0F, 0.0F, 200.0F);
+        //?}
     }
 
     /**
@@ -322,16 +322,16 @@ public final class GuiDraw {
      */
     public static void aboveSlots(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics
-            //?} else {
-            /*GuiGraphics graphics
-            *///?}
+            /*GuiGraphicsExtractor graphics
+            *///?} else {
+            GuiGraphics graphics
+            //?}
             ) {
         //? if >=26.1 {
-        graphics.nextStratum();
-        //?} else {
-        /*graphics.pose().translate(0.0F, 0.0F, 300.0F);
-        *///?}
+        /*graphics.nextStratum();
+        *///?} else {
+        graphics.pose().translate(0.0F, 0.0F, 300.0F);
+        //?}
     }
 
     /**
@@ -340,16 +340,16 @@ public final class GuiDraw {
      */
     public static void tooltipStratum(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics
-            //?} else {
-            /*GuiGraphics graphics
-            *///?}
+            /*GuiGraphicsExtractor graphics
+            *///?} else {
+            GuiGraphics graphics
+            //?}
             ) {
         //? if >=26.1 {
-        graphics.nextStratum();
-        //?} else {
-        /*graphics.pose().translate(0.0F, 0.0F, 400.0F);
-        *///?}
+        /*graphics.nextStratum();
+        *///?} else {
+        graphics.pose().translate(0.0F, 0.0F, 400.0F);
+        //?}
     }
 
     /**
@@ -365,64 +365,64 @@ public final class GuiDraw {
     /** Draws a string. 26.1 shortened {@code drawString} to {@code text}. */
     public static void text(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             net.minecraft.client.gui.Font font, String value, int x, int y, int color, boolean shadow) {
         color = textColor(color);
         //? if >=26.1 {
-        graphics.text(font, value, x, y, color, shadow);
-        //?} else {
-        /*graphics.drawString(font, value, x, y, color, shadow);
-        *///?}
+        /*graphics.text(font, value, x, y, color, shadow);
+        *///?} else {
+        graphics.drawString(font, value, x, y, color, shadow);
+        //?}
     }
 
     /** Draws a formatted component. */
     public static void text(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             net.minecraft.client.gui.Font font, net.minecraft.network.chat.Component value,
             int x, int y, int color, boolean shadow) {
         color = textColor(color);
         //? if >=26.1 {
-        graphics.text(font, value, x, y, color, shadow);
-        //?} else {
-        /*graphics.drawString(font, value, x, y, color, shadow);
-        *///?}
+        /*graphics.text(font, value, x, y, color, shadow);
+        *///?} else {
+        graphics.drawString(font, value, x, y, color, shadow);
+        //?}
     }
 
     /** Draws an item stack at GUI scale. 26.1 shortened {@code renderItem} to {@code item}. */
     public static void item(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             net.minecraft.world.item.ItemStack stack, int x, int y) {
         //? if >=26.1 {
-        graphics.item(stack, x, y);
-        //?} else {
-        /*graphics.renderItem(stack, x, y);
-        *///?}
+        /*graphics.item(stack, x, y);
+        *///?} else {
+        graphics.renderItem(stack, x, y);
+        //?}
     }
 
     /** Draws an item stack's count and durability bar over it. 26.1 renamed {@code renderItemDecorations}. */
     public static void itemDecorations(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             net.minecraft.client.gui.Font font, net.minecraft.world.item.ItemStack stack, int x, int y) {
         //? if >=26.1 {
-        graphics.itemDecorations(font, stack, x, y);
-        //?} else {
-        /*graphics.renderItemDecorations(font, stack, x, y);
-        *///?}
+        /*graphics.itemDecorations(font, stack, x, y);
+        *///?} else {
+        graphics.renderItemDecorations(font, stack, x, y);
+        //?}
     }
 
     /**
@@ -431,31 +431,31 @@ public final class GuiDraw {
      */
     public static void pushMatrix(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics
-            //?} else {
-            /*GuiGraphics graphics
-            *///?}
+            /*GuiGraphicsExtractor graphics
+            *///?} else {
+            GuiGraphics graphics
+            //?}
             ) {
         //? if >=26.1 {
-        graphics.pose().pushMatrix();
-        //?} else {
-        /*graphics.pose().pushPose();
-        *///?}
+        /*graphics.pose().pushMatrix();
+        *///?} else {
+        graphics.pose().pushPose();
+        //?}
     }
 
     /** Restores the transform saved by {@link #pushMatrix}. */
     public static void popMatrix(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics
-            //?} else {
-            /*GuiGraphics graphics
-            *///?}
+            /*GuiGraphicsExtractor graphics
+            *///?} else {
+            GuiGraphics graphics
+            //?}
             ) {
         //? if >=26.1 {
-        graphics.pose().popMatrix();
-        //?} else {
-        /*graphics.pose().popPose();
-        *///?}
+        /*graphics.pose().popMatrix();
+        *///?} else {
+        graphics.pose().popPose();
+        //?}
     }
 
     /**
@@ -466,45 +466,45 @@ public final class GuiDraw {
      */
     public static void translate(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             float x, float y) {
         //? if >=26.1 {
-        graphics.pose().translate(x, y);
-        //?} else {
-        /*graphics.pose().translate(x, y, 0F);
-        *///?}
+        /*graphics.pose().translate(x, y);
+        *///?} else {
+        graphics.pose().translate(x, y, 0F);
+        //?}
     }
 
     /** Scales the GUI transform. */
     public static void scale(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             float x, float y) {
         //? if >=26.1 {
-        graphics.pose().scale(x, y);
-        //?} else {
-        /*graphics.pose().scale(x, y, 1F);
-        *///?}
+        /*graphics.pose().scale(x, y);
+        *///?} else {
+        graphics.pose().scale(x, y, 1F);
+        //?}
     }
 
     /** Rotates the GUI transform about the screen normal, in radians. */
     public static void rotate(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             float radians) {
         //? if >=26.1 {
-        graphics.pose().rotate(radians);
-        //?} else {
-        /*graphics.pose().mulPose(com.mojang.math.Axis.ZP.rotation(radians));
-        *///?}
+        /*graphics.pose().rotate(radians);
+        *///?} else {
+        graphics.pose().mulPose(com.mojang.math.Axis.ZP.rotation(radians));
+        //?}
     }
 }

@@ -12,8 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public abstract class CompatFireBlock extends BaseFireBlock {
 
     //? if >=1.21.1 {
-    private final com.mojang.serialization.MapCodec<? extends BaseFireBlock> blockCodec;
-    //?}
+    /*private final com.mojang.serialization.MapCodec<? extends BaseFireBlock> blockCodec;
+    *///?}
 
     /**
      * @param factory this block's own constructor reference, used to build the block codec.
@@ -31,29 +31,29 @@ public abstract class CompatFireBlock extends BaseFireBlock {
                                                           Function<BlockBehaviour.Properties, B> factory) {
         super(properties, fireDamage);
         //? if >=1.21.1 {
-        this.blockCodec = simpleCodec(factory);
-        //?}
+        /*this.blockCodec = simpleCodec(factory);
+        *///?}
     }
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public com.mojang.serialization.MapCodec<? extends BaseFireBlock> codec() {
         return blockCodec;
     }
-    //?}
+    *///?}
 
     protected void onEntityInside(BlockState state, Level level, BlockPos pos, Entity entity) {}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity,
                              net.minecraft.world.entity.InsideBlockEffectApplier effects, boolean precise) {
         onEntityInside(state, level, pos, entity);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         onEntityInside(state, level, pos, entity);
     }
-    *///?}
+    //?}
 }

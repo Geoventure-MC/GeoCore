@@ -31,7 +31,7 @@ import java.util.Optional;
 @Mixin(PlayerList.class)
 public abstract class MixinPlayerListRespawns {
     //? if <1.21 {
-    /*@Inject(method = "respawn", at = @At("HEAD"))
+    @Inject(method = "respawn", at = @At("HEAD"))
     private void geocore$chooseRespawn(ServerPlayer player, boolean keepEverything, CallbackInfoReturnable<ServerPlayer> result,
             @Share("geocore$destination") LocalRef<Respawns.Destination> destination) {
         destination.set(Respawns.RULES.invoker().destination(player));
@@ -94,5 +94,5 @@ public abstract class MixinPlayerListRespawns {
         replacement.setYRot(replacement.serverLevel().getSharedSpawnAngle());
         replacement.setXRot(0F);
     }
-    *///?}
+    //?}
 }

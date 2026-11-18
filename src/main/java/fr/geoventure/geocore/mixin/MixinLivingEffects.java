@@ -17,14 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinLivingEffects {
 
     //? if >=26.1 {
-    @Inject(method = "onEffectsRemoved", at = @At("TAIL"))
+    /*@Inject(method = "onEffectsRemoved", at = @At("TAIL"))
     private void geocore$effectsRemoved(Collection<MobEffectInstance> effects, CallbackInfo ci) {
         for (var effect : effects) Effects.removed((LivingEntity) (Object) this, effect);
     }
-    //?} else {
-    /*@Inject(method = "onEffectRemoved", at = @At("TAIL"))
+    *///?} else {
+    @Inject(method = "onEffectRemoved", at = @At("TAIL"))
     private void geocore$effectRemoved(MobEffectInstance effect, CallbackInfo ci) {
         Effects.removed((LivingEntity) (Object) this, effect);
     }
-    *///?}
+    //?}
 }

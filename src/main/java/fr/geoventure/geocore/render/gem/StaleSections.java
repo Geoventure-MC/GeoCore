@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render.gem;
 
 //? if >=26.1 {
-import fr.geoventure.geocore.GeoCore;
+/*import fr.geoventure.geocore.GeoCore;
 import fr.geoventure.geocore.client.ClientTicks;
 import fr.geoventure.geocore.platform.Platform;
 import fr.geoventure.geocore.render.Frustums;
@@ -14,11 +14,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-/**
+/^*
  * Sodium draws block entities from lists built with each section, and a machine can be left out of them until that
  * section is rebuilt; vanilla draws the global set every frame. A {@link GemBER} machine in view that nobody has asked
  * to render for a while gets its section rebuilt, at most once per {@link #RETRY_NANOS}.
- */
+ ^/
 final class StaleSections {
 
     private static final long STALE_NANOS = 2_000_000_000L;
@@ -75,4 +75,4 @@ final class StaleSections {
         RETRIED.long2LongEntrySet().removeIf(entry -> now - entry.getLongValue() > FORGET_NANOS);
     }
 }
-//?}
+*///?}

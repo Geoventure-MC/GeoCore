@@ -14,9 +14,9 @@ public final class CustomRecipes {
 
     public static <T extends CompatCustomRecipe> RecipeSerializer<T> serializer(Supplier<T> recipe) {
         //? if >=26.1 {
-        return new RecipeSerializer<>(com.mojang.serialization.MapCodec.unit(recipe.get()),
+        /*return new RecipeSerializer<>(com.mojang.serialization.MapCodec.unit(recipe.get()),
                 net.minecraft.network.codec.StreamCodec.unit(recipe.get()));
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*return new RecipeSerializer<>() {
             private final com.mojang.serialization.MapCodec<T> codec = com.mojang.serialization.MapCodec.unit(recipe.get());
             private final net.minecraft.network.codec.StreamCodec<net.minecraft.network.RegistryFriendlyByteBuf, T> stream = net.minecraft.network.codec.StreamCodec.unit(recipe.get());
@@ -25,8 +25,8 @@ public final class CustomRecipes {
         };
         */
         //?} else {
-        /*return new net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<>((id, category) -> recipe.get());
-        *///?}
+        return new net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<>((id, category) -> recipe.get());
+        //?}
     }
 
     /** Factory used by the data-driven shapeless component-copy serializer. */
@@ -45,12 +45,12 @@ public final class CustomRecipes {
             ComponentCopyFactory<T> factory) {
         Objects.requireNonNull(factory);
         //? if >=26.1 {
-        return componentCopyShapeless26(factory);
-        //?} else if >=1.21.1 {
+        /*return componentCopyShapeless26(factory);
+        *///?} else if >=1.21.1 {
         /*return componentCopyShapeless21(factory);
         *///?} else {
-        /*return componentCopyShapelessLegacy(factory);
-        *///?}
+        return componentCopyShapelessLegacy(factory);
+        //?}
     }
 
     /** Factory for a shaped recipe whose Ingredient values may constrain item components. */
@@ -71,7 +71,7 @@ public final class CustomRecipes {
             ComponentShapelessFactory<T> factory) {
         Objects.requireNonNull(factory);
         //? if >=26.1 {
-        com.mojang.serialization.MapCodec<T> codec =
+        /*com.mojang.serialization.MapCodec<T> codec =
                 com.mojang.serialization.codecs.RecordCodecBuilder.mapCodec(instance -> instance.group(
                         ComponentIngredient.CODEC.listOf().fieldOf("ingredients")
                                 .forGetter(recipe -> recipe.ingredients()),
@@ -87,7 +87,7 @@ public final class CustomRecipes {
                         recipe -> recipe.resultTemplate(),
                         (ingredients, result) -> factory.create("", "", ingredients, ItemStackSpec.fromTemplate(result)));
         return new RecipeSerializer<>(codec, stream);
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*com.mojang.serialization.MapCodec<T> codec =
                 com.mojang.serialization.codecs.RecordCodecBuilder.mapCodec(instance -> instance.group(
                         ComponentIngredient.CODEC.listOf().fieldOf("ingredients")
@@ -109,7 +109,7 @@ public final class CustomRecipes {
             }
         };
         *///?} else {
-        /*return new RecipeSerializer<>() {
+        return new RecipeSerializer<>() {
             @Override
             public T fromJson(net.minecraft.resources.ResourceLocation id, com.google.gson.JsonObject json) {
                 com.google.gson.JsonArray jsonIngredients =
@@ -137,7 +137,7 @@ public final class CustomRecipes {
                 buffer.writeItem(recipe.result());
             }
         };
-        *///?}
+        //?}
     }
 
 
@@ -152,12 +152,12 @@ public final class CustomRecipes {
             ComponentShapedFactory<T> factory) {
         Objects.requireNonNull(factory);
         //? if >=26.1 {
-        return componentShaped26(factory);
-        //?} else if >=1.21.1 {
+        /*return componentShaped26(factory);
+        *///?} else if >=1.21.1 {
         /*return componentShaped21(factory);
         *///?} else {
-        /*return componentShapedLegacy(factory);
-        *///?}
+        return componentShapedLegacy(factory);
+        //?}
     }
 
     /** Builds a smelting recipe whose input and result retain exact integer item components. */
@@ -165,16 +165,16 @@ public final class CustomRecipes {
             ComponentSmeltingFactory<T> factory) {
         Objects.requireNonNull(factory);
         //? if >=26.1 {
-        return componentSmelting26(factory);
-        //?} else if >=1.21.1 {
+        /*return componentSmelting26(factory);
+        *///?} else if >=1.21.1 {
         /*return componentSmelting21(factory);
         *///?} else {
-        /*return componentSmeltingLegacy(factory);
-        *///?}
+        return componentSmeltingLegacy(factory);
+        //?}
     }
 
     //? if >=26.1 {
-    private static <T extends ComponentShapedRecipe> RecipeSerializer<T> componentShaped26(
+    /*private static <T extends ComponentShapedRecipe> RecipeSerializer<T> componentShaped26(
             ComponentShapedFactory<T> factory) {
         com.mojang.serialization.Codec<java.util.Map<String, ComponentIngredient>> keyCodec =
                 com.mojang.serialization.Codec.unboundedMap(com.mojang.serialization.Codec.STRING,
@@ -207,10 +207,10 @@ public final class CustomRecipes {
                                 ItemStackSpec.fromTemplate(result), copyFrom));
         return new RecipeSerializer<>(codec, stream);
     }
-    //?}
+    *///?}
 
     //? if >=26.1 {
-    private static <T extends net.minecraft.world.item.crafting.SmeltingRecipe> RecipeSerializer<T> componentSmelting26(
+    /*private static <T extends net.minecraft.world.item.crafting.SmeltingRecipe> RecipeSerializer<T> componentSmelting26(
             ComponentSmeltingFactory<T> factory) {
         com.mojang.serialization.MapCodec<T> codec =
                 com.mojang.serialization.codecs.RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -238,7 +238,7 @@ public final class CustomRecipes {
                                  factory.create("", "", ingredient, ItemStackSpec.fromTemplate(result), experience, cookingTime));
         return new RecipeSerializer<>(codec, stream);
     }
-    //?}
+    *///?}
 
     //? if >=1.21.1 && <26.1 {
      /*private static <T extends net.minecraft.world.item.crafting.SmeltingRecipe> RecipeSerializer<T> componentSmelting21(
@@ -277,7 +277,7 @@ public final class CustomRecipes {
     *///?}
 
     //? if <1.21.1 {
-    /*private static <T extends net.minecraft.world.item.crafting.SmeltingRecipe> RecipeSerializer<T> componentSmeltingLegacy(
+    private static <T extends net.minecraft.world.item.crafting.SmeltingRecipe> RecipeSerializer<T> componentSmeltingLegacy(
             ComponentSmeltingFactory<T> factory) {
         return new RecipeSerializer<>() {
             @Override
@@ -308,7 +308,7 @@ public final class CustomRecipes {
             }
         };
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 && <26.1 {
     /*private static <T extends ComponentShapedRecipe> RecipeSerializer<T> componentShaped21(
@@ -351,7 +351,7 @@ public final class CustomRecipes {
     *///?}
 
     //? if <1.21.1 {
-    /*private static <T extends ComponentShapedRecipe> RecipeSerializer<T> componentShapedLegacy(
+    private static <T extends ComponentShapedRecipe> RecipeSerializer<T> componentShapedLegacy(
             ComponentShapedFactory<T> factory) {
         return new RecipeSerializer<>() {
             @Override
@@ -401,10 +401,10 @@ public final class CustomRecipes {
 
         };
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    private static <T extends ComponentCopyShapelessRecipe> RecipeSerializer<T> componentCopyShapeless26(
+    /*private static <T extends ComponentCopyShapelessRecipe> RecipeSerializer<T> componentCopyShapeless26(
             ComponentCopyFactory<T> factory) {
         com.mojang.serialization.MapCodec<T> codec =
                 com.mojang.serialization.codecs.RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -428,7 +428,7 @@ public final class CustomRecipes {
                                 factory.create("", "", ingredients, copyFrom, ItemStackSpec.fromTemplate(result)));
         return new RecipeSerializer<>(codec, stream);
     }
-    //?}
+    *///?}
 
     //? if >=1.21.1 && <26.1 {
     /*private static <T extends ComponentCopyShapelessRecipe> RecipeSerializer<T> componentCopyShapeless21(
@@ -463,7 +463,7 @@ public final class CustomRecipes {
     *///?}
 
     //? if <1.21.1 {
-    /*private static <T extends ComponentCopyShapelessRecipe> RecipeSerializer<T> componentCopyShapelessLegacy(
+    private static <T extends ComponentCopyShapelessRecipe> RecipeSerializer<T> componentCopyShapelessLegacy(
             ComponentCopyFactory<T> factory) {
         return new RecipeSerializer<>() {
             @Override
@@ -512,14 +512,14 @@ public final class CustomRecipes {
             }
         };
     }
-    *///?}
+    //?}
 
     //? if <1.21.1 {
-    /*/^*
+    /**
      * A crafting result with its NBT: vanilla's itemStackFromJson reads item and count only, and the
      * component-era declarations arrive here with their components folded into a {@code tag} object by
      * legacy-recipes.gradle.kts.
-     ^/
+     */
     private static ItemStack legacyResult(com.google.gson.JsonObject json) {
         ItemStack stack = net.minecraft.world.item.crafting.ShapedRecipe.itemStackFromJson(json);
         com.google.gson.JsonObject tag = json.has("tag") ? net.minecraft.util.GsonHelper.getAsJsonObject(json, "tag")
@@ -533,5 +533,5 @@ public final class CustomRecipes {
         }
         return stack;
     }
-    *///?}
+    //?}
 }

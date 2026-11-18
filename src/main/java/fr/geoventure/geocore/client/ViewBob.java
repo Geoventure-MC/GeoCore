@@ -20,19 +20,19 @@ public final class ViewBob {
     /** How far the player has walked, interpolated and negated. This is the phase input for the sway. */
     public static float walkDistance(AbstractClientPlayer player, float partialTick) {
         //? if >=26.1 {
-        return player.avatarState().getBackwardsInterpolatedWalkDistance(partialTick);
-        //?} else {
-        /*float walked = player.walkDist - player.walkDistO;
+        /*return player.avatarState().getBackwardsInterpolatedWalkDistance(partialTick);
+        *///?} else {
+        float walked = player.walkDist - player.walkDistO;
         return -(player.walkDist + walked * partialTick);
-        *///?}
+        //?}
     }
 
     /** The bob amplitude, interpolated. */
     public static float bob(AbstractClientPlayer player, float partialTick) {
         //? if >=26.1 {
-        return player.avatarState().getInterpolatedBob(partialTick);
-        //?} else {
-        /*return net.minecraft.util.Mth.lerp(partialTick, player.oBob, player.bob);
-        *///?}
+        /*return player.avatarState().getInterpolatedBob(partialTick);
+        *///?} else {
+        return net.minecraft.util.Mth.lerp(partialTick, player.oBob, player.bob);
+        //?}
     }
 }

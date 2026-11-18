@@ -32,13 +32,13 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 //? if >=1.20.5 {
-import net.minecraft.network.RegistryFriendlyByteBuf;
+/*import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
-//?} else {
-/*import net.minecraft.world.Container;
-*///?}
+*///?} else {
+import net.minecraft.world.Container;
+//?}
 
 /**
  * Data-driven recipe tables: a mod's machine recipes as ordinary datapack recipes of their own vanilla
@@ -241,24 +241,24 @@ public final class RecipeTables {
         @SuppressWarnings("unchecked")
         private void collect(RecipeManager manager, List<Entry<T>> rows) {
             //? if >=26.1 {
-            for (RecipeHolder<?> holder : manager.getRecipes()) {
+            /*for (RecipeHolder<?> holder : manager.getRecipes()) {
                 if (holder.value() instanceof TableRecipe<?> recipe && recipe.table == this) {
                     rows.add(new Entry<>(Ids.keyId(holder.id()).toString(), (T) recipe.value));
                 }
             }
-            //?} elif >=1.20.5 {
+            *///?} elif >=1.20.5 {
             /*for (RecipeHolder<?> holder : manager.getRecipes()) {
                 if (holder.value() instanceof TableRecipe<?> recipe && recipe.table == this) {
                     rows.add(new Entry<>(holder.id().toString(), (T) recipe.value));
                 }
             }
             *///?} else {
-            /*for (Recipe<?> any : manager.getRecipes()) {
+            for (Recipe<?> any : manager.getRecipes()) {
                 if (any instanceof TableRecipe<?> recipe && recipe.table == this) {
                     rows.add(new Entry<>(recipe.getId().toString(), (T) recipe.value));
                 }
             }
-            *///?}
+            //?}
         }
 
         private SyncPayload payload(HolderLookup.Provider registries) {
@@ -376,7 +376,7 @@ public final class RecipeTables {
         if (removed.isEmpty()) return;
         int dropped = 0;
         //? if >=26.1 {
-        List<RecipeHolder<?>> kept = new ArrayList<>();
+        /*List<RecipeHolder<?>> kept = new ArrayList<>();
         for (RecipeHolder<?> holder : manager.getRecipes()) {
             if (removed.contains(Ids.keyId(holder.id()).toString())) dropped++;
             else kept.add(holder);
@@ -387,7 +387,7 @@ public final class RecipeTables {
         // the server's own load does.
         manager.recipes = net.minecraft.world.item.crafting.RecipeMap.create(kept);
         manager.finalizeRecipeLoading(server.getWorldData().enabledFeatures());
-        //?} elif >=1.20.5 {
+        *///?} elif >=1.20.5 {
         /*List<RecipeHolder<?>> kept = new ArrayList<>();
         for (RecipeHolder<?> holder : manager.getRecipes()) {
             if (removed.contains(holder.id().toString())) dropped++;
@@ -396,14 +396,14 @@ public final class RecipeTables {
         if (dropped == 0) return;
         manager.replaceRecipes(kept);
         *///?} else {
-        /*List<Recipe<?>> kept = new ArrayList<>();
+        List<Recipe<?>> kept = new ArrayList<>();
         for (Recipe<?> recipe : manager.getRecipes()) {
             if (removed.contains(recipe.getId().toString())) dropped++;
             else kept.add(recipe);
         }
         if (dropped == 0) return;
         manager.replaceRecipes(kept);
-        *///?}
+        //?}
         org.slf4j.LoggerFactory.getLogger("GeoCore").info(
                 "Removed {} recipe(s) listed in {} files or with unmet {} ({} id(s) listed, {} unmet)", dropped, REMOVALS,
                 REQUIRES, listed, unmet.size());
@@ -420,24 +420,24 @@ public final class RecipeTables {
     /** The datapack carrier of one row: never matches, never in a recipe book. */
     public static final class TableRecipe<T> implements Recipe<
             //? if >=1.20.5 {
-            RecipeInput
-            //?} else {
-            /*Container
-            *///?}
+            /*RecipeInput
+            *///?} else {
+            Container
+            //?}
             > {
 
         final Table<T> table;
         final T value;        //? if <1.20.5
-        //private final net.minecraft.resources.ResourceLocation id;
+        private final net.minecraft.resources.ResourceLocation id;
 
         TableRecipe(Table<T> table, T value
                 //? if <1.20.5
-                //, net.minecraft.resources.ResourceLocation id
+                , net.minecraft.resources.ResourceLocation id
         ) {
             this.table = table;
             this.value = value;
             //? if <1.20.5
-            //this.id = id;
+            this.id = id;
         }
 
         /** The table's own row behind this recipe-manager entry. */
@@ -463,7 +463,7 @@ public final class RecipeTables {
         }
 
         //? if >=26.1 {
-        @Override
+        /*@Override
         public boolean matches(RecipeInput input, Level level) {
             return false;
         }
@@ -492,7 +492,7 @@ public final class RecipeTables {
         public net.minecraft.world.item.crafting.RecipeBookCategory recipeBookCategory() {
             return net.minecraft.world.item.crafting.RecipeBookCategories.CRAFTING_MISC;
         }
-        //?} elif >=1.20.5 {
+        *///?} elif >=1.20.5 {
         /*@Override
         public boolean matches(RecipeInput input, Level level) {
             return false;
@@ -513,7 +513,7 @@ public final class RecipeTables {
             return ItemStack.EMPTY;
         }
         *///?} else {
-        /*@Override
+        @Override
         public boolean matches(Container input, Level level) {
             return false;
         }
@@ -537,21 +537,21 @@ public final class RecipeTables {
         public net.minecraft.resources.ResourceLocation getId() {
             return id;
         }
-        *///?}
+        //?}
     }
 
     private static <T> RecipeSerializer<?> serializerFor(Table<T> table) {
         //? if >=1.20.5 {
-        MapCodec<TableRecipe<T>> codec = table.codec().xmap(value -> new TableRecipe<>(table, value), recipe -> recipe.value);
+        /*MapCodec<TableRecipe<T>> codec = table.codec().xmap(value -> new TableRecipe<>(table, value), recipe -> recipe.value);
         // The row travels as its JSON text: one wire format for every table, decoded with the same codec as the file.
         StreamCodec<RegistryFriendlyByteBuf, TableRecipe<T>> stream = StreamCodec.of(
                 (buffer, recipe) -> buffer.writeUtf(table.toJson(recipe.value, buffer.registryAccess()).toString(), 262144),
                 buffer -> new TableRecipe<>(table,
                         table.fromJson(JsonParser.parseString(buffer.readUtf(262144)), buffer.registryAccess())));
-        //?}
+        *///?}
         //? if >=26.1 {
-        return new RecipeSerializer<>(codec, stream);
-        //?} elif >=1.20.5 {
+        /*return new RecipeSerializer<>(codec, stream);
+        *///?} elif >=1.20.5 {
         /*MapCodec<TableRecipe<T>> mapCodec = codec;
         return new RecipeSerializer<TableRecipe<T>>() {
             @Override
@@ -565,7 +565,7 @@ public final class RecipeTables {
             }
         };
         *///?} else {
-        /*return new RecipeSerializer<TableRecipe<T>>() {
+        return new RecipeSerializer<TableRecipe<T>>() {
             @Override
             public TableRecipe<T> fromJson(net.minecraft.resources.ResourceLocation id, com.google.gson.JsonObject json) {
                 com.google.gson.JsonObject value = json.deepCopy();
@@ -585,7 +585,7 @@ public final class RecipeTables {
                         .toString(), 262144);
             }
         };
-        *///?}
+        //?}
     }
 
     /** One table's rows for a client: recipe id and row JSON, alternating. */
@@ -608,10 +608,10 @@ public final class RecipeTables {
         @Override
         public
                 //? if >=26.1 {
-                net.minecraft.resources.Identifier
-                //?} else {
-                /*net.minecraft.resources.ResourceLocation
-                *///?}
+                /*net.minecraft.resources.Identifier
+                *///?} else {
+                net.minecraft.resources.ResourceLocation
+                //?}
                 id() {
             return CODEC.id();
         }

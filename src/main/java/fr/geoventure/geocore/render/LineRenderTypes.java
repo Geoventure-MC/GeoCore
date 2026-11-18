@@ -1,11 +1,11 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
+/*import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 /**
  * Vanilla's line type at a fixed pixel width - 1.7's {@code glLineWidth(n)} before a {@code GL_LINES} draw.
@@ -20,7 +20,7 @@ public final class LineRenderTypes {
     private LineRenderTypes() {}
 
     //? if >=26.1 {
-    private static final com.mojang.blaze3d.pipeline.RenderPipeline SEE_THROUGH_PIPELINE =
+    /*private static final com.mojang.blaze3d.pipeline.RenderPipeline SEE_THROUGH_PIPELINE =
             WorldPipelines.add(com.mojang.blaze3d.pipeline.RenderPipeline.builder(net.minecraft.client.renderer.RenderPipelines.LINES_SNIPPET)
                     .withLocation("pipeline/geocore_lines_see_through")
                     .withDepthStencilState(java.util.Optional.empty())
@@ -32,15 +32,15 @@ public final class LineRenderTypes {
         return RenderTypes.lines();
     }
 
-    /**
+    /^*
      * Lines drawn over everything and without fog: no depth test, no depth write (1.7 {@code glDisable(GL_DEPTH_TEST)}
      * in its render-last pass, which ran with fog off).
-     */
+     ^/
     public static RenderType seeThrough(float width) {
         return SEE_THROUGH;
     }
-    //?} else {
-    /*private static final java.util.Map<Float, RenderType> BY_WIDTH = new java.util.concurrent.ConcurrentHashMap<>();
+    *///?} else {
+    private static final java.util.Map<Float, RenderType> BY_WIDTH = new java.util.concurrent.ConcurrentHashMap<>();
 
     private static final java.util.Map<Float, RenderType> SEE_THROUGH = new java.util.concurrent.ConcurrentHashMap<>();
 
@@ -48,12 +48,12 @@ public final class LineRenderTypes {
         return BY_WIDTH.computeIfAbsent(width, w -> Factory.lines(w, false));
     }
 
-    /^* Lines drawn over everything and without fog (1.7's render-last pass): no depth test, no depth write. ^/
+    /** Lines drawn over everything and without fog (1.7's render-last pass): no depth test, no depth write. */
     public static RenderType seeThrough(float width) {
         return SEE_THROUGH.computeIfAbsent(width, w -> Factory.lines(w, true));
     }
 
-    /^* {@code create} and the state shards are protected on {@code RenderType}, hence the subclass. ^/
+    /** {@code create} and the state shards are protected on {@code RenderType}, hence the subclass. */
     private static final class Factory extends RenderType {
         private Factory() { super(null, null, null, 0, false, false, null, null); }
 
@@ -83,5 +83,5 @@ public final class LineRenderTypes {
                     state.createCompositeState(false));
         }
     }
-    *///?}
+    //?}
 }

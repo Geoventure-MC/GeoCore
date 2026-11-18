@@ -2,7 +2,7 @@ package fr.geoventure.geocore.kubejs;
 
 //? if kubejs && >=1.20.5 {
 
-import com.google.gson.JsonArray;
+/*import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -42,17 +42,17 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
-/**
+/^*
  * One {@link RecipeFields.Field} of a recipe table as a KubeJS recipe component. Its value is the field's row JSON,
  * read from and written to the recipe unchanged, so the table's codec stays the only parser. A script value becomes that
  * JSON here: JSON and plain JS objects pass through as they are; anything else is read the KubeJS way for the field's
  * kind (an item or tag with a count, an item stack, a fluid stack, a number, a string) into a neutral value and
  * written by the field's {@link RecipeFields.Shape} ({@link FieldJson}). Filters and replacements by item or fluid
  * read the row back through the same shape.
- */
+ ^/
 final class FieldComponent implements RecipeComponent<JsonElement> {
 
-    /** The component's own JSON form (KubeJS's schema export): the table and field it describes. */
+    /^* The component's own JSON form (KubeJS's schema export): the table and field it describes. ^/
     static final MapCodec<FieldComponent> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.STRING.fieldOf("table").forGetter(component -> component.table),
             Codec.STRING.fieldOf("field").forGetter(component -> component.field.name())
@@ -60,10 +60,10 @@ final class FieldComponent implements RecipeComponent<JsonElement> {
 
     // KubeJS 8 names a component type by registry key (registered with its codec); KubeJS 7 by a type object.
     //? if >=1.21.2 {
-    static final ResourceKey<RecipeComponentType<?>> TYPE = RecipeComponentType.key(Ids.of("geocore", "table_field"));
-    //?} else {
-    /*static final RecipeComponentType<?> TYPE = RecipeComponentType.dynamic(Ids.of("geocore", "table_field"), MAP_CODEC);
-    *///?}
+    /^static final ResourceKey<RecipeComponentType<?>> TYPE = RecipeComponentType.key(Ids.of("geocore", "table_field"));
+    ^///?} else {
+    static final RecipeComponentType<?> TYPE = RecipeComponentType.dynamic(Ids.of("geocore", "table_field"), MAP_CODEC);
+    //?}
 
     private final String table;
     private final Field field;
@@ -84,10 +84,10 @@ final class FieldComponent implements RecipeComponent<JsonElement> {
 
     @Override
     //? if >=1.21.2 {
-    public ResourceKey<RecipeComponentType<?>> type() {
-    //?} else {
-    /*public RecipeComponentType<?> type() {
-    *///?}
+    /^public ResourceKey<RecipeComponentType<?>> type() {
+    ^///?} else {
+    public RecipeComponentType<?> type() {
+    //?}
         return TYPE;
     }
 
@@ -142,7 +142,7 @@ final class FieldComponent implements RecipeComponent<JsonElement> {
         }
     }
 
-    /** One element (a list field's shape applies per element, never to the whole array). */
+    /^* One element (a list field's shape applies per element, never to the whole array). ^/
     private JsonElement convert(RecipeScriptContext cx, Object from) {
         from = Wrapper.unwrapped(from);
         Context context = cx.cx();
@@ -193,14 +193,14 @@ final class FieldComponent implements RecipeComponent<JsonElement> {
         return counted;
     }
 
-    /** The items a plain (non-tag) ingredient lists. */
+    /^* The items a plain (non-tag) ingredient lists. ^/
     @SuppressWarnings("deprecation") // Ingredient.items(): 26.1 keeps it for exactly this, listing a plain ingredient
     private static List<Item> items(Ingredient ingredient) {
         //? if >=1.21.2 {
-        return ingredient.items().map(Holder::value).distinct().toList();
-        //?} else {
-        /*return java.util.Arrays.stream(ingredient.getItems()).map(ItemStack::getItem).distinct().toList();
-        *///?}
+        /^return ingredient.items().map(Holder::value).distinct().toList();
+        ^///?} else {
+        return java.util.Arrays.stream(ingredient.getItems()).map(ItemStack::getItem).distinct().toList();
+        //?}
     }
 
     private String describe() {
@@ -289,4 +289,4 @@ final class FieldComponent implements RecipeComponent<JsonElement> {
         return "geocore:table_field[" + describe() + "]";
     }
 }
-//?}
+*///?}

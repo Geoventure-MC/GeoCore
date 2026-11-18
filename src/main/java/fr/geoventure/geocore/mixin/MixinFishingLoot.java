@@ -51,10 +51,10 @@ public abstract class MixinFishingLoot {
         }
         if (geocore$fishingCategory < 0) return false;
         //? if >=26.1 {
-        var origin = context.getOptionalParameter(LootContextParams.ORIGIN);
-        //?} else {
-        /*var origin = context.getParamOrNull(LootContextParams.ORIGIN);
-         *///?}
+        /*var origin = context.getOptionalParameter(LootContextParams.ORIGIN);
+        *///?} else {
+        var origin = context.getParamOrNull(LootContextParams.ORIGIN);
+         //?}
         var replacement = FishingLoot.select(context.getLevel(), origin == null ? null : BlockPos.containing(origin),
                 geocore$fishingCategory, context.getRandom());
         if (replacement == null) return false;

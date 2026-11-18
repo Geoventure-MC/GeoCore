@@ -21,11 +21,11 @@ public final class Vegetation {
     public static boolean isPlant(BlockState state) {
         Block block = state.getBlock();
         //? if >=26.1 {
-        return block instanceof net.minecraft.world.level.block.VegetationBlock
+        /*return block instanceof net.minecraft.world.level.block.VegetationBlock
                 || block instanceof net.minecraft.world.level.block.BushBlock;
-        //?} else {
-        /*return block instanceof net.minecraft.world.level.block.BushBlock;
-        *///?}
+        *///?} else {
+        return block instanceof net.minecraft.world.level.block.BushBlock;
+        //?}
     }
 
     /** True for any leaf block. Stable across the range; here so callers have one vegetation import. */

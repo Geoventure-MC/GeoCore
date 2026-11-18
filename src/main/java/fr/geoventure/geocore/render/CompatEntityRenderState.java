@@ -9,17 +9,17 @@ package fr.geoventure.geocore.render;
  */
 public class CompatEntityRenderState
         //? if >=26.1 {
-        extends net.minecraft.client.renderer.entity.state.EntityRenderState
-        //?}
+        /*extends net.minecraft.client.renderer.entity.state.EntityRenderState
+        *///?}
 {
 
     //? if <26.1 {
-    /*/^*
+    /**
      * Packed lightmap coordinates for this entity. 26.1's EntityRenderState carries this and vanilla
      * fills it during extraction; this era passes it straight to {@code render} instead, so
      * {@link CompatEntityRenderer} copies it here before extracting to keep the field available either
      * way.
-     ^/
+     */
     public int lightCoords;
-    *///?}
+    //?}
 }

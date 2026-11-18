@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.buffers.GpuBuffer;
+/*import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.opengl.GlBuffer;
 import com.mojang.blaze3d.opengl.GlRenderPass;
 import net.minecraft.client.renderer.SkyRenderer;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-/** Typed reads of native renderer and GUI state. */
+/^* Typed reads of native renderer and GUI state. ^/
 public final class RenderOps {
     private RenderOps() {}
 
@@ -28,7 +28,7 @@ public final class RenderOps {
         return overlay.events;
     }
 
-    /** Includes discovery, propagation, and borrowed buffers that the compile queue alone omits. */
+    /^* Includes discovery, propagation, and borrowed buffers that the compile queue alone omits. ^/
     public static @Nullable String terrainBusy(Minecraft client) {
         var renderer = client.levelRenderer;
         var dispatcher = renderer.getSectionRenderDispatcher();
@@ -52,7 +52,7 @@ public final class RenderOps {
         return renderer.starBuffer;
     }
 
-    /** Native OpenGL buffer name; the caller retains the buffer's context and lifetime. */
+    /^* Native OpenGL buffer name; the caller retains the buffer's context and lifetime. ^/
     public static int bufferHandle(GlBuffer buffer) {
         return buffer.handle;
     }
@@ -62,4 +62,4 @@ public final class RenderOps {
     }
 
 }
-//?}
+*///?}

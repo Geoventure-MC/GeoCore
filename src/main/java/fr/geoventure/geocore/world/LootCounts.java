@@ -11,13 +11,13 @@ public final class LootCounts {
 
     public static void init() {
         //? if <1.20.5 {
-        /*fr.geoventure.geocore.registry.DeferredRegister.create(() -> net.minecraft.core.registries.Registries.LOOT_FUNCTION_TYPE,
+        fr.geoventure.geocore.registry.DeferredRegister.create(() -> net.minecraft.core.registries.Registries.LOOT_FUNCTION_TYPE,
                 fr.geoventure.geocore.GeoCore.MOD_ID).register("set_count", () -> SetCount.TYPE);
-        *///?}
+        //?}
     }
 
     //? if <1.20.5 {
-    /*private static final class SetCount extends net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction {
+    private static final class SetCount extends net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction {
 
         static final net.minecraft.world.level.storage.loot.functions.LootItemFunctionType TYPE =
                 new net.minecraft.world.level.storage.loot.functions.LootItemFunctionType(new Json());
@@ -68,5 +68,5 @@ public final class LootCounts {
                     net.minecraft.util.GsonHelper.getAsBoolean(json, "add", false));
         }
     }
-    *///?}
+    //?}
 }

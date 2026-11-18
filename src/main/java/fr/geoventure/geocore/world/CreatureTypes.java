@@ -29,12 +29,12 @@ public final class CreatureTypes {
     }
 
     //? if <1.21.1 {
-    /*// The 1.20.1 MobType for a mob, read from the tags; fallback when it is in neither.
+    // The 1.20.1 MobType for a mob, read from the tags; fallback when it is in neither.
     public static net.minecraft.world.entity.MobType mobType(LivingEntity entity,
                                                             net.minecraft.world.entity.MobType fallback) {
         if (entity.getType().is(UNDEAD)) return net.minecraft.world.entity.MobType.UNDEAD;
         if (entity.getType().is(ARTHROPOD)) return net.minecraft.world.entity.MobType.ARTHROPOD;
         return fallback;
     }
-    *///?}
+    //?}
 }

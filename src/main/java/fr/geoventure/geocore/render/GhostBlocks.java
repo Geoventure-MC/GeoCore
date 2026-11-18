@@ -13,7 +13,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.QuadInstance;
@@ -23,13 +23,13 @@ import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
-//?} else {
-/*import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+*///?} else {
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
-*///?}
+//?}
 
 /**
  * A block state's model drawn as a free-standing ghost (a placement preview) in one flat colour.
@@ -66,7 +66,7 @@ public final class GhostBlocks {
     private GhostBlocks() {}
 
     //? if >=26.1 {
-    private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.ENTITY_EMISSIVE_SNIPPET)
+    /*private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.ENTITY_EMISSIVE_SNIPPET)
             .withLocation("pipeline/geocore_ghost_block")
             .withShaderDefine("ALPHA_CUTOUT", 0.1F)
             .withShaderDefine("NO_CARDINAL_LIGHTING")
@@ -80,10 +80,10 @@ public final class GhostBlocks {
                     .useLightmap()
                     .useOverlay()
                     .createRenderSetup());
-    //?} else {
-    /*private static final RenderType TYPE = Factory.ghost();
+    *///?} else {
+    private static final RenderType TYPE = Factory.ghost();
 
-    /^* {@code create} is protected on {@code RenderType}; the subclass is the long-standing way in. ^/
+    /** {@code create} is protected on {@code RenderType}; the subclass is the long-standing way in. */
     private static final class Factory extends RenderType {
         private Factory() { super(null, null, null, 0, false, false, null, null); }
 
@@ -100,7 +100,7 @@ public final class GhostBlocks {
                             .createCompositeState(false));
         }
     }
-    *///?}
+    //?}
 
     /**
      * Flat-coloured, full-bright, alpha-cutout (0.1), depth-writing, back-face-culled quads on the
@@ -120,7 +120,7 @@ public final class GhostBlocks {
         RandomSource random = RandomSource.create();
         random.setSeed(state.getSeed(pos));
         //? if >=26.1 {
-        BlockStateModel model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(state);
+        /*BlockStateModel model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(state);
         List<BlockStateModelPart> parts = new ArrayList<>(1);
         model.collectParts(random, parts);
         if (parts.isEmpty()) return EMPTY;
@@ -138,8 +138,8 @@ public final class GhostBlocks {
                 for (BakedQuad quad : part.getQuads(null)) buffer.putBakedQuad(pose, quad, instance);
             }
         };
-        //?} else {
-        /*BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
+        *///?} else {
+        BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
         List<BakedQuad> quads = new ArrayList<>();
         for (Direction direction : Direction.values()) {
             random.setSeed(state.getSeed(pos));
@@ -153,7 +153,7 @@ public final class GhostBlocks {
         return (pose, buffer) -> {
             for (BakedQuad quad : quads) emit(pose, buffer, quad, argb, light);
         };
-        *///?}
+        //?}
     }
 
     /** Bakes and emits in one step, for a caller that does not keep the geometry between frames. */
@@ -162,12 +162,12 @@ public final class GhostBlocks {
     }
 
     //? if <26.1 {
-    /*/^*
+    /**
      * Vanilla's own unpack ({@code VertexConsumer.putBulkData}), minus the parts a ghost discards: no
      * per-vertex brightness, no baked colour, no baked light, and the colour's alpha honoured.
      * The packed layout is {@code DefaultVertexFormat.BLOCK}: 8 ints per vertex - x, y, z, colour,
      * u, v, light, normal.
-     ^/
+     */
     private static void emit(PoseStack.Pose pose, VertexConsumer buffer, BakedQuad quad, int argb, int light) {
         int[] data = quad.getVertices();
         int vertices = data.length / 8;
@@ -186,5 +186,5 @@ public final class GhostBlocks {
                     normalX, normalY, normalZ);
         }
     }
-    *///?}
+    //?}
 }

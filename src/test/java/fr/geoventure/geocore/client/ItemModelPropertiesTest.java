@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.client;
 
 //? if >=26.1 {
-import com.google.gson.JsonParser;
+/*import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.world.item.ItemStack;
 import org.junit.jupiter.api.Test;
@@ -20,4 +20,4 @@ class ItemModelPropertiesTest {
                 .result().orElseThrow());
     }
 }
-//?}
+*///?}

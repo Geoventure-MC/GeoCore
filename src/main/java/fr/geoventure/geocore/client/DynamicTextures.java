@@ -6,10 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 
 /**
  * Textures made from pixels at run time - legacy {@code TextureManager.getDynamicTextureLocation(name, new
@@ -24,27 +24,27 @@ public final class DynamicTextures {
     /** Uploads {@code argb} ({@code width * height}) as {@code id}, replacing whatever was registered there. */
     public static void register(
             //? if >=26.1 {
-            Identifier id,
-            //?} else {
-            /*ResourceLocation id,
-            *///?}
+            /*Identifier id,
+            *///?} else {
+            ResourceLocation id,
+            //?}
             int width, int height, int[] argb) {
         NativeImage image = new NativeImage(width, height, false);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int pixel = argb[y * width + x];
                 //? if >=26.1 {
-                image.setPixel(x, y, pixel);
-                //?} else {
-                /*image.setPixelRGBA(x, y, (pixel & 0xFF00FF00) | ((pixel >> 16) & 0xFF) | ((pixel & 0xFF) << 16));
-                *///?}
+                /*image.setPixel(x, y, pixel);
+                *///?} else {
+                image.setPixelRGBA(x, y, (pixel & 0xFF00FF00) | ((pixel >> 16) & 0xFF) | ((pixel & 0xFF) << 16));
+                //?}
             }
         }
         //? if >=26.1 {
-        DynamicTexture texture = new DynamicTexture(id::toString, image);
-        //?} else {
-        /*DynamicTexture texture = new DynamicTexture(image);
-        *///?}
+        /*DynamicTexture texture = new DynamicTexture(id::toString, image);
+        *///?} else {
+        DynamicTexture texture = new DynamicTexture(image);
+        //?}
         Minecraft.getInstance().getTextureManager().register(id, texture);
     }
 
@@ -57,11 +57,11 @@ public final class DynamicTextures {
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
                     //? if >=26.1 {
-                    pixels[y * w + x] = image.getPixel(x, y);
-                    //?} else {
-                    /*int abgr = image.getPixelRGBA(x, y);
+                    /*pixels[y * w + x] = image.getPixel(x, y);
+                    *///?} else {
+                    int abgr = image.getPixelRGBA(x, y);
                     pixels[y * w + x] = (abgr & 0xFF00FF00) | ((abgr >> 16) & 0xFF) | ((abgr & 0xFF) << 16);
-                    *///?}
+                    //?}
                 }
             }
             size[0] = w;

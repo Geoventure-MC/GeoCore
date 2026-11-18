@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.ColorTargetState;
+/*import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -17,8 +17,8 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -31,7 +31,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-*///?}
+//?}
 
 /**
  * Immediate-mode drawing inside a screen rectangle, the way a 1.7 {@code GuiScreen} bound a texture, set
@@ -80,23 +80,23 @@ public final class GuiCanvas {
      */
     public static void draw(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int x0, int y0, int x1, int y1, Consumer<GuiCanvas> painter) {
         if (x1 <= x0 || y1 <= y0) return;
         GuiCanvas canvas = new GuiCanvas();
         painter.accept(canvas);
         if (canvas.ops.isEmpty()) return;
         //? if >=26.1 {
-        float cx = (x0 + x1) / 2.0F, cy = (y0 + y1) / 2.0F;
+        /*float cx = (x0 + x1) / 2.0F, cy = (y0 + y1) / 2.0F;
         fr.geoventure.geocore.gui.GuiScenes.draw(graphics, x0, y0, x1, y1, (pose, sink, camera) -> {
             // GuiScenes' frame: origin at the rectangle's centre, GUI pixels, +Y down
             canvas.replay(new Matrix4f(pose.last().pose()).translate(-cx, -cy, 0.0F));
         });
-        //?} else {
-        /*graphics.flush();
+        *///?} else {
+        graphics.flush();
         graphics.enableScissor(x0, y0, x1, y1);
         RenderSystem.disableDepthTest();
         RenderSystem.disableCull();
@@ -107,7 +107,7 @@ public final class GuiCanvas {
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
         graphics.disableScissor();
-        *///?}
+        //?}
     }
 
     /** The canvas pose: screen GUI pixels, +Y down. Restore what you push. */
@@ -214,7 +214,7 @@ public final class GuiCanvas {
     }
 
     //? if >=26.1 {
-    private static final java.util.Map<String, RenderPipeline> PIPELINES = new java.util.concurrent.ConcurrentHashMap<>();
+    /*private static final java.util.Map<String, RenderPipeline> PIPELINES = new java.util.concurrent.ConcurrentHashMap<>();
 
     private static RenderPipeline pipeline(boolean textured, Sky.Blend blend) {
         return PIPELINES.computeIfAbsent(textured + "|" + blend, key -> {
@@ -251,8 +251,8 @@ public final class GuiCanvas {
         SkyShaders.pass(() -> "GeoCore GUI canvas", pipeline, mesh, textured ? new String[] {op.texture} : new String[0],
                 textured ? 1 : 0, null);
     }
-    //?} else {
-    /*private static void drawPlain(Matrix4f base, Op op, Vector3f p) {
+    *///?} else {
+    private static void drawPlain(Matrix4f base, Op op, Vector3f p) {
         boolean textured = op.texture != null;
         if (textured) {
             RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
@@ -274,7 +274,7 @@ public final class GuiCanvas {
         VertexFormat format = textured ? DefaultVertexFormat.POSITION_TEX_COLOR : DefaultVertexFormat.POSITION_COLOR;
         float[] v = op.v;
         //? if >=1.21 {
-        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, format);
+        /*BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, format);
         for (int i = 0; i < op.vertices; i++) {
             int o = i * 9;
             base.transformPosition(v[o], v[o + 1], v[o + 2], p);
@@ -284,8 +284,8 @@ public final class GuiCanvas {
         }
         com.mojang.blaze3d.vertex.MeshData mesh = builder.build();
         if (mesh != null) BufferUploader.drawWithShader(mesh);
-        //?} else {
-        /^BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        *///?} else {
+        BufferBuilder builder = Tesselator.getInstance().getBuilder();
         builder.begin(VertexFormat.Mode.QUADS, format);
         for (int i = 0; i < op.vertices; i++) {
             int o = i * 9;
@@ -295,7 +295,7 @@ public final class GuiCanvas {
             vertex.color(v[o + 5], v[o + 6], v[o + 7], v[o + 8]).endVertex();
         }
         BufferUploader.drawWithShader(builder.end());
-        ^///?}
+        //?}
     }
-    *///?}
+    //?}
 }

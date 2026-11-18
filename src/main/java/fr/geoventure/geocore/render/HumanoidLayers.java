@@ -67,7 +67,7 @@ public final class HumanoidLayers {
                     attached++;
                 });
         *///?} elif neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.EntityRenderersEvent.AddLayers event) -> {
                     for (net.minecraft.world.entity.player.PlayerModelType skin : event.getSkins()) {
                         attach(event.getPlayerRenderer(skin), factory);
@@ -81,7 +81,7 @@ public final class HumanoidLayers {
                     }
                     report();
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.EntityRenderersEvent.AddLayers event) -> {
                     for (net.minecraft.client.resources.PlayerSkin.Model skin : event.getSkins()) {
@@ -94,7 +94,7 @@ public final class HumanoidLayers {
                     report();
                 });
         *///?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.client.event.EntityRenderersEvent.AddLayers event) -> {
                     for (String skin : event.getSkins()) {
                         attach(event.getSkin(skin), factory);
@@ -105,7 +105,7 @@ public final class HumanoidLayers {
                     }
                     report();
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -148,7 +148,7 @@ public final class HumanoidLayers {
      * the layer itself. Calling it unconditionally does not compile on the Fabric nodes.
      */
     //? if forge {
-    /*/^*
+    /**
      * Forge 1.20.1's {@code getRenderer} is not safe to call for an arbitrary entity type: its body is
      * a bare {@code checkcast} to {@code LivingEntityRenderer} on the map lookup, so asking it about
      * any type whose renderer is not one ({@code minecraft:marker} and friends get a {@code
@@ -159,7 +159,7 @@ public final class HumanoidLayers {
      * {@code getEntityTypes()}. So the cast failure IS the test: it means "not a living renderer",
      * the set to skip. NeoForge returns the value without casting, and
      * fabric-api hands over only living renderers, so neither needs this.
-     ^/
+     */
     private static Object rendererOrNull(net.minecraftforge.client.event.EntityRenderersEvent.AddLayers event,
                                          net.minecraft.world.entity.EntityType<?> type) {
         try {
@@ -168,7 +168,7 @@ public final class HumanoidLayers {
             return null;
         }
     }
-    *///?}
+    //?}
 
     private static void attach(Object renderer, Factory factory) {
         CompatHumanoidLayer layer = build(renderer, factory);

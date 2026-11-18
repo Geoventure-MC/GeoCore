@@ -15,7 +15,7 @@ final class TokenFluidsClient {
 
     static void install() {
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.event.RegisterFluidModelsEvent event) -> {
                     for (TokenFluids.Registered registered : TokenFluids.registered()) {
                         TokenFluids.Spec spec = registered.spec();
@@ -27,7 +27,7 @@ final class TokenFluidsClient {
                                 material, material, null, tint), registered.fluid().get());
                     }
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent event) -> {
                     for (TokenFluids.Registered registered : TokenFluids.registered()) {
@@ -35,8 +35,8 @@ final class TokenFluidsClient {
                     }
                 });
         *///?} elif forge {
-        /*return;
-        *///?} elif fabric && >=26.1 {
+        return;
+        //?} elif fabric && >=26.1 {
         /*for (TokenFluids.Registered registered : TokenFluids.registered()) {
             TokenFluids.Spec spec = registered.spec();
             net.minecraft.client.resources.model.sprite.Material material =
@@ -65,12 +65,12 @@ final class TokenFluidsClient {
         };
     }
     *///?} elif forge {
-    /*static net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions extensions(java.util.function.Supplier<TokenFluids.Spec> spec) {
+    static net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions extensions(java.util.function.Supplier<TokenFluids.Spec> spec) {
         return new net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions() {
             @Override public net.minecraft.resources.ResourceLocation getStillTexture() { return Ids.parse(spec.get().sprite()); }
             @Override public net.minecraft.resources.ResourceLocation getFlowingTexture() { return Ids.parse(spec.get().sprite()); }
             @Override public int getTintColor() { return spec.get().tint(); }
         };
     }
-    *///?}
+    //?}
 }

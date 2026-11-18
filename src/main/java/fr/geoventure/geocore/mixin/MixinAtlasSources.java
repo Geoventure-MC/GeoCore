@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * it is handed is an {@code Identifier} from 26.1. Nothing else about it moved.
  */
 //? if >=1.21 {
-@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteSourceList.class)
-//?} else {
-/*@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteResourceLoader.class)
-*///?}
+/*@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteSourceList.class)
+*///?} else {
+@Mixin(net.minecraft.client.renderer.texture.atlas.SpriteResourceLoader.class)
+//?}
 public abstract class MixinAtlasSources implements AtlasSources {
 
     @Shadow
@@ -42,16 +42,16 @@ public abstract class MixinAtlasSources implements AtlasSources {
     @Inject(method = "load", at = @At("RETURN"))
     private static void geocore$addDeclaredSources(ResourceManager resources,
             //? if >=26.1 {
-            net.minecraft.resources.Identifier atlas,
-            //?} else {
-            /*net.minecraft.resources.ResourceLocation atlas,
-            *///?}
+            /*net.minecraft.resources.Identifier atlas,
+            *///?} else {
+            net.minecraft.resources.ResourceLocation atlas,
+            //?}
             CallbackInfoReturnable<
                     //? if >=1.21 {
-                    net.minecraft.client.renderer.texture.atlas.SpriteSourceList
-                    //?} else {
-                    /*net.minecraft.client.renderer.texture.atlas.SpriteResourceLoader
-                    *///?}
+                    /*net.minecraft.client.renderer.texture.atlas.SpriteSourceList
+                    *///?} else {
+                    net.minecraft.client.renderer.texture.atlas.SpriteResourceLoader
+                    //?}
                     > callback) {
         List<SpriteSource> declared = Sprites.declaredFor(atlas.toString());
         if (!declared.isEmpty()) {

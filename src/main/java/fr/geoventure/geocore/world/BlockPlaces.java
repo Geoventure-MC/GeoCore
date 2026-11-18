@@ -37,16 +37,16 @@ public final class BlockPlaces {
         if (hooked) return;
         hooked = true;
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent event) -> {
                     if (!event.isCanceled()) placed(event.getEntity(), event.getLevel(), event.getPos(), event.getPlacedBlock());
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.level.BlockEvent.EntityPlaceEvent event) -> {
                     if (!event.isCanceled()) placed(event.getEntity(), event.getLevel(), event.getPos(), event.getPlacedBlock());
                 });
-        *///?}
+        //?}
     }
 
     /** Dispatches a placement. Only server levels reach the handlers, as in the legacy event. */

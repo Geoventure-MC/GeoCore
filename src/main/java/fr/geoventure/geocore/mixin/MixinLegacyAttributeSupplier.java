@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if <1.20.5 {
-/*import fr.geoventure.geocore.world.LegacyPhysics;
+import fr.geoventure.geocore.world.LegacyPhysics;
 import java.util.function.Consumer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/^*
+/**
  * 1.20.1: every living entity has the backported physics attributes ({@link LegacyPhysics}), created on first use.
  *
  * <p>Why a mixin. The attributes must exist on every living entity, vanilla and modded. Rung 1, vanilla: an
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * Forge only; Fabric has no way to add an attribute to another mod's or vanilla's supplier. Rung 3: visibility is not the
  * obstacle. The smallest mixin answers {@code createInstance} for these three attributes when the supplier does not
  * list them, which is the call {@code AttributeMap.getInstance} makes; the instance is then synced like any other.
- ^/
+ */
 @Mixin(AttributeSupplier.class)
 public abstract class MixinLegacyAttributeSupplier {
 
@@ -32,4 +32,4 @@ public abstract class MixinLegacyAttributeSupplier {
         }
     }
 }
-*///?}
+//?}

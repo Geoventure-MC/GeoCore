@@ -125,10 +125,10 @@ public final class ChunkSidecar implements AutoCloseable {
     private static byte[] payload(Optional<CompoundTag> tag) {
         if (tag.isEmpty()) return null;
         //? if >=26.1 {
-        byte[] bytes = tag.get().getByteArray(PAYLOAD).orElse(null);
-        //?} else {
-        /*byte[] bytes = tag.get().getByteArray(PAYLOAD);
-        *///?}
+        /*byte[] bytes = tag.get().getByteArray(PAYLOAD).orElse(null);
+        *///?} else {
+        byte[] bytes = tag.get().getByteArray(PAYLOAD);
+        //?}
         return bytes == null || bytes.length == 0 ? null : bytes;
     }
 
@@ -140,11 +140,11 @@ public final class ChunkSidecar implements AutoCloseable {
 
         Worker(ServerLevel level, Path root, String name, boolean syncWrites) {
             //? if >=1.20.5 {
-            super(new net.minecraft.world.level.chunk.storage.RegionStorageInfo(
+            /*super(new net.minecraft.world.level.chunk.storage.RegionStorageInfo(
                     level.getServer().getWorldData().getLevelName(), level.dimension(), name), root, syncWrites);
-            //?} else {
-            /*super(root, syncWrites, name);
-            *///?}
+            *///?} else {
+            super(root, syncWrites, name);
+            //?}
         }
     }
 }

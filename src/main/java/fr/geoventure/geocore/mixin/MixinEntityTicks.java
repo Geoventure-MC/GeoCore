@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerLevel.class)
 public abstract class MixinEntityTicks {
     //? if !neoforge {
-    /*@Inject(method = "tickNonPassenger", at = @At(value = "INVOKE",
+    @Inject(method = "tickNonPassenger", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/Entity;tick()V", shift = At.Shift.AFTER))
     private void geocore$entityTicked(Entity entity, CallbackInfo callback) {
         EntityTicks.ticked(entity);
@@ -26,5 +26,5 @@ public abstract class MixinEntityTicks {
     private void geocore$passengerTicked(Entity vehicle, Entity passenger, CallbackInfo callback) {
         EntityTicks.ticked(passenger);
     }
-    *///?}
+    //?}
 }

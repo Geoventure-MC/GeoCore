@@ -36,13 +36,13 @@ public class MixinHarnessWindow {
     }
 
     //? if >=26.1 {
-    @Inject(method = "createGlfwWindow", at = @At(value = "INVOKE",
+    /*@Inject(method = "createGlfwWindow", at = @At(value = "INVOKE",
             target = "Lorg/lwjgl/glfw/GLFW;glfwCreateWindow(IILjava/lang/CharSequence;JJ)J"))
     private static void geocore$harnessWindowHints(CallbackInfoReturnable<Long> callback) {
         fr.geoventure.geocore.harness.HarnessWindowHints.apply();
     }
-    //?} else {
-    /*// A call wrapper rather than an @Inject: Forge 1.20.1 ships Mixin 0.8.5, which refuses @Inject at a
+    *///?} else {
+    // A call wrapper rather than an @Inject: Forge 1.20.1 ships Mixin 0.8.5, which refuses @Inject at a
     // non-RETURN point inside a constructor, while wrapping a call is legal there on every version. A MixinExtras
     // @WrapOperation, not a @Redirect, because this class ships to players and window mods hook the same call.
     @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(method = "<init>", at = @At(value = "INVOKE",
@@ -51,5 +51,5 @@ public class MixinHarnessWindow {
         original.call();
         fr.geoventure.geocore.harness.HarnessWindowHints.apply();
     }
-    *///?}
+    //?}
 }

@@ -35,7 +35,7 @@ public final class Fuels {
         burnTimes.forEach((item, ticks) -> net.fabricmc.fabric.api.registry.FuelRegistry.INSTANCE.add(item.get(), ticks));
         *///?}
         //? if forge {
-        /*java.util.concurrent.atomic.AtomicReference<Map<Item, Integer>> resolved =
+        java.util.concurrent.atomic.AtomicReference<Map<Item, Integer>> resolved =
                 new java.util.concurrent.atomic.AtomicReference<>();
         // Resolved once, on the first event (registries are frozen by then): the event fires for every
         // burn-time query of every stack, so it must not walk the whole table each time.
@@ -52,7 +52,7 @@ public final class Fuels {
                     Integer ticks = table.get(event.getItemStack().getItem());
                     if (ticks != null) event.setBurnTime(ticks);
                 });
-        *///?}
+        //?}
         // NeoForge: nothing to do. See the class note.
     }
 }

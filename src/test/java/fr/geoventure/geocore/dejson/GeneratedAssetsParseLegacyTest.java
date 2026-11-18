@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.dejson;
 
 //? if <26.1 {
-/*import com.google.gson.JsonObject;
+import com.google.gson.JsonObject;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.BlockModelDefinition;
@@ -159,4 +159,4 @@ class GeneratedAssetsParseLegacyTest {
         return Set.of();
     }
 }
-*///?}
+//?}

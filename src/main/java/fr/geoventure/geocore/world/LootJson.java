@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.world;
 
 //? if <1.20.5 {
-/*/^* A 1.20.1 loot serializer that reads and writes a value through its {@code MapCodec}, as later versions do. ^/
+/** A 1.20.1 loot serializer that reads and writes a value through its {@code MapCodec}, as later versions do. */
 final class LootJson<T> implements net.minecraft.world.level.storage.loot.Serializer<T> {
 
     private final com.mojang.serialization.MapCodec<T> codec;
@@ -21,8 +21,8 @@ final class LootJson<T> implements net.minecraft.world.level.storage.loot.Serial
         return codec.codec().parse(com.mojang.serialization.JsonOps.INSTANCE, json).getOrThrow(false, error -> {});
     }
 }
-*///?} else {
-final class LootJson {
+//?} else {
+/*final class LootJson {
     private LootJson() {}
 }
-//?}
+*///?}

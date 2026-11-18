@@ -1,5 +1,5 @@
 //? if >=1.20.5 {
-package fr.geoventure.geocore.registry;
+/*package fr.geoventure.geocore.registry;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.level.ItemLike;
 
-/** Default-component patches from registrars and item helpers, resolved only when the loader builds components. */
+/^* Default-component patches from registrars and item helpers, resolved only when the loader builds components. ^/
 public final class ComponentPatches {
 
     private ComponentPatches() {}
@@ -25,4 +25,4 @@ public final class ComponentPatches {
         return List.copyOf(PATCHES);
     }
 }
-//?}
+*///?}

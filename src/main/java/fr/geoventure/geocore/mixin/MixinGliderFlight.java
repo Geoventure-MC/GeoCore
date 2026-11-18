@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MixinGliderFlight {
 
     //? if >=26.1 {
-    @org.spongepowered.asm.mixin.injection.Inject(method = "canGlide", cancellable = true, at = @At(value = "FIELD",
+    /*@org.spongepowered.asm.mixin.injection.Inject(method = "canGlide", cancellable = true, at = @At(value = "FIELD",
             target = "Lnet/minecraft/world/entity/EquipmentSlot;VALUES:Ljava/util/List;",
             opcode = org.objectweb.asm.Opcodes.GETSTATIC))
     private void geocore$canGlide(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<Boolean> cir) {
@@ -40,8 +40,8 @@ public abstract class MixinGliderFlight {
     private void geocore$wear(org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
         if (Gliders.wearNow((LivingEntity) (Object) this)) ci.cancel();
     }
-    //?} elif !fabric {
-    /*@com.llamalad7.mixinextras.injector.ModifyExpressionValue(method = "updateFallFlying", at = @At(value = "INVOKE",
+    *///?} elif !fabric {
+    @com.llamalad7.mixinextras.injector.ModifyExpressionValue(method = "updateFallFlying", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/item/ItemStack;canElytraFly(Lnet/minecraft/world/entity/LivingEntity;)Z"))
     private boolean geocore$canFly(boolean vanilla) {
         return vanilla || Gliders.canGlide((LivingEntity) (Object) this);
@@ -54,5 +54,5 @@ public abstract class MixinGliderFlight {
         if (chest.canElytraFly(entity)) return original.call(chest, entity, flightTicks);
         return Gliders.flightTick(entity, flightTicks);
     }
-    *///?}
+    //?}
 }

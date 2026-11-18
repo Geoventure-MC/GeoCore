@@ -35,28 +35,28 @@ public final class Compat {
      */
     public static boolean hurt(Entity entity, ServerLevel level, DamageSource source, float amount) {
         //? if >=26.1 {
-        return entity.hurtServer(level, source, amount);
-        //?} else {
-        /*return entity.hurt(source, amount);
-        *///?}
+        /*return entity.hurtServer(level, source, amount);
+        *///?} else {
+        return entity.hurt(source, amount);
+        //?}
     }
 
     /** Tests a block against the tool tier used by the shared GEONTM mining tools. */
     public static boolean isCorrectToolForDrops(
             net.minecraft.world.level.block.state.BlockState state, int tier) {
         //? if >=1.21.1 {
-        if (tier >= 4) return !state.is(net.minecraft.tags.BlockTags.INCORRECT_FOR_NETHERITE_TOOL);
+        /*if (tier >= 4) return !state.is(net.minecraft.tags.BlockTags.INCORRECT_FOR_NETHERITE_TOOL);
         if (tier == 3) return !state.is(net.minecraft.tags.BlockTags.INCORRECT_FOR_DIAMOND_TOOL);
         if (tier == 2) return !state.is(net.minecraft.tags.BlockTags.INCORRECT_FOR_IRON_TOOL);
         if (tier == 1) return !state.is(net.minecraft.tags.BlockTags.INCORRECT_FOR_STONE_TOOL);
         return !state.is(net.minecraft.tags.BlockTags.INCORRECT_FOR_WOODEN_TOOL);
-        //?} else {
-        /*if (tier >= 4) return true;
+        *///?} else {
+        if (tier >= 4) return true;
         if (tier == 3) return !state.is(net.minecraft.tags.BlockTags.NEEDS_DIAMOND_TOOL);
         if (tier == 2) return !state.is(net.minecraft.tags.BlockTags.NEEDS_IRON_TOOL);
         if (tier == 1) return !state.is(net.minecraft.tags.BlockTags.NEEDS_STONE_TOOL);
         return !state.requiresCorrectToolForDrops();
-        *///?}
+        //?}
     }
 
     /**
@@ -69,10 +69,10 @@ public final class Compat {
             net.minecraft.world.level.block.state.BlockState state, Level level,
             net.minecraft.world.entity.player.Player player, net.minecraft.world.phys.BlockHitResult hit) {
         //? if >=1.21.1 {
-        return state.useWithoutItem(level, player, hit);
-        //?} else {
-        /*return state.use(level, player, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
-        *///?}
+        /*return state.useWithoutItem(level, player, hit);
+        *///?} else {
+        return state.use(level, player, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+        //?}
     }
 
     /**
@@ -84,10 +84,10 @@ public final class Compat {
     public static boolean causeFallDamage(Entity entity, float fallDistance, float damageMultiplier,
             DamageSource source) {
         //? if >=26.1 {
-        return entity.causeFallDamage((double) fallDistance, damageMultiplier, source);
-        //?} else {
-        /*return entity.causeFallDamage(fallDistance, damageMultiplier, source);
-        *///?}
+        /*return entity.causeFallDamage((double) fallDistance, damageMultiplier, source);
+        *///?} else {
+        return entity.causeFallDamage(fallDistance, damageMultiplier, source);
+        //?}
     }
 
     /**
@@ -98,30 +98,30 @@ public final class Compat {
      */
     public static int selectedSlot(net.minecraft.world.entity.player.Player player) {
         //? if >=26.1 {
-        return player.getInventory().getSelectedSlot();
-        //?} else {
-        /*return player.getInventory().selected;
-        *///?}
+        /*return player.getInventory().getSelectedSlot();
+        *///?} else {
+        return player.getInventory().selected;
+        //?}
     }
 
     /** Sets the selected hotbar slot across the private-access change at 26.1. */
     public static void setSelectedSlot(net.minecraft.world.entity.player.Player player, int slot) {
         //? if >=26.1 {
-        player.getInventory().setSelectedSlot(slot);
-        //?} else {
-        /*player.getInventory().selected = slot;
-        *///?}
+        /*player.getInventory().setSelectedSlot(slot);
+        *///?} else {
+        player.getInventory().selected = slot;
+        //?}
     }
 
     /** Tells the client about a server-side selected-slot change across the packet rename. */
     public static void syncSelectedSlot(net.minecraft.server.level.ServerPlayer player) {
         //? if >=26.1 {
-        player.connection.send(new net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket(
+        /*player.connection.send(new net.minecraft.network.protocol.game.ClientboundSetHeldSlotPacket(
                 selectedSlot(player)));
-        //?} else {
-        /*player.connection.send(new net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket(
+        *///?} else {
+        player.connection.send(new net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket(
                 selectedSlot(player)));
-        *///?}
+        //?}
     }
 
     /**
@@ -151,12 +151,12 @@ public final class Compat {
      */
     public static int burnDuration(Level level, ItemStack stack) {
         //? if >=26.1 {
-        return level == null ? 0 : level.fuelValues().burnDuration(stack);
-        //?} elif forge {
-        /*// ForgeHooks asks the item and then FurnaceFuelBurnTimeEvent, as the vanilla furnace does;
+        /*return level == null ? 0 : level.fuelValues().burnDuration(stack);
+        *///?} elif forge {
+        // ForgeHooks asks the item and then FurnaceFuelBurnTimeEvent, as the vanilla furnace does;
         // the static vanilla fuel map alone misses every modded fuel on Forge.
         return stack.isEmpty() ? 0 : Math.max(0, net.minecraftforge.common.ForgeHooks.getBurnTime(stack, null));
-        *///?} elif neoforge {
+        //?} elif neoforge {
         /*// the neoforge:furnace_fuels data map and the burn-time event, as the vanilla furnace reads them
         return stack.isEmpty() ? 0 : Math.max(0, stack.getBurnTime(null));
         *///?} else {
@@ -179,21 +179,21 @@ public final class Compat {
      */
     public static Item.Properties blockDescription(Item.Properties properties) {
         //? if >=26.1 {
-        return properties.useBlockDescriptionPrefix();
-        //?} else {
-        /*BLOCK_DESCRIPTION.add(properties);
+        /*return properties.useBlockDescriptionPrefix();
+        *///?} else {
+        BLOCK_DESCRIPTION.add(properties);
         return properties;
-        *///?}
+        //?}
     }
 
     //? if <26.1 {
-    /*private static final java.util.Set<Item.Properties> BLOCK_DESCRIPTION =
+    private static final java.util.Set<Item.Properties> BLOCK_DESCRIPTION =
             java.util.Collections.synchronizedSet(java.util.Collections.newSetFromMap(new java.util.WeakHashMap<>()));
 
     static boolean takeBlockDescription(Item.Properties properties) {
         return BLOCK_DESCRIPTION.remove(properties);
     }
-    *///?}
+    //?}
 
     /**
      * Chunk coordinates. 26.1 made {@code ChunkPos} a record with {@code x()}/{@code z()} accessors;
@@ -202,19 +202,19 @@ public final class Compat {
      */
     public static int chunkX(net.minecraft.world.level.ChunkPos pos) {
         //? if >=26.1 {
-        return pos.x();
-        //?} else {
-        /*return pos.x;
-        *///?}
+        /*return pos.x();
+        *///?} else {
+        return pos.x;
+        //?}
     }
 
     /** @see #chunkX */
     public static int chunkZ(net.minecraft.world.level.ChunkPos pos) {
         //? if >=26.1 {
-        return pos.z();
-        //?} else {
-        /*return pos.z;
-        *///?}
+        /*return pos.z();
+        *///?} else {
+        return pos.z;
+        //?}
     }
 
     /**
@@ -228,10 +228,10 @@ public final class Compat {
      */
     public static boolean isSolidRender(net.minecraft.world.level.block.state.BlockState state) {
         //? if >=26.1 {
-        return state.isSolidRender();
-        //?} else {
-        /*return state.canOcclude();
-        *///?}
+        /*return state.isSolidRender();
+        *///?} else {
+        return state.canOcclude();
+        //?}
     }
 
     /**
@@ -246,10 +246,10 @@ public final class Compat {
                                         net.minecraft.world.level.BlockGetter level,
                                         net.minecraft.core.BlockPos pos) {
         //? if >=26.1 {
-        return state.isSolidRender();
-        //?} else {
-        /*return state.isSolidRender(level, pos);
-        *///?}
+        /*return state.isSolidRender();
+        *///?} else {
+        return state.isSolidRender(level, pos);
+        //?}
     }
 
     /**
@@ -261,12 +261,12 @@ public final class Compat {
             net.minecraft.tags.TagKey<Item> tag) {
         java.util.List<net.minecraft.world.item.ItemStack> stacks = new java.util.ArrayList<>();
         //? if >=26.1 {
-        net.minecraft.core.registries.BuiltInRegistries.ITEM.get(tag)
+        /*net.minecraft.core.registries.BuiltInRegistries.ITEM.get(tag)
                 .ifPresent(named -> named.forEach(h -> stacks.add(new net.minecraft.world.item.ItemStack(h))));
-        //?} else {
-        /*net.minecraft.core.registries.BuiltInRegistries.ITEM.getTag(tag)
+        *///?} else {
+        net.minecraft.core.registries.BuiltInRegistries.ITEM.getTag(tag)
                 .ifPresent(named -> named.forEach(h -> stacks.add(new net.minecraft.world.item.ItemStack(h))));
-        *///?}
+        //?}
         return stacks;
     }
 
@@ -280,10 +280,10 @@ public final class Compat {
     public static java.util.List<net.minecraft.tags.TagKey<Item>> itemTagKeys() {
         java.util.List<net.minecraft.tags.TagKey<Item>> keys = new java.util.ArrayList<>();
         //? if >=26.1 {
-        net.minecraft.core.registries.BuiltInRegistries.ITEM.getTags().forEach(named -> keys.add(named.key()));
-        //?} else {
-        /*net.minecraft.core.registries.BuiltInRegistries.ITEM.getTags().forEach(pair -> keys.add(pair.getFirst()));
-        *///?}
+        /*net.minecraft.core.registries.BuiltInRegistries.ITEM.getTags().forEach(named -> keys.add(named.key()));
+        *///?} else {
+        net.minecraft.core.registries.BuiltInRegistries.ITEM.getTags().forEach(pair -> keys.add(pair.getFirst()));
+        //?}
         return keys;
     }
 
@@ -299,10 +299,10 @@ public final class Compat {
             net.minecraft.world.level.ClipContext.Fluid fluid) {
         return level.clip(new net.minecraft.world.level.ClipContext(from, to, block, fluid,
                 //? if >=1.20.5 {
-                net.minecraft.world.phys.shapes.CollisionContext.empty()
-                //?} else {
-                /*(net.minecraft.world.entity.Entity) null
-                *///?}
+                /*net.minecraft.world.phys.shapes.CollisionContext.empty()
+                *///?} else {
+                (net.minecraft.world.entity.Entity) null
+                //?}
         ));
     }
 
@@ -319,15 +319,15 @@ public final class Compat {
         // whole call sits inside the guard. A Stonecutter replacement would live in the consuming
         // project's config, and this library has to compile on its own.
         //? if >=26.1 {
-        net.minecraft.world.item.component.UseRemainder component =
+        /*net.minecraft.world.item.component.UseRemainder component =
                 stack.get(net.minecraft.core.component.DataComponents.USE_REMAINDER);
         if (component != null) return component.convertInto().create();
         var remainder = stack.getItem().getCraftingRemainder();
         return remainder != null ? remainder.create() : ItemStack.EMPTY;
-        //?} else {
-        /*var remainder = stack.getItem().getCraftingRemainingItem();
+        *///?} else {
+        var remainder = stack.getItem().getCraftingRemainingItem();
         return remainder != null ? new ItemStack(remainder) : ItemStack.EMPTY;
-        *///?}
+        //?}
     }
 
     /** Applies an item's crafting remainder property across the supported item-property APIs. */
@@ -338,22 +338,22 @@ public final class Compat {
     /** Counts non-empty stacks stored in an item's container component or legacy block-entity tag. */
     public static int containerItemCount(ItemStack stack, int slots) {
         //? if >=1.20.5 {
-        net.minecraft.world.item.component.ItemContainerContents contents =
+        /*net.minecraft.world.item.component.ItemContainerContents contents =
                 stack.get(net.minecraft.core.component.DataComponents.CONTAINER);
         //? if >=26.1 {
-        return contents == null ? 0 : (int) contents.nonEmptyItemCopyStream().count();
-        //?} else {
-        /*return contents == null ? 0 : (int) contents.nonEmptyStream().count();
-        *///?}
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag tag = stack.getTag();
+        /^return contents == null ? 0 : (int) contents.nonEmptyItemCopyStream().count();
+        ^///?} else {
+        return contents == null ? 0 : (int) contents.nonEmptyStream().count();
+        //?}
+        *///?} else {
+        net.minecraft.nbt.CompoundTag tag = stack.getTag();
         if (tag == null || !tag.contains("BlockEntityTag", net.minecraft.nbt.Tag.TAG_COMPOUND)) return 0;
         net.minecraft.core.NonNullList<ItemStack> items = net.minecraft.core.NonNullList.withSize(slots, ItemStack.EMPTY);
         net.minecraft.world.ContainerHelper.loadAllItems(tag.getCompound("BlockEntityTag"), items);
         int used = 0;
         for (ItemStack item : items) if (!item.isEmpty()) used++;
         return used;
-        *///?}
+        //?}
     }
 
     /**
@@ -371,14 +371,14 @@ public final class Compat {
         // Nothing to do on 26.1: vanilla has already invoked it, and running it again would drop the
         // inventory twice.
         //? if <26.1 {
-        /*if (level == null || level.isClientSide()) return;
+        if (level == null || level.isClientSide()) return;
         // A sub-level system carrying the block elsewhere: its block entity, contents and all, already lives on
         // at the new position, so nothing may drop (or be rebuilt) at the old one.
         if (SubLevels.isMoving(level)) return;
         if (level.getBlockEntity(pos) instanceof fr.geoventure.geocore.data.CompatBlockEntity be) {
             be.preRemoveSideEffects(pos, state);
         }
-        *///?}
+        //?}
     }
 
     /**
@@ -409,16 +409,16 @@ public final class Compat {
     public static boolean setBlockWithRemoval(ServerLevel level, net.minecraft.core.BlockPos pos,
                                               net.minecraft.world.level.block.state.BlockState state, int flags) {
         //? if >=26.1 {
-        net.minecraft.world.level.block.state.BlockState old = level.getBlockState(pos);
+        /*net.minecraft.world.level.block.state.BlockState old = level.getBlockState(pos);
         boolean changed = level.setBlock(pos, state, flags);
         if (changed && (flags & (net.minecraft.world.level.block.Block.UPDATE_NEIGHBORS
                 | net.minecraft.world.level.block.Block.UPDATE_MOVE_BY_PISTON)) == 0) {
             blockRemoved(level, pos, old);
         }
         return changed;
-        //?} else {
-        /*return level.setBlock(pos, state, flags);
-        *///?}
+        *///?} else {
+        return level.setBlock(pos, state, flags);
+        //?}
     }
 
     /**
@@ -431,10 +431,10 @@ public final class Compat {
      */
     public static void markUnsaved(net.minecraft.world.level.chunk.ChunkAccess chunk) {
         //? if >=26.1 {
-        chunk.markUnsaved();
-        //?} else {
-        /*chunk.setUnsaved(true);
-        *///?}
+        /*chunk.markUnsaved();
+        *///?} else {
+        chunk.setUnsaved(true);
+        //?}
     }
 
     /**
@@ -447,8 +447,8 @@ public final class Compat {
     public static void onSectionEmptinessChanged(net.minecraft.server.level.ServerLevel level,
                                                  int chunkX, int sectionY, int chunkZ, boolean empty) {
         //? if >=26.1 {
-        level.getChunkSource().onSectionEmptinessChanged(chunkX, sectionY, chunkZ, empty);
-        //?}
+        /*level.getChunkSource().onSectionEmptinessChanged(chunkX, sectionY, chunkZ, empty);
+        *///?}
     }
 
     /**
@@ -460,10 +460,10 @@ public final class Compat {
     public static void updateNeighborsAt(Level level, net.minecraft.core.BlockPos pos,
                                          net.minecraft.world.level.block.Block block) {
         //? if >=26.1 {
-        level.updateNeighborsAt(pos, block, null);
-        //?} else {
-        /*level.updateNeighborsAt(pos, block);
-        *///?}
+        /*level.updateNeighborsAt(pos, block, null);
+        *///?} else {
+        level.updateNeighborsAt(pos, block);
+        //?}
     }
 
     /**
@@ -474,10 +474,10 @@ public final class Compat {
      */
     public static boolean isChunkForced(ServerLevel level, int chunkX, int chunkZ) {
         //? if >=26.1 {
-        return level.getForceLoadedChunks().contains(net.minecraft.world.level.ChunkPos.pack(chunkX, chunkZ));
-        //?} else {
-        /*return level.getForcedChunks().contains(net.minecraft.world.level.ChunkPos.asLong(chunkX, chunkZ));
-        *///?}
+        /*return level.getForceLoadedChunks().contains(net.minecraft.world.level.ChunkPos.pack(chunkX, chunkZ));
+        *///?} else {
+        return level.getForcedChunks().contains(net.minecraft.world.level.ChunkPos.asLong(chunkX, chunkZ));
+        //?}
     }
 
     /**
@@ -493,10 +493,10 @@ public final class Compat {
     public static void affectNeighborsAfterRemoval(ServerLevel level, net.minecraft.core.BlockPos pos,
                                                    net.minecraft.world.level.block.state.BlockState oldState) {
         //? if >=26.1 {
-        oldState.affectNeighborsAfterRemoval(level, pos, false);
-        //?} else {
-        /*oldState.onRemove(level, pos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), false);
-        *///?}
+        /*oldState.affectNeighborsAfterRemoval(level, pos, false);
+        *///?} else {
+        oldState.onRemove(level, pos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), false);
+        //?}
     }
 
     // Game rules and entity world-mutation permissions
@@ -512,37 +512,37 @@ public final class Compat {
     /** The {@code mobGriefing} game rule across the 26.1 typed game-rule API change. */
     public static boolean mobGriefing(ServerLevel level) {
         //? if >=26.1 {
-        return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_GRIEFING);
-        //?} else {
-        /*return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
-        *///?}
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_GRIEFING);
+        *///?} else {
+        return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        //?}
     }
 
     /** The {@code doMobLoot} game rule across the 26.1 typed game-rule API change. */
     public static boolean mobLoot(ServerLevel level) {
         //? if >=26.1 {
-        return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_DROPS);
-        //?} else {
-        /*return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DOMOBLOOT);
-        *///?}
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.MOB_DROPS);
+        *///?} else {
+        return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DOMOBLOOT);
+        //?}
     }
 
     /** The {@code doEntityDrops} game rule across the 26.1 typed game-rule API change. */
     public static boolean entityDrops(ServerLevel level) {
         //? if >=26.1 {
-        return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.ENTITY_DROPS);
-        //?} else {
-        /*return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DOENTITYDROPS);
-        *///?}
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.ENTITY_DROPS);
+        *///?} else {
+        return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DOENTITYDROPS);
+        //?}
     }
 
     /** The {@code doTileDrops} game rule across the 26.1 typed game-rule API change. */
     public static boolean blockDrops(ServerLevel level) {
         //? if >=26.1 {
-        return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.BLOCK_DROPS);
-        //?} else {
-        /*return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DOBLOCKDROPS);
-        *///?}
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.BLOCK_DROPS);
+        *///?} else {
+        return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_DOBLOCKDROPS);
+        //?}
     }
 
     /**
@@ -562,56 +562,56 @@ public final class Compat {
     public static net.minecraft.world.entity.item.ItemEntity spawnAtLocation(Entity entity, ServerLevel level,
                                                                              ItemStack stack) {
         //? if >=26.1 {
-        return entity.spawnAtLocation(level, stack);
-        //?} else {
-        /*return entity.spawnAtLocation(stack);
-        *///?}
+        /*return entity.spawnAtLocation(level, stack);
+        *///?} else {
+        return entity.spawnAtLocation(stack);
+        //?}
     }
 
     /** {@link #spawnAtLocation(Entity, ServerLevel, ItemStack)} with the vertical offset overload. */
     public static net.minecraft.world.entity.item.ItemEntity spawnAtLocation(Entity entity, ServerLevel level,
                                                                              ItemStack stack, float offset) {
         //? if >=26.1 {
-        return entity.spawnAtLocation(level, stack, offset);
-        //?} else {
-        /*return entity.spawnAtLocation(stack, offset);
-        *///?}
+        /*return entity.spawnAtLocation(level, stack, offset);
+        *///?} else {
+        return entity.spawnAtLocation(stack, offset);
+        //?}
     }
 
     /** {@code Mob.doHurtTarget} across the 26.1 explicit-level change. */
     public static boolean doHurtTarget(net.minecraft.world.entity.Mob mob, ServerLevel level, Entity target) {
         //? if >=26.1 {
-        return mob.doHurtTarget(level, target);
-        //?} else {
-        /*return mob.doHurtTarget(target);
-        *///?}
+        /*return mob.doHurtTarget(level, target);
+        *///?} else {
+        return mob.doHurtTarget(target);
+        //?}
     }
 
     /** {@code LivingEntity.isInvulnerableTo} across the 26.1 explicit-level change. */
     public static boolean isInvulnerableTo(net.minecraft.world.entity.LivingEntity entity, ServerLevel level,
                                            DamageSource source) {
         //? if >=26.1 {
-        return entity.isInvulnerableTo(level, source);
-        //?} else {
-        /*return entity.isInvulnerableTo(source);
-        *///?}
+        /*return entity.isInvulnerableTo(level, source);
+        *///?} else {
+        return entity.isInvulnerableTo(source);
+        //?}
     }
 
     /** {@code Entity.lerpMotion} across the 26.1 vector-argument change. */
     public static void lerpMotion(Entity entity, net.minecraft.world.phys.Vec3 movement) {
         //? if >=26.1 {
-        entity.lerpMotion(movement);
-        //?} else {
-        /*entity.lerpMotion(movement.x, movement.y, movement.z);
-        *///?}
+        /*entity.lerpMotion(movement);
+        *///?} else {
+        entity.lerpMotion(movement.x, movement.y, movement.z);
+        //?}
     }
     /** The explosion knockback resistance attribute (added in 1.21); 0 where the attribute does not exist. */
     public static double explosionKnockbackResistance(net.minecraft.world.entity.LivingEntity living) {
         //? if >=1.21.1 {
-        return living.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.EXPLOSION_KNOCKBACK_RESISTANCE);
-        //?} else {
-        /*return 0.0D;
-        *///?}
+        /*return living.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.EXPLOSION_KNOCKBACK_RESISTANCE);
+        *///?} else {
+        return 0.0D;
+        //?}
     }
 
     /**
@@ -621,12 +621,12 @@ public final class Compat {
     public static void syncPosition(Entity entity) {
         if (!(entity.level() instanceof ServerLevel server)) return;
         //? if >=26.1 {
-        server.getChunkSource().chunkMap.sendToTrackingPlayers(entity,
+        /*server.getChunkSource().chunkMap.sendToTrackingPlayers(entity,
                 net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket.of(entity));
-        //?} else {
-        /*server.getChunkSource().chunkMap.broadcast(entity,
+        *///?} else {
+        server.getChunkSource().chunkMap.broadcast(entity,
                 new net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket(entity));
-        *///?}
+        //?}
     }
 
 
@@ -642,10 +642,10 @@ public final class Compat {
     /** {@code Entity.kill}, which took the level from 26.1 on. */
     public static void kill(Entity entity, ServerLevel level) {
         //? if >=26.1 {
-        entity.kill(level);
-        //?} else {
-        /*entity.kill();
-        *///?}
+        /*entity.kill(level);
+        *///?} else {
+        entity.kill();
+        //?}
     }
 
     /** Sends a packet to every client tracking {@code entity}, across the chunk-map method rename. */
@@ -653,28 +653,28 @@ public final class Compat {
             net.minecraft.network.protocol.Packet<? super net.minecraft.network.protocol.game.ClientGamePacketListener> packet) {
         if (!(entity.level() instanceof ServerLevel server)) return;
         //? if >=26.1 {
-        server.getChunkSource().chunkMap.sendToTrackingPlayers(entity, packet);
-        //?} else {
-        /*server.getChunkSource().chunkMap.broadcast(entity, packet);
-        *///?}
+        /*server.getChunkSource().chunkMap.sendToTrackingPlayers(entity, packet);
+        *///?} else {
+        server.getChunkSource().chunkMap.broadcast(entity, packet);
+        //?}
     }
 
     /** 26.1 {@code Block.UPDATE_SKIP_BLOCK_ENTITY_SIDEEFFECTS}; no such flag exists before it (0 = no-op bit). */
     public static final int UPDATE_SKIP_BLOCK_ENTITY_SIDEEFFECTS =
             //? if >=26.1 {
-            net.minecraft.world.level.block.Block.UPDATE_SKIP_BLOCK_ENTITY_SIDEEFFECTS;
-            //?} else {
-            /*0;
-            *///?}
+            /*net.minecraft.world.level.block.Block.UPDATE_SKIP_BLOCK_ENTITY_SIDEEFFECTS;
+            *///?} else {
+            0;
+            //?}
 
     /** A dust particle of one packed RGB colour, across the colour-argument type change. */
     public static net.minecraft.core.particles.DustParticleOptions dust(int rgb, float scale) {
         //? if >=26.1 {
-        return new net.minecraft.core.particles.DustParticleOptions(rgb, scale);
-        //?} else {
-        /*return new net.minecraft.core.particles.DustParticleOptions(
+        /*return new net.minecraft.core.particles.DustParticleOptions(rgb, scale);
+        *///?} else {
+        return new net.minecraft.core.particles.DustParticleOptions(
                 net.minecraft.world.phys.Vec3.fromRGB24(rgb).toVector3f(), scale);
-        *///?}
+        //?}
     }
 
     /** A boss bar owned by {@code owner}; 26.1 keys it by the owner's UUID, older versions mint their own. */
@@ -687,53 +687,53 @@ public final class Compat {
     public static ServerBossEvent bossEvent(UUID id, Component name,
             BossEvent.BossBarColor color, BossEvent.BossBarOverlay overlay) {
         //? if >=26.1 {
-        return new ServerBossEvent(id, name, color, overlay);
-        //?} else {
-        /*return new net.minecraft.server.level.ServerBossEvent(name, color, overlay);
-        *///?}
+        /*return new ServerBossEvent(id, name, color, overlay);
+        *///?} else {
+        return new net.minecraft.server.level.ServerBossEvent(name, color, overlay);
+        //?}
     }
 
     /** The rider's forward/back input as -1/0/1 (26.1 {@code getLastClientInput}; earlier the {@code zza} axis). */
     public static int clientForwardInput(net.minecraft.server.level.ServerPlayer player) {
         //? if >=26.1 {
-        boolean f = player.getLastClientInput().forward();
+        /*boolean f = player.getLastClientInput().forward();
         boolean b = player.getLastClientInput().backward();
         return f == b ? 0 : f ? 1 : -1;
-        //?} else {
-        /*return player.zza > 0 ? 1 : player.zza < 0 ? -1 : 0;
-        *///?}
+        *///?} else {
+        return player.zza > 0 ? 1 : player.zza < 0 ? -1 : 0;
+        //?}
     }
 
     /** Whether the server player holds sneak (1.21.2 {@code getLastClientInput}; earlier {@code isShiftKeyDown}). */
     public static boolean clientSneakHeld(ServerPlayer player) {
         //? if >=1.21.2 {
-        return player.getLastClientInput().shift();
-        //?} else {
-        /*return player.isShiftKeyDown();
-        *///?}
+        /*return player.getLastClientInput().shift();
+        *///?} else {
+        return player.isShiftKeyDown();
+        //?}
     }
 
     /** A random item of a tag, or empty when the tag is empty/absent (26.1 {@code Registry.getRandomElementOf}). */
     public static java.util.Optional<net.minecraft.world.item.Item> randomItemOf(
             net.minecraft.tags.TagKey<net.minecraft.world.item.Item> tag, net.minecraft.util.RandomSource random) {
         //? if >=26.1 {
-        return net.minecraft.core.registries.BuiltInRegistries.ITEM.getRandomElementOf(tag, random)
+        /*return net.minecraft.core.registries.BuiltInRegistries.ITEM.getRandomElementOf(tag, random)
                 .map(net.minecraft.core.Holder::value);
-        //?} else {
-        /*return net.minecraft.core.registries.BuiltInRegistries.ITEM.getTag(tag)
+        *///?} else {
+        return net.minecraft.core.registries.BuiltInRegistries.ITEM.getTag(tag)
                 .flatMap(named -> named.getRandomElement(random)).map(net.minecraft.core.Holder::value);
-        *///?}
+        //?}
     }
 
     /** One large-ball firework burst of a single colour with trail and flicker, in each era's explosion format. */
     public static void fireworkBurst(net.minecraft.world.level.Level level, double x, double y, double z, int color) {
         //? if >=1.20.5 {
-        level.createFireworks(x, y, z, 0.0D, 0.0D, 0.0D, java.util.List.of(
+        /*level.createFireworks(x, y, z, 0.0D, 0.0D, 0.0D, java.util.List.of(
                 new net.minecraft.world.item.component.FireworkExplosion(
                         net.minecraft.world.item.component.FireworkExplosion.Shape.LARGE_BALL,
                         it.unimi.dsi.fastutil.ints.IntList.of(color), it.unimi.dsi.fastutil.ints.IntList.of(), true, true)));
-        //?} else {
-        /*net.minecraft.nbt.CompoundTag explosion = new net.minecraft.nbt.CompoundTag();
+        *///?} else {
+        net.minecraft.nbt.CompoundTag explosion = new net.minecraft.nbt.CompoundTag();
         explosion.putByte("Type", (byte) 1); // LARGE_BALL
         explosion.putIntArray("Colors", new int[]{color});
         explosion.putBoolean("Trail", true);
@@ -743,49 +743,49 @@ public final class Compat {
         net.minecraft.nbt.CompoundTag fireworks = new net.minecraft.nbt.CompoundTag();
         fireworks.put("Explosions", explosions);
         level.createFireworks(x, y, z, 0.0D, 0.0D, 0.0D, fireworks);
-        *///?}
+        //?}
     }
 
     /** {@code -1} water pathfinding malus (26.1 {@code PathType.WATER}; {@code BlockPathTypes.WATER} before 1.20.5). */
     public static void avoidWater(net.minecraft.world.entity.Mob mob) {
         //? if >=1.20.5 {
-        mob.setPathfindingMalus(net.minecraft.world.level.pathfinder.PathType.WATER, -1.0F);
-        //?} else {
-        /*mob.setPathfindingMalus(net.minecraft.world.level.pathfinder.BlockPathTypes.WATER, -1.0F);
-        *///?}
+        /*mob.setPathfindingMalus(net.minecraft.world.level.pathfinder.PathType.WATER, -1.0F);
+        *///?} else {
+        mob.setPathfindingMalus(net.minecraft.world.level.pathfinder.BlockPathTypes.WATER, -1.0F);
+        //?}
     }
 
     /** The attacker's looting level (1.7 {@code EnchantmentHelper.getLootingModifier}), across the holder-keyed enchantment API. */
     public static int lootingLevel(ServerLevel level, net.minecraft.world.entity.LivingEntity attacker) {
         //? if >=1.21.1 {
-        net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment> looting = level.registryAccess()
+        /*net.minecraft.core.Holder<net.minecraft.world.item.enchantment.Enchantment> looting = level.registryAccess()
                 .lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
                 .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.LOOTING);
         return net.minecraft.world.item.enchantment.EnchantmentHelper.getEnchantmentLevel(looting, attacker);
-        //?} else {
-        /*return net.minecraft.world.item.enchantment.EnchantmentHelper.getMobLooting(attacker);
-        *///?}
+        *///?} else {
+        return net.minecraft.world.item.enchantment.EnchantmentHelper.getMobLooting(attacker);
+        //?}
     }
 
     /** Creative-style infinite materials (1.20.5 {@code hasInfiniteMaterials}; {@code instabuild} before). */
     public static boolean hasInfiniteMaterials(net.minecraft.world.entity.player.Player player) {
         //? if >=1.20.5 {
-        return player.hasInfiniteMaterials();
-        //?} else {
-        /*return player.getAbilities().instabuild;
-        *///?}
+        /*return player.hasInfiniteMaterials();
+        *///?} else {
+        return player.getAbilities().instabuild;
+        //?}
     }
 
     /** Post-attack enchantment effects on a hit (1.21.1's item-source form; the paired hurt/damage hooks before). */
     public static void doPostAttackEffects(ServerLevel level, net.minecraft.world.entity.LivingEntity target,
                                            net.minecraft.world.damagesource.DamageSource source) {
         //? if >=1.21.1 {
-        net.minecraft.world.item.enchantment.EnchantmentHelper.doPostAttackEffectsWithItemSource(level, target, source, null);
-        //?} else {
-        /*if (source.getEntity() instanceof net.minecraft.world.entity.LivingEntity attacker) {
+        /*net.minecraft.world.item.enchantment.EnchantmentHelper.doPostAttackEffectsWithItemSource(level, target, source, null);
+        *///?} else {
+        if (source.getEntity() instanceof net.minecraft.world.entity.LivingEntity attacker) {
             net.minecraft.world.item.enchantment.EnchantmentHelper.doPostHurtEffects(target, attacker);
             net.minecraft.world.item.enchantment.EnchantmentHelper.doPostDamageEffects(attacker, target);
         }
-        *///?}
+        //?}
     }
 }

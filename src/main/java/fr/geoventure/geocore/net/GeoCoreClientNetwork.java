@@ -111,12 +111,12 @@ final class GeoCoreClientNetwork {
     // needs a home here. Forge is absent on purpose: its SimpleChannel.sendToServer touches no
     // client-only type, so routing it through this class would buy nothing.
     //? if neoforge {
-    static <P extends GeoCorePayload> void sendToServer(GeoCoreCodec<P> codec, P payload) {
+    /*static <P extends GeoCorePayload> void sendToServer(GeoCoreCodec<P> codec, P payload) {
         net.minecraft.client.multiplayer.ClientPacketListener connection =
                 net.minecraft.client.Minecraft.getInstance().getConnection();
         if (connection != null) {
             connection.send(new net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket(payload));
         }
     }
-    //?}
+    *///?}
 }

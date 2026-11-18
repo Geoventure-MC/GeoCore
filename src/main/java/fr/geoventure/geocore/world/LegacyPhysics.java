@@ -1,19 +1,19 @@
 package fr.geoventure.geocore.world;
 
 //? if <1.20.5 {
-/*import fr.geoventure.geocore.GeoCore;
+import fr.geoventure.geocore.GeoCore;
 import fr.geoventure.geocore.registry.DeferredRegister;
 import fr.geoventure.geocore.registry.RegistryObject;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 
-/^*
+/**
  * 1.20.1's backport of the 1.20.5 physics attributes (see {@link Physics}): {@code geocore:generic.safe_fall_distance}
  * and {@code geocore:generic.fall_damage_multiplier} on both loaders, and {@code geocore:generic.gravity} on Fabric
  * (Forge already has {@code forge:entity_gravity}, applied by its own patch). Same defaults and bounds as 1.20.5.
  * Added to every living entity (created on demand by {@code MixinLegacyAttributeSupplier}) and applied by {@code MixinLegacyLivingPhysics}.
- ^/
+ */
 public final class LegacyPhysics {
 
     private static final DeferredRegister<Attribute> ATTRIBUTES =
@@ -30,14 +30,14 @@ public final class LegacyPhysics {
 
     private LegacyPhysics() {}
 
-    /^* GeoCore's entrypoints call this so the register exists before any registry is filled. ^/
+    /** GeoCore's entrypoints call this so the register exists before any registry is filled. */
     public static void init() {}
 
-    /^* Whether {@code attribute} is one of the backported three, created on demand on every living entity. ^/
+    /** Whether {@code attribute} is one of the backported three, created on demand on every living entity. */
     public static boolean isBackported(Attribute attribute) {
         return (GRAVITY != null && attribute == GRAVITY.get()) || attribute == SAFE_FALL_DISTANCE.get()
                 || attribute == FALL_DAMAGE_MULTIPLIER.get();
     }
 
 }
-*///?}
+//?}

@@ -23,9 +23,9 @@ public final class LootRequires implements LootItemCondition {
     /*private static final net.minecraft.world.level.storage.loot.predicates.LootItemConditionType TYPE =
             new net.minecraft.world.level.storage.loot.predicates.LootItemConditionType(CODEC);
     *///?} elif <1.20.5 {
-    /*private static final net.minecraft.world.level.storage.loot.predicates.LootItemConditionType TYPE =
+    private static final net.minecraft.world.level.storage.loot.predicates.LootItemConditionType TYPE =
             new net.minecraft.world.level.storage.loot.predicates.LootItemConditionType(new Json());
-    *///?}
+    //?}
 
     private static boolean registered;
 
@@ -40,10 +40,10 @@ public final class LootRequires implements LootItemCondition {
         if (registered) return;
         registered = true;
         //? if >=26.1 {
-        DeferredRegister.create(() -> Registries.LOOT_CONDITION_TYPE, GeoCore.MOD_ID).register("requires", () -> CODEC);
-        //?} else {
-        /*DeferredRegister.create(() -> Registries.LOOT_CONDITION_TYPE, GeoCore.MOD_ID).register("requires", () -> TYPE);
-        *///?}
+        /*DeferredRegister.create(() -> Registries.LOOT_CONDITION_TYPE, GeoCore.MOD_ID).register("requires", () -> CODEC);
+        *///?} else {
+        DeferredRegister.create(() -> Registries.LOOT_CONDITION_TYPE, GeoCore.MOD_ID).register("requires", () -> TYPE);
+        //?}
     }
 
     @Override
@@ -52,19 +52,19 @@ public final class LootRequires implements LootItemCondition {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public MapCodec<? extends LootItemCondition> codec() {
         return CODEC;
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.world.level.storage.loot.predicates.LootItemConditionType getType() {
         return TYPE;
     }
-    *///?}
+    //?}
 
     //? if <1.20.5 {
-    /*private static final class Json implements net.minecraft.world.level.storage.loot.Serializer<LootRequires> {
+    private static final class Json implements net.minecraft.world.level.storage.loot.Serializer<LootRequires> {
         @Override
         public void serialize(com.google.gson.JsonObject json, LootRequires condition,
                               com.google.gson.JsonSerializationContext context) {
@@ -80,5 +80,5 @@ public final class LootRequires implements LootItemCondition {
             return new LootRequires(list);
         }
     }
-    *///?}
+    //?}
 }

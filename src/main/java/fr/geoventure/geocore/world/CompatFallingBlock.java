@@ -17,22 +17,22 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 public abstract class CompatFallingBlock extends FallingBlock {
 
     //? if >=1.21.1 {
-    private final com.mojang.serialization.MapCodec<? extends FallingBlock> blockCodec;
-    //?}
+    /*private final com.mojang.serialization.MapCodec<? extends FallingBlock> blockCodec;
+    *///?}
 
     /** @param factory this block's own constructor reference, used to build the block codec. */
     protected <B extends CompatFallingBlock> CompatFallingBlock(BlockBehaviour.Properties properties,
                                                                 Function<BlockBehaviour.Properties, B> factory) {
         super(properties);
         //? if >=1.21.1 {
-        this.blockCodec = simpleCodec(factory);
-        //?}
+        /*this.blockCodec = simpleCodec(factory);
+        *///?}
     }
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public com.mojang.serialization.MapCodec<? extends FallingBlock> codec() {
         return blockCodec;
     }
-    //?}
+    *///?}
 }

@@ -17,14 +17,14 @@ public final class Scissors {
     private Scissors() {}
 
     //? if <26.1 {
-    /*private static final java.util.ArrayDeque<int[]> SAVED = new java.util.ArrayDeque<>();
+    private static final java.util.ArrayDeque<int[]> SAVED = new java.util.ArrayDeque<>();
     private static final int[] NONE = new int[0];
-    *///?}
+    //?}
 
     /** Clips to the framebuffer rectangle (origin bottom-left) within the current clip; false if nothing is set. */
     public static boolean push(int x, int y, int width, int height) {
         //? if <26.1 {
-        /*boolean enabled = org.lwjgl.opengl.GL11.glIsEnabled(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        boolean enabled = org.lwjgl.opengl.GL11.glIsEnabled(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
         int[] box = new int[4];
         if (enabled) org.lwjgl.opengl.GL11.glGetIntegerv(org.lwjgl.opengl.GL11.GL_SCISSOR_BOX, box);
         SAVED.push(enabled ? box : NONE); // ArrayDeque refuses null: NONE marks "no clip was active"
@@ -37,21 +37,21 @@ public final class Scissors {
         }
         com.mojang.blaze3d.systems.RenderSystem.enableScissor(x0, y0, Math.max(0, x1 - x0), Math.max(0, y1 - y0));
         return true;
-        *///?} else {
-        return false;
-        //?}
+        //?} else {
+        /*return false;
+        *///?}
     }
 
     /** Restores the clip {@link #push} found. */
     public static void pop() {
         //? if <26.1 {
-        /*if (SAVED.isEmpty()) {
+        if (SAVED.isEmpty()) {
             com.mojang.blaze3d.systems.RenderSystem.disableScissor();
             return;
         }
         int[] box = SAVED.pop();
         if (box == NONE) com.mojang.blaze3d.systems.RenderSystem.disableScissor();
         else com.mojang.blaze3d.systems.RenderSystem.enableScissor(box[0], box[1], box[2], box[3]);
-        *///?}
+        //?}
     }
 }

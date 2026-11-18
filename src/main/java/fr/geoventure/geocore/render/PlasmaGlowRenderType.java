@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import com.mojang.blaze3d.pipeline.BlendFunction;
+/*import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -14,15 +14,15 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 
 import java.util.function.Function;
-//?} else {
-/*import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+*///?} else {
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.Util;
 
 import java.util.function.Function;
-*///?}
+//?}
 
 /**
  * The render type for a self-lit glow drawn over solid geometry (plasma, beams, flames), with the state a 1.7
@@ -50,12 +50,12 @@ public final class PlasmaGlowRenderType {
     /** Register during client initialization, before Forge dispatches its reload-registration event. */
     public static void init() {
         //? if <1.21 {
-        /*Factory.registerReloads();
-        *///?}
+        Factory.registerReloads();
+        //?}
     }
 
     //? if >=26.1 {
-    private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
+    /*private static final RenderPipeline PIPELINE = WorldPipelines.add(RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET)
             .withLocation("pipeline/geocore_plasma_glow")
             .withVertexShader("core/entity")
             .withFragmentShader("core/entity")
@@ -101,16 +101,16 @@ public final class PlasmaGlowRenderType {
     public static RenderType ofSeeThrough(Identifier texture) {
         return SEE_THROUGH.apply(texture);
     }
-    //?} else {
-    /*/^*
+    *///?} else {
+    /**
      * Pre-26.1 there is no pipeline object; the same state is a {@code CompositeState}. {@code create}
      * is protected on {@code RenderType}, hence the subclass.
-     ^/
+     */
     private static final class Factory extends RenderType {
         private Factory() { super(null, null, null, 0, false, false, null, null); }
 
         //? if <1.21 {
-        /^private static net.minecraft.client.renderer.ShaderInstance shader;
+        private static net.minecraft.client.renderer.ShaderInstance shader;
         private static boolean reloadRegistered;
 
         private static void registerReloads() {
@@ -153,7 +153,7 @@ public final class PlasmaGlowRenderType {
             }
             return shader;
         }
-        ^///?}
+        //?}
 
         static RenderType glow(ResourceLocation texture) {
             return glow(texture, false);
@@ -164,10 +164,10 @@ public final class PlasmaGlowRenderType {
                     DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
                     CompositeState.builder()
                             //? if <1.21 {
-                            /^.setShaderState(new ShaderStateShard(Factory::shader))
-                            ^///?} else {
-                            .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
-                            //?}
+                            .setShaderState(new ShaderStateShard(Factory::shader))
+                            //?} else {
+                            /*.setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
+                            *///?}
                             .setTextureState(new TextureStateShard(texture, false, false))
                             // SRC_ALPHA / ONE - the alpha-weighted additive blend, not ONE/ONE.
                             .setTransparencyState(LIGHTNING_TRANSPARENCY)
@@ -191,5 +191,5 @@ public final class PlasmaGlowRenderType {
     public static RenderType ofSeeThrough(ResourceLocation texture) {
         return SEE_THROUGH.apply(texture);
     }
-    *///?}
+    //?}
 }

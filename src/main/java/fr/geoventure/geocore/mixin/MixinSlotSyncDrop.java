@@ -6,10 +6,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 //? if >=26.1 {
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-//?} else {
-/*import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-*///?}
+/*import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+*///?} else {
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//?}
 
 /**
  * After the player drops the selected stack, the slot is sent again instead of assumed ({@link SlotSync}).
@@ -27,14 +27,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinSlotSyncDrop {
 
     //? if >=26.1 {
-    @Inject(method = "drop(Z)V", at = @At("RETURN"))
+    /*@Inject(method = "drop(Z)V", at = @At("RETURN"))
     private void geocore$resendDroppedSlot(boolean all, CallbackInfo ci) {
         SlotSync.forgetSelected((ServerPlayer) (Object) this);
     }
-    //?} else {
-    /*@Inject(method = "drop(Z)Z", at = @At("RETURN"))
+    *///?} else {
+    @Inject(method = "drop(Z)Z", at = @At("RETURN"))
     private void geocore$resendDroppedSlot(boolean all, CallbackInfoReturnable<Boolean> cir) {
         SlotSync.forgetSelected((ServerPlayer) (Object) this);
     }
-    *///?}
+    //?}
 }

@@ -32,36 +32,36 @@ final class HarnessWorld {
     static void leave(Minecraft minecraft) {
         if (minecraft.level == null) return;
         //? if >=26.1 {
-        minecraft.disconnectFromWorld(net.minecraft.client.multiplayer.ClientLevel.DEFAULT_QUIT_MESSAGE);
-        //?} elif >=1.21 {
+        /*minecraft.disconnectFromWorld(net.minecraft.client.multiplayer.ClientLevel.DEFAULT_QUIT_MESSAGE);
+        *///?} elif >=1.21 {
         /*minecraft.level.disconnect();
         minecraft.disconnect();
         minecraft.setScreen(new TitleScreen());
         *///?} else {
-        /*minecraft.level.disconnect();
+        minecraft.level.disconnect();
         minecraft.clearLevel();
         minecraft.setScreen(new TitleScreen());
-        *///?}
+        //?}
     }
 
     static void join(Minecraft minecraft, String name) {
         //? if >=1.21 {
-        minecraft.createWorldOpenFlows().openWorld(name, () -> minecraft.setScreen(new TitleScreen()));
-        //?} else {
-        /*minecraft.createWorldOpenFlows().loadLevel(new TitleScreen(), name);
-        *///?}
+        /*minecraft.createWorldOpenFlows().openWorld(name, () -> minecraft.setScreen(new TitleScreen()));
+        *///?} else {
+        minecraft.createWorldOpenFlows().loadLevel(new TitleScreen(), name);
+        //?}
     }
 
     /** Connects to a dedicated server through vanilla's connect screen. */
     static void joinServer(Minecraft minecraft, String host, int port) {
         String address = host + ":" + port;
         //? if >=1.21 {
-        ServerData data = new ServerData("harness", address, ServerData.Type.OTHER);
+        /*ServerData data = new ServerData("harness", address, ServerData.Type.OTHER);
         ConnectScreen.startConnecting(new TitleScreen(), minecraft, ServerAddress.parseString(address), data, false, null);
-        //?} else {
-        /*ServerData data = new ServerData("harness", address, false);
+        *///?} else {
+        ServerData data = new ServerData("harness", address, false);
         ConnectScreen.startConnecting(new TitleScreen(), minecraft, ServerAddress.parseString(address), data, false);
-        *///?}
+        //?}
     }
 
     /** Pending that resolves once the client is in a world (or errors when it returns to a menu). */
@@ -112,10 +112,10 @@ final class HarnessWorld {
                     if (mc.getOverlay() != null) return null;
                     opened = true;
                     //? if >=26.1 {
-                    CreateWorldScreen.openFresh(mc, () -> mc.setScreen(new TitleScreen()));
-                    //?} else {
-                    /*CreateWorldScreen.openFresh(mc, new TitleScreen());
-                    *///?}
+                    /*CreateWorldScreen.openFresh(mc, () -> mc.setScreen(new TitleScreen()));
+                    *///?} else {
+                    CreateWorldScreen.openFresh(mc, new TitleScreen());
+                    //?}
                     return null;
                 }
                 if (!submitted) {
@@ -125,10 +125,10 @@ final class HarnessWorld {
                     state.setGameMode(WorldCreationUiState.SelectedGameMode.CREATIVE);
                     state.setDifficulty(Difficulty.PEACEFUL);
                     //? if >=1.21 {
-                    state.setAllowCommands(true);
-                    //?} else {
-                    /*state.setAllowCheats(true);
-                    *///?}
+                    /*state.setAllowCommands(true);
+                    *///?} else {
+                    state.setAllowCheats(true);
+                    //?}
                     var wanted = seeded ? WorldPresets.NORMAL : WorldPresets.FLAT;
                     WorldCreationUiState.WorldTypeEntry preset = null;
                     for (WorldCreationUiState.WorldTypeEntry entry : state.getNormalPresetList()) {

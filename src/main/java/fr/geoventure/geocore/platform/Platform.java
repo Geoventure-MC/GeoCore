@@ -20,12 +20,12 @@ public final class Platform {
         //? if fabric {
         /*return net.fabricmc.api.EnvType.CLIENT == net.fabricmc.loader.api.FabricLoader.getInstance().getEnvironmentType();
         *///?} elif neoforge && >=26.1 {
-        return net.neoforged.fml.loading.FMLLoader.getCurrent().getDist() == net.neoforged.api.distmarker.Dist.CLIENT;
-        //?} elif neoforge {
+        /*return net.neoforged.fml.loading.FMLLoader.getCurrent().getDist() == net.neoforged.api.distmarker.Dist.CLIENT;
+        *///?} elif neoforge {
         /*return net.neoforged.fml.loading.FMLLoader.getDist() == net.neoforged.api.distmarker.Dist.CLIENT;
         *///?} elif forge {
-        /*return net.minecraftforge.fml.loading.FMLLoader.getDist() == net.minecraftforge.api.distmarker.Dist.CLIENT;
-        *///?}
+        return net.minecraftforge.fml.loading.FMLLoader.getDist() == net.minecraftforge.api.distmarker.Dist.CLIENT;
+        //?}
     }
 
     /** Human-readable loader name. */
@@ -33,19 +33,19 @@ public final class Platform {
         //? if fabric {
         /*return "Fabric";
         *///?} elif neoforge {
-        return "NeoForge";
-        //?} elif forge {
-        /*return "Forge";
-        *///?}
+        /*return "NeoForge";
+        *///?} elif forge {
+        return "Forge";
+        //?}
     }
 
     /** The namespace other mods' common tags live in: {@code forge} on Forge, {@code c} everywhere else. */
     public static String conventionNamespace() {
         //? if forge {
-        /*return "forge";
-        *///?} else {
-        return "c";
-        //?}
+        return "forge";
+        //?} else {
+        /*return "c";
+        *///?}
     }
 
     /** Whether the current loader has loaded {@code modId}. */
@@ -53,10 +53,10 @@ public final class Platform {
         //? if fabric {
         /*return net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded(modId);
         *///?} elif neoforge {
-        return net.neoforged.fml.ModList.get().isLoaded(modId);
-        //?} elif forge {
-        /*return net.minecraftforge.fml.ModList.get().isLoaded(modId);
-        *///?}
+        /*return net.neoforged.fml.ModList.get().isLoaded(modId);
+        *///?} elif forge {
+        return net.minecraftforge.fml.ModList.get().isLoaded(modId);
+        //?}
     }
 
     /** Tests availability without running the target class's initializer. */
@@ -76,12 +76,12 @@ public final class Platform {
         /*return net.fabricmc.loader.api.FabricLoader.getInstance().getModContainer(modId)
                 .map(c -> c.getMetadata().getVersion().getFriendlyString()).orElse(null);
         *///?} elif neoforge {
-        return net.neoforged.fml.ModList.get().getModContainerById(modId)
+        /*return net.neoforged.fml.ModList.get().getModContainerById(modId)
                 .map(c -> c.getModInfo().getVersion().toString()).orElse(null);
-        //?} elif forge {
-        /*return net.minecraftforge.fml.ModList.get().getModContainerById(modId)
+        *///?} elif forge {
+        return net.minecraftforge.fml.ModList.get().getModContainerById(modId)
                 .map(c -> c.getModInfo().getVersion().toString()).orElse(null);
-        *///?}
+        //?}
     }
 
     /** Every loaded mod's id and version, sorted by id. */
@@ -92,10 +92,10 @@ public final class Platform {
             mods.put(mod.getMetadata().getId(), mod.getMetadata().getVersion().getFriendlyString());
         }
         *///?} elif neoforge {
-        for (var mod : net.neoforged.fml.ModList.get().getMods()) mods.put(mod.getModId(), mod.getVersion().toString());
-        //?} elif forge {
-        /*for (var mod : net.minecraftforge.fml.ModList.get().getMods()) mods.put(mod.getModId(), mod.getVersion().toString());
-        *///?}
+        /*for (var mod : net.neoforged.fml.ModList.get().getMods()) mods.put(mod.getModId(), mod.getVersion().toString());
+        *///?} elif forge {
+        for (var mod : net.minecraftforge.fml.ModList.get().getMods()) mods.put(mod.getModId(), mod.getVersion().toString());
+        //?}
         return mods;
     }
 
@@ -104,10 +104,10 @@ public final class Platform {
         //? if fabric {
         /*return player instanceof net.fabricmc.fabric.api.entity.FakePlayer;
         *///?} elif neoforge {
-        return player instanceof net.neoforged.neoforge.common.util.FakePlayer;
-        //?} elif forge {
-        /*return player instanceof net.minecraftforge.common.util.FakePlayer;
-        *///?}
+        /*return player instanceof net.neoforged.neoforge.common.util.FakePlayer;
+        *///?} elif forge {
+        return player instanceof net.minecraftforge.common.util.FakePlayer;
+        //?}
     }
 
     /** Whether the current loader is running a development environment. */
@@ -115,12 +115,12 @@ public final class Platform {
         //? if fabric {
         /*return net.fabricmc.loader.api.FabricLoader.getInstance().isDevelopmentEnvironment();
         *///?} elif neoforge && >=26.1 {
-        return !net.neoforged.fml.loading.FMLLoader.getCurrent().isProduction();
-        //?} elif neoforge {
+        /*return !net.neoforged.fml.loading.FMLLoader.getCurrent().isProduction();
+        *///?} elif neoforge {
         /*return !net.neoforged.fml.loading.FMLLoader.isProduction();
         *///?} elif forge {
-        /*return !net.minecraftforge.fml.loading.FMLLoader.isProduction();
-        *///?}
+        return !net.minecraftforge.fml.loading.FMLLoader.isProduction();
+        //?}
     }
 
     /**
@@ -131,10 +131,10 @@ public final class Platform {
      */
     public static boolean hasItemDefinitions() {
         //? if >=1.21.4 {
-        return true;
-        //?} else {
-        /*return false;
-        *///?}
+        /*return true;
+        *///?} else {
+        return false;
+        //?}
     }
 
     public static String environmentName() {

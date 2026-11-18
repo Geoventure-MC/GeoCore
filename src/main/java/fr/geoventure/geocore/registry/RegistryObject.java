@@ -5,10 +5,10 @@ import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 //? if >=26.1 {
-import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.resources.ResourceLocation;
+//?}
 import net.minecraft.resources.ResourceKey;
 
 /**
@@ -53,10 +53,10 @@ public class RegistryObject<T> implements Supplier<T> {
     /** The id ({@code namespace:path}) this object is registered under. */
     public
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             getId() {
         return fr.geoventure.geocore.Ids.keyId(key.get());
     }
@@ -72,12 +72,12 @@ public class RegistryObject<T> implements Supplier<T> {
     public T get() {
         if (value == null) {
             //? if >=26.1 {
-            Registry<?> registry = (Registry<?>) BuiltInRegistries.REGISTRY.getValueOrThrow((ResourceKey) registryKey.get());
+            /*Registry<?> registry = (Registry<?>) BuiltInRegistries.REGISTRY.getValueOrThrow((ResourceKey) registryKey.get());
             value = (T) registry.getValueOrThrow((ResourceKey) key.get());
-            //?} else {
-            /*Registry<?> registry = (Registry<?>) BuiltInRegistries.REGISTRY.getOrThrow((ResourceKey) registryKey.get());
+            *///?} else {
+            Registry<?> registry = (Registry<?>) BuiltInRegistries.REGISTRY.getOrThrow((ResourceKey) registryKey.get());
             value = (T) registry.getOrThrow((ResourceKey) key.get());
-            *///?}
+            //?}
         }
         return value;
     }

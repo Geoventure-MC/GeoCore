@@ -22,15 +22,15 @@ public final class Spawns {
     /** Equips and initialises {@code mob} as a triggered spawn at its current position (1.7 {@code onSpawnWithEgg}). */
     public static void finalizeTriggered(Mob mob, ServerLevel level) {
         //? if >=26.1 {
-        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
+        /*mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
                 net.minecraft.world.entity.EntitySpawnReason.TRIGGERED, null);
-        //?} else if >=1.21.1 {
+        *///?} else if >=1.21.1 {
         /*mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
                 net.minecraft.world.entity.MobSpawnType.TRIGGERED, null);
         *///?} else {
-        /*mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
+        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
                 net.minecraft.world.entity.MobSpawnType.TRIGGERED, null, null);
-        *///?}
+        //?}
     }
     /** Why a spawn check is asked. Spawners, eggs, breeding and commands are {@link #OTHER} and never reach a check. */
     public enum Reason {
@@ -75,38 +75,38 @@ public final class Spawns {
         // was cancelled when it is added; Fabric does the same through MixinMobFinalizeSpawnCheck and
         // MixinServerLevelSpawnCancel. Only WORLD_SPAWNER is answered there, so natural spawns are not asked twice.
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent event) -> {
                     Reason reason = worldSpawnerReason(event.getEntity(), event.getSpawnType());
                     if (reason == Reason.WORLD_SPAWNER && denied(event.getEntity(), event.getLevel().getLevel(), reason)) {
                         event.setSpawnCancelled(true);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.living.MobSpawnEvent.FinalizeSpawn event) -> {
                     Reason reason = worldSpawnerReason(event.getEntity(), event.getSpawnType());
                     if (reason == Reason.WORLD_SPAWNER && denied(event.getEntity(), event.getLevel().getLevel(), reason)) {
                         event.setSpawnCancelled(true);
                     }
                 });
-        *///?}
+        //?}
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.living.MobSpawnEvent.PositionCheck event) -> {
                     if (event.getLevel() instanceof net.minecraft.world.level.ServerLevelAccessor accessor
                             && denied(event.getEntity(), accessor.getLevel(), reason(event.getSpawnType()))) {
                         event.setResult(net.neoforged.neoforge.event.entity.living.MobSpawnEvent.PositionCheck.Result.FAIL);
                     }
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.living.MobSpawnEvent.PositionCheck event) -> {
                     if (denied(event.getEntity(), event.getLevel().getLevel(), reason(event.getSpawnType()))) {
                         event.setResult(net.minecraftforge.eventbus.api.Event.Result.DENY);
                     }
                 });
-        *///?}
+        //?}
     }
 
     // ------------------------------------------------------------------------------------------- potential spawns
@@ -162,10 +162,10 @@ public final class Spawns {
     }
 
     //? if >=26.1 {
-    /**
+    /*/^*
      * Which finalized spawns come from the modern world spawners: {@code PatrolSpawner} (the only PATROL source),
      * {@code PhantomSpawner} (NATURAL phantoms) and {@code WanderingTraderSpawner} (EVENT traders and trader llamas).
-     */
+     ^/
     public static Reason worldSpawnerReason(Mob mob, net.minecraft.world.entity.EntitySpawnReason type) {
         if (type == net.minecraft.world.entity.EntitySpawnReason.PATROL) return Reason.WORLD_SPAWNER;
         if (type == net.minecraft.world.entity.EntitySpawnReason.NATURAL
@@ -175,8 +175,8 @@ public final class Spawns {
                 || mob.getType() == net.minecraft.world.entity.EntityType.TRADER_LLAMA)) return Reason.WORLD_SPAWNER;
         return Reason.OTHER;
     }
-    //?} else {
-    /*public static Reason worldSpawnerReason(Mob mob, net.minecraft.world.entity.MobSpawnType type) {
+    *///?} else {
+    public static Reason worldSpawnerReason(Mob mob, net.minecraft.world.entity.MobSpawnType type) {
         if (type == net.minecraft.world.entity.MobSpawnType.PATROL) return Reason.WORLD_SPAWNER;
         if (type == net.minecraft.world.entity.MobSpawnType.NATURAL
                 && mob.getType() == net.minecraft.world.entity.EntityType.PHANTOM) return Reason.WORLD_SPAWNER;
@@ -185,21 +185,21 @@ public final class Spawns {
                 || mob.getType() == net.minecraft.world.entity.EntityType.TRADER_LLAMA)) return Reason.WORLD_SPAWNER;
         return Reason.OTHER;
     }
-    *///?}
+    //?}
 
     //? if >=26.1 {
-    public static Reason reason(net.minecraft.world.entity.EntitySpawnReason type) {
+    /*public static Reason reason(net.minecraft.world.entity.EntitySpawnReason type) {
         return type == net.minecraft.world.entity.EntitySpawnReason.NATURAL ? Reason.NATURAL
                 : type == net.minecraft.world.entity.EntitySpawnReason.CHUNK_GENERATION ? Reason.CHUNK_GENERATION
                 : Reason.OTHER;
     }
-    //?} else {
-    /*public static Reason reason(net.minecraft.world.entity.MobSpawnType type) {
+    *///?} else {
+    public static Reason reason(net.minecraft.world.entity.MobSpawnType type) {
         return type == net.minecraft.world.entity.MobSpawnType.NATURAL ? Reason.NATURAL
                 : type == net.minecraft.world.entity.MobSpawnType.CHUNK_GENERATION ? Reason.CHUNK_GENERATION
                 : Reason.OTHER;
     }
-    *///?}
+    //?}
 
     /** One natural spawn entry of a biome, in neutral form. */
     public record SpawnEntry(net.minecraft.world.entity.EntityType<?> type, int weight, int minCount, int maxCount) {}
@@ -209,15 +209,15 @@ public final class Spawns {
                                                      net.minecraft.world.entity.MobCategory category) {
         java.util.List<SpawnEntry> out = new java.util.ArrayList<>();
         //? if >=26.1 {
-        for (var weighted : biome.getMobSettings().getMobs(category).unwrap()) {
+        /*for (var weighted : biome.getMobSettings().getMobs(category).unwrap()) {
             out.add(new SpawnEntry(weighted.value().type(), weighted.weight(), weighted.value().minCount(),
                     weighted.value().maxCount()));
         }
-        //?} else {
-        /*for (var data : biome.getMobSettings().getMobs(category).unwrap()) {
+        *///?} else {
+        for (var data : biome.getMobSettings().getMobs(category).unwrap()) {
             out.add(new SpawnEntry(data.type, data.getWeight().asInt(), data.minCount, data.maxCount));
         }
-        *///?}
+        //?}
         return out;
     }
 
@@ -256,16 +256,16 @@ public final class Spawns {
         if (placementsHooked) return;
         placementsHooked = true;
         //? if neoforge {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent event) -> {
                     for (PlacementEntry entry : PLACEMENTS) registerNeoForge(event, entry);
                 });
-        //?} elif forge {
-        /*fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
+        *///?} elif forge {
+        fr.geoventure.geocore.platform.ForgeEntrypoint.modBus().addListener(
                 (net.minecraftforge.event.entity.SpawnPlacementRegisterEvent event) -> {
                     for (PlacementEntry entry : PLACEMENTS) registerForge(event, entry);
                 });
-        *///?}
+        //?}
     }
 
     /** Fabric only: registers every declared placement (vanilla's private register, access-widened). No-op elsewhere. */
@@ -296,34 +296,34 @@ public final class Spawns {
     }
 
     //? if >=1.20.5 {
-    private static net.minecraft.world.entity.SpawnPlacementType placementType(Placement placement) {
+    /*private static net.minecraft.world.entity.SpawnPlacementType placementType(Placement placement) {
         return placement == Placement.IN_WATER ? net.minecraft.world.entity.SpawnPlacementTypes.IN_WATER
                 : net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND;
     }
-    //?} else {
-    /*private static net.minecraft.world.entity.SpawnPlacements.Type placementType(Placement placement) {
+    *///?} else {
+    private static net.minecraft.world.entity.SpawnPlacements.Type placementType(Placement placement) {
         return placement == Placement.IN_WATER ? net.minecraft.world.entity.SpawnPlacements.Type.IN_WATER
                 : net.minecraft.world.entity.SpawnPlacements.Type.ON_GROUND;
     }
-    *///?}
+    //?}
 
     //? if neoforge {
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")
     private static <T extends Mob> void registerNeoForge(net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent event,
                                                          PlacementEntry entry) {
         event.register((net.minecraft.world.entity.EntityType<T>) entry.type().get(), placementType(entry.placement()),
                 net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, predicate(entry.rule()),
                 net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
-    //?} elif forge {
-    /*@SuppressWarnings("unchecked")
+    *///?} elif forge {
+    @SuppressWarnings("unchecked")
     private static <T extends Mob> void registerForge(net.minecraftforge.event.entity.SpawnPlacementRegisterEvent event,
                                                       PlacementEntry entry) {
         event.register((net.minecraft.world.entity.EntityType<T>) entry.type().get(), placementType(entry.placement()),
                 net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, predicate(entry.rule()),
                 net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
-    *///?} else {
+    //?} else {
     /*@SuppressWarnings("unchecked")
     private static <T extends Mob> void registerVanilla(PlacementEntry entry) {
         net.minecraft.world.entity.SpawnPlacements.register((net.minecraft.world.entity.EntityType<T>) entry.type().get(),

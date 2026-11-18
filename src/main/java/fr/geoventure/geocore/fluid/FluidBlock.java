@@ -62,10 +62,10 @@ public class FluidBlock extends LiquidBlock {
 
     public FluidBlock(Properties properties, WorldFluids.Handle fluid) {
         //? if forge {
-        /*super(fluid::source, properties);
-        *///?} else {
-        super(fluid.source(), properties);
-        //?}
+        super(fluid::source, properties);
+        //?} else {
+        /*super(fluid.source(), properties);
+        *///?}
         this.fluid = fluid;
         this.quanta = fluid.spec().quanta();
         this.density = fluid.spec().density();
@@ -83,10 +83,10 @@ public class FluidBlock extends LiquidBlock {
      */
     public static BlockBehaviour.Properties properties(BlockBehaviour.Properties p, WorldFluids.Handle fluid) {
         //? if >=26.1 {
-        p = p.noCollision();
-        //?} else {
-        /*p = p.noCollission();
-        *///?}
+        /*p = p.noCollision();
+        *///?} else {
+        p = p.noCollission();
+        //?}
         p = p.strength(100.0F).noOcclusion().noLootTable().liquid().pushReaction(PushReaction.DESTROY).sound(SoundType.EMPTY)
                 .randomTicks();
         WorldFluids.Spec spec = fluid.spec();
@@ -153,16 +153,16 @@ public class FluidBlock extends LiquidBlock {
 
     /** {@code Block}'s answer for a block without collision; {@code LiquidBlock} opens every non-lava liquid. */
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     protected boolean isPathfindable(BlockState state, PathComputationType type) {
         return type != PathComputationType.WATER || state.getFluidState().is(FluidTags.WATER);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return type != PathComputationType.WATER || state.getFluidState().is(FluidTags.WATER);
     }
-    *///?}
+    //?}
 
     // Ticks (1.7 BlockFluidBase)
 
@@ -186,7 +186,7 @@ public class FluidBlock extends LiquidBlock {
     protected void onEntityInside(BlockState state, Level level, BlockPos pos, Entity entity) {}
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbourBlock,
                                    net.minecraft.world.level.redstone.@Nullable Orientation orientation, boolean movedByPiston) {
         onNeighborChanged(state, level, pos, neighbourBlock, movedByPiston);
@@ -205,8 +205,8 @@ public class FluidBlock extends LiquidBlock {
         super.entityInside(state, level, pos, entity, effects, precise);
         onEntityInside(state, level, pos, entity);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbourBlock, BlockPos fromPos,
                                 boolean movedByPiston) {
         onNeighborChanged(state, level, pos, neighbourBlock, movedByPiston);
@@ -223,7 +223,7 @@ public class FluidBlock extends LiquidBlock {
         super.entityInside(state, level, pos, entity);
         onEntityInside(state, level, pos, entity);
     }
-    *///?}
+    //?}
 
     @Override
     public final void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -586,21 +586,21 @@ public class FluidBlock extends LiquidBlock {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public ItemStack pickupBlock(net.minecraft.world.entity.@Nullable LivingEntity user, LevelAccessor level, BlockPos pos, BlockState state) {
         return pickup(level, pos, state);
     }
-    //?} elif >=1.20.5 {
+    *///?} elif >=1.20.5 {
     /*@Override
     public ItemStack pickupBlock(net.minecraft.world.entity.player.@Nullable Player player, LevelAccessor level, BlockPos pos, BlockState state) {
         return pickup(level, pos, state);
     }
     *///?} else {
-    /*@Override
+    @Override
     public ItemStack pickupBlock(LevelAccessor level, BlockPos pos, BlockState state) {
         return pickup(level, pos, state);
     }
-    *///?}
+    //?}
 
     @Override
     public Optional<SoundEvent> getPickupSound() {

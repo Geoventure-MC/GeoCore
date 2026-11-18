@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if <26.1 {
-/*import fr.geoventure.geocore.render.PrecipitationRendering;
+import fr.geoventure.geocore.render.PrecipitationRendering;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/^*
+/**
  * The 1.21.1 NeoForge / 1.20.1 Forge hook for {@link fr.geoventure.geocore.client.Precipitation}: a registered level's rain and
  * snow quads in place of vanilla's. Fabric uses Fabric API's {@code DimensionRenderingRegistry.registerWeatherRenderer}
  * at the same place instead.
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * overworld (the same reason as {@code MixinLegacyCloudRender}); (3) widening cannot add a call. One cancellable HEAD
  * inject on {@code renderSnowAndRain}, before the effects check; it cancels only for a level registered with
  * {@code Precipitation}. Rain particles and sounds ({@code tickRain}) are untouched.
- ^/
+ */
 @Mixin(LevelRenderer.class)
 public abstract class MixinLegacyWeatherRender {
 
@@ -30,9 +30,9 @@ public abstract class MixinLegacyWeatherRender {
         if (PrecipitationRendering.renderLegacy(lightTexture, partialTick, camX, camY, camZ)) ci.cancel();
     }
 }
-*///?} else {
-public final class MixinLegacyWeatherRender {
+//?} else {
+/*public final class MixinLegacyWeatherRender {
     // Empty on 26.1: NeoForge uses CustomWeatherEffectRenderer, Fabric MixinWeatherRender.
     private MixinLegacyWeatherRender() {}
 }
-//?}
+*///?}

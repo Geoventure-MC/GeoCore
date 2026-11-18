@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.vehicle.boat.Boat;
+import net.minecraft.world.entity.vehicle.Boat;
 
 /**
  * Facade for custom {@code Boat} subclasses that steer themselves.
@@ -20,24 +20,24 @@ import net.minecraft.world.entity.vehicle.boat.Boat;
 public abstract class CompatBoat extends Boat implements BoatControl {
 
     //? if <26.1 {
-    /*private final Supplier<Item> dropItem;
-    *///?}
+    private final Supplier<Item> dropItem;
+    //?}
 
     protected CompatBoat(EntityType<? extends Boat> type, Level level, Supplier<Item> dropItem) {
         //? if >=26.1 {
-        super(type, level, dropItem);
-        //?} else {
-        /*super(type, level);
+        /*super(type, level, dropItem);
+        *///?} else {
+        super(type, level);
         this.dropItem = dropItem;
-        *///?}
+        //?}
     }
 
     //? if <26.1 {
-    /*@Override
+    @Override
     public Item getDropItem() {
         return dropItem.get();
     }
-    *///?}
+    //?}
 
     /** Replaces vanilla's steering for this tick. Called only while a rider controls the boat. */
     protected abstract void controlBoat();

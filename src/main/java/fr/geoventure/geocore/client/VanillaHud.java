@@ -7,11 +7,11 @@ package fr.geoventure.geocore.client;
 /*import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 *///?}
 //? if forge {
-/*import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-*///?}
-//? if neoforge {
-import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 //?}
+//? if neoforge {
+/*import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+*///?}
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public final class VanillaHud {
                     if (!hideAir()) vanilla.extractRenderState(graphics, deltaTracker);
                 });
         *///?} elif neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.client.event.RenderGuiLayerEvent.Pre event) -> {
                     if (event.getName().equals(net.neoforged.neoforge.client.gui.VanillaGuiLayers.PLAYER_HEALTH)
                             && hideHealth()) event.setCanceled(true);
@@ -106,8 +106,8 @@ public final class VanillaHud {
                     if (event.getName().equals(VanillaGuiLayers.AIR_LEVEL)
                             && hideAir()) event.setCanceled(true);
                 });
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.client.event.RenderGuiOverlayEvent.Pre event) -> {
                     if (event.getOverlay().equals(
                             net.minecraftforge.client.gui.overlay.VanillaGuiOverlay.PLAYER_HEALTH.type())
@@ -119,7 +119,7 @@ public final class VanillaHud {
                             VanillaGuiOverlay.AIR_LEVEL.type())
                             && hideAir()) event.setCanceled(true);
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -129,19 +129,19 @@ public final class VanillaHud {
      */
     public static void airBubble(
             //? if >=26.1 {
-            net.minecraft.client.gui.GuiGraphicsExtractor graphics,
-            //?} else {
-            /*net.minecraft.client.gui.GuiGraphics graphics,
-            *///?}
+            /*net.minecraft.client.gui.GuiGraphicsExtractor graphics,
+            *///?} else {
+            net.minecraft.client.gui.GuiGraphics graphics,
+            //?}
             int x, int y, boolean bursting) {
         //? if >=26.1 {
-        graphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED,
+        /*graphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED,
                 net.minecraft.resources.Identifier.withDefaultNamespace(bursting ? "hud/air_bursting" : "hud/air"), x, y, 9, 9);
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*graphics.blitSprite(net.minecraft.resources.ResourceLocation.withDefaultNamespace(
                 bursting ? "hud/air_bursting" : "hud/air"), x, y, 9, 9);
         *///?} else {
-        /*graphics.blit(new net.minecraft.resources.ResourceLocation("textures/gui/icons.png"), x, y, bursting ? 25 : 16, 18, 9, 9);
-        *///?}
+        graphics.blit(new net.minecraft.resources.ResourceLocation("textures/gui/icons.png"), x, y, bursting ? 25 : 16, 18, 9, 9);
+        //?}
     }
 }

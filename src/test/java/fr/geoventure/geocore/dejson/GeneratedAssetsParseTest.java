@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.dejson;
 
 //? if >=26.1 {
-import com.google.gson.JsonObject;
+/*import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
+/^*
  * The generated JSON through the game's own parsers, on the era whose model system was rewritten.
  *
  * <p>Nothing here asserts a string. A generated model is only correct if
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * for, and a generated blockstate is only correct if
  * {@link BlockStateModelDispatcher#instantiate} maps every state of a real block. Both are the
  * same code paths the client takes at reload, minus the bake.
- */
+ ^/
 class GeneratedAssetsParseTest {
 
     @BeforeAll
@@ -121,10 +121,10 @@ class GeneratedAssetsParseTest {
                 BlockStates.unknownProperties(Blocks.OAK_LOG, Variants.uniform("lid", "none")));
     }
 
-    /**
+    /^*
      * The declaration-level matcher and the game's own instantiation must agree state for state.
      * If they ever disagree, every check built on {@link Dispatch#covers} is measuring nothing.
-     */
+     ^/
     private static void assertCoversEveryState(Block block, Dispatch dispatch) {
         JsonObject json = dispatch.toJson("geontm:block/example");
         BlockStateModelDispatcher parsed = BlockStateModelDispatcher.CODEC
@@ -147,4 +147,4 @@ class GeneratedAssetsParseTest {
         return model;
     }
 }
-//?}
+*///?}

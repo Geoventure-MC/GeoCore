@@ -18,13 +18,13 @@ public final class Frames {
     /** The partial tick for interpolating game state this frame. */
     public static float partialTick() {
         //? if >=26.1 {
-        return Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
-        //?} elif >=1.21 {
+        /*return Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
+        *///?} elif >=1.21 {
         /*// 1.21 introduced DeltaTracker but still reached it through getTimer(); only the accessor
         // was renamed later.
         return Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
         *///?} else {
-        /*return Minecraft.getInstance().getFrameTime();
-        *///?}
+        return Minecraft.getInstance().getFrameTime();
+        //?}
     }
 }

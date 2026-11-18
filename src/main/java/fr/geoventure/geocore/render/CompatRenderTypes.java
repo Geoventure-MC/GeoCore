@@ -1,13 +1,13 @@
 package fr.geoventure.geocore.render;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
+/*import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * The render types block-entity renderers draw with.
@@ -23,16 +23,16 @@ public final class CompatRenderTypes {
 
     public static RenderType entitySolid(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return RenderTypes.entitySolid(texture);
-        //?} else {
-        /*return RenderType.entitySolid(texture);
-        *///?}
+        /*return RenderTypes.entitySolid(texture);
+        *///?} else {
+        return RenderType.entitySolid(texture);
+        //?}
     }
 
     /**
@@ -46,61 +46,61 @@ public final class CompatRenderTypes {
      */
     public static RenderType entityCutout(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return RenderTypes.entityCutoutCull(texture);
-        //?} else {
-        /*return RenderType.entityCutout(texture);
-        *///?}
+        /*return RenderTypes.entityCutoutCull(texture);
+        *///?} else {
+        return RenderType.entityCutout(texture);
+        //?}
     }
 
     /** Alpha-tested entity geometry with face culling enabled, matching the old GL default. */
     public static RenderType entityCutoutCull(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return RenderTypes.entityCutoutCull(texture);
-        //?} else {
-        /*return RenderType.entityCutout(texture);
-        *///?}
+        /*return RenderTypes.entityCutoutCull(texture);
+        *///?} else {
+        return RenderType.entityCutout(texture);
+        //?}
     }
 
     /** An alpha-tested entity pass with face culling disabled, for legacy double-sided OBJ geometry. */
     public static RenderType entityCutoutNoCull(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
         texture) {
         //? if >=26.1 {
-        // 26.1's entityCutout is the no-cull pipeline; entityCutoutCull is the opt-in culling variant.
+        /*// 26.1's entityCutout is the no-cull pipeline; entityCutoutCull is the opt-in culling variant.
         return RenderTypes.entityCutout(texture);
-        //?} else {
-        /*return RenderType.entityCutoutNoCull(texture);
-        *///?}
+        *///?} else {
+        return RenderType.entityCutoutNoCull(texture);
+        //?}
     }
 
     public static RenderType entityTranslucent(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return RenderTypes.entityTranslucent(texture);
-        //?} else {
-        /*return RenderType.entityTranslucent(texture);
-        *///?}
+        /*return RenderTypes.entityTranslucent(texture);
+        *///?} else {
+        return RenderType.entityTranslucent(texture);
+        //?}
     }
 
     /**
@@ -110,20 +110,20 @@ public final class CompatRenderTypes {
      */
     public static RenderType entityTranslucentCull(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return ENTITY_TRANSLUCENT_CULL.apply(texture);
-        //?} else {
-        /*return RenderType.entityTranslucentCull(texture);
-        *///?}
+        /*return ENTITY_TRANSLUCENT_CULL.apply(texture);
+        *///?} else {
+        return RenderType.entityTranslucentCull(texture);
+        //?}
     }
 
     //? if >=26.1 {
-    private static final java.util.function.Function<Identifier, RenderType> ENTITY_TRANSLUCENT_CULL =
+    /*private static final java.util.function.Function<Identifier, RenderType> ENTITY_TRANSLUCENT_CULL =
             net.minecraft.util.Util.memoize(texture -> RenderType.create("geocore_entity_translucent_cull",
                     net.minecraft.client.renderer.rendertype.RenderSetup
                             .builder(net.minecraft.client.renderer.RenderPipelines.ENTITY_TRANSLUCENT_CULL)
@@ -134,29 +134,29 @@ public final class CompatRenderTypes {
                             .sortOnUpload()
                             .setOutline(net.minecraft.client.renderer.rendertype.RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
                             .createRenderSetup()));
-    //?}
+    *///?}
 
     /** The vanilla line pipeline, moved alongside the other render-type factories in 26.1. */
     public static RenderType lines() {
         //? if >=26.1 {
-        return RenderTypes.lines();
-        //?} else {
-        /*return RenderType.lines();
-        *///?}
+        /*return RenderTypes.lines();
+        *///?} else {
+        return RenderType.lines();
+        //?}
     }
 
     public static RenderType entityTranslucentEmissive(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         //? if >=26.1 {
-        return RenderTypes.entityTranslucentEmissive(texture);
-        //?} else {
-        /*return RenderType.entityTranslucentEmissive(texture);
-        *///?}
+        /*return RenderTypes.entityTranslucentEmissive(texture);
+        *///?} else {
+        return RenderType.entityTranslucentEmissive(texture);
+        //?}
     }
 
     /**
@@ -165,10 +165,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType plasmaGlow(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return PlasmaGlowRenderType.of(texture);
     }
@@ -176,10 +176,10 @@ public final class CompatRenderTypes {
     /** {@link #plasmaGlow} with no depth test either: drawn over everything. */
     public static RenderType plasmaGlowSeeThrough(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return PlasmaGlowRenderType.ofSeeThrough(texture);
     }
@@ -187,10 +187,10 @@ public final class CompatRenderTypes {
     /** Torex's legacy fog-free, lightmapped {@code SRC_ALPHA/ONE} flare with no depth write. */
     public static RenderType torexFlare(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return TorexFlareRenderType.of(texture);
     }
@@ -201,10 +201,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType flare(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return TorexFlareRenderType.fogless(texture);
     }
@@ -215,39 +215,39 @@ public final class CompatRenderTypes {
     public static FlareVertex torexFlareVertex(float red, float green, float blue,
                                                 float alpha, int packedLight) {
         //? if >=26.1 {
-        return new FlareVertex(red, green, blue, alpha, packedLight);
-        //?} else {
-        /*return new FlareVertex(red * alpha, green * alpha, blue * alpha, 1F, 0x00F000F0);
-        *///?}
+        /*return new FlareVertex(red, green, blue, alpha, packedLight);
+        *///?} else {
+        return new FlareVertex(red * alpha, green * alpha, blue * alpha, 1F, 0x00F000F0);
+        //?}
     }
 
     /** Translucent variant with explicit outline control; both eras expose the same two-arg form. */
     public static RenderType entityTranslucent(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture, boolean outline) {
         //? if >=26.1 {
-        return RenderTypes.entityTranslucent(texture, outline);
-        //?} else {
-        /*return RenderType.entityTranslucent(texture, outline);
-        *///?}
+        /*return RenderTypes.entityTranslucent(texture, outline);
+        *///?} else {
+        return RenderType.entityTranslucent(texture, outline);
+        //?}
     }
 
     public static RenderType energySwirl(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture, float u, float v) {
         //? if >=26.1 {
-        return RenderTypes.energySwirl(texture, u, v);
-        //?} else {
-        /*return RenderType.energySwirl(texture, u, v);
-        *///?}
+        /*return RenderTypes.energySwirl(texture, u, v);
+        *///?} else {
+        return RenderType.energySwirl(texture, u, v);
+        //?}
     }
 
     /**
@@ -256,10 +256,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType dragonRays() {
         //? if >=26.1 {
-        return RenderTypes.dragonRays();
-        //?} else {
-        /*return AdditiveRenderType.dragonRays();
-        *///?}
+        /*return RenderTypes.dragonRays();
+        *///?} else {
+        return AdditiveRenderType.dragonRays();
+        //?}
     }
 
     /**
@@ -305,10 +305,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType flatCutout(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return FlatCutoutRenderType.of(texture);
     }
@@ -319,10 +319,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType flatTranslucentCull(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return FlatCutoutRenderType.translucentCull(texture);
     }
@@ -334,10 +334,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType flatTranslucent(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return FlatCutoutRenderType.translucent(texture);
     }
@@ -345,10 +345,10 @@ public final class CompatRenderTypes {
     /** {@link #flatCutout}, depth-biased toward the camera: a decal a hair in front of a surface. */
     public static RenderType flatCutoutDecal(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture) {
         return FlatCutoutRenderType.decal(texture);
     }
@@ -360,10 +360,10 @@ public final class CompatRenderTypes {
      */
     public static RenderType glint(
             //? if >=26.1 {
-            Identifier
-            //?} else {
-            /*ResourceLocation
-            *///?}
+            /*Identifier
+            *///?} else {
+            ResourceLocation
+            //?}
             texture, boolean additive) {
         return GlintRenderType.of(texture, additive);
     }

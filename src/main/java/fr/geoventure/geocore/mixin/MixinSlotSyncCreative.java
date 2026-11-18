@@ -31,9 +31,9 @@ public abstract class MixinSlotSyncCreative {
             target = "Lnet/minecraft/world/inventory/InventoryMenu;broadcastChanges()V"))
     private void geocore$confirmCreativeSlot(ServerboundSetCreativeModeSlotPacket packet, CallbackInfo ci) {
         //? if >=1.20.5 {
-        SlotSync.forget(player.inventoryMenu, packet.slotNum());
-        //?} else {
-        /*SlotSync.forget(player.inventoryMenu, packet.getSlotNum());
-        *///?}
+        /*SlotSync.forget(player.inventoryMenu, packet.slotNum());
+        *///?} else {
+        SlotSync.forget(player.inventoryMenu, packet.getSlotNum());
+        //?}
     }
 }

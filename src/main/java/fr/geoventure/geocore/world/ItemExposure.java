@@ -30,7 +30,7 @@ public final class ItemExposure {
     /** Call once, while the mod bus is still accepting listeners. */
     public static void exposeContents(Predicate<Block> carriers, ContentsAt contents) {
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) -> {
                     Block[] blocks = net.minecraft.core.registries.BuiltInRegistries.BLOCK.stream().filter(carriers)
                             .toArray(Block[]::new);
@@ -41,7 +41,7 @@ public final class ItemExposure {
                                 return container == null ? null : new View(container);
                             }, blocks);
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) -> {
                     Block[] blocks = net.minecraft.core.registries.BuiltInRegistries.BLOCK.stream().filter(carriers)
@@ -66,7 +66,7 @@ public final class ItemExposure {
      */
     public static void exposeAutomation(Predicate<Block> carriers, ContentsAt automation) {
         //? if neoforge && >=26.1 {
-        fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
+        /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) -> {
                     Block[] blocks = net.minecraft.core.registries.BuiltInRegistries.BLOCK.stream().filter(carriers)
                             .toArray(Block[]::new);
@@ -82,7 +82,7 @@ public final class ItemExposure {
                                 return container == be ? sided : new FaceView(worldly, worldly.getSlotsForFace(side), sided);
                             }, blocks);
                 });
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*fr.geoventure.geocore.platform.NeoForgeEntrypoint.modBus().addListener(
                 (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) -> {
                     Block[] blocks = net.minecraft.core.registries.BuiltInRegistries.BLOCK.stream().filter(carriers)
@@ -99,13 +99,13 @@ public final class ItemExposure {
                             }, blocks);
                 });
         *///?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class,
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class,
                 (net.minecraftforge.event.AttachCapabilitiesEvent<BlockEntity> event) -> {
                     BlockEntity be = event.getObject();
                     if (!carriers.test(be.getBlockState().getBlock())) return;
                     event.addCapability(fr.geoventure.geocore.Ids.of("geocore", "items"), new ForgeItems(be, automation));
                 });
-        *///?}
+        //?}
     }
 
     /**
@@ -115,7 +115,7 @@ public final class ItemExposure {
     public static @Nullable List<ItemStack> extract(Level level, BlockPos pos, Direction side, int max) {
         List<ItemStack> out = new ArrayList<>();
         //? if neoforge && >=26.1 {
-        var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
+        /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
         if (handler == null) return null;
         try (var tx = net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
             int left = max;
@@ -128,7 +128,7 @@ public final class ItemExposure {
             }
             tx.commit();
         }
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, pos, side);
         if (handler == null) return null;
         int left = max;
@@ -138,7 +138,7 @@ public final class ItemExposure {
             left -= got.getCount();
         }
         *///?} elif forge {
-        /*BlockEntity be = level.getBlockEntity(pos);
+        BlockEntity be = level.getBlockEntity(pos);
         var handler = be == null ? null
                 : be.getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER, side).resolve().orElse(null);
         if (handler == null) return null;
@@ -148,7 +148,7 @@ public final class ItemExposure {
             if (!got.isEmpty()) out.add(got);
             left -= got.getCount();
         }
-        *///?} else {
+        //?} else {
         /*var storage = net.fabricmc.fabric.api.transfer.v1.item.ItemStorage.SIDED.find(level, pos, side);
         if (storage == null) return null;
         try (var tx = net.fabricmc.fabric.api.transfer.v1.transaction.Transaction.openOuter()) {
@@ -170,7 +170,7 @@ public final class ItemExposure {
     /** Puts {@code stack} in through the item capability on {@code side}; how many went in, -1 where nothing answers. For tests. */
     public static int insert(Level level, BlockPos pos, Direction side, ItemStack stack) {
         //? if neoforge && >=26.1 {
-        var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
+        /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
         if (handler == null) return -1;
         int moved = 0;
         try (var tx = net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
@@ -181,17 +181,17 @@ public final class ItemExposure {
             tx.commit();
         }
         return moved;
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, pos, side);
         if (handler == null) return -1;
         return stack.getCount() - net.neoforged.neoforge.items.ItemHandlerHelper.insertItem(handler, stack.copy(), false).getCount();
         *///?} elif forge {
-        /*BlockEntity be = level.getBlockEntity(pos);
+        BlockEntity be = level.getBlockEntity(pos);
         var handler = be == null ? null
                 : be.getCapability(net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER, side).resolve().orElse(null);
         if (handler == null) return -1;
         return stack.getCount() - net.minecraftforge.items.ItemHandlerHelper.insertItem(handler, stack.copy(), false).getCount();
-        *///?} else {
+        //?} else {
         /*var storage = net.fabricmc.fabric.api.transfer.v1.item.ItemStorage.SIDED.find(level, pos, side);
         if (storage == null) return -1;
         try (var tx = net.fabricmc.fabric.api.transfer.v1.transaction.Transaction.openOuter()) {
@@ -203,7 +203,7 @@ public final class ItemExposure {
     }
 
     //? if forge {
-    /*private record ForgeItems(BlockEntity be, ContentsAt automation)
+    private record ForgeItems(BlockEntity be, ContentsAt automation)
             implements net.minecraftforge.common.capabilities.ICapabilityProvider {
 
         @Override
@@ -221,20 +221,20 @@ public final class ItemExposure {
             return net.minecraftforge.common.util.LazyOptional.of(() -> handler).cast();
         }
     }
-    *///?}
+    //?}
 
     /** The non-empty stacks the NeoForge item capability at {@code pos} lists, in slot order. Null elsewhere or where nothing answers. */
     public static @Nullable List<ItemStack> read(Level level, BlockPos pos, @Nullable Direction side) {
         List<ItemStack> stacks = new ArrayList<>();
         //? if neoforge && >=26.1 {
-        var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
+        /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
         if (handler == null) return null;
         for (int i = 0; i < handler.size(); i++) {
             var resource = handler.getResource(i);
             if (!resource.isEmpty()) stacks.add(resource.toStack((int) handler.getAmountAsLong(i)));
         }
         return stacks;
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, pos, side);
         if (handler == null) return null;
         for (int i = 0; i < handler.getSlots(); i++) {
@@ -243,8 +243,8 @@ public final class ItemExposure {
         }
         return stacks;
         *///?} else {
-        /*return null;
-        *///?}
+        return null;
+        //?}
     }
 
     /** What the item capability at {@code pos} shows, and how many items one insert and one extract per slot moved. */
@@ -259,7 +259,7 @@ public final class ItemExposure {
         List<ItemStack> stacks = new ArrayList<>();
         int moved = 0;
         //? if neoforge && >=26.1 {
-        var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
+        /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, pos, side);
         if (handler == null) return null;
         try (var tx = net.neoforged.neoforge.transfer.transaction.Transaction.openRoot()) {
             for (int i = 0; i < handler.size(); i++) {
@@ -272,7 +272,7 @@ public final class ItemExposure {
             tx.commit();
         }
         return new Probe(stacks, moved);
-        //?} elif neoforge {
+        *///?} elif neoforge {
         /*var handler = level.getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, pos, side);
         if (handler == null) return null;
         for (int i = 0; i < handler.getSlots(); i++) {
@@ -286,12 +286,12 @@ public final class ItemExposure {
         }
         return new Probe(stacks, moved);
         *///?} else {
-        /*return null;
-        *///?}
+        return null;
+        //?}
     }
 
     //? if neoforge && >=26.1 {
-    private record View(Container container)
+    /*private record View(Container container)
             implements net.neoforged.neoforge.transfer.ResourceHandler<net.neoforged.neoforge.transfer.item.ItemResource> {
 
         @Override public int size() { return container.getContainerSize(); }
@@ -326,7 +326,7 @@ public final class ItemExposure {
         }
     }
 
-    /** Every slot of {@code container} for reading; moves only through {@code sided}, the face's own slots. */
+    /^* Every slot of {@code container} for reading; moves only through {@code sided}, the face's own slots. ^/
     private record FaceView(net.minecraft.world.WorldlyContainer container, int[] faceSlots,
                             net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper sided)
             implements net.neoforged.neoforge.transfer.ResourceHandler<net.neoforged.neoforge.transfer.item.ItemResource> {
@@ -371,7 +371,7 @@ public final class ItemExposure {
             return face < 0 ? 0 : sided.extract(face, resource, amount, transaction);
         }
     }
-    //?}
+    *///?}
 
     //? if neoforge && <26.1 {
     /*private record View(Container container) implements net.neoforged.neoforge.items.IItemHandler {

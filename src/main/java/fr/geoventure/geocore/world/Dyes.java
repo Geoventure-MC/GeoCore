@@ -24,9 +24,9 @@ public final class Dyes {
     public static @Nullable DyeColor colorOf(ItemStack stack) {
         if (stack.isEmpty()) return null;
         //? if >=26.1 {
-        return stack.get(net.minecraft.core.component.DataComponents.DYE);
-        //?} else {
-        /*return stack.getItem() instanceof net.minecraft.world.item.DyeItem dye ? dye.getDyeColor() : null;
-        *///?}
+        /*return stack.get(net.minecraft.core.component.DataComponents.DYE);
+        *///?} else {
+        return stack.getItem() instanceof net.minecraft.world.item.DyeItem dye ? dye.getDyeColor() : null;
+        //?}
     }
 }

@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.emi;
 
 //? if emi {
-/*import com.google.gson.JsonArray;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.EmiPlugin;
@@ -54,12 +54,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
-/^*
+/**
  * Feeds a {@link ViewerPlugin} to EMI: a mod's EMI plugin subclasses this once ({@code @EmiEntrypoint} on Forge-likes,
  * the {@code emi} entrypoint on Fabric). A native plugin also makes EMI's JEI layer skip the mod's own JEI categories,
  * so nothing is listed twice. A recipe with no {@link ViewerCategory#recipeId} gets a synthetic id ({@code ns:/...}, EMI's
  * convention). EMI's API has no click areas, so {@link ViewerPlugin#clickAreas} is not read.
- ^/
+ */
 public abstract class EmiViewerPlugin implements EmiPlugin {
 
     private static final List<EmiViewerPlugin> PLUGINS = new CopyOnWriteArrayList<>();
@@ -193,7 +193,7 @@ public abstract class EmiViewerPlugin implements EmiPlugin {
         for (T recipe : recipes) registry.addRecipe(new ViewerRecipe<>(category, emi, recipe, idFor(category, recipe)));
     }
 
-    /^* The recipe's own id the first time it is seen; a table row can show in two categories, and EMI wants ids unique. ^/
+    /** The recipe's own id the first time it is seen; a table row can show in two categories, and EMI wants ids unique. */
     private <T> ResourceLocation idFor(ViewerCategory<T> category, T recipe) {
         String named = category.recipeId(recipe);
         if (named != null) {
@@ -340,13 +340,13 @@ public abstract class EmiViewerPlugin implements EmiPlugin {
         }
     }
 
-    /^*
+    /**
      * The harness query {@code emi} (dev clients only): {@code op=status} counts each plugin's categories and recipes as
      * EMI holds them; {@code op=open category} opens one tab; {@code op=fill category item} fills the open menu from the
      * first recipe taking the item; {@code op=recipe id} reads a recipe's output slot context and sets it as the tree goal;
      * {@code op=lookup fluid|item [show]} counts (and opens) its recipes and uses; {@code op=index namespace} counts its
      * fluids' list entries; {@code op=search text} sets the list's search.
-     ^/
+     */
     private static synchronized void registerHarnessQuery() {
         if (harnessQuery) return;
         harnessQuery = true;
@@ -366,7 +366,7 @@ public abstract class EmiViewerPlugin implements EmiPlugin {
                 }
                 case "fill" -> {
                     ResourceLocation id = Ids.parse(params.get("category").getAsString());
-                    EmiStack wanted = EmiStack.of(BuiltInRegistries.ITEM.getValue(Ids.parse(params.get("item").getAsString())));
+                    EmiStack wanted = EmiStack.of(BuiltInRegistries.ITEM.get(Ids.parse(params.get("item").getAsString())));
                     if (!(mc.screen instanceof AbstractContainerScreen<?> screen)) {
                         out.addProperty("error", "no container screen: " + mc.screen);
                         return out;
@@ -475,4 +475,4 @@ public abstract class EmiViewerPlugin implements EmiPlugin {
         return widgets.stream().anyMatch(widget -> widget instanceof SlotWidget slot && slot.getRecipe() == recipe);
     }
 }
-*///?}
+//?}

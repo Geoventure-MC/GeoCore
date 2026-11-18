@@ -30,33 +30,33 @@ public final class BlockSets {
                                     SoundEvent trapdoorClose, SoundEvent trapdoorOpen) {
         // Registered so the block codecs' by-name lookup can find it, as vanilla does for its own sets.
         //? if >=1.21.1 {
-        return BlockSetType.register(new BlockSetType(name, true, true, true,
+        /*return BlockSetType.register(new BlockSetType(name, true, true, true,
                 BlockSetType.PressurePlateSensitivity.EVERYTHING,
                 soundType, doorClose, doorOpen, trapdoorClose, trapdoorOpen,
                 SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
                 SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON));
-        //?} else {
-        /*return BlockSetType.register(new BlockSetType(name, true, soundType, doorClose, doorOpen, trapdoorClose, trapdoorOpen,
+        *///?} else {
+        return BlockSetType.register(new BlockSetType(name, true, soundType, doorClose, doorOpen, trapdoorClose, trapdoorOpen,
                 SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
                 SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON));
-        *///?}
+        //?}
     }
 
     /** A plain vanilla two-block door of the given set. */
     public static DoorBlock door(BlockSetType type, BlockBehaviour.Properties properties) {
         //? if >=1.21.1 {
-        return new DoorBlock(type, properties);
-        //?} else {
-        /*return new DoorBlock(properties, type);
-        *///?}
+        /*return new DoorBlock(type, properties);
+        *///?} else {
+        return new DoorBlock(properties, type);
+        //?}
     }
 
     /** A plain vanilla trapdoor of the given set. */
     public static TrapDoorBlock trapdoor(BlockSetType type, BlockBehaviour.Properties properties) {
         //? if >=1.21.1 {
-        return new TrapDoorBlock(type, properties);
-        //?} else {
-        /*return new TrapDoorBlock(properties, type);
-        *///?}
+        /*return new TrapDoorBlock(type, properties);
+        *///?} else {
+        return new TrapDoorBlock(properties, type);
+        //?}
     }
 }

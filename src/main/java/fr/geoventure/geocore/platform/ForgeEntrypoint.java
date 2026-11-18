@@ -4,7 +4,7 @@ import fr.geoventure.geocore.client.UnbakedModels;
 import fr.geoventure.geocore.profiler.ProfilerCommands;
 
 //? if forge {
-/*import fr.geoventure.geocore.GeoCore;
+import fr.geoventure.geocore.GeoCore;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -49,4 +49,4 @@ public final class ForgeEntrypoint {
         return modBus;
     }
 }
-*///?}
+//?}

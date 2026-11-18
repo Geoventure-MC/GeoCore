@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.render;
 
 //? if forge {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-/^* Forge 1.20's per-item bridge for a renderer installed once by loader client glue. ^/
+/** Forge 1.20's per-item bridge for a renderer installed once by loader client glue. */
 public final class ForgeItemRenderers {
 
     private static IClientItemExtensions extension;
@@ -55,4 +55,4 @@ public final class ForgeItemRenderers {
                     MultiBufferSource buffers, int light, int overlay);
     }
 }
-*///?}
+//?}

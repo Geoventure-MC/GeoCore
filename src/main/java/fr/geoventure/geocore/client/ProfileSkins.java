@@ -15,18 +15,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //? if >=26.1 {
-import com.mojang.authlib.yggdrasil.ProfileResult;
+/*import com.mojang.authlib.yggdrasil.ProfileResult;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.Identifier;
-//?} elif >=1.21 {
+*///?} elif >=1.21 {
 /*import com.mojang.authlib.yggdrasil.ProfileResult;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.resources.ResourceLocation;
 *///?} else {
-/*import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.resources.ResourceLocation;
-*///?}
+//?}
 
 /**
  * Any player's skin by UUID, with its pixels (1.12.2's {@code MojangSkinLoader}). Vanilla's session service and skin
@@ -50,19 +50,19 @@ public final class ProfileSkins {
     public record Skin(
             int[] argb,
             //? if >=26.1 {
-            Identifier texture
-            //?} else {
-            /*ResourceLocation texture
-            *///?}
+            /*Identifier texture
+            *///?} else {
+            ResourceLocation texture
+            //?}
     ) {}
 
     /** Vanilla has finished this skin's texture. */
     private record Registered(
             //? if >=26.1 {
-            Identifier vanilla
-            //?} else {
-            /*ResourceLocation vanilla
-            *///?}
+            /*Identifier vanilla
+            *///?} else {
+            ResourceLocation vanilla
+            //?}
     ) {}
 
     /** Starts fetching {@code id}'s skin, if it was not asked for before. Safe before Minecraft exists. */
@@ -107,48 +107,48 @@ public final class ProfileSkins {
 
     private static @Nullable GameProfile profile(Minecraft minecraft, UUID id) {
         //? if >=26.1 {
-        ProfileResult result = minecraft.services().sessionService().fetchProfile(id, false);
+        /*ProfileResult result = minecraft.services().sessionService().fetchProfile(id, false);
         return result == null ? null : result.profile();
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*ProfileResult result = minecraft.getMinecraftSessionService().fetchProfile(id, false);
         return result == null ? null : result.profile();
         *///?} else {
-        /*return minecraft.getMinecraftSessionService().fillProfileProperties(new GameProfile(id, null), false);
-        *///?}
+        return minecraft.getMinecraftSessionService().fillProfileProperties(new GameProfile(id, null), false);
+        //?}
     }
 
     private static boolean hasSkin(Minecraft minecraft, GameProfile profile) {
         //? if >=26.1 {
-        return minecraft.services().sessionService().getPackedTextures(profile) != null;
-        //?} elif >=1.21 {
+        /*return minecraft.services().sessionService().getPackedTextures(profile) != null;
+        *///?} elif >=1.21 {
         /*return minecraft.getMinecraftSessionService().getPackedTextures(profile) != null;
         *///?} else {
-        /*return profile.getProperties().containsKey("textures");
-        *///?}
+        return profile.getProperties().containsKey("textures");
+        //?}
     }
 
     private static void requestSkin(Minecraft minecraft, UUID id, GameProfile profile) {
         //? if >=26.1 {
-        minecraft.getSkinManager().get(profile).thenAcceptAsync(skin -> {
+        /*minecraft.getSkinManager().get(profile).thenAcceptAsync(skin -> {
             if (skin.isEmpty()) fail(id, "the skin did not load");
             else STATE.put(id, new Registered(skin.get().body().texturePath()));
         }, minecraft);
-        //?} elif >=1.21 {
+        *///?} elif >=1.21 {
         /*minecraft.getSkinManager().getOrLoad(profile).thenAccept(skin -> afterUpload(minecraft, id, skin.texture()));
         *///?} else {
-        /*minecraft.getSkinManager().registerSkins(profile, (type, location, texture) -> {
+        minecraft.getSkinManager().registerSkins(profile, (type, location, texture) -> {
             if (type == MinecraftProfileTexture.Type.SKIN) afterUpload(minecraft, id, location);
         }, false);
-        *///?}
+        //?}
     }
 
     //? if <26.1 {
-    /*// Vanilla reports a skin downloaded and only then queues its upload on the same executor, so a readback queued from
+    // Vanilla reports a skin downloaded and only then queues its upload on the same executor, so a readback queued from
     // the report would see the placeholder; queued from a task that runs after it, it sees the skin.
     private static void afterUpload(Minecraft minecraft, UUID id, ResourceLocation vanilla) {
         minecraft.execute(() -> minecraft.execute(() -> STATE.put(id, new Registered(vanilla))));
     }
-    *///?}
+    //?}
 
     private static void fail(UUID id, String reason) {
         STATE.put(id, FAILED);
@@ -176,21 +176,21 @@ public final class ProfileSkins {
 
     private static int @Nullable [] pixels(
             //? if >=26.1 {
-            Identifier vanilla
-            //?} else {
-            /*ResourceLocation vanilla
-            *///?}
+            /*Identifier vanilla
+            *///?} else {
+            ResourceLocation vanilla
+            //?}
     ) {
         int[] argb = new int[SIZE * SIZE];
         //? if >=26.1 {
-        if (!(Minecraft.getInstance().getTextureManager().getTexture(vanilla) instanceof DynamicTexture texture)) return null;
+        /*if (!(Minecraft.getInstance().getTextureManager().getTexture(vanilla) instanceof DynamicTexture texture)) return null;
         NativeImage image = texture.getPixels();
         if (image == null || image.getWidth() != SIZE || image.getHeight() != SIZE) return null;
         for (int y = 0; y < SIZE; y++)
             for (int x = 0; x < SIZE; x++)
                 argb[y * SIZE + x] = image.getPixel(x, y);
-        //?} else {
-        /*RenderSystem.bindTexture(Minecraft.getInstance().getTextureManager().getTexture(vanilla).getId());
+        *///?} else {
+        RenderSystem.bindTexture(Minecraft.getInstance().getTextureManager().getTexture(vanilla).getId());
         try (NativeImage image = new NativeImage(SIZE, SIZE, false)) {
             image.downloadTexture(0, false);
             for (int y = 0; y < SIZE; y++) {
@@ -200,7 +200,7 @@ public final class ProfileSkins {
                 }
             }
         }
-        *///?}
+        //?}
         return argb;
     }
 }

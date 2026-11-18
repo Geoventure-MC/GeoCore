@@ -9,10 +9,10 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 //? if >=1.21.1 {
-import net.minecraft.world.item.crafting.CraftingInput;
-//?} else {
-/*import net.minecraft.world.inventory.CraftingContainer;
-*///?}
+/*import net.minecraft.world.item.crafting.CraftingInput;
+*///?} else {
+import net.minecraft.world.inventory.CraftingContainer;
+//?}
 
 /**
  * A custom crafting recipe with version-neutral item input and result hooks.
@@ -24,11 +24,11 @@ import net.minecraft.world.item.crafting.CraftingInput;
 public abstract class CompatCustomRecipe implements CraftingRecipe {
 
     //? if <1.21.1
-    /*private final net.minecraft.resources.ResourceLocation id;*/
+    private final net.minecraft.resources.ResourceLocation id;
 
     protected CompatCustomRecipe(String namespace, String path) {
         //? if <1.21.1
-        /*this.id = fr.geoventure.geocore.Ids.of(namespace, path);*/
+        this.id = fr.geoventure.geocore.Ids.of(namespace, path);
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class CompatCustomRecipe implements CraftingRecipe {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public boolean showNotification() {
         return false;
     }
@@ -57,13 +57,13 @@ public abstract class CompatCustomRecipe implements CraftingRecipe {
     public net.minecraft.world.item.crafting.PlacementInfo placementInfo() {
         return net.minecraft.world.item.crafting.PlacementInfo.NOT_PLACEABLE;
     }
-    //?} else if >=1.21.1 {
+    *///?} else if >=1.21.1 {
     /*@Override
     public ItemStack getResultItem(net.minecraft.core.HolderLookup.Provider registries) {
         return ItemStack.EMPTY;
     }
     *///?} else {
-    /*@Override
+    @Override
     public net.minecraft.resources.ResourceLocation getId() {
         return id;
     }
@@ -72,7 +72,7 @@ public abstract class CompatCustomRecipe implements CraftingRecipe {
     public ItemStack getResultItem(net.minecraft.core.RegistryAccess registries) {
         return ItemStack.EMPTY;
     }
-    *///?}
+    //?}
 
     protected abstract boolean matchesItems(List<ItemStack> input, Level level);
 
@@ -119,14 +119,14 @@ public abstract class CompatCustomRecipe implements CraftingRecipe {
     protected abstract RecipeSerializer<?> serializer();
 
     //? if <26.1 {
-    /*@Override
+    @Override
     public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
-    protected static List<ItemStack> items(CraftingInput input) {
+    /*protected static List<ItemStack> items(CraftingInput input) {
         List<ItemStack> stacks = new ArrayList<>(input.size());
         for (int slot = 0; slot < input.size(); slot++) stacks.add(input.getItem(slot));
         return stacks;
@@ -138,18 +138,18 @@ public abstract class CompatCustomRecipe implements CraftingRecipe {
     }
 
     //? if >=26.1 {
-    @Override
+    /^@Override
     public final ItemStack assemble(CraftingInput input) {
         return assembleGrid(input.width(), input.height(), items(input));
     }
-    //?} else {
-    /*@Override
+    ^///?} else {
+    @Override
     public final ItemStack assemble(CraftingInput input, net.minecraft.core.HolderLookup.Provider registries) {
         return assembleGrid(input.width(), input.height(), items(input));
     }
-    *///?}
-    //?} else {
-    /*private static List<ItemStack> items(CraftingContainer input) {
+    //?}
+    *///?} else {
+    private static List<ItemStack> items(CraftingContainer input) {
         List<ItemStack> stacks = new ArrayList<>(input.getContainerSize());
         for (int slot = 0; slot < input.getContainerSize(); slot++) stacks.add(input.getItem(slot));
         return stacks;
@@ -164,19 +164,19 @@ public abstract class CompatCustomRecipe implements CraftingRecipe {
     public final ItemStack assemble(CraftingContainer input, net.minecraft.core.RegistryAccess registries) {
         return assembleGrid(input.getWidth(), input.getHeight(), items(input));
     }
-    *///?}
+    //?}
 
     //? if >=1.21.1 {
-    @Override
+    /*@Override
     public net.minecraft.core.NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
         return remaining(items(input));
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public net.minecraft.core.NonNullList<ItemStack> getRemainingItems(CraftingContainer input) {
         return remaining(items(input));
     }
-    *///?}
+    //?}
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})

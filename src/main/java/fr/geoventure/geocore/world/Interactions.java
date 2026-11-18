@@ -25,10 +25,10 @@ public final class Interactions {
             /*return net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.invoker()
                     .interact(player, player.level(), InteractionHand.MAIN_HAND, hit) != net.minecraft.world.InteractionResult.FAIL;
             *///?} elif neoforge {
-            return !net.neoforged.neoforge.common.CommonHooks.onRightClickBlock(player, InteractionHand.MAIN_HAND, pos, hit).isCanceled();
-            //?} elif forge {
-            /*return !net.minecraftforge.common.ForgeHooks.onRightClickBlock(player, InteractionHand.MAIN_HAND, pos, hit).isCanceled();
-            *///?}
+            /*return !net.neoforged.neoforge.common.CommonHooks.onRightClickBlock(player, InteractionHand.MAIN_HAND, pos, hit).isCanceled();
+            *///?} elif forge {
+            return !net.minecraftforge.common.ForgeHooks.onRightClickBlock(player, InteractionHand.MAIN_HAND, pos, hit).isCanceled();
+            //?}
         } finally {
             PROBING.set(false);
         }

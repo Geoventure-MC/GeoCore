@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import fr.geoventure.geocore.world.CompatRailBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -39,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinMinecartRails {
 
     //? if >=26.1 {
-    @Unique
+    /*@Unique
     private BlockPos geocore$railPos;
     @Unique
     private BlockState geocore$railState;
@@ -91,7 +91,7 @@ public abstract class MixinMinecartRails {
         // consulted here.
         if (pos != null && state.getBlock() instanceof CompatRailBlock rail) rail.onMinecartPass(state, self.level(), pos, self);
     }
-    //?} else if fabric {
+    *///?} else if fabric {
     /*@ModifyReturnValue(method = "getMaxSpeed()D", at = @At("RETURN"))
     private double geocore$railMaxSpeed(double speed) {
         return geocore$applyRailSpeed(speed);
@@ -106,7 +106,7 @@ public abstract class MixinMinecartRails {
     *///?}
 
     //? if >=26.1 || fabric {
-    @Unique
+    /*@Unique
     private double geocore$applyRailSpeed(double speed) {
         AbstractMinecart self = (AbstractMinecart) (Object) this;
         BlockPos pos = CompatRailBlock.railPosition(self);
@@ -117,5 +117,5 @@ public abstract class MixinMinecartRails {
         }
         return speed;
     }
-    //?}
+    *///?}
 }

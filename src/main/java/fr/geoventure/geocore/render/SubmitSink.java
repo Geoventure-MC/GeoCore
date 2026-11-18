@@ -6,10 +6,10 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.util.FormattedCharSequence;
 
 //? if >=26.1 {
-import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+/*import net.minecraft.client.renderer.rendertype.RenderType;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 /**
  * Where a renderer sends its geometry.

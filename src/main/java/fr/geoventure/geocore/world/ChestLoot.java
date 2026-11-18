@@ -90,10 +90,10 @@ public final class ChestLoot {
         // a count of 0 is an empty stack, which Fabric passes on and NeoForge drops; a chest skips it either way
         Consumer<ItemStack> sink = stack -> { if (!stack.isEmpty()) stacks.add(stack); };
         //? if >=1.20.5 {
-        table(level, table).getRandomItemsRaw(context.create(java.util.Optional.empty()), sink);
-        //?} else {
-        /*table(level, table).getRandomItemsRaw(context.create(null), sink);
-        *///?}
+        /*table(level, table).getRandomItemsRaw(context.create(java.util.Optional.empty()), sink);
+        *///?} else {
+        table(level, table).getRandomItemsRaw(context.create(null), sink);
+        //?}
         return stacks;
     }
 
@@ -104,11 +104,11 @@ public final class ChestLoot {
 
     static LootTable table(ServerLevel level, String table) {
         //? if >=1.20.5 {
-        return level.getServer().reloadableRegistries().getLootTable(net.minecraft.resources.ResourceKey.create(
+        /*return level.getServer().reloadableRegistries().getLootTable(net.minecraft.resources.ResourceKey.create(
                 net.minecraft.core.registries.Registries.LOOT_TABLE, Ids.parse(table)));
-        //?} else {
-        /*return level.getServer().getLootData().getLootTable(Ids.parse(table));
-        *///?}
+        *///?} else {
+        return level.getServer().getLootData().getLootTable(Ids.parse(table));
+        //?}
     }
 
     private static LootParams chestParams(ServerLevel level, Vec3 origin) {
@@ -143,15 +143,15 @@ public final class ChestLoot {
 
     private static void hook() {
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.LootTableLoadEvent event) ->
                         apply(event.getName().toString(), pool -> event.getTable().addPool(pool.build())));
-        //?}
+        *///?}
         //? if forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.LootTableLoadEvent event) ->
                         apply(event.getName().toString(), pool -> event.getTable().addPool(pool.build())));
-        *///?}
+        //?}
         //? if fabric && >=1.20.5 {
         /*net.fabricmc.fabric.api.loot.v3.LootTableEvents.MODIFY.register((key, builder, source, registries) ->
                 apply(Ids.keyId(key).toString(), builder::withPool));

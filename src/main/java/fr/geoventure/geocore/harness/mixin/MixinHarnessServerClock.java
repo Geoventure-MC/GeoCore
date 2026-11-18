@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public abstract class MixinHarnessServerClock {
 
     //? if <1.21 {
-    /*@ModifyConstant(method = "runServer", constant = @Constant(longValue = 50L), require = 4)
+    @ModifyConstant(method = "runServer", constant = @Constant(longValue = 50L), require = 4)
     private long geocore$harnessServerMillis(long original) {
         return HarnessPacing.serverMillis();
     }
-    *///?}
+    //?}
 }

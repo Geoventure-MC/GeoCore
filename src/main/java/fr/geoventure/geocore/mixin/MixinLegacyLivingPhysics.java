@@ -1,7 +1,7 @@
 package fr.geoventure.geocore.mixin;
 
 //? if <1.20.5 {
-/*import fr.geoventure.geocore.world.Physics;
+import fr.geoventure.geocore.world.Physics;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/^*
+/**
  * 1.20.1: fall damage reads the backported safe fall distance and fall damage multiplier ({@link Physics}), as 1.20.5's
  * {@code calculateFallDamage} does. With both at their defaults (3 and 1) the result is 1.20.1's own, to the float:
  * {@code ceil((distance - 3 - jumpBoost) * multiplier)}.
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * {@code LivingFallEvent} can scale the distance but not express a safe distance and a multiplier that compose with other
  * mods, and Fabric has no fall event. Rung 3: not a visibility problem. The smallest mixin computes the 1.20.5 formula at
  * the head of {@code calculateFallDamage}.
- ^/
+ */
 @Mixin(LivingEntity.class)
 public abstract class MixinLegacyLivingPhysics {
 
@@ -36,4 +36,4 @@ public abstract class MixinLegacyLivingPhysics {
         cir.setReturnValue(Mth.ceil((distance - safe - boost) * multiplier * scale));
     }
 }
-*///?}
+//?}

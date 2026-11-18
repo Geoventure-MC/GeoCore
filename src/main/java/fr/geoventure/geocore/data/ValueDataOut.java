@@ -1,11 +1,11 @@
 package fr.geoventure.geocore.data;
 
 //? if >=26.1 {
-import com.mojang.serialization.Codec;
+/*import com.mojang.serialization.Codec;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
-/** {@link DataOut} backed by 26.1's {@code ValueOutput}. Pure delegation — the shapes already match. */
+/^* {@link DataOut} backed by 26.1's {@code ValueOutput}. Pure delegation — the shapes already match. ^/
 public record ValueDataOut(ValueOutput delegate) implements DataOut {
 
     @Override
@@ -79,4 +79,4 @@ public record ValueDataOut(ValueOutput delegate) implements DataOut {
         delegate.discard(name);
     }
 }
-//?}
+*///?}

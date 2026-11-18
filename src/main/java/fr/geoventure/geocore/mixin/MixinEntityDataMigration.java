@@ -7,12 +7,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //? if >=26.1 {
-import fr.geoventure.geocore.data.ValueDataIn;
+/*import fr.geoventure.geocore.data.ValueDataIn;
 import net.minecraft.world.level.storage.ValueInput;
-//?} else {
-/*import fr.geoventure.geocore.data.TagDataIn;
+*///?} else {
+import fr.geoventure.geocore.data.TagDataIn;
 import net.minecraft.nbt.CompoundTag;
-*///?}
+//?}
 
 /**
  * Hands an entity's finished save data to {@link EntityData#migrateLegacy}, so a mod's pre-attachment
@@ -31,14 +31,14 @@ public abstract class MixinEntityDataMigration {
 
     @Inject(method = "load", at = @At("TAIL"))
     //? if >=26.1 {
-    private void geocore$migrateLegacyData(ValueInput input, CallbackInfo ci) {
+    /*private void geocore$migrateLegacyData(ValueInput input, CallbackInfo ci) {
         if (EntityData.migrating()) EntityData.migrateLegacy((Entity) (Object) this, new ValueDataIn(input));
     }
-    //?} else {
-    /*private void geocore$migrateLegacyData(CompoundTag tag, CallbackInfo ci) {
+    *///?} else {
+    private void geocore$migrateLegacyData(CompoundTag tag, CallbackInfo ci) {
         if (!EntityData.migrating()) return;
         Entity self = (Entity) (Object) this;
         EntityData.migrateLegacy(self, new TagDataIn(tag, self.level().registryAccess()));
     }
-    *///?}
+    //?}
 }

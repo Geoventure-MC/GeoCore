@@ -29,14 +29,14 @@ public final class ItemUses {
         if (hooked) return;
         hooked = true;
         //? if neoforge {
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+        /*net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 (net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent.Finish event) ->
                         finished(event.getEntity(), event.getItem()));
-        //?} elif forge {
-        /*net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+        *///?} elif forge {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 (net.minecraftforge.event.entity.living.LivingEntityUseItemEvent.Finish event) ->
                         finished(event.getEntity(), event.getItem()));
-        *///?}
+        //?}
     }
 
     /** Dispatches a finished use. Called by the loader hooks; client-side calls are ignored. */

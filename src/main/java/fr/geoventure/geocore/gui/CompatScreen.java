@@ -6,13 +6,13 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 
 //? if >=26.1 {
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-//?} else {
-/*import net.minecraft.client.gui.GuiGraphics;
-*///?}
+*///?} else {
+import net.minecraft.client.gui.GuiGraphics;
+//?}
 
 /**
  * A plain screen with the render and input hook names used by current Minecraft.
@@ -31,18 +31,18 @@ public abstract class CompatScreen extends Screen {
 
     protected void extractBackgroundCompat(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int mouseX, int mouseY, float partialTick) {}
 
     protected void extractForegroundCompat(
             //? if >=26.1 {
-            GuiGraphicsExtractor graphics,
-            //?} else {
-            /*GuiGraphics graphics,
-            *///?}
+            /*GuiGraphicsExtractor graphics,
+            *///?} else {
+            GuiGraphics graphics,
+            //?}
             int mouseX, int mouseY, float partialTick) {}
 
     protected boolean mouseClickedCompat(MouseInput event, boolean doubleClick) { return false; }
@@ -66,7 +66,7 @@ public abstract class CompatScreen extends Screen {
     }
 
     //? if >=26.1 {
-    @Override
+    /*@Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         if (this.menuBackground()) super.extractBackground(graphics, mouseX, mouseY, partialTick);
         this.extractBackgroundCompat(graphics, mouseX, mouseY, partialTick);
@@ -121,8 +121,8 @@ public abstract class CompatScreen extends Screen {
         return this.mouseScrolledCompat(mouseX, mouseY, scrollX, scrollY)
                 || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         MouseInput input = new MouseInput(mouseX, mouseY, button);
         return this.mouseClickedCompat(input, false) || super.mouseClicked(mouseX, mouseY, button)
@@ -161,7 +161,7 @@ public abstract class CompatScreen extends Screen {
         this.updateFocusedEditBox();
         return handled;
     }
-    *///?}
+    //?}
 
     /**
      * The background goes in {@code renderBackground}, not ahead of {@code render}.
@@ -185,13 +185,13 @@ public abstract class CompatScreen extends Screen {
         this.extractForegroundCompat(graphics, mouseX, mouseY, partialTick);
     }
     *///?} elif <1.21 {
-    /*@Override
+    @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         this.extractBackgroundCompat(graphics, mouseX, mouseY, partialTick);
         super.render(graphics, mouseX, mouseY, partialTick);
         this.extractForegroundCompat(graphics, mouseX, mouseY, partialTick);
     }
-    *///?}
+    //?}
 
     //? if >=1.21 && <26.1 {
     /*@Override
@@ -200,12 +200,12 @@ public abstract class CompatScreen extends Screen {
                 || super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
     *///?} elif <1.21 {
-    /*@Override
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
         return this.mouseScrolledCompat(mouseX, mouseY, 0.0D, scrollDelta)
                 || super.mouseScrolled(mouseX, mouseY, scrollDelta);
     }
-    *///?}
+    //?}
 
     private EditBox focusedEditBox() {
         if (this.focusedEditBoxForInput != null && this.focusedEditBoxForInput.isActive()

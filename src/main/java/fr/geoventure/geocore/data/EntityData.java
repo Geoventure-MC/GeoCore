@@ -73,15 +73,15 @@ public final class EntityData<T> {
     private volatile @Nullable String legacyKey;
 
     //? if neoforge {
-    private static final java.util.Map<String, fr.geoventure.geocore.registry.DeferredRegister<
+    /*private static final java.util.Map<String, fr.geoventure.geocore.registry.DeferredRegister<
             net.neoforged.neoforge.attachment.AttachmentType<?>>> REGISTERS = new java.util.HashMap<>();
     private final net.neoforged.neoforge.attachment.AttachmentType<T> type;
-    //?} elif fabric {
+    *///?} elif fabric {
     /*private final net.fabricmc.fabric.api.attachment.v1.AttachmentType<Slot<T>> type;
     *///?} elif forge {
-    /*private final java.util.concurrent.ConcurrentMap<Entity, T> values =
+    private final java.util.concurrent.ConcurrentMap<Entity, T> values =
             new com.google.common.collect.MapMaker().weakKeys().makeMap();
-    *///?}
+    //?}
 
     private EntityData(String namespace, String name, Class<? extends Entity> holder, Supplier<T> factory,
                        Writer<T> writer, Reader<T> reader) {
@@ -91,7 +91,7 @@ public final class EntityData<T> {
         this.writer = Objects.requireNonNull(writer);
         this.reader = Objects.requireNonNull(reader);
         //? if neoforge {
-        type = net.neoforged.neoforge.attachment.AttachmentType.builder(factory)
+        /*type = net.neoforged.neoforge.attachment.AttachmentType.builder(factory)
                 .serialize(serializer())
                 // A declining copy handler: NeoForge would otherwise copy every serialized attachment to the
                 // new player on an End return, which Fabric's reset and Forge's capabilities do not.
@@ -102,15 +102,15 @@ public final class EntityData<T> {
                     net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.ATTACHMENT_TYPES, ns))
                     .register(name, () -> type);
         }
-        //?} elif fabric {
+        *///?} elif fabric {
         /*type = net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry.<Slot<T>>builder()
                 .initializer(Slot::new)
                 .persistent(CompoundTag.CODEC.xmap(Slot::<T>pending, this::encode))
                 .buildAndRegister(Ids.of(namespace, name));
         installFabric();
         *///?} elif forge {
-        /*installForge();
-        *///?}
+        installForge();
+        //?}
     }
 
     /**
@@ -146,26 +146,26 @@ public final class EntityData<T> {
     /** The entity's value, created from the factory on first access. Never null. */
     public T get(Entity entity) {
         //? if neoforge {
-        return entity.getData(type);
-        //?} elif fabric {
+        /*return entity.getData(type);
+        *///?} elif fabric {
         /*Slot<T> slot = entity.getAttachedOrCreate(type);
         T value = slot.value;
         return value != null ? value : materialize(slot, entity);
         *///?} elif forge {
-        /*T value = values.get(entity);
+        T value = values.get(entity);
         return value != null ? value : values.computeIfAbsent(entity, e -> factory.get());
-        *///?}
+        //?}
     }
 
     /** Whether the entity has a value yet: loaded from its save data, or created by {@link #get}. */
     public boolean has(Entity entity) {
         //? if neoforge {
-        return entity.hasData(type);
-        //?} elif fabric {
+        /*return entity.hasData(type);
+        *///?} elif fabric {
         /*return entity.hasAttached(type);
         *///?} elif forge {
-        /*return values.containsKey(entity);
-        *///?}
+        return values.containsKey(entity);
+        //?}
     }
 
     /** True while any declaration has a legacy key, so the load hook can skip all work otherwise. */
@@ -199,7 +199,7 @@ public final class EntityData<T> {
     // CompoundTag bridge for the backends that store a plain compound (Fabric, Forge)
 
     //? if >=26.1 {
-    public static DataIn dataIn(CompoundTag tag, HolderLookup.Provider registries) {
+    /*public static DataIn dataIn(CompoundTag tag, HolderLookup.Provider registries) {
         return new ValueDataIn(net.minecraft.world.level.storage.TagValueInput.create(
                 net.minecraft.util.ProblemReporter.DISCARDING, registries, tag));
     }
@@ -213,8 +213,8 @@ public final class EntityData<T> {
         writer.save(value, new ValueDataOut(output));
         return output.buildResult();
     }
-    //?} else {
-    /*public static DataIn dataIn(CompoundTag tag, HolderLookup.Provider registries) {
+    *///?} else {
+    public static DataIn dataIn(CompoundTag tag, HolderLookup.Provider registries) {
         return new TagDataIn(tag, registries);
     }
 
@@ -223,12 +223,12 @@ public final class EntityData<T> {
         writer.save(value, new TagDataOut(tag, registries));
         return tag;
     }
-    *///?}
+    //?}
 
     // NeoForge
 
     //? if neoforge && >=26.1 {
-    private net.neoforged.neoforge.attachment.IAttachmentSerializer<T> serializer() {
+    /*private net.neoforged.neoforge.attachment.IAttachmentSerializer<T> serializer() {
         return new net.neoforged.neoforge.attachment.IAttachmentSerializer<>() {
             @Override
             public T read(net.neoforged.neoforge.attachment.IAttachmentHolder target,
@@ -245,7 +245,7 @@ public final class EntityData<T> {
             }
         };
     }
-    //?} elif neoforge {
+    *///?} elif neoforge {
     /*private net.neoforged.neoforge.attachment.IAttachmentSerializer<CompoundTag, T> serializer() {
         return new net.neoforged.neoforge.attachment.IAttachmentSerializer<>() {
             @Override
@@ -368,7 +368,7 @@ public final class EntityData<T> {
     // Forge
 
     //? if forge {
-    /*private static boolean forgeInstalled;
+    private static boolean forgeInstalled;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private static synchronized void installForge() {
@@ -390,7 +390,7 @@ public final class EntityData<T> {
         }
     }
 
-    /^* Persistence only: every value lives in its declaration's identity map. ^/
+    /** Persistence only: every value lives in its declaration's identity map. */
     private static final class ForgeStore implements net.minecraftforge.common.capabilities.ICapabilitySerializable<CompoundTag> {
         private final Entity entity;
 
@@ -428,5 +428,5 @@ public final class EntityData<T> {
         reader.load(value, dataIn(tag.getCompound(key), entity.level().registryAccess()));
         values.put(entity, value);
     }
-    *///?}
+    //?}
 }

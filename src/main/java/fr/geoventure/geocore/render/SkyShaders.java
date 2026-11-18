@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import org.joml.Matrix4f;
 //? if >=26.1 {
-import com.mojang.blaze3d.buffers.GpuBuffer;
+/*import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.BlendFunction;
@@ -31,8 +31,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.OutputTarget;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -47,7 +47,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.lwjgl.opengl.GL11;
-*///?}
+//?}
 
 /**
  * The per-version half of {@link Sky#shaderQuads}: a mod's fragment shader over sky quads, with GeoCore's vertex shader
@@ -110,12 +110,12 @@ final class SkyShaders {
     }
 
     //? if >=26.1 {
-    private static final BlendFunction BLEND_ALPHA = new BlendFunction(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
+    /*private static final BlendFunction BLEND_ALPHA = new BlendFunction(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
             SourceFactor.ONE, DestFactor.ZERO);
-    /** 1.7's colour factors, the alpha accumulated as "over" coverage (see {@link #blend}). */
+    /^* 1.7's colour factors, the alpha accumulated as "over" coverage (see {@link #blend}). ^/
     private static final BlendFunction PICTURE_ALPHA = new BlendFunction(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
             SourceFactor.ONE, DestFactor.ONE_MINUS_SRC_ALPHA);
-    /** 1.7's additive colour factors, the coverage left as it is (see {@link #blend}). */
+    /^* 1.7's additive colour factors, the coverage left as it is (see {@link #blend}). ^/
     private static final BlendFunction PICTURE_ADDITIVE = new BlendFunction(SourceFactor.SRC_ALPHA, DestFactor.ONE,
             SourceFactor.ZERO, DestFactor.ONE);
     private static final BlendFunction PREMULTIPLIED_ADDITIVE = new BlendFunction(SourceFactor.ONE, DestFactor.ONE,
@@ -123,14 +123,14 @@ final class SkyShaders {
     private static final BlendFunction PICTURE_PREMULTIPLIED_ADDITIVE = new BlendFunction(SourceFactor.ONE, DestFactor.ONE,
             SourceFactor.ZERO, DestFactor.ONE);
 
-    /**
+    /^*
      * The blend of a draw. In the sky ({@code picture} false): 1.7's colour factors with vanilla's alpha factors
      * {@code ONE, ZERO}. Into a GUI picture-in-picture texture ({@code picture} true), which starts transparent black and
      * is blitted with premultiplied alpha ({@code GUI_TEXTURED_PREMULTIPLIED_ALPHA}): the same colour factors with the
      * alpha kept as coverage. An alpha-blended draw adds {@code a} of it ({@code ONE, ONE_MINUS_SRC_ALPHA}), an additive
      * one none ({@code ZERO, ONE}). The texture then holds {@code (C, A)} with {@code C + (1 - A) * screen} equal to
      * drawing the same sequence onto the screen as 1.7 did, up to 8-bit rounding.
-     */
+     ^/
     static BlendFunction blend(Sky.Blend blend, boolean picture) {
         return blend(blend, picture, false);
     }
@@ -205,12 +205,12 @@ final class SkyShaders {
         pass(() -> "GeoCore sky shader " + namespace + ":" + name, pipeline, mesh, textures, samplers, block(local, params));
     }
 
-    /**
+    /^*
      * Draws {@code mesh} (closed here) with {@code pipeline} into the current output target - vanilla's main target, or
      * the override a picture-in-picture renderer set - with the frame's default uniforms, an identity-coloured
      * {@code DynamicTransforms}, {@code parameters} as {@code GeoCoreSkyShader} when not null, and {@code textures[i]} on
      * {@code Sampler<i>} with 1.7's texture-manager state (repeat, nearest).
-     */
+     ^/
     static void pass(java.util.function.Supplier<String> label, RenderPipeline pipeline, MeshData mesh, String[] textures,
                      int samplers, GpuBufferSlice parameters) {
         try (mesh) {
@@ -249,15 +249,15 @@ final class SkyShaders {
             }
         }
     }
-    //?} else {
-    /*private static final Map<String, ShaderInstance> PROGRAMS = new ConcurrentHashMap<>();
+    *///?} else {
+    private static final Map<String, ShaderInstance> PROGRAMS = new ConcurrentHashMap<>();
     private static Sky.Blend applying = Sky.Blend.ALPHA;
     private static boolean applyingPremultiplied;
 
-    /^*
+    /**
      * The program JSON {@code ShaderInstance} reads; the fragment is the mod's {@code <namespace>:shaders/core/<name>.fsh}.
      * No samplers, as {@link Sky}'s textured program: {@link #program} assigns the units once, {@link #render} binds them.
-     ^/
+     */
     private static String programJson(String namespace, String name) {
         StringBuilder json = new StringBuilder();
         json.append("{\"vertex\":\"geocore:sky_shader_legacy\",\"fragment\":\"").append(namespace).append(':').append(name)
@@ -311,7 +311,7 @@ final class SkyShaders {
                         ? GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA : GlStateManager.DestFactor.ZERO);
     }
 
-    /^* {@code picture} is 26.1's; before it every draw goes straight onto the screen. ^/
+    /** {@code picture} is 26.1's; before it every draw goes straight onto the screen. */
     private static void render(String namespace, String name, int samplers, Sky.Blend blend, boolean cull, boolean picture,
                                boolean premultiplied, String[] textures, Matrix4f local, float[] params, float[] v, int quads) {
         ShaderInstance program = program(namespace, name, samplers);
@@ -336,24 +336,24 @@ final class SkyShaders {
         applyBlend();
         if (!cull) RenderSystem.disableCull();
         //? if >=1.21 {
-        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        /*BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         for (int i = 0; i < quads * 4; i++) {
             int o = i * 5;
             builder.addVertex(v[o], v[o + 1], v[o + 2]).setUv(v[o + 3], v[o + 4]);
         }
         com.mojang.blaze3d.vertex.MeshData mesh = builder.build();
         if (mesh != null) BufferUploader.drawWithShader(mesh);
-        //?} else {
-        /^BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        *///?} else {
+        BufferBuilder builder = Tesselator.getInstance().getBuilder();
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         for (int i = 0; i < quads * 4; i++) {
             int o = i * 5;
             builder.vertex(v[o], v[o + 1], v[o + 2]).uv(v[o + 3], v[o + 4]).endVertex();
         }
         BufferUploader.drawWithShader(builder.end());
-        ^///?}
+        //?}
         for (int i = 0; i < samplers; i++) Sky.bindUnit(i, 0);
         if (!cull) RenderSystem.enableCull();
     }
-    *///?}
+    //?}
 }

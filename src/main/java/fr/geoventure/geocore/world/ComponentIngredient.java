@@ -62,10 +62,10 @@ public final class ComponentIngredient {
             items, ints(values), absent, remainder, fluid, amount, potion, degrade, strings(values))));
 
     //? if >=1.21.1 {
-    public static final net.minecraft.network.codec.StreamCodec<net.minecraft.network.RegistryFriendlyByteBuf, ComponentIngredient>
+    /*public static final net.minecraft.network.codec.StreamCodec<net.minecraft.network.RegistryFriendlyByteBuf, ComponentIngredient>
             STREAM_CODEC = net.minecraft.network.codec.StreamCodec.of(
                     (buffer, value) -> value.toNetwork(buffer), ComponentIngredient::fromNetwork);
-    //?}
+    *///?}
 
     private final List<String> items;
     private final Map<String, Integer> components;
@@ -288,7 +288,7 @@ public final class ComponentIngredient {
         if (!fluid.isEmpty()) return FilledContainers.emptied(consumed);
         if (degrade) return Ingredients.degraded(consumed);
         if (!remainder.isEmpty()) {
-            Item item = BuiltInRegistries.ITEM.getValue(Ids.parse(remainder));
+            Item item = BuiltInRegistries.ITEM.get(Ids.parse(remainder));
             return item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
         }
         return Compat.craftingRemainder(consumed);
@@ -307,7 +307,7 @@ public final class ComponentIngredient {
             } else if (!potion.isEmpty()) {
                 stacks.add(Ingredients.potionStack(entry, potion));
             } else {
-                Item item = BuiltInRegistries.ITEM.getValue(Ids.parse(entry));
+                Item item = BuiltInRegistries.ITEM.get(Ids.parse(entry));
                 if (item != Items.AIR) stacks.add(new ItemStack(item));
             }
         }
@@ -322,15 +322,15 @@ public final class ComponentIngredient {
             TagKey<Item> tag = TagKey.create(
                     Registries.ITEM, Ids.parse(items.get(0).substring(1)));
             //? if >=26.1 {
-            java.util.Optional<net.minecraft.core.HolderSet.Named<Item>> set =
+            /*java.util.Optional<net.minecraft.core.HolderSet.Named<Item>> set =
                     net.minecraft.core.registries.BuiltInRegistries.ITEM.get(tag);
             if (set.isPresent()) return Ingredient.of(set.get());
-            //?} else {
-            /*return Ingredient.of(tag);
-            *///?}
+            *///?} else {
+            return Ingredient.of(tag);
+            //?}
         }
         //? if >=26.1 {
-        // 26.1 decodes recipes before item components are bound: no ItemStack may be built here for a plain
+        /*// 26.1 decodes recipes before item components are bound: no ItemStack may be built here for a plain
         // item or tag (ComponentSmeltingRecipe calls this from its constructor). Only a fluid ingredient needs
         // the dictionary's example stacks, and that is asked for after load (placement info, displays).
         List<Item> display = new ArrayList<>();
@@ -341,16 +341,16 @@ public final class ComponentIngredient {
             if (entry.startsWith("#")) {
                 display.addAll(Ingredients.tagItems(entry.substring(1)));
             } else {
-                Item item = net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(Ids.parse(entry));
+                Item item = net.minecraft.core.registries.BuiltInRegistries.ITEM.get(Ids.parse(entry));
                 if (item != Items.AIR) display.add(item);
             }
         }
         if (display.isEmpty()) display.add(Items.BARRIER);
         return Ingredient.of(display.stream().distinct());
-        //?} else {
-        /*List<ItemStack> stacks = displayStacks();
+        *///?} else {
+        List<ItemStack> stacks = displayStacks();
         if (stacks.isEmpty()) stacks = List.of(new ItemStack(Items.BARRIER));
         return Ingredient.of(stacks.toArray(ItemStack[]::new));
-        *///?}
+        //?}
     }
 }
