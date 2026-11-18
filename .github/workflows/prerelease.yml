@@ -4,7 +4,7 @@ name: Pre-release
 
 on:
   push:
-    branches: [main]
+    branches: [main, ntm-integration]
     # Only changes that can alter a jar: sources, build scripts and per-node versions, and the license
     # files packed into every jar. Docs, CHANGELOG.md, harness scenarios and .github/ do not start a build.
     paths:
